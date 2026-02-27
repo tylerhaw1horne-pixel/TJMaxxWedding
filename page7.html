@@ -3,207 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CONFIRMATION_FILE</title>
+<title>CONFIRMATION</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
 
-body{
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-}
+video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 18s infinite ease-in-out;}
 
-/* VIDEO */
-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
-filter:grayscale(100%) contrast(170%);
-animation:calmZoom 18s infinite ease-in-out;
-}
+@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.02);}100%{transform:scale(1);}}
 
-@keyframes calmZoom{
-0%{transform:scale(1);}
-50%{transform:scale(1.02);}
-100%{transform:scale(1);}
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
 
-/* SCANLINES */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
-background-size:100% 3px;
-z-index:2;
-}
+.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;padding:20px;}
 
-/* UI */
-.ui{
-position:relative;
-z-index:3;
-text-align:center;
-top:18%;
-width:90%;
-margin:auto;
-}
+form{width:300px;}
+input,select{width:100%;padding:10px;margin:10px 0;background:black;border:2px solid white;color:white;}
 
-h1{
-font-size:32px;
-letter-spacing:4px;
-margin-bottom:25px;
-}
-
-form{
-max-width:400px;
-margin:auto;
-}
-
-input, select{
-width:100%;
-padding:12px;
-margin:12px 0;
-background:black;
-border:2px solid white;
-color:white;
-font-family:'Share Tech Mono', monospace;
-}
-
-button{
-padding:12px;
-width:100%;
-margin-top:20px;
-border:2px solid white;
-background:transparent;
-color:white;
-letter-spacing:2px;
-font-size:14px;
-}
-
-.confirm{
-margin-top:20px;
-opacity:0;
-transition:opacity 1s;
-}
+button{margin-top:15px;padding:12px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;width:100%;}
 </style>
 </head>
-
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forrest vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="ui">
-
+<div class="center">
 <h1>CONFIRM YOUR PRESENCE</h1>
-
-<form id="rsvpForm">
-<input type="text" placeholder="Full Name" required>
-
-<select required>
-<option value="">Will You Attend?</option>
+<form>
+<input type="text" placeholder="Full Name">
+<select>
+<option>Will You Attend?</option>
 <option>Yes</option>
 <option>No</option>
 </select>
-
-<select>
-<option>Number of Guests</option>
-<option>1</option>
-<option>2</option>
-<option>3</option>
-</select>
-
 <button type="submit">SUBMIT</button>
 </form>
-
-<div class="confirm" id="confirmText">
-YOUR RESPONSE HAS BEEN RECORDED.
 </div>
-
-</div>
-
-<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
-
-<script>
-
-/* FORM SUBMIT EFFECT */
-document.getElementById("rsvpForm").addEventListener("submit", function(e){
-e.preventDefault();
-
-const blackout=document.createElement("div");
-blackout.style.position="fixed";
-blackout.style.top=0;
-blackout.style.left=0;
-blackout.style.width="100%";
-blackout.style.height="100%";
-blackout.style.background="black";
-blackout.style.zIndex="9999";
-document.body.appendChild(blackout);
-
-setTimeout(()=>{
-blackout.remove();
-document.getElementById("confirmText").style.opacity=1;
-},400);
-});
-
-/* CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.12";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function drawNoise(){
-const imageData=ctx.createImageData(canvas.width,canvas.height);
-const buffer32=new Uint32Array(imageData.data.buffer);
-for(let i=0;i<buffer32.length;i++){
-const shade=Math.random()*255|0;
-buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(imageData,0,0);
-requestAnimationFrame(drawNoise);
-}
-drawNoise();
-
-/* WHISPER CALMER */
-const w=document.getElementById("whisper");
-w.volume=.5;
-
-/* VERY RARE SIGNAL DROP */
-setInterval(()=>{
-if(Math.random()<0.04){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},120);
-}
-},10000);
-
-</script>
 
 </body>
 </html>
