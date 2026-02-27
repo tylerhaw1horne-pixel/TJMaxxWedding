@@ -8,42 +8,74 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
 background:black;
-overflow:hidden;
-font-family:'Share Tech Mono', monospace;
 color:white;
+font-family:'Share Tech Mono', monospace;
+overflow:hidden;
 }
 
-/* VHS grain overlay */
-body::after{
-content:"";
+/* VIDEO */
+video{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-3;
+filter:grayscale(100%) contrast(130%);
+animation:frameJitter 4s infinite;
+}
+
+/* FRAME JITTER */
+@keyframes frameJitter{
+0%,100%{transform:translate(0,0);}
+25%{transform:translate(-1px,1px);}
+50%{transform:translate(1px,-1px);}
+75%{transform:translate(-1px,-1px);}
+}
+
+/* ANALOG STATIC OVERLAY */
+.staticOverlay{
 position:fixed;
 width:100%;
 height:100%;
-background:url('https://i.imgur.com/8fK4h6N.png');
+background:url("https://i.imgur.com/8fK4h6N.png");
 opacity:.08;
 pointer-events:none;
+z-index:-1;
 }
 
-/* scanlines */
-.scan{
+/* SCANLINES */
+.scanlines{
 position:fixed;
 width:100%;
 height:100%;
 background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
 background-size:100% 3px;
 pointer-events:none;
+z-index:0;
 }
 
-/* glitch flash */
-.glitchFlash{
+/* CAM UI */
+.vhsUI{
 position:fixed;
-width:100%;
-height:100%;
-background:white;
-opacity:0;
-pointer-events:none;
+top:10px;
+left:10px;
+font-size:12px;
+opacity:.7;
+z-index:5;
+}
+
+.battery{
+position:fixed;
+top:10px;
+right:10px;
+font-size:12px;
+opacity:.7;
+z-index:5;
 }
 
 .center{
@@ -55,79 +87,123 @@ text-align:center;
 width:90%;
 }
 
-.title{
-font-size:28px;
-letter-spacing:3px;
-animation:flicker 2s infinite;
-}
-
-@keyframes flicker{
-0%,100%{opacity:1;}
-50%{opacity:.6;}
-}
-
 button{
 margin-top:25px;
-padding:12px 30px;
+padding:12px 28px;
 border:2px solid white;
 background:transparent;
 color:white;
-font-size:16px;
 letter-spacing:2px;
+font-size:14px;
+}
+
+/* TRACKING ROLL */
+@keyframes tracking{
+0%{background-position:0 0;}
+100%{background-position:0 100%;}
+}
+.tracking{
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(rgba(255,255,255,.05), transparent);
+animation:tracking 5s linear infinite;
+pointer-events:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="scan"></div>
-<div class="glitchFlash" id="flash"></div>
+<div class="staticOverlay"></div>
+<div class="scanlines"></div>
+<div class="tracking"></div>
+
+<div class="vhsUI">REC ● 10.24.2026 21:13:07</div>
+<div class="battery">BAT 73%</div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <div class="center" id="intro">
 <div style="opacity:.6;">SIGNAL RESTORED</div>
 <br>
-<button id="playBtn">▶ PLAY TAPE</button>
+<button onclick="playTape()">▶ PLAY TAPE</button>
 </div>
 
 <script>
-const flash = document.getElementById("flash");
 
-document.getElementById("playBtn").onclick=function(){
+const whisper = document.getElementById("whisper");
 
-flash.style.opacity=1;
-setTimeout(()=>{flash.style.opacity=0;},150);
+function playTape(){
 
-document.body.innerHTML=`
-<video autoplay muted loop playsinline style="position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(120%);">
+// static blast
+const blast = document.createElement("div");
+blast.style.position="fixed";
+blast.style.width="100%";
+blast.style.height="100%";
+blast.style.background="black";
+blast.style.backgroundImage="url('https://i.imgur.com/8fK4h6N.png')";
+blast.style.zIndex="999";
+document.body.appendChild(blast);
+
+setTimeout(()=>{blast.remove();},250);
+
+// load forest
+document.body.insertAdjacentHTML("afterbegin",`
+<video autoplay muted loop playsinline>
 <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
+`);
 
-<div class="scan"></div>
+document.getElementById("intro").remove();
 
-<div style="position:absolute;top:10px;left:10px;font-size:12px;opacity:.7;">
-REC ● 10.24.2026 21:13:07
-</div>
+// escalate whisper slowly
+whisper.volume=0.05;
+whisper.play();
 
+let vol=0.05;
+setInterval(()=>{
+if(vol<0.4){
+vol+=0.01;
+whisper.volume=vol;
+}
+},4000);
+
+// show STAY QUIET
+setTimeout(()=>{
+document.body.insertAdjacentHTML("beforeend",`
 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;">
-<div style="font-size:36px;letter-spacing:4px;animation:flicker 2s infinite;">
-STAY QUIET
+<div style="font-size:42px;letter-spacing:4px;animation:flicker 1.5s infinite;">STAY QUIET</div>
+<button onclick="nextPage()">KEEP WALKING</button>
 </div>
-<button onclick="glitchNext()">KEEP WALKING</button>
-</div>
-`;
+`);
+},1500);
 
-const w=new Audio("whisper.mp3");
-w.volume=0.08;
-w.loop=true;
-w.play();
+}
 
-window.glitchNext=function(){
-document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;width:100%;height:100%;background:white;animation:glitch .4s forwards;'></div>");
-setTimeout(()=>{window.location.href='page2.html';},350);
+// static transition
+function nextPage(){
+const static = document.createElement("div");
+static.style.position="fixed";
+static.style.width="100%";
+static.style.height="100%";
+static.style.background="url('https://i.imgur.com/8fK4h6N.png')";
+static.style.zIndex="999";
+document.body.appendChild(static);
+
+setTimeout(()=>{
+window.location.href="page2.html";
+},350);
 }
+
+// random signal drop
+setInterval(()=>{
+if(Math.random()<0.15){
+document.body.style.filter="brightness(0)";
+setTimeout(()=>{document.body.style.filter="none";},120);
 }
+},6000);
+
 </script>
 
 </body>
