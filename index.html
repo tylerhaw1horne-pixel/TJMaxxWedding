@@ -17,7 +17,7 @@ body{
   color:white;
 }
 
-/* LOCAL VIDEO */
+/* VIDEO */
 video{
   position:fixed;
   top:0;
@@ -28,7 +28,7 @@ video{
   filter:grayscale(1) contrast(1.6) brightness(.4);
 }
 
-/* Vignette (lens darkness) */
+/* Lens Vignette */
 .vignette{
   position:fixed;
   width:100%;
@@ -98,7 +98,7 @@ video{
   font-size:18px;
 }
 
-/* Title */
+/* Center Title */
 .center{
   position:absolute;
   top:50%;
@@ -136,7 +136,7 @@ button:hover{
   color:black;
 }
 
-/* Sudden tape flash */
+/* Tape flash */
 .flash{
   position:fixed;
   width:100%;
@@ -158,7 +158,7 @@ button:hover{
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forest.mp4" type="video/mp4">
+  <source src="forrest%20(2).mp4" type="video/mp4">
 </video>
 
 <div class="vignette"></div>
@@ -174,10 +174,6 @@ button:hover{
   <div class="title">YOU ARE MARKED</div>
   <button>PLAY TAPE</button>
 </div>
-
-<audio autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_4f8f8211e4.mp3?filename=forest-night-ambient-11015.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 function updateTime(){
