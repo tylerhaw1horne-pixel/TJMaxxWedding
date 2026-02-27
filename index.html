@@ -5,72 +5,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOST_TAPE_01</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
-  background:black;
-  color:white;
-  font-family:'Share Tech Mono', monospace;
-  overflow:hidden;
+background:black;
+overflow:hidden;
+font-family:'Share Tech Mono', monospace;
+color:white;
 }
+
+/* VHS grain overlay */
+body::after{
+content:"";
+position:fixed;
+width:100%;
+height:100%;
+background:url('https://i.imgur.com/8fK4h6N.png');
+opacity:.08;
+pointer-events:none;
+}
+
+/* scanlines */
 .scan{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
-  background-size:100% 3px;
-  pointer-events:none;
+position:fixed;
+width:100%;
+height:100%;
+background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
+background-size:100% 3px;
+pointer-events:none;
 }
+
+/* glitch flash */
+.glitchFlash{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+}
+
 .center{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+width:90%;
 }
+
+.title{
+font-size:28px;
+letter-spacing:3px;
+animation:flicker 2s infinite;
+}
+
+@keyframes flicker{
+0%,100%{opacity:1;}
+50%{opacity:.6;}
+}
+
 button{
-  margin-top:20px;
-  padding:10px 25px;
-  border:1px solid white;
-  background:transparent;
-  color:white;
-  font-family:'Share Tech Mono', monospace;
+margin-top:25px;
+padding:12px 30px;
+border:2px solid white;
+background:transparent;
+color:white;
+font-size:16px;
+letter-spacing:2px;
 }
-.hidden{opacity:0;}
-.fade{transition:opacity 1s ease;}
 </style>
 </head>
+
 <body>
 
 <div class="scan"></div>
+<div class="glitchFlash" id="flash"></div>
+
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <div class="center" id="intro">
-<div>SIGNAL RESTORED</div>
-<div class="hidden fade" id="file">LOST_TAPE_01<br>10.24.2026</div>
-<button class="hidden fade" id="playBtn">▶ PLAY</button>
+<div style="opacity:.6;">SIGNAL RESTORED</div>
+<br>
+<button id="playBtn">▶ PLAY TAPE</button>
 </div>
 
 <script>
-setTimeout(()=>{document.getElementById("file").classList.remove("hidden")},2000);
-setTimeout(()=>{document.getElementById("playBtn").classList.remove("hidden")},3500);
+const flash = document.getElementById("flash");
 
 document.getElementById("playBtn").onclick=function(){
+
+flash.style.opacity=1;
+setTimeout(()=>{flash.style.opacity=0;},150);
+
 document.body.innerHTML=`
-<video autoplay muted loop playsinline style="position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(110%);">
+<video autoplay muted loop playsinline style="position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(120%);">
 <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
+
 <div class="scan"></div>
-<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-<div style="font-size:22px;">STAY QUIET</div>
-<div style="opacity:.6;font-size:14px;">keep walking</div>
-<button onclick="window.location.href='page2.html'">KEEP WALKING</button>
+
+<div style="position:absolute;top:10px;left:10px;font-size:12px;opacity:.7;">
+REC ● 10.24.2026 21:13:07
+</div>
+
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;">
+<div style="font-size:36px;letter-spacing:4px;animation:flicker 2s infinite;">
+STAY QUIET
+</div>
+<button onclick="glitchNext()">KEEP WALKING</button>
 </div>
 `;
+
 const w=new Audio("whisper.mp3");
-w.volume=0.05;
+w.volume=0.08;
 w.loop=true;
 w.play();
+
+window.glitchNext=function(){
+document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;width:100%;height:100%;background:white;animation:glitch .4s forwards;'></div>");
+setTimeout(()=>{window.location.href='page2.html';},350);
+}
 }
 </script>
 
