@@ -3,32 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOST_TAPE</title>
+<title>LOST VIDEO FOUND</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
 background:black;
 color:white;
-font-family:'Share Tech Mono', monospace;
+font-family:'Share Tech Mono',monospace;
 overflow:hidden;
 }
 
-/* VIDEO BACKGROUND */
+/* VIDEO */
 video{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 object-fit:cover;
 z-index:0;
-animation:zoom 18s infinite ease-in-out;
 }
 
-@keyframes zoom{
-0%{transform:scale(1);}
-50%{transform:scale(1.03);}
-100%{transform:scale(1);}
+/* VIGNETTE */
+body::after{
+content:"";
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.85) 100%);
+pointer-events:none;
+z-index:3;
 }
 
 /* SCANLINES */
@@ -37,13 +40,13 @@ content:"";
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 pointer-events:none;
 z-index:2;
 }
 
-/* CENTER UI */
+/* SCREEN */
 .screen{
 position:fixed;
 top:0;left:0;
@@ -54,14 +57,11 @@ justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-z-index:3;
+z-index:5;
 opacity:0;
 transition:opacity .6s;
 }
-
-.screen.active{
-opacity:1;
-}
+.screen.active{opacity:1;}
 
 button{
 margin-top:20px;
@@ -70,161 +70,184 @@ border:2px solid white;
 background:transparent;
 color:white;
 letter-spacing:2px;
-font-size:14px;
 cursor:pointer;
+font-size:14px;
 }
 
-button:hover{
-background:white;
-color:black;
-}
-
-/* STATIC TRANSITION */
-.staticFlash{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+input, select{
+margin-top:10px;
+padding:10px;
 background:black;
-z-index:999;
-display:none;
+border:2px solid white;
+color:white;
+width:250px;
+}
+
+/* STATIC FLASH */
+.flash{
+position:fixed;
+width:100%;height:100%;
+background:white;
+opacity:0;
+z-index:10;
+pointer-events:none;
+}
+
+/* RED FLASH */
+.red{
+position:fixed;
+width:100%;height:100%;
+background:red;
+opacity:0;
+z-index:11;
+pointer-events:none;
+}
+
+/* DISTORT OVERLAY */
+.distort{
+position:fixed;
+width:100%;height:100%;
+background:url("https://i.imgur.com/8fK4h6N.png");
+opacity:0;
+z-index:12;
+pointer-events:none;
+mix-blend-mode:difference;
 }
 </style>
 </head>
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="bg" autoplay muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="staticFlash" id="static"></div>
+<div class="flash" id="flash"></div>
+<div class="red" id="red"></div>
+<div class="distort" id="distort"></div>
 
-<!-- SCREEN 1 -->
+<!-- SCREENS -->
+
 <div class="screen active" id="s1">
-<div>SIGNAL RESTORED</div>
+<h2>LOST VIDEO FOUND</h2>
 <button onclick="next(2)">▶ PLAY TAPE</button>
 </div>
 
-<!-- SCREEN 2 -->
 <div class="screen" id="s2">
-<h1>STAY QUIET</h1>
+<h2>STAY QUIET</h2>
 <button onclick="next(3)">KEEP WALKING</button>
 </div>
 
-<!-- SCREEN 3 -->
 <div class="screen" id="s3">
-<h1>WARNING</h1>
-<p>Sensitive Information Ahead</p>
+<h2>THE CEREMONY HAS BEEN SCHEDULED</h2>
 <button onclick="next(4)">PROCEED</button>
 </div>
 
-<!-- SCREEN 4 -->
 <div class="screen" id="s4">
-<h1>THOSE WHO STAND</h1>
-<p>(Wedding Party Placeholder)</p>
-<button onclick="next(5)">CONTINUE</button>
+<h2>OUR STORY</h2>
+<p>They met before the storm. They stayed after the warning.</p>
+<button onclick="next(5)">CONTINUE RECORDING</button>
 </div>
 
-<!-- SCREEN 5 -->
 <div class="screen" id="s5">
-<h1>PREVENT THE TRAGEDY</h1>
-<p>Support the Union</p>
+<h2>THOSE WHO STAND</h2>
+<p>(Wedding Party)</p>
 <button onclick="next(6)">CONTINUE</button>
 </div>
 
-<!-- SCREEN 6 -->
 <div class="screen" id="s6">
-<h1>BEFORE THE TRAGEDY</h1>
-<p>Two paths crossed in the dark.</p>
-<button onclick="next(7)">FINAL WARNING</button>
+<h2>THE RITUAL BEGINS</h2>
+<p>10.24.2026 • At Dusk</p>
+<button onclick="next(7)">CONTINUE</button>
 </div>
 
-<!-- SCREEN 7 -->
 <div class="screen" id="s7">
-<h1>FINAL WARNING</h1>
-<p>There is no turning back.</p>
-<button onclick="next(8)">CONFIRM YOUR PATH</button>
+<h2>OFFERINGS TO PREVENT THE TRAGEDY</h2>
+<button>VENMO</button>
+<button>REGISTRY</button>
+<button onclick="next(8)">CONTINUE</button>
 </div>
 
-<!-- SCREEN 8 RSVP -->
 <div class="screen" id="s8">
-<h1>CONFIRM YOUR PRESENCE</h1>
+<h2>DIG YOUR GRAVES</h2>
 <form onsubmit="submitForm(event)">
-<input type="text" placeholder="Full Name" required style="width:260px;padding:10px;margin-top:10px;background:black;border:2px solid white;color:white;"><br>
-<select required style="width:260px;padding:10px;margin-top:10px;background:black;border:2px solid white;color:white;">
+<input required placeholder="Full Name"><br>
+<select required>
 <option value="">Will You Attend?</option>
 <option>Yes</option>
 <option>No</option>
 </select><br>
-<button type="submit">SUBMIT</button>
+<button type="submit">MARK YOUR PRESENCE</button>
 </form>
-<div id="confirmed" style="margin-top:20px;opacity:0;transition:opacity .6s;">
-YOUR RESPONSE HAS BEEN RECORDED.
 </div>
+
+<div class="screen" id="s9">
+<h2>YOUR PRESENCE HAS BEEN LOGGED</h2>
+<p>There is no withdrawal.</p>
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
-
-/* START WHISPER */
 const whisper=document.getElementById("whisper");
 whisper.volume=.2;
 whisper.play();
 
 /* SCREEN SWITCH */
-function next(num){
-const flash=document.getElementById("static");
-flash.style.display="block";
-
-setTimeout(()=>{
+function next(n){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById("s"+num).classList.add("active");
-flash.style.display="none";
-
-whisper.volume=Math.min(1, whisper.volume + 0.08);
-
-},250);
+document.getElementById("s"+n).classList.add("active");
 }
+
+/* RANDOM AUDIO SPIKES */
+setInterval(()=>{
+if(Math.random()<.25){
+whisper.volume=.8;
+setTimeout(()=>{whisper.volume=.3;},500);
+}
+},6000);
+
+/* JUMP SCARE B (freeze + distortion) */
+setInterval(()=>{
+if(Math.random()<.15){
+const bg=document.getElementById("bg");
+const distort=document.getElementById("distort");
+bg.pause();
+distort.style.opacity=.6;
+setTimeout(()=>{
+distort.style.opacity=0;
+bg.play();
+},400);
+}
+},10000);
+
+/* JUMP SCARE C (red flash) */
+setInterval(()=>{
+if(Math.random()<.12){
+const red=document.getElementById("red");
+red.style.opacity=.6;
+whisper.playbackRate=.6;
+setTimeout(()=>{
+red.style.opacity=0;
+whisper.playbackRate=1;
+},300);
+}
+},12000);
+
+/* STATIC FLASH RANDOM */
+setInterval(()=>{
+if(Math.random()<.2){
+const flash=document.getElementById("flash");
+flash.style.opacity=.8;
+setTimeout(()=>{flash.style.opacity=0;},150);
+}
+},8000);
 
 /* RSVP */
 function submitForm(e){
 e.preventDefault();
-document.getElementById("confirmed").style.opacity=1;
+next(9);
 }
-
-/* SUBTLE CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.08";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function noise(){
-const img=ctx.createImageData(canvas.width,canvas.height);
-const buf=new Uint32Array(img.data.buffer);
-for(let i=0;i<buf.length;i++){
-const shade=Math.random()*255|0;
-buf[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(img,0,0);
-requestAnimationFrame(noise);
-}
-noise();
-
 </script>
+
 </body>
 </html>
