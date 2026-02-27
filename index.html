@@ -16,7 +16,7 @@ font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
-/* VIDEO */
+/* VIDEO LAYER */
 video{
 position:fixed;
 top:0;
@@ -24,79 +24,40 @@ left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-3;
-filter:grayscale(100%) contrast(130%);
-animation:frameJitter 4s infinite;
+z-index:0;
+filter:grayscale(100%) contrast(150%);
+animation:slowZoom 14s infinite ease-in-out;
 }
 
-/* FRAME JITTER */
-@keyframes frameJitter{
-0%,100%{transform:translate(0,0);}
-25%{transform:translate(-1px,1px);}
-50%{transform:translate(1px,-1px);}
-75%{transform:translate(-1px,-1px);}
-}
-
-/* ANALOG STATIC OVERLAY */
-.staticOverlay{
-position:fixed;
-width:100%;
-height:100%;
-background:repeating-linear-gradient(
-0deg,
-rgba(255,255,255,0.03) 0px,
-rgba(255,255,255,0.03) 1px,
-transparent 1px,
-transparent 2px
-);
-pointer-events:none;
-z-index:-1;
-animation:noiseMove 0.2s infinite;
-}
-
-@keyframes noiseMove{
-0%{transform:translate(0,0);}
-50%{transform:translate(-1px,1px);}
-100%{transform:translate(1px,-1px);}
+@keyframes slowZoom{
+0%{transform:scale(1);}
+50%{transform:scale(1.04);}
+100%{transform:scale(1);}
 }
 
 /* SCANLINES */
-.scanlines{
+body::before{
+content:"";
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
-background-size:100% 3px;
 pointer-events:none;
-z-index:0;
+background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.85) 50%);
+background-size:100% 3px;
+z-index:2;
 }
 
-/* CAM UI */
-.vhsUI{
-position:fixed;
-top:10px;
-left:10px;
-font-size:12px;
-opacity:.7;
-z-index:5;
-}
-
-.battery{
-position:fixed;
-top:10px;
-right:10px;
-font-size:12px;
-opacity:.7;
-z-index:5;
-}
-
-.center{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
+/* UI LAYER */
+.ui{
+position:relative;
+z-index:3;
 text-align:center;
+top:50%;
+transform:translateY(-50%);
 width:90%;
+margin:auto;
 }
 
 button{
@@ -109,113 +70,185 @@ letter-spacing:2px;
 font-size:14px;
 }
 
-/* TRACKING ROLL */
-@keyframes tracking{
-0%{background-position:0 0;}
-100%{background-position:0 100%;}
-}
-.tracking{
+/* VHS UI TEXT */
+.vhsUI{
 position:fixed;
-width:100%;
-height:100%;
-background:linear-gradient(rgba(255,255,255,.05), transparent);
-animation:tracking 5s linear infinite;
-pointer-events:none;
+top:10px;
+left:10px;
+font-size:12px;
+opacity:.7;
+z-index:3;
+}
+
+.battery{
+position:fixed;
+top:10px;
+right:10px;
+font-size:12px;
+opacity:.7;
+z-index:3;
 }
 </style>
 </head>
 
 <body>
 
-<div class="staticOverlay"></div>
-<div class="scanlines"></div>
-<div class="tracking"></div>
+<!-- VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline style="display:none;">
+  <source src="forrest vid.mp4" type="video/mp4">
+</video>
 
+<!-- VHS UI -->
 <div class="vhsUI">REC ● 10.24.2026 21:13:07</div>
 <div class="battery">BAT 73%</div>
 
-<audio id="whisper" src="whisper.mp3" loop></audio>
-
-<div class="center" id="intro">
+<!-- INTRO UI -->
+<div class="ui" id="intro">
 <div style="opacity:.6;">SIGNAL RESTORED</div>
-<br>
 <button onclick="playTape()">▶ PLAY TAPE</button>
 </div>
 
+<audio id="whisper" src="whisper.mp3" loop></audio>
+
 <script>
 
-const whisper = document.getElementById("whisper");
+/* ===== PLAY TAPE FUNCTION ===== */
 
 function playTape(){
 
-// static blast
-const blast = document.createElement("div");
-blast.style.position="fixed";
-blast.style.width="100%";
-blast.style.height="100%";
-blast.style.background="black";
-blast.style.backgroundImage="url('https://i.imgur.com/8fK4h6N.png')";
-blast.style.zIndex="999";
-document.body.appendChild(blast);
-
-setTimeout(()=>{blast.remove();},250);
-
-// load forest
-document.body.insertAdjacentHTML("afterbegin",`
-<video autoplay muted loop playsinline>
-<source src="forrest%20vid.mp4" type="video/mp4">
-</video>
-`);
-
-document.getElementById("intro").remove();
-
-// escalate whisper slowly
-whisper.volume=0.05;
-whisper.play();
-
-let vol=0.05;
-setInterval(()=>{
-if(vol<0.4){
-vol+=0.01;
-whisper.volume=vol;
-}
-},4000);
-
-// show STAY QUIET
-setTimeout(()=>{
-document.body.insertAdjacentHTML("beforeend",`
-<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;">
-<div style="font-size:42px;letter-spacing:4px;animation:flicker 1.5s infinite;">STAY QUIET</div>
-<button onclick="nextPage()">KEEP WALKING</button>
-</div>
-`);
-},1500);
-
-}
-
-// static transition
-function nextPage(){
+// Static blackout transition
 const static = document.createElement("div");
 static.style.position="fixed";
+static.style.top=0;
+static.style.left=0;
 static.style.width="100%";
 static.style.height="100%";
 static.style.background="black";
-static.style.backgroundImage="repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0px, rgba(255,255,255,.08) 1px, transparent 1px, transparent 3px)";
-static.style.zIndex="999";
+static.style.zIndex="9999";
 document.body.appendChild(static);
 
 setTimeout(()=>{
-window.location.href="page2.html";
-},350);
+static.remove();
+document.getElementById("bgVideo").style.display="block";
+document.getElementById("intro").remove();
+},300);
+
+// Start whisper gradually
+const whisper = document.getElementById("whisper");
+whisper.volume = 0.05;
+whisper.play();
+
+let vol = 0.05;
+setInterval(()=>{
+if(vol < 0.4){
+vol += 0.01;
+whisper.volume = vol;
+}
+},4000);
+
+// Show STAY QUIET overlay after video loads
+setTimeout(()=>{
+const ui = document.createElement("div");
+ui.className="ui";
+ui.innerHTML = `
+<div style="font-size:42px;letter-spacing:4px;">STAY QUIET</div>
+<button onclick="staticNext('page2.html')">KEEP WALKING</button>
+`;
+document.body.appendChild(ui);
+},1200);
 }
 
-// random signal drop
+/* ===== STATIC TRANSITION ===== */
+
+function staticNext(page){
+const static = document.createElement("div");
+static.style.position="fixed";
+static.style.top=0;
+static.style.left=0;
+static.style.width="100%";
+static.style.height="100%";
+static.style.background="black";
+static.style.zIndex="9999";
+document.body.appendChild(static);
+
+setTimeout(()=>{
+window.location.href = page;
+},250);
+}
+
+/* ===== REAL CANVAS NOISE (SUBTLE) ===== */
+
+const canvas = document.createElement("canvas");
+canvas.style.position = "fixed";
+canvas.style.top = 0;
+canvas.style.left = 0;
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.pointerEvents = "none";
+canvas.style.zIndex = "1";
+canvas.style.opacity = "0.15";
+document.body.appendChild(canvas);
+
+const ctx = canvas.getContext("2d");
+
+function resize(){
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+function drawNoise(){
+const imageData = ctx.createImageData(canvas.width, canvas.height);
+const buffer32 = new Uint32Array(imageData.data.buffer);
+for (let i = 0; i < buffer32.length; i++) {
+  const shade = Math.random() * 255 | 0;
+  buffer32[i] = (255 << 24) | (shade << 16) | (shade << 8) | shade;
+}
+ctx.putImageData(imageData, 0, 0);
+requestAnimationFrame(drawNoise);
+}
+drawNoise();
+
+/* ===== TRACKING ROLL ===== */
+
+function trackingRoll(){
+const roll = document.createElement("div");
+roll.style.position="fixed";
+roll.style.left=0;
+roll.style.width="100%";
+roll.style.height="60px";
+roll.style.background="rgba(255,255,255,0.15)";
+roll.style.zIndex="2";
+roll.style.top="-60px";
+roll.style.pointerEvents="none";
+document.body.appendChild(roll);
+
+let pos=-60;
+const interval=setInterval(()=>{
+pos+=6;
+roll.style.top=pos+"px";
+if(pos>window.innerHeight){
+clearInterval(interval);
+roll.remove();
+}
+},16);
+}
+
 setInterval(()=>{
 if(Math.random()<0.15){
+trackingRoll();
+}
+},7000);
+
+/* ===== SIGNAL DROP ===== */
+
+setInterval(()=>{
+if(Math.random()<0.1){
 document.body.style.filter="brightness(0)";
 setTimeout(()=>{document.body.style.filter="none";},120);
 }
-},6000);
+},8000);
 
 </script>
 
