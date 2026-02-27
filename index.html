@@ -25,14 +25,15 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
+transition:transform 3s ease;
 }
 
-/* VHS OVERLAY */
+/* VHS */
 .scanlines{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 z-index:2;
 pointer-events:none;
@@ -42,49 +43,39 @@ pointer-events:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:radial-gradient(circle, transparent 55%, rgba(0,0,0,.9) 100%);
+background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.92) 100%);
 z-index:3;
 pointer-events:none;
 }
 
-/* CAM HUD */
+/* HUD */
 .hud{
 position:fixed;
 top:10px;
 left:15px;
-font-size:14px;
+font-size:13px;
 z-index:5;
-opacity:.85;
+opacity:.8;
 pointer-events:none;
 }
 
 .rec{
 color:red;
-animation:blink 1s infinite;
+animation:blink 1.2s infinite;
 }
 
 @keyframes blink{
 0%,100%{opacity:1;}
-50%{opacity:.2;}
-}
-
-.timestamp{
-position:fixed;
-bottom:10px;
-left:15px;
-font-size:14px;
-z-index:5;
-opacity:.85;
-pointer-events:none;
+50%{opacity:.1;}
 }
 
 .battery{
 position:fixed;
 top:10px;
 right:15px;
-font-size:14px;
+font-size:13px;
 z-index:5;
-opacity:.85;
+opacity:.8;
 pointer-events:none;
 }
 
@@ -103,7 +94,7 @@ text-align:center;
 padding:20px;
 z-index:100;
 opacity:0;
-transition:opacity .4s ease;
+transition:opacity .5s ease;
 pointer-events:none;
 }
 
@@ -112,16 +103,16 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* TEXT GLITCH */
+/* GLITCH TEXT */
 .glitch{
-animation:flicker 2s infinite;
+animation:flicker 3s infinite;
 }
 
 @keyframes flicker{
 0%,100%{opacity:1;}
-45%{opacity:.2;}
+48%{opacity:.2;}
 50%{opacity:0;}
-55%{opacity:.7;}
+52%{opacity:.7;}
 }
 
 /* BUTTON */
@@ -152,8 +143,8 @@ color:white;
 width:250px;
 }
 
-/* EFFECT LAYERS */
-.flash,.red,.distort,.tear,.invert{
+/* DARK EFFECT LAYERS */
+.darkFlash,.redFlash,.distort,.tear{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
@@ -161,33 +152,28 @@ pointer-events:none;
 opacity:0;
 }
 
-.flash{background:white;z-index:10;}
-.red{background:red;z-index:11;}
+.darkFlash{background:rgba(0,0,0,.8);z-index:10;}
+.redFlash{background:rgba(150,0,0,.6);z-index:11;}
 .distort{
 background:url("https://i.imgur.com/8fK4h6N.png");
 mix-blend-mode:difference;
 z-index:12;
 }
 .tear{
-height:60px;
-background:white;
+height:50px;
+background:rgba(255,255,255,.4);
 z-index:13;
-}
-.invert{
-background:white;
-mix-blend-mode:difference;
-z-index:14;
 }
 
 .shake{
-animation:shake .3s;
+animation:shake .25s;
 }
 
 @keyframes shake{
 0%{transform:translate(0,0);}
-25%{transform:translate(-8px,4px);}
-50%{transform:translate(8px,-4px);}
-75%{transform:translate(-6px,3px);}
+25%{transform:translate(-6px,3px);}
+50%{transform:translate(6px,-3px);}
+75%{transform:translate(-4px,2px);}
 100%{transform:translate(0,0);}
 }
 
@@ -207,13 +193,11 @@ background:black !important;
 
 <div class="hud"><span class="rec">REC</span></div>
 <div class="battery" id="battery">BAT 83%</div>
-<div class="timestamp">10.24.2026 18:42:13</div>
 
-<div class="flash" id="flash"></div>
-<div class="red" id="red"></div>
+<div class="darkFlash" id="darkFlash"></div>
+<div class="redFlash" id="redFlash"></div>
 <div class="distort" id="distort"></div>
 <div class="tear" id="tear"></div>
-<div class="invert" id="invert"></div>
 
 <!-- SCREENS -->
 
@@ -295,84 +279,77 @@ started=true;
 
 function next(n){
 startAudio();
-staticTransition();
+darkTransition();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
 }
 
-/* STATIC TRANSITION */
-function staticTransition(){
-flash.style.opacity=.9;
+function darkTransition(){
+darkFlash.style.opacity=.7;
 document.body.classList.add("shake");
 setTimeout(()=>{
-flash.style.opacity=0;
+darkFlash.style.opacity=0;
 document.body.classList.remove("shake");
-},250);
+},200);
 }
 
-/* HARD BLACK CUT */
+/* RARE BLACK CUT */
 setInterval(()=>{
-if(Math.random()<.08){
+if(Math.random()<.05){
 document.body.classList.add("blackout");
-setTimeout(()=>{document.body.classList.remove("blackout");},150);
+setTimeout(()=>{document.body.classList.remove("blackout");},180);
 }
-},7000);
+},8000);
 
-/* DISTORTION FREEZE */
+/* VIDEO STUTTER */
 setInterval(()=>{
-if(Math.random()<.15){
+if(Math.random()<.12){
 bg.pause();
-distort.style.opacity=.7;
-setTimeout(()=>{
-distort.style.opacity=0;
-bg.play();
-},350);
+setTimeout(()=>{bg.play();},200);
 }
 },9000);
 
-/* RED FLASH */
+/* HEAVY DISTORT */
 setInterval(()=>{
-if(Math.random()<.12){
-red.style.opacity=.6;
-setTimeout(()=>{red.style.opacity=0;},250);
+if(Math.random()<.1){
+distort.style.opacity=.8;
+setTimeout(()=>{distort.style.opacity=0;},350);
 }
 },11000);
 
-/* INVERT FLASH */
+/* RED DREAD FLASH */
 setInterval(()=>{
-if(Math.random()<.1){
-invert.style.opacity=.8;
-setTimeout(()=>{invert.style.opacity=0;},150);
+if(Math.random()<.08){
+redFlash.style.opacity=.7;
+setTimeout(()=>{redFlash.style.opacity=0;},250);
 }
-},10000);
+},14000);
 
 /* SIGNAL TEAR */
 setInterval(()=>{
-if(Math.random()<.18){
+if(Math.random()<.15){
 tear.style.top=Math.random()*window.innerHeight+"px";
-tear.style.opacity=.8;
+tear.style.opacity=.7;
 setTimeout(()=>{tear.style.opacity=0;},150);
 }
-},6000);
+},7000);
 
-/* BRIDE/GROOM GLITCH SWAP */
+/* BRIDE/GROOM CORRUPT SWAP */
 setInterval(()=>{
-if(Math.random()<.12){
-let b=brideName.textContent;
-let g=groomName.textContent;
-brideName.textContent=g;
-groomName.textContent=b;
+if(Math.random()<.1){
+brideName.textContent="J̴U̴L̴I̴E̴";
+groomName.textContent="T̷Y̷L̷E̷R̷";
 setTimeout(()=>{
 brideName.textContent="JULIE";
 groomName.textContent="TYLER";
-},400);
+},500);
 }
-},12000);
+},15000);
 
 /* BATTERY DROP */
 setInterval(()=>{
 if(Math.random()<.2){
-battery.textContent="BAT "+Math.floor(Math.random()*40+20)+"%";
+battery.textContent="BAT "+Math.floor(Math.random()*30+20)+"%";
 }
 },6000);
 
