@@ -9,7 +9,6 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   background:black;
   overflow:hidden;
@@ -17,22 +16,22 @@ body{
   color:white;
 }
 
-/* VIDEO CLEAN */
+/* VIDEO */
 video{
   position:fixed;
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform .1s;
+  transition:transform .08s, filter .08s;
 }
 
-/* VHS Grain */
+/* Grain */
 .grain{
   position:fixed;
   width:100%;
   height:100%;
   background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.2;
+  opacity:.25;
   pointer-events:none;
 }
 
@@ -41,10 +40,7 @@ video{
   position:fixed;
   width:100%;
   height:100%;
-  background:linear-gradient(
-    rgba(255,255,255,.03) 50%, 
-    rgba(0,0,0,.4) 50%
-  );
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.4) 50%);
   background-size:100% 3px;
   pointer-events:none;
 }
@@ -58,7 +54,7 @@ video{
   pointer-events:none;
 }
 
-/* Static Burst */
+/* Static Flash */
 .static{
   position:fixed;
   width:100%;
@@ -68,8 +64,8 @@ video{
   pointer-events:none;
 }
 
-/* Shadow flash */
-.shadow{
+/* Blackout */
+.blackout{
   position:fixed;
   width:100%;
   height:100%;
@@ -95,15 +91,11 @@ video{
   left:35px;
   font-size:18px;
 }
-
 .rec span{
   color:red;
   animation:blink 1s infinite;
 }
-
-@keyframes blink{
-  50%{opacity:0;}
-}
+@keyframes blink{50%{opacity:0;}}
 
 /* Timestamp */
 .timestamp{
@@ -121,12 +113,10 @@ video{
   transform:translate(-50%,-50%);
   text-align:center;
 }
-
 .title{
   font-size:38px;
   letter-spacing:4px;
 }
-
 button{
   margin-top:25px;
   padding:8px 28px;
@@ -138,7 +128,6 @@ button{
   cursor:pointer;
   transition:.3s;
 }
-
 button:hover{
   background:white;
   color:black;
@@ -156,7 +145,7 @@ button:hover{
 <div class="scanlines"></div>
 <div class="vignette"></div>
 <div class="static" id="static"></div>
-<div class="shadow" id="shadow"></div>
+<div class="blackout" id="blackout"></div>
 <div class="tear" id="tear"></div>
 
 <div class="rec"><span>●</span> REC</div>
@@ -168,7 +157,6 @@ button:hover{
 </div>
 
 <script>
-
 /* Timestamp */
 function updateTime(){
   const now = new Date();
@@ -180,44 +168,65 @@ function updateTime(){
 setInterval(updateTime,1000);
 updateTime();
 
-/* Random Horror Events */
 const video = document.getElementById("vid");
 const staticEl = document.getElementById("static");
-const shadowEl = document.getElementById("shadow");
-const tearEl = document.getElementById("tear");
+const blackout = document.getElementById("blackout");
+const tear = document.getElementById("tear");
 
-function randomEvent(){
-  
+let intensity = 1;
+
+/* Immediate 5 second scare burst */
+setTimeout(()=>{
+  video.style.transform = "scale(1.3)";
+  video.style.filter = "brightness(0.3)";
+  staticEl.style.opacity = .5;
+  setTimeout(()=>{
+    staticEl.style.opacity = 0;
+    video.style.transform = "scale(1)";
+    video.style.filter = "brightness(1)";
+  },300);
+},3000);
+
+/* Escalation loop */
+function horrorCycle(){
+
   const r = Math.random();
 
-  /* Static burst */
-  if(r < 0.25){
-    staticEl.style.opacity = .3;
-    setTimeout(()=> staticEl.style.opacity = 0, 100);
+  /* Static */
+  if(r < 0.25 * intensity){
+    staticEl.style.opacity = .4;
+    setTimeout(()=> staticEl.style.opacity = 0, 150);
   }
 
-  /* Shadow flash */
-  if(r >= 0.25 && r < 0.45){
-    shadowEl.style.opacity = .8;
-    setTimeout(()=> shadowEl.style.opacity = 0, 80);
+  /* Blackout flash */
+  if(r >= 0.25 && r < 0.4 * intensity){
+    blackout.style.opacity = 1;
+    setTimeout(()=> blackout.style.opacity = 0, 200);
   }
 
   /* Screen tear */
-  if(r >= 0.45 && r < 0.65){
-    tearEl.style.top = Math.random()*100 + "%";
-    tearEl.style.opacity = .6;
-    setTimeout(()=> tearEl.style.opacity = 0, 120);
+  if(r >= 0.4 && r < 0.6 * intensity){
+    tear.style.top = Math.random()*100 + "%";
+    tear.style.opacity = .7;
+    setTimeout(()=> tear.style.opacity = 0, 150);
   }
 
-  /* Zoom pulse scare */
-  if(r >= 0.65){
-    video.style.transform = "scale(1.2)";
-    setTimeout(()=> video.style.transform = "scale(1)", 120);
+  /* Violent zoom scare */
+  if(r >= 0.6){
+    video.style.transform = "scale(1.4)";
+    setTimeout(()=> video.style.transform = "scale(1)", 150);
   }
 
 }
 
-setInterval(randomEvent, 6000);
+/* Increase intensity over time */
+setInterval(()=>{
+  if(intensity < 3){
+    intensity += .2;
+  }
+},15000);
+
+setInterval(horrorCycle, 4000);
 
 </script>
 
