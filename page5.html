@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PREVENT_THE_TRAGEDY</title>
+<title>BEFORE_THE_TRAGEDY</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
@@ -14,131 +14,83 @@ background:black;
 color:white;
 font-family:'Share Tech Mono', monospace;
 overflow:hidden;
+animation:subtleShake 12s infinite;
 }
 
-/* VIDEO DISTORTION */
+@keyframes subtleShake{
+0%,100%{transform:translate(0,0);}
+50%{transform:translate(0.5px,-0.5px);}
+}
+
+/* VIDEO */
 video{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-3;
-filter:grayscale(100%) contrast(170%) saturate(0);
-animation:distort 10s infinite ease-in-out;
+z-index:0;
+filter:grayscale(100%) contrast(170%);
+animation:slowBreath 16s infinite ease-in-out;
 }
 
-@keyframes distort{
+@keyframes slowBreath{
 0%{transform:scale(1);}
-50%{transform:scale(1.06);}
+50%{transform:scale(1.03);}
 100%{transform:scale(1);}
 }
 
-/* STATIC */
-.staticOverlay{
-position:fixed;
-width:100%;
-height:100%;
-background:url("https://i.imgur.com/8fK4h6N.png");
-opacity:.15;
-z-index:-1;
-pointer-events:none;
-}
-
 /* SCANLINES */
-.scanlines{
+body::before{
+content:"";
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
-background:linear-gradient(rgba(255,255,255,.08) 50%, rgba(0,0,0,.8) 50%);
-background-size:100% 3px;
 pointer-events:none;
+background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
+background-size:100% 3px;
+z-index:2;
 }
 
-/* VHS UI */
-.vhsUI{
-position:fixed;
-top:10px;
-left:10px;
-font-size:12px;
-opacity:.7;
-}
-
-.battery{
-position:fixed;
-top:10px;
-right:10px;
-font-size:12px;
-opacity:.7;
-}
-
-/* TITLE */
-.title{
-position:absolute;
-top:25%;
-left:50%;
-transform:translateX(-50%);
-font-size:42px;
-letter-spacing:5px;
-animation:textGlitch 1s infinite;
-}
-
-@keyframes textGlitch{
-0%{text-shadow:3px 0 red,-3px 0 blue;}
-50%{text-shadow:-4px 0 red,4px 0 blue;}
-100%{text-shadow:3px 0 red,-3px 0 blue;}
-}
-
-/* TEXT BLOCK */
-.textBlock{
-position:absolute;
-top:40%;
-left:50%;
-transform:translateX(-50%);
-width:85%;
+/* UI */
+.ui{
+position:relative;
+z-index:3;
 text-align:center;
-font-size:20px;
-animation:flicker 3s infinite;
-}
-
-@keyframes flicker{
-0%,100%{opacity:1;}
-50%{opacity:.5;}
-}
-
-/* BUTTONS */
-.buttons{
-position:absolute;
-bottom:15%;
-left:50%;
-transform:translateX(-50%);
+top:30%;
 width:85%;
+margin:auto;
+}
+
+h1{
+font-size:34px;
+letter-spacing:4px;
+margin-bottom:20px;
+animation:faintFlicker 6s infinite;
+}
+
+@keyframes faintFlicker{
+0%,100%{opacity:1;}
+50%{opacity:.8;}
+}
+
+p{
+font-size:18px;
+line-height:1.6;
+opacity:.85;
+margin-bottom:30px;
 }
 
 button{
-display:block;
-width:100%;
-margin:12px 0;
-padding:14px 20px;
+padding:12px 26px;
 border:2px solid white;
 background:transparent;
 color:white;
 letter-spacing:2px;
 font-size:14px;
-}
-
-/* random screen tear */
-@keyframes tear{
-0%{top:-60px;}
-100%{top:100%;}
-}
-.tear{
-position:fixed;
-width:100%;
-height:60px;
-background:rgba(255,0,0,.1);
-top:0;
-animation:tear 6s infinite;
-pointer-events:none;
 }
 </style>
 </head>
@@ -146,77 +98,86 @@ pointer-events:none;
 <body>
 
 <video autoplay muted loop playsinline>
-<source src="forrest vid.mp4" type="video/mp4">
+  <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="staticOverlay"></div>
-<div class="scanlines"></div>
-<div class="tear"></div>
+<div class="ui">
 
-<div class="vhsUI">REC ● 10.24.2026 21:21:33</div>
-<div class="battery">BAT 62%</div>
+<h1>BEFORE THE TRAGEDY</h1>
+
+<p>
+Two paths crossed long before the forest.<br><br>
+There were warnings.<br>
+There were signs.<br><br>
+They continued anyway.
+</p>
+
+<button onclick="staticNext('page6.html')">FINAL WARNING</button>
+
+</div>
 
 <audio id="whisper" src="whisper.mp3" autoplay loop></audio>
 
-<div class="title">PREVENT THE TRAGEDY</div>
-
-<div class="textBlock">
-Some events require sacrifice.<br>
-Ensure the ceremony proceeds.
-</div>
-
-<div class="buttons">
-<button>MAKE AN OFFERING</button>
-<button>STRENGTHEN THE UNION</button>
-<button onclick="staticNext()">CONTINUE</button>
-</div>
-
 <script>
 
-// whisper escalation near peak
-const w=document.getElementById("whisper");
-let vol=.45;
-w.volume=vol;
-setInterval(()=>{
-if(vol<.75){
-vol+=.01;
-w.volume=vol;
-}
-},2500);
-
-// frequent static surges
-setInterval(()=>{
-if(Math.random()<0.35){
-const flash=document.createElement("div");
-flash.style.position="fixed";
-flash.style.width="100%";
-flash.style.height="100%";
-flash.style.background="url('https://i.imgur.com/8fK4h6N.png')";
-flash.style.zIndex="999";
-document.body.appendChild(flash);
-setTimeout(()=>{flash.remove();},120);
-}
-},4000);
-
-// blackout stutter
-setInterval(()=>{
-if(Math.random()<0.2){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},150);
-}
-},6000);
-
-function staticNext(){
+/* TRANSITION */
+function staticNext(page){
 const static=document.createElement("div");
 static.style.position="fixed";
+static.style.top=0;
+static.style.left=0;
 static.style.width="100%";
 static.style.height="100%";
 static.style.background="black";
-static.style.backgroundImage="repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0px, rgba(255,255,255,.08) 1px, transparent 1px, transparent 3px)";
-static.style.zIndex="999";
+static.style.zIndex="9999";
 document.body.appendChild(static);
-setTimeout(()=>{window.location.href="page6.html";},350);
+setTimeout(()=>{window.location.href=page;},250);
 }
+
+/* CANVAS NOISE */
+const canvas=document.createElement("canvas");
+canvas.style.position="fixed";
+canvas.style.top=0;
+canvas.style.left=0;
+canvas.style.width="100%";
+canvas.style.height="100%";
+canvas.style.pointerEvents="none";
+canvas.style.zIndex="1";
+canvas.style.opacity="0.12";
+document.body.appendChild(canvas);
+
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+function drawNoise(){
+const imageData=ctx.createImageData(canvas.width,canvas.height);
+const buffer32=new Uint32Array(imageData.data.buffer);
+for(let i=0;i<buffer32.length;i++){
+const shade=Math.random()*255|0;
+buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
+}
+ctx.putImageData(imageData,0,0);
+requestAnimationFrame(drawNoise);
+}
+drawNoise();
+
+/* VERY RARE SIGNAL DROP */
+setInterval(()=>{
+if(Math.random()<0.05){
+document.body.style.filter="brightness(0)";
+setTimeout(()=>{document.body.style.filter="none";},150);
+}
+},9000);
+
+/* WHISPER STEADY */
+const w=document.getElementById("whisper");
+w.volume=.55;
 
 </script>
 
