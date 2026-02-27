@@ -3,222 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PREVENT_THE_TRAGEDY</title>
+<title>PREVENT THE TRAGEDY</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
 
-body{
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-}
+video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 16s infinite ease-in-out;}
 
-/* VIDEO */
-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
-filter:grayscale(100%) contrast(180%);
-animation:heartbeat 10s infinite ease-in-out;
-}
+@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.04);}100%{transform:scale(1);}}
 
-@keyframes heartbeat{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
 
-/* SCANLINES */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
-background-size:100% 3px;
-z-index:2;
-}
+.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;padding:20px;}
 
-/* UI */
-.ui{
-position:relative;
-z-index:3;
-text-align:center;
-top:15%;
-width:90%;
-margin:auto;
-}
+.box{border:2px solid white;padding:15px;margin:10px 0;width:280px;}
 
-h1{
-font-size:38px;
-letter-spacing:5px;
-margin-bottom:20px;
-animation:textGlitch 1.2s infinite;
-}
-
-@keyframes textGlitch{
-0%{text-shadow:3px 0 red,-3px 0 blue;}
-50%{text-shadow:-4px 0 red,4px 0 blue;}
-100%{text-shadow:3px 0 red,-3px 0 blue;}
-}
-
-p{
-font-size:18px;
-margin-bottom:30px;
-opacity:.85;
-animation:flicker 4s infinite;
-}
-
-@keyframes flicker{
-0%,100%{opacity:1;}
-50%{opacity:.5;}
-}
-
-.offering{
-border:2px solid white;
-padding:15px;
-margin:15px 0;
-animation:boxShift 3s infinite;
-}
-
-@keyframes boxShift{
-0%{transform:translate(0,0);}
-50%{transform:translate(-2px,2px);}
-100%{transform:translate(0,0);}
-}
-
-button{
-margin-top:25px;
-padding:12px 26px;
-border:2px solid white;
-background:transparent;
-color:white;
-letter-spacing:2px;
-font-size:14px;
-}
-
-/* RED DISTORTION */
-.redFlash{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:red;
-opacity:0;
-z-index:4;
-pointer-events:none;
-}
+button{margin-top:25px;padding:12px 28px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;}
 </style>
 </head>
-
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forrest vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="ui">
-
+<div class="center">
 <h1>PREVENT THE TRAGEDY</h1>
-
-<p>
-Some events require sacrifice.<br>
-Strengthen the union.
-</p>
-
-<div class="offering">OFFERING I — CONTRIBUTE TO THE UNION</div>
-<div class="offering">OFFERING II — SECURE THE CEREMONY</div>
-<div class="offering">OFFERING III — PROTECT THE NIGHT</div>
-
+<div class="box">OFFERING I — SUPPORT THE UNION</div>
+<div class="box">OFFERING II — SECURE THE CEREMONY</div>
+<div class="box">OFFERING III — PROTECT THE NIGHT</div>
 <button onclick="staticNext('page5.html')">CONTINUE</button>
-
 </div>
 
-<div class="redFlash" id="redFlash"></div>
-
-<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
-
 <script>
-
-/* TRANSITION */
 function staticNext(page){
-const static=document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
+const o=document.createElement("div");
+o.style.position="fixed";o.style.top=0;o.style.left=0;
+o.style.width="100%";o.style.height="100%";
+o.style.background="black";o.style.zIndex="999";
+document.body.appendChild(o);
 setTimeout(()=>{window.location.href=page;},250);
 }
-
-/* CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.15";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function drawNoise(){
-const imageData=ctx.createImageData(canvas.width,canvas.height);
-const buffer32=new Uint32Array(imageData.data.buffer);
-for(let i=0;i<buffer32.length;i++){
-const shade=Math.random()*255|0;
-buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(imageData,0,0);
-requestAnimationFrame(drawNoise);
-}
-drawNoise();
-
-/* RED DISTORTION BURST */
-function redPulse(){
-const red=document.getElementById("redFlash");
-red.style.opacity=.2;
-setTimeout(()=>{red.style.opacity=0;},120);
-}
-
-setInterval(()=>{
-if(Math.random()<0.15){
-redPulse();
-}
-},5000);
-
-/* SIGNAL DROP */
-setInterval(()=>{
-if(Math.random()<0.1){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},120);
-}
-},7000);
-
 </script>
 
 </body>
