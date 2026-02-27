@@ -4,143 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THOSE_WHO_STAND</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-  background:black;
-  color:white;
-  font-family:'Share Tech Mono', monospace;
-  overflow:hidden;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  animation:flash .3s ease;
-}
-@keyframes flash{
-  0%{opacity:1;}
-  100%{opacity:0;}
-}
-
-.container{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:95%;
-  max-width:1000px;
-  text-align:center;
-}
-
-.title{
-  margin-bottom:30px;
-  font-size:18px;
-  animation:flicker 2s infinite;
-}
-
-@keyframes flicker{
-  0%,100%{opacity:1;}
-  50%{opacity:.6;}
-}
-
-.grid{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.column{
-  width:50%;
-}
-
-.member{
-  margin-bottom:25px;
-  opacity:0;
-  transform:translateY(20px);
-  transition:all .8s ease;
-}
-
-.member.show{
-  opacity:1;
-  transform:translateY(0);
-}
-
-.member img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-  border:1px solid white;
-  margin-bottom:8px;
-  filter:grayscale(100%) contrast(120%);
-}
-
-button{
-  margin-top:30px;
-  padding:8px 24px;
-  border:1px solid white;
-  background:transparent;
-  color:white;
-  font-family:'Share Tech Mono', monospace;
-}
+body{margin:0;color:white;font-family:'Share Tech Mono', monospace;background:black;overflow:hidden;}
+video{position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(110%);}
+.overlay{position:fixed;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:-1;}
+.scan{position:fixed;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);background-size:100% 3px;}
+.container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:90%;}
+.column{display:inline-block;width:45%;vertical-align:top;}
+.member{margin:15px 0;opacity:.9;}
+button{margin-top:25px;padding:10px 25px;border:1px solid white;background:transparent;color:white;font-family:'Share Tech Mono', monospace;}
 </style>
 </head>
-
 <body>
 
-<audio id="whisper" src="whisper.mp3" loop></audio>
+<video autoplay muted loop playsinline>
+<source src="forrest%20vid.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+<div class="scan"></div>
+<audio src="whisper.mp3" autoplay loop style="display:none;" id="w"></audio>
 
 <div class="container">
-
-  <div class="title">THOSE WHO STAND</div>
-
-  <div class="grid">
-
-    <div class="column">
-      <div class="member"><img src="bride1.jpg"><div>Bridesmaid Name</div></div>
-      <div class="member"><img src="bride2.jpg"><div>Bridesmaid Name</div></div>
-      <div class="member"><img src="bride3.jpg"><div>Bridesmaid Name</div></div>
-    </div>
-
-    <div class="column">
-      <div class="member"><img src="groom1.jpg"><div>Groomsman Name</div></div>
-      <div class="member"><img src="groom2.jpg"><div>Groomsman Name</div></div>
-      <div class="member"><img src="groom3.jpg"><div>Groomsman Name</div></div>
-    </div>
-
-  </div>
-
-  <button id="nextBtn">PROCEED ANYWAY</button>
-
+<div>THOSE WHO STAND</div>
+<div class="column">
+<div class="member">Bridesmaid Name</div>
+<div class="member">Bridesmaid Name</div>
+</div>
+<div class="column">
+<div class="member">Groomsman Name</div>
+<div class="member">Groomsman Name</div>
+</div>
+<button onclick="window.location.href='page5.html'">PROCEED ANYWAY</button>
 </div>
 
 <script>
-const whisper = document.getElementById("whisper");
-const members = document.querySelectorAll(".member");
-const nextBtn = document.getElementById("nextBtn");
-
-/* Increase whisper intensity */
-whisper.volume = 0.28;
-whisper.play();
-
-/* Glitch-in reveal */
-members.forEach((member, index)=>{
-  setTimeout(()=>{
-    member.classList.add("show");
-  }, 800 + (index * 600));
-});
-
-/* Next page */
-nextBtn.addEventListener("click",()=>{
-  window.location.href="page5.html";
-});
+document.getElementById("w").volume=.28;
 </script>
 
 </body>
