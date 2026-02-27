@@ -1,234 +1,120 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10.24.2026</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  background:black;
-  overflow:hidden;
-  font-family:'Share Tech Mono', monospace;
-  color:white;
-}
-
-/* VIDEO */
-video{
-  position:fixed;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .08s, filter .08s;
-}
-
-/* Grain */
-.grain{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.25;
-  pointer-events:none;
-}
-
-/* Scanlines */
-.scanlines{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.4) 50%);
-  background-size:100% 3px;
-  pointer-events:none;
-}
-
-/* Vignette */
-.vignette{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:radial-gradient(circle at center, transparent 70%, rgba(0,0,0,.85) 100%);
-  pointer-events:none;
-}
-
-/* Static Flash */
-.static{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  opacity:0;
-  pointer-events:none;
-}
-
-/* Blackout */
-.blackout{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:black;
-  opacity:0;
-  pointer-events:none;
-}
-
-/* Screen tear */
-.tear{
-  position:fixed;
-  width:100%;
-  height:5px;
-  background:white;
-  opacity:0;
-  pointer-events:none;
-}
-
-/* REC */
-.rec{
-  position:absolute;
-  top:25px;
-  left:35px;
-  font-size:18px;
-}
-.rec span{
-  color:red;
-  animation:blink 1s infinite;
-}
-@keyframes blink{50%{opacity:0;}}
-
-/* Timestamp */
-.timestamp{
-  position:absolute;
-  bottom:25px;
-  left:35px;
-  font-size:18px;
-}
-
-/* Title */
-.center{
-  position:absolute;
-  top:55%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
-}
-.title{
-  font-size:38px;
-  letter-spacing:4px;
-}
-button{
-  margin-top:25px;
-  padding:8px 28px;
-  border:1px solid white;
-  background:transparent;
-  color:white;
-  font-family:'Share Tech Mono', monospace;
-  font-size:16px;
-  cursor:pointer;
-  transition:.3s;
-}
-button:hover{
-  background:white;
-  color:black;
-}
-</style>
-</head>
-
-<body>
-
-<video id="vid" autoplay muted loop playsinline>
-  <source src="forrest%20vid.mp4" type="video/mp4">
-</video>
-
-<div class="grain"></div>
-<div class="scanlines"></div>
-<div class="vignette"></div>
-<div class="static" id="static"></div>
-<div class="blackout" id="blackout"></div>
-<div class="tear" id="tear"></div>
-
-<div class="rec"><span>●</span> REC</div>
-<div class="timestamp" id="timestamp"></div>
-
-<div class="center">
-  <div class="title">YOU ARE MARKED</div>
-  <button>PLAY TAPE</button>
-</div>
-
 <script>
+
+const video = document.getElementById("vid");
+const staticEl = document.getElementById("static");
+const blackout = document.getElementById("blackout");
+const redFlash = document.getElementById("redFlash");
+const glitchText = document.getElementById("glitchText");
+const timestampEl = document.getElementById("timestamp");
+
+/* AUDIO SETUP */
+const whisper = new Audio("whisper.mp3");
+whisper.loop = true;
+whisper.volume = 0;
+
+const whisperBurst = new Audio("whisper.mp3");
+whisperBurst.volume = 0.6;
+
 /* Timestamp */
 function updateTime(){
   const now = new Date();
   const pad = n => n.toString().padStart(2,'0');
   const date = pad(now.getMonth()+1)+"."+pad(now.getDate())+"."+now.getFullYear();
   const time = pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
-  document.getElementById("timestamp").innerText = date+"  "+time;
+  timestampEl.innerText = date+"  "+time;
 }
 setInterval(updateTime,1000);
 updateTime();
 
-const video = document.getElementById("vid");
-const staticEl = document.getElementById("static");
-const blackout = document.getElementById("blackout");
-const tear = document.getElementById("tear");
+/* Start audio after user interaction */
+document.addEventListener("click", ()=>{
+  whisper.play();
+});
 
-let intensity = 1;
+/* Slow volume creep */
+setInterval(()=>{
+  if(whisper.volume < 0.25){
+    whisper.volume += 0.01;
+  }
+},2000);
 
-/* Immediate 5 second scare burst */
-setTimeout(()=>{
-  video.style.transform = "scale(1.3)";
-  video.style.filter = "brightness(0.3)";
-  staticEl.style.opacity = .5;
-  setTimeout(()=>{
-    staticEl.style.opacity = 0;
-    video.style.transform = "scale(1)";
-    video.style.filter = "brightness(1)";
-  },300);
-},3000);
-
-/* Escalation loop */
-function horrorCycle(){
+/* Random whisper bursts */
+function whisperEvents(){
 
   const r = Math.random();
 
-  /* Static */
-  if(r < 0.25 * intensity){
-    staticEl.style.opacity = .4;
-    setTimeout(()=> staticEl.style.opacity = 0, 150);
+  /* Sudden loud whisper */
+  if(r < 0.3){
+    whisperBurst.currentTime = 0;
+    whisperBurst.play();
   }
 
-  /* Blackout flash */
-  if(r >= 0.25 && r < 0.4 * intensity){
-    blackout.style.opacity = 1;
-    setTimeout(()=> blackout.style.opacity = 0, 200);
-  }
-
-  /* Screen tear */
-  if(r >= 0.4 && r < 0.6 * intensity){
-    tear.style.top = Math.random()*100 + "%";
-    tear.style.opacity = .7;
-    setTimeout(()=> tear.style.opacity = 0, 150);
-  }
-
-  /* Violent zoom scare */
-  if(r >= 0.6){
-    video.style.transform = "scale(1.4)";
-    setTimeout(()=> video.style.transform = "scale(1)", 150);
+  /* Reverse playback */
+  if(r >= 0.3 && r < 0.5){
+    whisper.playbackRate = -1;
+    setTimeout(()=> whisper.playbackRate = 1, 800);
   }
 
 }
 
-/* Increase intensity over time */
+setInterval(whisperEvents, 8000);
+
+/* Horror Visual Cycle */
+let intensity = 1;
+
+function horrorCycle(){
+
+  const r = Math.random();
+
+  if(r < .2 * intensity){
+    staticEl.style.opacity = .5;
+    setTimeout(()=> staticEl.style.opacity = 0, 150);
+  }
+
+  if(r >= .2 && r < .35 * intensity){
+    blackout.style.opacity = 1;
+    setTimeout(()=> blackout.style.opacity = 0, 200);
+  }
+
+  if(r >= .35 && r < .5 * intensity){
+    video.pause();
+    setTimeout(()=> video.play(), 400);
+  }
+
+  if(r >= .5 && r < .65 * intensity){
+    video.style.transform = "scale(1.7)";
+    setTimeout(()=> video.style.transform = "scale(1)", 120);
+  }
+
+  if(r >= .65){
+    const messages = [
+      "don't turn around",
+      "he's behind you",
+      "we are watching",
+      "stay in the trees",
+      "you shouldn't be here"
+    ];
+    glitchText.innerText = messages[Math.floor(Math.random()*messages.length)];
+    glitchText.style.opacity = 1;
+    setTimeout(()=> glitchText.style.opacity = 0, 200);
+  }
+
+}
+
+/* Escalation */
 setInterval(()=>{
-  if(intensity < 3){
-    intensity += .2;
+  if(intensity < 4){
+    intensity += .3;
   }
 },15000);
 
-setInterval(horrorCycle, 4000);
+setInterval(horrorCycle, 3500);
+
+/* Mouse distortion */
+document.addEventListener("mousemove", (e)=>{
+  const x = (e.clientX / window.innerWidth - .5) * 10;
+  const y = (e.clientY / window.innerHeight - .5) * 10;
+  video.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
+});
 
 </script>
-
-</body>
-</html>
