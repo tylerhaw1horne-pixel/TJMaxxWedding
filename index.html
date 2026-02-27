@@ -17,59 +17,22 @@ body{
   color:white;
 }
 
-/* layered fake forest silhouettes */
-.layer{
+/* VIDEO BACKGROUND */
+video{
   position:fixed;
-  width:120%;
-  height:120%;
-  top:-10%;
-  left:-10%;
-  background:radial-gradient(circle at center, #111 0%, #000 70%);
-  animation:drift 20s infinite alternate ease-in-out;
-}
-
-.layer:before{
-  content:"";
-  position:absolute;
+  top:0;
+  left:0;
   width:100%;
   height:100%;
-  background:
-  linear-gradient(to top, black 0%, transparent 40%),
-  repeating-linear-gradient(
-    90deg,
-    rgba(0,0,0,0.8) 0px,
-    rgba(0,0,0,0.8) 2px,
-    transparent 2px,
-    transparent 60px
-  );
-  opacity:.6;
+  object-fit:cover;
 }
 
-/* slow handheld drift */
-@keyframes drift{
-  0%{transform:scale(1.05) translate(0px,0px);}
-  50%{transform:scale(1.08) translate(-40px,20px);}
-  100%{transform:scale(1.05) translate(0px,0px);}
-}
-
-/* flashlight */
-.flashlight{
+/* dark overlay */
+.overlay{
   position:fixed;
   width:100%;
   height:100%;
-  background:radial-gradient(circle at center, rgba(255,255,255,.15) 0%, rgba(0,0,0,.9) 65%);
-  pointer-events:none;
-}
-
-/* heavy grain */
-body::after{
-  content:"";
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.8;
-  pointer-events:none;
+  background:rgba(0,0,0,0.6);
 }
 
 /* scanlines */
@@ -77,40 +40,19 @@ body::after{
   position:fixed;
   width:100%;
   height:100%;
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.7) 50%);
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
   background-size:100% 3px;
   pointer-events:none;
 }
 
-/* tracking glitch */
-.tracking{
-  position:fixed;
-  width:100%;
-  height:100px;
-  background:rgba(255,255,255,.2);
-  top:-120px;
-  animation:track 6s infinite;
-}
-
-@keyframes track{
-  0%{top:-120px;}
-  50%{top:100%;}
-  100%{top:-120px;}
-}
-
-/* sudden blackout glitch */
-@keyframes blackout{
-  0%,97%,100%{opacity:0;}
-  98%{opacity:1;}
-}
-
-.blackout{
+/* grain */
+.grain{
   position:fixed;
   width:100%;
   height:100%;
-  background:black;
-  opacity:0;
-  animation:blackout 8s infinite;
+  background:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:.5;
+  pointer-events:none;
 }
 
 /* REC */
@@ -138,24 +80,17 @@ body::after{
   font-size:18px;
 }
 
-/* title glitch */
+/* title */
 .center{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
-  animation:flicker 4s infinite;
-}
-
-@keyframes flicker{
-  0%,95%,100%{opacity:1;}
-  96%{opacity:.5;}
-  97%{opacity:1;}
 }
 
 .title{
-  font-size:55px;
+  font-size:60px;
   letter-spacing:6px;
 }
 
@@ -168,7 +103,6 @@ button{
   font-family:'Share Tech Mono', monospace;
   font-size:18px;
   cursor:pointer;
-  transition:.3s;
 }
 
 button:hover{
@@ -181,11 +115,14 @@ button:hover{
 
 <body>
 
-<div class="layer"></div>
-<div class="flashlight"></div>
+<!-- WORKING PUBLIC FOREST VIDEO -->
+<video autoplay muted loop playsinline>
+  <source src="https://cdn.pixabay.com/vimeo/458401105/forest-48587.mp4?width=1280&hash=aa62f9d3e66ccf4a5c7d3f7a78e1f7d7e7bba940" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
 <div class="scanlines"></div>
-<div class="tracking"></div>
-<div class="blackout"></div>
+<div class="grain"></div>
 
 <div class="rec"><span>●</span> REC</div>
 <div class="timestamp" id="timestamp"></div>
