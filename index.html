@@ -50,19 +50,26 @@ z-index:2;
 /* SCREEN */
 .screen{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
 padding:20px;
-z-index:5;
+z-index:100;
 opacity:0;
 transition:opacity .6s;
+pointer-events:none;
 }
-.screen.active{opacity:1;}
+
+.screen.active{
+opacity:1;
+pointer-events:auto;
+}
 
 button{
 margin-top:20px;
@@ -191,10 +198,19 @@ mix-blend-mode:difference;
 <script>
 const whisper=document.getElementById("whisper");
 whisper.volume=.2;
-whisper.play();
+
+let audioStarted = false;
+
+function startAudio(){
+  if(!audioStarted){
+    whisper.play().catch(()=>{});
+    audioStarted = true;
+  }
+}
 
 /* SCREEN SWITCH */
 function next(n){
+startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
 }
