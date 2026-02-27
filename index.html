@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REC 01</title>
+<title>LOST_TAPE_01</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   background:black;
   overflow:hidden;
@@ -16,41 +17,21 @@ body{
   color:white;
 }
 
-/* VIDEO */
 video{
   position:fixed;
   width:100%;
   height:100%;
   object-fit:cover;
-  animation:breathing 10s ease-in-out infinite;
-  transition:transform .1s;
-}
-@keyframes breathing{
-  0%{transform:scale(1.03);}
-  50%{transform:scale(1.06);}
-  100%{transform:scale(1.03);}
+  opacity:0;
+  transition:opacity .4s ease;
 }
 
-/* OVERLAYS */
-.layer{
+/* Overlay */
+.overlay{
   position:fixed;
   width:100%;
   height:100%;
   pointer-events:none;
-}
-
-.grain{
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.4;
-}
-
-.scanlines{
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
-  background-size:100% 3px;
-}
-
-.vignette{
-  background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.95) 100%);
 }
 
 .static{
@@ -59,134 +40,101 @@ video{
   transition:opacity .1s;
 }
 
-.blackout{
-  background:black;
-  opacity:0;
-  transition:opacity .1s;
-}
-
-.signal{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:black;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  opacity:0;
-  pointer-events:none;
-}
-
-.rec{
-  position:absolute;
-  top:20px;
-  left:20px;
-  font-size:16px;
-}
-.rec span{
-  color:red;
-  animation:blink 1s infinite;
-}
-@keyframes blink{50%{opacity:0;}}
-
-.timestamp{
-  position:absolute;
-  bottom:20px;
-  left:20px;
-  font-size:14px;
+.scanlines{
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
+  background-size:100% 3px;
+  opacity:.6;
 }
 
 .center{
   position:absolute;
-  top:60%;
+  top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
 }
 
 button{
-  margin-top:20px;
-  padding:8px 24px;
+  padding:8px 22px;
   border:1px solid white;
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
+  font-size:14px;
 }
+
+.hidden{opacity:0;}
+.fadeIn{opacity:1; transition:opacity .6s ease;}
 </style>
 </head>
 
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="video" muted loop playsinline>
   <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
 
-<div class="layer grain"></div>
-<div class="layer scanlines"></div>
-<div class="layer vignette"></div>
-<div class="layer static" id="static"></div>
-<div class="layer blackout" id="blackout"></div>
-
-<div class="signal" id="signal">SIGNAL LOST... RECONNECTING...</div>
-
-<div class="rec"><span>●</span> REC</div>
-<div class="timestamp" id="timestamp"></div>
+<div class="overlay scanlines"></div>
+<div class="overlay static" id="static"></div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<div class="center">
-  <button id="nextBtn">NEXT</button>
+<div class="center" id="intro">
+  <div id="signal">SIGNAL RESTORED</div>
+  <div id="file" class="hidden">LOST_TAPE_01<br>10.24.2026</div>
+  <button id="playBtn" class="hidden">▶ PLAY</button>
+</div>
+
+<div class="center hidden" id="forestText">
+  <div style="font-size:24px;">STAY QUIET</div>
+  <div style="font-size:14px;opacity:.6;">keep walking</div>
+  <button id="walkBtn" style="margin-top:20px;">KEEP WALKING</button>
 </div>
 
 <script>
+const video = document.getElementById("video");
 const staticEl = document.getElementById("static");
-const blackout = document.getElementById("blackout");
-const signal = document.getElementById("signal");
 const whisper = document.getElementById("whisper");
-const nextBtn = document.getElementById("nextBtn");
-const timestampEl = document.getElementById("timestamp");
 
-/* Timestamp */
-function updateTime(){
-  const now = new Date();
-  const pad = n => n.toString().padStart(2,'0');
-  timestampEl.innerText =
-    pad(now.getMonth()+1)+"."+pad(now.getDate())+"."+now.getFullYear()+
-    "  "+pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
-}
-setInterval(updateTime,1000);
-updateTime();
+const file = document.getElementById("file");
+const playBtn = document.getElementById("playBtn");
+const intro = document.getElementById("intro");
+const forestText = document.getElementById("forestText");
+const walkBtn = document.getElementById("walkBtn");
 
-/* Whisper always low */
-whisper.volume = 0.05;
-document.addEventListener("click",()=>{
-  whisper.play();
-});
+/* Timeline */
+setTimeout(()=>{
+  file.classList.remove("hidden");
+},2000);
 
-/* NEXT transition */
-nextBtn.addEventListener("click",()=>{
+setTimeout(()=>{
+  playBtn.classList.remove("hidden");
+},3500);
 
-  whisper.volume = 0.4;
-
-  /* Massive white static blast */
-  staticEl.style.opacity = 1;
+/* Play */
+playBtn.addEventListener("click",()=>{
+  staticEl.style.opacity=1;
 
   setTimeout(()=>{
-    staticEl.style.opacity = 0;
-    blackout.style.opacity = 1;
+    staticEl.style.opacity=0;
+    intro.style.display="none";
+    video.style.opacity=1;
+    video.play();
+    whisper.volume=0.05;
+    whisper.play();
   },200);
 
   setTimeout(()=>{
-    blackout.style.opacity = 0;
-    signal.style.opacity = 1;
-  },500);
+    forestText.classList.remove("hidden");
+  },3000);
+});
 
+/* Transition */
+walkBtn.addEventListener("click",()=>{
+  staticEl.style.opacity=1;
   setTimeout(()=>{
     window.location.href="page2.html";
-  },1500);
-
+  },500);
 });
 </script>
 
