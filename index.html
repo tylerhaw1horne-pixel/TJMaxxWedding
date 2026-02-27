@@ -2,20 +2,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>10.24.2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REC 01</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   background:black;
   overflow:hidden;
   font-family:'Share Tech Mono', monospace;
   color:white;
-  touch-action:none;
 }
 
 /* VIDEO */
@@ -24,11 +22,9 @@ video{
   width:100%;
   height:100%;
   object-fit:cover;
-  animation:breathing 12s ease-in-out infinite;
-  transition:transform .1s, filter .1s;
+  animation:breathing 10s ease-in-out infinite;
+  transition:transform .1s;
 }
-
-/* Slow breathing zoom */
 @keyframes breathing{
   0%{transform:scale(1.03);}
   50%{transform:scale(1.06);}
@@ -45,11 +41,11 @@ video{
 
 .grain{
   background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.35;
+  opacity:.4;
 }
 
 .scanlines{
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.5) 50%);
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
   background-size:100% 3px;
 }
 
@@ -57,25 +53,36 @@ video{
   background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.95) 100%);
 }
 
-.static{background:white;opacity:0;}
-.blackout{background:black;opacity:0;}
-.redFlash{background:rgba(255,0,0,.5);opacity:0;}
-
-/* TEXT */
-.glitchText{
-  position:absolute;
-  top:40%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:42px;
-  letter-spacing:4px;
+.static{
+  background:white;
   opacity:0;
+  transition:opacity .1s;
+}
+
+.blackout{
+  background:black;
+  opacity:0;
+  transition:opacity .1s;
+}
+
+.signal{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  opacity:0;
+  pointer-events:none;
 }
 
 .rec{
   position:absolute;
   top:20px;
-  left:25px;
+  left:20px;
   font-size:16px;
 }
 .rec span{
@@ -87,7 +94,7 @@ video{
 .timestamp{
   position:absolute;
   bottom:20px;
-  left:25px;
+  left:20px;
   font-size:14px;
 }
 
@@ -99,11 +106,6 @@ video{
   text-align:center;
 }
 
-.title{
-  font-size:28px;
-  letter-spacing:3px;
-}
-
 button{
   margin-top:20px;
   padding:8px 24px;
@@ -111,14 +113,13 @@ button{
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
-  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<video id="vid" autoplay muted loop playsinline>
+<video autoplay muted loop playsinline>
   <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
 
@@ -127,9 +128,8 @@ button{
 <div class="layer vignette"></div>
 <div class="layer static" id="static"></div>
 <div class="layer blackout" id="blackout"></div>
-<div class="layer redFlash" id="redFlash"></div>
 
-<div class="glitchText" id="glitchText"></div>
+<div class="signal" id="signal">SIGNAL LOST... RECONNECTING...</div>
 
 <div class="rec"><span>●</span> REC</div>
 <div class="timestamp" id="timestamp"></div>
@@ -137,21 +137,16 @@ button{
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <div class="center">
-  <div class="title">YOU ARE MARKED</div>
   <button id="nextBtn">NEXT</button>
 </div>
 
 <script>
-const video = document.getElementById("vid");
 const staticEl = document.getElementById("static");
 const blackout = document.getElementById("blackout");
-const redFlash = document.getElementById("redFlash");
-const glitchText = document.getElementById("glitchText");
+const signal = document.getElementById("signal");
 const whisper = document.getElementById("whisper");
 const nextBtn = document.getElementById("nextBtn");
 const timestampEl = document.getElementById("timestamp");
-
-let intensity = 1;
 
 /* Timestamp */
 function updateTime(){
@@ -164,62 +159,35 @@ function updateTime(){
 setInterval(updateTime,1000);
 updateTime();
 
-/* Always-on whisper (very low) */
+/* Whisper always low */
 whisper.volume = 0.05;
 document.addEventListener("click",()=>{
   whisper.play();
 });
 
-/* Next click increases horror */
+/* NEXT transition */
 nextBtn.addEventListener("click",()=>{
-  whisper.volume = 0.35;
-  intensity = 3;
-  nextBtn.style.display="none";
-});
 
-/* Escalation */
-setInterval(()=>{
-  if(intensity < 5) intensity += 0.2;
-},10000);
+  whisper.volume = 0.4;
 
-/* Horror Events */
-function horrorCycle(){
-  const r = Math.random();
+  /* Massive white static blast */
+  staticEl.style.opacity = 1;
 
-  if(r < .25){
-    staticEl.style.opacity = .5;
-    setTimeout(()=>staticEl.style.opacity=0,120);
-  }
-
-  if(r < .2 * intensity){
+  setTimeout(()=>{
+    staticEl.style.opacity = 0;
     blackout.style.opacity = 1;
-    setTimeout(()=>blackout.style.opacity=0,180);
-  }
+  },200);
 
-  if(r > .6){
-    video.style.transform="scale(1.3)";
-    setTimeout(()=>video.style.transform="scale(1.05)",150);
-  }
+  setTimeout(()=>{
+    blackout.style.opacity = 0;
+    signal.style.opacity = 1;
+  },500);
 
-  if(r > .8){
-    redFlash.style.opacity=.6;
-    setTimeout(()=>redFlash.style.opacity=0,150);
-  }
+  setTimeout(()=>{
+    window.location.href="page2.html";
+  },1500);
 
-  if(r > .85){
-    video.pause();
-    setTimeout(()=>video.play(),400);
-  }
-
-  if(r > .9){
-    const messages=["DON'T MOVE","IT'S CLOSER","YOU HEARD THAT","LOOK BEHIND YOU"];
-    glitchText.innerText=messages[Math.floor(Math.random()*messages.length)];
-    glitchText.style.opacity=1;
-    setTimeout(()=>glitchText.style.opacity=0,200);
-  }
-}
-
-setInterval(horrorCycle,3000);
+});
 </script>
 
 </body>
