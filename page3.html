@@ -7,40 +7,100 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
 background:black;
 color:white;
 font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
+/* VIDEO */
 video{
 position:fixed;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-2;
-filter:grayscale(100%) contrast(120%);
+z-index:-3;
+filter:grayscale(100%) contrast(150%);
+animation:frameJitter 2.5s infinite;
 }
 
-.overlay{
+@keyframes frameJitter{
+0%,100%{transform:translate(0,0);}
+30%{transform:translate(-2px,2px);}
+60%{transform:translate(2px,-2px);}
+}
+
+/* STATIC */
+.staticOverlay{
 position:fixed;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.8);
+background:url("https://i.imgur.com/8fK4h6N.png");
+opacity:.12;
 z-index:-1;
+pointer-events:none;
 }
 
-.scan{
+/* SCANLINES */
+.scanlines{
 position:fixed;
 width:100%;
 height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
+background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.7) 50%);
 background-size:100% 3px;
+pointer-events:none;
 }
 
-.container{
+/* VHS UI */
+.vhsUI{
+position:fixed;
+top:10px;
+left:10px;
+font-size:12px;
+opacity:.7;
+}
+
+.battery{
+position:fixed;
+top:10px;
+right:10px;
+font-size:12px;
+opacity:.7;
+}
+
+/* SCREEN TEAR */
+.tear{
+position:fixed;
+width:100%;
+height:60px;
+background:rgba(255,255,255,.08);
+top:0;
+animation:tearMove 5s infinite;
+pointer-events:none;
+}
+
+@keyframes tearMove{
+0%{top:-60px;}
+100%{top:100%;}
+}
+
+/* TEXT GLITCH */
+.glitch{
+font-size:42px;
+letter-spacing:4px;
+animation:textGlitch .8s infinite;
+}
+
+@keyframes textGlitch{
+0%{text-shadow:3px 0 red,-3px 0 blue;}
+50%{text-shadow:-3px 0 red,3px 0 blue;}
+100%{text-shadow:3px 0 red,-3px 0 blue;}
+}
+
+.center{
 position:absolute;
 top:50%;
 left:50%;
@@ -49,29 +109,31 @@ text-align:center;
 width:95%;
 }
 
+/* IMAGE PLACEHOLDERS */
 .imageBox{
-width:160px;
-height:160px;
+width:180px;
+height:180px;
 border:2px solid white;
-margin:10px;
 display:inline-block;
-animation:glitch 1.5s infinite;
+margin:15px;
+animation:imgGlitch 1.5s infinite;
 }
 
-@keyframes glitch{
+@keyframes imgGlitch{
 0%{transform:translate(0,0);}
-25%{transform:translate(-2px,2px);}
-50%{transform:translate(2px,-2px);}
-75%{transform:translate(-1px,1px);}
+25%{transform:translate(-4px,3px);}
+50%{transform:translate(3px,-4px);}
+75%{transform:translate(-2px,2px);}
 100%{transform:translate(0,0);}
 }
 
 button{
-margin-top:25px;
-padding:12px 30px;
+margin-top:30px;
+padding:14px 30px;
 border:2px solid white;
 background:transparent;
 color:white;
+letter-spacing:2px;
 }
 </style>
 </head>
@@ -82,18 +144,30 @@ color:white;
 <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
 
-<div class="overlay"></div>
-<div class="scan"></div>
+<div class="staticOverlay"></div>
+<div class="scanlines"></div>
+<div class="tear"></div>
 
-<audio id="w" src="whisper.mp3" autoplay loop></audio>
+<div class="vhsUI">REC ● 10.24.2026 21:17:48</div>
+<div class="battery">BAT 69%</div>
 
-<div class="container">
+<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
 
-<div style="font-size:32px;">WARNING: SENSITIVE FILE</div>
+<div class="center">
+
+<div class="glitch">WARNING: SENSITIVE FILE</div>
+
+<br><br>
+
+<div style="font-size:28px;">
+CEREMONY BEGINS 5:00 PM
+</div>
+
 <br>
 
-<div>Ceremony Begins 5:00 PM</div>
-<div>Reception To Follow</div>
+<div style="opacity:.9;">
+RECEPTION TO FOLLOW
+</div>
 
 <br><br>
 
@@ -102,16 +176,47 @@ color:white;
 
 <br>
 
-<button onclick="next()">UNSEAL DETAILS</button>
+<button onclick="staticNext()">UNSEAL DETAILS</button>
 
 </div>
 
 <script>
-document.getElementById("w").volume=.24;
-function next(){
-document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;width:100%;height:100%;background:white;animation:fade .4s forwards;'></div>");
-setTimeout(()=>{window.location.href='page4.html';},350);
+
+// whisper escalation
+const w=document.getElementById("whisper");
+let vol=.25;
+w.volume=vol;
+setInterval(()=>{
+if(vol<.55){vol+=.01;w.volume=vol;}
+},4000);
+
+// random interference flash
+setInterval(()=>{
+if(Math.random()<0.25){
+const flash=document.createElement("div");
+flash.style.position="fixed";
+flash.style.width="100%";
+flash.style.height="100%";
+flash.style.background="white";
+flash.style.opacity=".6";
+flash.style.zIndex="999";
+document.body.appendChild(flash);
+setTimeout(()=>{flash.remove();},80);
 }
+},5000);
+
+// static transition
+function staticNext(){
+const static=document.createElement("div");
+static.style.position="fixed";
+static.style.width="100%";
+static.style.height="100%";
+static.style.background="url('https://i.imgur.com/8fK4h6N.png')";
+static.style.zIndex="999";
+document.body.appendChild(static);
+setTimeout(()=>{window.location.href="page4.html";},350);
+}
+
 </script>
 
 </body>
