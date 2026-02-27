@@ -3,251 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THOSE_WHO_STAND</title>
+<title>THOSE WHO STAND</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
 
-body{
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-}
+video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 18s infinite ease-in-out;}
 
-/* VIDEO */
-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
-filter:grayscale(100%) contrast(170%);
-animation:slowZoom 12s infinite ease-in-out;
-}
+@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
 
-@keyframes slowZoom{
-0%{transform:scale(1);}
-50%{transform:scale(1.06);}
-100%{transform:scale(1);}
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
 
-/* SCANLINES */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.85) 50%);
-background-size:100% 3px;
-z-index:2;
-}
+.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;padding:20px;}
 
-/* UI */
-.ui{
-position:relative;
-z-index:3;
-text-align:center;
-top:10%;
-width:95%;
-margin:auto;
-}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:20px;}
 
-h1{
-font-size:36px;
-letter-spacing:4px;
-margin-bottom:20px;
-animation:flicker 3s infinite;
-}
+.member{width:140px;text-align:center;}
+.photo{width:140px;height:140px;border:2px solid white;margin-bottom:8px;}
 
-@keyframes flicker{
-0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-20%,24%,55%{opacity:.4;}
-}
-
-/* GRID */
-.grid{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
-margin-top:20px;
-}
-
-.member{
-width:140px;
-text-align:center;
-animation:nameFlicker 2.5s infinite;
-}
-
-@keyframes nameFlicker{
-0%,100%{opacity:1;}
-50%{opacity:.6;}
-}
-
-.photo{
-width:140px;
-height:140px;
-border:2px solid white;
-margin-bottom:8px;
-animation:photoGlitch 1.5s infinite;
-}
-
-@keyframes photoGlitch{
-0%{transform:translate(0,0);}
-25%{transform:translate(-3px,2px);}
-50%{transform:translate(2px,-3px);}
-75%{transform:translate(-2px,2px);}
-100%{transform:translate(0,0);}
-}
-
-button{
-margin-top:30px;
-padding:12px 26px;
-border:2px solid white;
-background:transparent;
-color:white;
-letter-spacing:2px;
-}
-
-/* DISTORTION BAND */
-.band{
-position:fixed;
-width:100%;
-height:60px;
-background:rgba(255,255,255,.1);
-top:-60px;
-z-index:4;
-pointer-events:none;
-}
+button{margin-top:30px;padding:12px 28px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;}
 </style>
 </head>
-
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forrest vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="ui">
-
-<h1>THOSE WHO STAND</h1>
+<div class="center">
+<h1 style="font-size:34px;margin-bottom:10px;">THOSE WHO STAND</h1>
 
 <div class="grid">
-
-<div class="member">
-<div class="photo"></div>
-<div>BRIDESMAID</div>
-</div>
-
-<div class="member">
-<div class="photo"></div>
-<div>GROOMSMAN</div>
-</div>
-
-<div class="member">
-<div class="photo"></div>
-<div>BRIDESMAID</div>
-</div>
-
-<div class="member">
-<div class="photo"></div>
-<div>GROOMSMAN</div>
-</div>
-
+<div class="member"><div class="photo"></div>BRIDESMAID</div>
+<div class="member"><div class="photo"></div>GROOMSMAN</div>
+<div class="member"><div class="photo"></div>BRIDESMAID</div>
+<div class="member"><div class="photo"></div>GROOMSMAN</div>
 </div>
 
 <button onclick="staticNext('page4.html')">CONTINUE</button>
-
 </div>
 
-<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
-
 <script>
-
-/* TRANSITION */
 function staticNext(page){
-const static=document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
+const o=document.createElement("div");
+o.style.position="fixed";o.style.top=0;o.style.left=0;
+o.style.width="100%";o.style.height="100%";
+o.style.background="black";o.style.zIndex="999";
+document.body.appendChild(o);
 setTimeout(()=>{window.location.href=page;},250);
 }
-
-/* CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.15";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function drawNoise(){
-const imageData=ctx.createImageData(canvas.width,canvas.height);
-const buffer32=new Uint32Array(imageData.data.buffer);
-for(let i=0;i<buffer32.length;i++){
-const shade=Math.random()*255|0;
-buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(imageData,0,0);
-requestAnimationFrame(drawNoise);
-}
-drawNoise();
-
-/* DISTORTION BAND */
-function distortion(){
-const band=document.createElement("div");
-band.className="band";
-document.body.appendChild(band);
-let pos=-60;
-const move=setInterval(()=>{
-pos+=8;
-band.style.top=pos+"px";
-if(pos>window.innerHeight){
-clearInterval(move);
-band.remove();
-}
-},16);
-}
-
-setInterval(()=>{
-if(Math.random()<0.2){
-distortion();
-}
-},5000);
-
-/* SIGNAL DROP */
-setInterval(()=>{
-if(Math.random()<0.1){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},120);
-}
-},7000);
-
 </script>
 
 </body>
