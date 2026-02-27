@@ -8,70 +8,55 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
-body{
+html,body{
+height:100%;
+width:100%;
+overflow:hidden;
 background:black;
 color:white;
 font-family:'Share Tech Mono',monospace;
-overflow:hidden;
-animation:cameraSway 18s infinite ease-in-out;
 }
 
-/* CAMERA SWAY */
-@keyframes cameraSway{
-0%{transform:rotate(0deg);}
-50%{transform:rotate(0.3deg);}
-100%{transform:rotate(0deg);}
-}
-
-/* VIDEO */
+/* VIDEO BACKGROUND */
 video{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-animation:tracking 8s infinite;
-}
-
-/* TRACKING DISTORTION */
-@keyframes tracking{
-0%,100%{transform:translateX(0);}
-10%{transform:translateX(-2px);}
-20%{transform:translateX(2px);}
-30%{transform:translateX(-1px);}
-40%{transform:translateX(1px);}
-50%{transform:translateX(0);}
 }
 
 /* VIGNETTE */
-body::after{
-content:"";
+.vignette{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.85) 100%);
-pointer-events:none;
+background:radial-gradient(circle, transparent 55%, rgba(0,0,0,.85) 100%);
 z-index:3;
+pointer-events:none;
 }
 
 /* SCANLINES */
-body::before{
-content:"";
+.scanlines{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
-pointer-events:none;
 z-index:2;
+pointer-events:none;
 }
 
-/* SCREEN */
+/* SCREEN LAYER */
 .screen{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -80,26 +65,35 @@ text-align:center;
 padding:20px;
 z-index:100;
 opacity:0;
-transition:opacity .6s;
+transition:opacity .6s ease;
 pointer-events:none;
 }
+
 .screen.active{
 opacity:1;
 pointer-events:auto;
 }
 
+/* BUTTONS */
 button{
 margin-top:20px;
-padding:12px 28px;
+padding:14px 32px;
 border:2px solid white;
 background:transparent;
 color:white;
-letter-spacing:2px;
+letter-spacing:3px;
 cursor:pointer;
 font-size:14px;
+transition:.3s;
 }
 
-input, select{
+button:hover{
+background:white;
+color:black;
+}
+
+/* FORM */
+input,select{
 margin-top:10px;
 padding:10px;
 background:black;
@@ -109,8 +103,9 @@ width:250px;
 }
 
 /* EFFECT LAYERS */
-.flash,.red,.distort,.glitchColor,.signalTear{
+.flash,.red,.distort,.tear,.rgb{
 position:fixed;
+top:0;left:0;
 width:100%;height:100%;
 pointer-events:none;
 opacity:0;
@@ -123,8 +118,16 @@ background:url("https://i.imgur.com/8fK4h6N.png");
 mix-blend-mode:difference;
 z-index:12;
 }
-.glitchColor{z-index:13;}
-.signalTear{height:60px;background:white;z-index:14;}
+.tear{
+height:60px;
+background:white;
+z-index:13;
+}
+.rgb{
+mix-blend-mode:screen;
+z-index:14;
+}
+
 .blur{filter:blur(3px);}
 </style>
 </head>
@@ -134,13 +137,17 @@ z-index:12;
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
+<div class="scanlines"></div>
+<div class="vignette"></div>
+
 <div class="flash" id="flash"></div>
 <div class="red" id="red"></div>
 <div class="distort" id="distort"></div>
-<div class="glitchColor" id="glitchColor"></div>
-<div class="signalTear" id="signalTear"></div>
+<div class="tear" id="tear"></div>
+<div class="rgb" id="rgb"></div>
 
 <!-- SCREENS -->
+
 <div class="screen active" id="s1">
 <h2>LOST VIDEO FOUND</h2>
 <button onclick="next(2)">▶ PLAY TAPE</button>
@@ -202,13 +209,14 @@ z-index:12;
 
 <script>
 const whisper=document.getElementById("whisper");
-whisper.volume=.2;
+whisper.volume=.25;
 
-let audioStarted=false;
+let started=false;
+
 function startAudio(){
-if(!audioStarted){
+if(!started){
 whisper.play().catch(()=>{});
-audioStarted=true;
+started=true;
 }
 }
 
@@ -218,10 +226,10 @@ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
 }
 
-/* AUDIO SPIKES */
+/* RANDOM AUDIO SPIKES */
 setInterval(()=>{
 if(Math.random()<.25){
-whisper.volume=.8;
+whisper.volume=.9;
 setTimeout(()=>{whisper.volume=.3;},400);
 }
 },6000);
@@ -229,8 +237,6 @@ setTimeout(()=>{whisper.volume=.3;},400);
 /* JUMP SCARE B */
 setInterval(()=>{
 if(Math.random()<.15){
-const bg=document.getElementById("bg");
-const distort=document.getElementById("distort");
 bg.pause();
 distort.style.opacity=.6;
 setTimeout(()=>{
@@ -243,55 +249,45 @@ bg.play();
 /* JUMP SCARE C */
 setInterval(()=>{
 if(Math.random()<.12){
-const red=document.getElementById("red");
 red.style.opacity=.6;
-whisper.playbackRate=.6;
-setTimeout(()=>{
-red.style.opacity=0;
-whisper.playbackRate=1;
-},300);
+setTimeout(()=>{red.style.opacity=0;},300);
 }
 },12000);
 
 /* STATIC FLASH */
 setInterval(()=>{
 if(Math.random()<.2){
-const flash=document.getElementById("flash");
 flash.style.opacity=.8;
 setTimeout(()=>{flash.style.opacity=0;},150);
 }
 },8000);
 
-/* CHROMATIC GLITCH */
-setInterval(()=>{
-if(Math.random()<0.18){
-const gc=document.getElementById("glitchColor");
-gc.style.background="rgba(255,0,0,0.2)";
-gc.style.opacity=.6;
-setTimeout(()=>{
-gc.style.background="rgba(0,0,255,0.2)";
-},100);
-setTimeout(()=>{
-gc.style.opacity=0;
-},250);
-}
-},7000);
-
 /* SIGNAL TEAR */
 setInterval(()=>{
-if(Math.random()<0.2){
-const tear=document.getElementById("signalTear");
+if(Math.random()<.2){
 tear.style.top=Math.random()*window.innerHeight+"px";
-tear.style.opacity=.6;
+tear.style.opacity=.7;
 setTimeout(()=>{tear.style.opacity=0;},150);
 }
 },6000);
 
+/* RGB GLITCH */
+setInterval(()=>{
+if(Math.random()<.2){
+rgb.style.background="rgba(255,0,0,0.2)";
+rgb.style.opacity=.6;
+setTimeout(()=>{
+rgb.style.background="rgba(0,0,255,0.2)";
+},100);
+setTimeout(()=>{rgb.style.opacity=0;},250);
+}
+},7000);
+
 /* BLUR MOMENT */
 setInterval(()=>{
-if(Math.random()<0.12){
+if(Math.random()<.1){
 document.body.classList.add("blur");
-setTimeout(()=>{document.body.classList.remove("blur");},600);
+setTimeout(()=>{document.body.classList.remove("blur");},500);
 }
 },9000);
 
