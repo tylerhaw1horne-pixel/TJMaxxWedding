@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOST_TAPE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
@@ -14,7 +15,7 @@ font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
-/* VIDEO */
+/* VIDEO BACKGROUND */
 video{
 position:fixed;
 top:0;left:0;
@@ -42,8 +43,8 @@ pointer-events:none;
 z-index:2;
 }
 
-/* CENTERED UI */
-.center{
+/* CENTER UI */
+.screen{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
@@ -52,7 +53,14 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
+padding:20px;
 z-index:3;
+opacity:0;
+transition:opacity .6s;
+}
+
+.screen.active{
+opacity:1;
 }
 
 button{
@@ -62,12 +70,23 @@ border:2px solid white;
 background:transparent;
 color:white;
 letter-spacing:2px;
+font-size:14px;
 cursor:pointer;
 }
 
 button:hover{
 background:white;
 color:black;
+}
+
+/* STATIC TRANSITION */
+.staticFlash{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:black;
+z-index:999;
+display:none;
 }
 </style>
 </head>
@@ -77,41 +96,103 @@ color:black;
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="center" id="intro">
+<div class="staticFlash" id="static"></div>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="s1">
 <div>SIGNAL RESTORED</div>
-<button onclick="playTape()">▶ PLAY TAPE</button>
+<button onclick="next(2)">▶ PLAY TAPE</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="s2">
+<h1>STAY QUIET</h1>
+<button onclick="next(3)">KEEP WALKING</button>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="s3">
+<h1>WARNING</h1>
+<p>Sensitive Information Ahead</p>
+<button onclick="next(4)">PROCEED</button>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen" id="s4">
+<h1>THOSE WHO STAND</h1>
+<p>(Wedding Party Placeholder)</p>
+<button onclick="next(5)">CONTINUE</button>
+</div>
+
+<!-- SCREEN 5 -->
+<div class="screen" id="s5">
+<h1>PREVENT THE TRAGEDY</h1>
+<p>Support the Union</p>
+<button onclick="next(6)">CONTINUE</button>
+</div>
+
+<!-- SCREEN 6 -->
+<div class="screen" id="s6">
+<h1>BEFORE THE TRAGEDY</h1>
+<p>Two paths crossed in the dark.</p>
+<button onclick="next(7)">FINAL WARNING</button>
+</div>
+
+<!-- SCREEN 7 -->
+<div class="screen" id="s7">
+<h1>FINAL WARNING</h1>
+<p>There is no turning back.</p>
+<button onclick="next(8)">CONFIRM YOUR PATH</button>
+</div>
+
+<!-- SCREEN 8 RSVP -->
+<div class="screen" id="s8">
+<h1>CONFIRM YOUR PRESENCE</h1>
+<form onsubmit="submitForm(event)">
+<input type="text" placeholder="Full Name" required style="width:260px;padding:10px;margin-top:10px;background:black;border:2px solid white;color:white;"><br>
+<select required style="width:260px;padding:10px;margin-top:10px;background:black;border:2px solid white;color:white;">
+<option value="">Will You Attend?</option>
+<option>Yes</option>
+<option>No</option>
+</select><br>
+<button type="submit">SUBMIT</button>
+</form>
+<div id="confirmed" style="margin-top:20px;opacity:0;transition:opacity .6s;">
+YOUR RESPONSE HAS BEEN RECORDED.
+</div>
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
 
-/* CLEAN TRANSITION */
-function staticNext(page){
-const overlay=document.createElement("div");
-overlay.style.position="fixed";
-overlay.style.top=0;
-overlay.style.left=0;
-overlay.style.width="100%";
-overlay.style.height="100%";
-overlay.style.background="black";
-overlay.style.zIndex="999";
-document.body.appendChild(overlay);
-setTimeout(()=>{window.location.href=page;},250);
+/* START WHISPER */
+const whisper=document.getElementById("whisper");
+whisper.volume=.2;
+whisper.play();
+
+/* SCREEN SWITCH */
+function next(num){
+const flash=document.getElementById("static");
+flash.style.display="block";
+
+setTimeout(()=>{
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById("s"+num).classList.add("active");
+flash.style.display="none";
+
+whisper.volume=Math.min(1, whisper.volume + 0.08);
+
+},250);
 }
 
-function playTape(){
-document.getElementById("intro").innerHTML = `
-<div style="font-size:40px;margin-bottom:10px;">STAY QUIET</div>
-<button onclick="staticNext('page2.html')">KEEP WALKING</button>
-`;
-
-const w=document.getElementById("whisper");
-w.volume=.2;
-w.play();
+/* RSVP */
+function submitForm(e){
+e.preventDefault();
+document.getElementById("confirmed").style.opacity=1;
 }
 
-/* SUBTLE NOISE */
+/* SUBTLE CANVAS NOISE */
 const canvas=document.createElement("canvas");
 canvas.style.position="fixed";
 canvas.style.top=0;
