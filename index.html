@@ -4,48 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOST_TAPE_01</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   background:black;
-  overflow:hidden;
-  font-family:'Share Tech Mono', monospace;
   color:white;
+  font-family:'Share Tech Mono', monospace;
+  overflow:hidden;
 }
-
-video{
+.scan{
   position:fixed;
   width:100%;
   height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity .4s ease;
-}
-
-/* Overlay */
-.overlay{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-}
-
-.static{
-  background:white;
-  opacity:0;
-  transition:opacity .1s;
-}
-
-.scanlines{
   background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
   background-size:100% 3px;
-  opacity:.6;
+  pointer-events:none;
 }
-
 .center{
   position:absolute;
   top:50%;
@@ -53,89 +28,50 @@ video{
   transform:translate(-50%,-50%);
   text-align:center;
 }
-
 button{
-  padding:8px 22px;
+  margin-top:20px;
+  padding:10px 25px;
   border:1px solid white;
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
-  font-size:14px;
 }
-
 .hidden{opacity:0;}
-.fadeIn{opacity:1; transition:opacity .6s ease;}
+.fade{transition:opacity 1s ease;}
 </style>
 </head>
-
 <body>
 
-<video id="video" muted loop playsinline>
-  <source src="forrest%20vid.mp4" type="video/mp4">
-</video>
-
-<div class="overlay scanlines"></div>
-<div class="overlay static" id="static"></div>
-
+<div class="scan"></div>
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <div class="center" id="intro">
-  <div id="signal">SIGNAL RESTORED</div>
-  <div id="file" class="hidden">LOST_TAPE_01<br>10.24.2026</div>
-  <button id="playBtn" class="hidden">▶ PLAY</button>
-</div>
-
-<div class="center hidden" id="forestText">
-  <div style="font-size:24px;">STAY QUIET</div>
-  <div style="font-size:14px;opacity:.6;">keep walking</div>
-  <button id="walkBtn" style="margin-top:20px;">KEEP WALKING</button>
+<div>SIGNAL RESTORED</div>
+<div class="hidden fade" id="file">LOST_TAPE_01<br>10.24.2026</div>
+<button class="hidden fade" id="playBtn">▶ PLAY</button>
 </div>
 
 <script>
-const video = document.getElementById("video");
-const staticEl = document.getElementById("static");
-const whisper = document.getElementById("whisper");
+setTimeout(()=>{document.getElementById("file").classList.remove("hidden")},2000);
+setTimeout(()=>{document.getElementById("playBtn").classList.remove("hidden")},3500);
 
-const file = document.getElementById("file");
-const playBtn = document.getElementById("playBtn");
-const intro = document.getElementById("intro");
-const forestText = document.getElementById("forestText");
-const walkBtn = document.getElementById("walkBtn");
-
-/* Timeline */
-setTimeout(()=>{
-  file.classList.remove("hidden");
-},2000);
-
-setTimeout(()=>{
-  playBtn.classList.remove("hidden");
-},3500);
-
-/* Play */
-playBtn.addEventListener("click",()=>{
-  staticEl.style.opacity=1;
-
-  setTimeout(()=>{
-    staticEl.style.opacity=0;
-    intro.style.display="none";
-    video.style.opacity=1;
-    video.play();
-    whisper.volume=0.05;
-    whisper.play();
-  },200);
-
-  setTimeout(()=>{
-    forestText.classList.remove("hidden");
-  },3000);
-});
-
-/* Transition */
-walkBtn.addEventListener("click",()=>{
-  staticEl.style.opacity=1;
-  setTimeout(()=>{
-    window.location.href="page2.html";
-  },500);
-});
+document.getElementById("playBtn").onclick=function(){
+document.body.innerHTML=`
+<video autoplay muted loop playsinline style="position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(110%);">
+<source src="forrest%20vid.mp4" type="video/mp4">
+</video>
+<div class="scan"></div>
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+<div style="font-size:22px;">STAY QUIET</div>
+<div style="opacity:.6;font-size:14px;">keep walking</div>
+<button onclick="window.location.href='page2.html'">KEEP WALKING</button>
+</div>
+`;
+const w=new Audio("whisper.mp3");
+w.volume=0.05;
+w.loop=true;
+w.play();
+}
 </script>
 
 </body>
