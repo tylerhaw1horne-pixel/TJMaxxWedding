@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,38 +17,36 @@ body{
   color:white;
 }
 
-/* REAL FOREST VIDEO */
-.video-bg{
+/* REAL FOREST VIDEO (WORKING SOURCE) */
+video{
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
   object-fit:cover;
-  filter:grayscale(1) contrast(1.4) brightness(.35);
-  animation:handheld 20s infinite alternate ease-in-out;
+  filter:grayscale(1) contrast(1.6) brightness(.35);
+  animation:slowDrift 25s infinite alternate ease-in-out;
 }
 
-/* subtle handheld movement */
-@keyframes handheld{
+/* subtle handheld drift */
+@keyframes slowDrift{
   0%{transform:scale(1.1) translate(0px,0px);}
-  25%{transform:scale(1.12) translate(-20px,10px);}
-  50%{transform:scale(1.15) translate(15px,-15px);}
-  75%{transform:scale(1.13) translate(-10px,20px);}
+  50%{transform:scale(1.13) translate(-30px,15px);}
   100%{transform:scale(1.1) translate(0px,0px);}
 }
 
-/* FLASHLIGHT effect */
-.flashlight{
+/* barrel lens distortion */
+body::before{
+  content:"";
   position:fixed;
   width:100%;
   height:100%;
-  background:radial-gradient(circle at center, rgba(255,255,255,.25) 0%, rgba(0,0,0,.8) 60%);
+  background:radial-gradient(circle at center, transparent 60%, black 100%);
   pointer-events:none;
-  mix-blend-mode:overlay;
 }
 
-/* HEAVY GRAIN */
+/* heavy grain */
 body::after{
   content:"";
   position:fixed;
@@ -64,17 +62,33 @@ body::after{
   position:fixed;
   width:100%;
   height:100%;
-  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.5) 50%);
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
   background-size:100% 3px;
   pointer-events:none;
+}
+
+/* horizontal tracking glitch */
+.tracking{
+  position:fixed;
+  width:100%;
+  height:80px;
+  background:rgba(255,255,255,.15);
+  top:-100px;
+  animation:trackingMove 8s infinite;
+}
+
+@keyframes trackingMove{
+  0%{top:-100px;}
+  50%{top:100%;}
+  100%{top:-100px;}
 }
 
 /* REC */
 .rec{
   position:absolute;
   top:20px;
-  left:25px;
-  font-size:20px;
+  left:30px;
+  font-size:18px;
 }
 
 .rec span{
@@ -86,33 +100,22 @@ body::after{
   50%{opacity:0;}
 }
 
-/* Timestamp */
+/* dynamic timestamp */
 .timestamp{
   position:absolute;
   bottom:20px;
-  left:25px;
+  left:30px;
   font-size:18px;
 }
 
-/* subtle focus breathing */
-@keyframes focusBreath{
-  0%{filter:blur(0px);}
-  50%{filter:blur(1px);}
-  100%{filter:blur(0px);}
-}
-
-.video-bg{
-  animation:handheld 20s infinite alternate ease-in-out, focusBreath 8s infinite;
-}
-
-/* creepy text */
+/* title */
 .center{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
-  animation:flicker 6s infinite;
+  animation:flicker 5s infinite;
 }
 
 @keyframes flicker{
@@ -122,41 +125,44 @@ body::after{
 }
 
 .title{
-  font-size:55px;
+  font-size:60px;
   letter-spacing:6px;
 }
 
-.enter{
+button{
   margin-top:40px;
   padding:10px 35px;
   border:1px solid white;
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
-  font-size:20px;
+  font-size:18px;
   cursor:pointer;
   transition:.3s;
 }
 
-.enter:hover{
+button:hover{
   background:white;
   color:black;
 }
 
-/* random tracking glitch */
-.tracking{
-  position:fixed;
-  width:100%;
-  height:80px;
-  background:rgba(255,255,255,.1);
-  top:-100px;
-  animation:trackingMove 10s infinite;
+/* random tape glitch flash */
+@keyframes tapeFlash{
+  0%{opacity:0;}
+  48%{opacity:0;}
+  49%{opacity:1;}
+  50%{opacity:0;}
+  100%{opacity:0;}
 }
 
-@keyframes trackingMove{
-  0%{top:-100px;}
-  50%{top:100%;}
-  100%{top:-100px;}
+.flash{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  opacity:0;
+  pointer-events:none;
+  animation:tapeFlash 7s infinite;
 }
 
 </style>
@@ -164,25 +170,37 @@ body::after{
 
 <body>
 
-<video autoplay muted loop playsinline class="video-bg">
-  <source src="https://cdn.coverr.co/videos/coverr-walking-in-dark-forest-1564/1080p.mp4" type="video/mp4">
+<video autoplay muted loop playsinline>
+  <source src="https://cdn.coverr.co/videos/coverr-dark-forest-path-1660/1080p.mp4" type="video/mp4">
 </video>
 
-<div class="flashlight"></div>
 <div class="scanlines"></div>
 <div class="tracking"></div>
+<div class="flash"></div>
 
 <div class="rec"><span>●</span> REC</div>
-<div class="timestamp">10.24.2026   19:04:12</div>
+<div class="timestamp" id="timestamp"></div>
 
 <div class="center">
   <div class="title">YOU ARE MARKED</div>
-  <button class="enter">PLAY TAPE</button>
+  <button>PLAY TAPE</button>
 </div>
 
 <audio autoplay loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_4f8f8211e4.mp3?filename=forest-night-ambient-11015.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+function updateTime(){
+  const now = new Date();
+  const pad = n => n.toString().padStart(2,'0');
+  const date = pad(now.getMonth()+1)+"."+pad(now.getDate())+"."+now.getFullYear();
+  const time = pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
+  document.getElementById("timestamp").innerText = date+"  "+time;
+}
+setInterval(updateTime,1000);
+updateTime();
+</script>
 
 </body>
 </html>
