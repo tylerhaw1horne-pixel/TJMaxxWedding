@@ -4,33 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BEFORE_THE_TRAGEDY</title>
-<link href="https://fonts.googleapis.com/css2?family=Share Tech Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;color:white;font-family:'Share Tech Mono', monospace;background:black;overflow:hidden;}
-video{position:fixed;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(100%) contrast(110%);}
-.overlay{position:fixed;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:-1;}
-.container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;width:85%;}
-button{margin-top:20px;padding:10px 25px;border:1px solid white;background:transparent;color:white;font-family:'Share Tech Mono', monospace;}
+body{
+margin:0;
+background:black;
+color:white;
+font-family:'Share Tech Mono', monospace;
+overflow:hidden;
+}
+
+video{
+position:fixed;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+filter:grayscale(100%) contrast(130%);
+}
+
+.overlay{
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:-1;
+}
+
+.container{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+width:85%;
+}
+
+button{
+margin-top:20px;
+padding:12px 25px;
+border:2px solid white;
+background:transparent;
+color:white;
+}
 </style>
 </head>
+
 <body>
 
 <video autoplay muted loop playsinline>
 <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
+
 <div class="overlay"></div>
-<audio src="whisper.mp3" autoplay loop style="display:none;" id="w"></audio>
+
+<audio id="w" src="whisper.mp3" autoplay loop></audio>
 
 <div class="container">
-<div>BEFORE THE TRAGEDY</div>
-<br>
-<div>Two paths crossed long before the forest.</div>
-<div>What followed was inevitable.</div>
-<button onclick="window.location.href='page7.html'">FINAL WARNING</button>
+
+<div style="font-size:30px;margin-bottom:15px;">BEFORE THE TRAGEDY</div>
+
+<div style="opacity:.85;">
+Two paths crossed long before the forest.<br>
+What followed was inevitable.
+</div>
+
+<button onclick="next()">FINAL WARNING</button>
+
 </div>
 
 <script>
 document.getElementById("w").volume=.32;
+function next(){
+document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;width:100%;height:100%;background:white;'></div>");
+setTimeout(()=>{window.location.href='page7.html';},300);
+}
 </script>
 
 </body>
