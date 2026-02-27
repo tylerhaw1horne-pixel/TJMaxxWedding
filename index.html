@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>10.24.2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@ body{
   overflow:hidden;
   font-family:'Share Tech Mono', monospace;
   color:white;
-  cursor:none;
+  touch-action:none;
 }
 
 /* VIDEO */
@@ -24,10 +24,18 @@ video{
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform .08s, filter .08s;
+  animation:breathing 12s ease-in-out infinite;
+  transition:transform .1s, filter .1s;
 }
 
-/* LAYERS */
+/* Slow breathing zoom */
+@keyframes breathing{
+  0%{transform:scale(1.03);}
+  50%{transform:scale(1.06);}
+  100%{transform:scale(1.03);}
+}
+
+/* OVERLAYS */
 .layer{
   position:fixed;
   width:100%;
@@ -37,7 +45,7 @@ video{
 
 .grain{
   background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.3;
+  opacity:.35;
 }
 
 .scanlines{
@@ -46,42 +54,29 @@ video{
 }
 
 .vignette{
-  background:radial-gradient(circle at center, transparent 60%, rgba(0,0,0,.9) 100%);
+  background:radial-gradient(circle at center, transparent 55%, rgba(0,0,0,.95) 100%);
 }
 
-.static{
-  background:white;
-  opacity:0;
-}
+.static{background:white;opacity:0;}
+.blackout{background:black;opacity:0;}
+.redFlash{background:rgba(255,0,0,.5);opacity:0;}
 
-.blackout{
-  background:black;
-  opacity:0;
-}
-
-.redFlash{
-  background:rgba(255,0,0,.4);
-  opacity:0;
-}
-
-/* TEXT GLITCH */
+/* TEXT */
 .glitchText{
   position:absolute;
   top:40%;
   left:50%;
   transform:translate(-50%,-50%);
-  font-size:48px;
-  letter-spacing:5px;
+  font-size:42px;
+  letter-spacing:4px;
   opacity:0;
-  pointer-events:none;
 }
 
-/* REC */
 .rec{
   position:absolute;
-  top:25px;
-  left:35px;
-  font-size:18px;
+  top:20px;
+  left:25px;
+  font-size:16px;
 }
 .rec span{
   color:red;
@@ -89,40 +84,34 @@ video{
 }
 @keyframes blink{50%{opacity:0;}}
 
-/* TIMESTAMP */
 .timestamp{
   position:absolute;
-  bottom:25px;
-  left:35px;
-  font-size:18px;
+  bottom:20px;
+  left:25px;
+  font-size:14px;
 }
 
-/* TITLE */
 .center{
   position:absolute;
-  top:55%;
+  top:60%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
 }
+
 .title{
-  font-size:38px;
-  letter-spacing:4px;
+  font-size:28px;
+  letter-spacing:3px;
 }
+
 button{
-  margin-top:25px;
-  padding:8px 28px;
+  margin-top:20px;
+  padding:8px 24px;
   border:1px solid white;
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
-  font-size:16px;
-  cursor:pointer;
-  transition:.3s;
-}
-button:hover{
-  background:white;
-  color:black;
+  font-size:14px;
 }
 </style>
 </head>
@@ -149,7 +138,7 @@ button:hover{
 
 <div class="center">
   <div class="title">YOU ARE MARKED</div>
-  <button id="startBtn">PLAY TAPE</button>
+  <button id="nextBtn">NEXT</button>
 </div>
 
 <script>
@@ -158,9 +147,9 @@ const staticEl = document.getElementById("static");
 const blackout = document.getElementById("blackout");
 const redFlash = document.getElementById("redFlash");
 const glitchText = document.getElementById("glitchText");
-const timestampEl = document.getElementById("timestamp");
 const whisper = document.getElementById("whisper");
-const startBtn = document.getElementById("startBtn");
+const nextBtn = document.getElementById("nextBtn");
+const timestampEl = document.getElementById("timestamp");
 
 let intensity = 1;
 
@@ -168,94 +157,69 @@ let intensity = 1;
 function updateTime(){
   const now = new Date();
   const pad = n => n.toString().padStart(2,'0');
-  const date = pad(now.getMonth()+1)+"."+pad(now.getDate())+"."+now.getFullYear();
-  const time = pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
-  timestampEl.innerText = date+"  "+time;
+  timestampEl.innerText =
+    pad(now.getMonth()+1)+"."+pad(now.getDate())+"."+now.getFullYear()+
+    "  "+pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
 }
 setInterval(updateTime,1000);
 updateTime();
 
-/* Start experience */
-startBtn.addEventListener("click", ()=>{
-  whisper.volume = 0;
+/* Always-on whisper (very low) */
+whisper.volume = 0.05;
+document.addEventListener("click",()=>{
   whisper.play();
-  startBtn.style.display = "none";
 });
 
-/* Whisper volume creep */
-setInterval(()=>{
-  if(whisper.volume < 0.25){
-    whisper.volume += 0.01;
-  }
-},2000);
-
-/* Immediate first scare */
-setTimeout(()=>{
-  video.style.transform = "scale(1.5)";
-  staticEl.style.opacity = .6;
-  redFlash.style.opacity = .6;
-  setTimeout(()=>{
-    video.style.transform = "scale(1)";
-    staticEl.style.opacity = 0;
-    redFlash.style.opacity = 0;
-  },300);
-},2500);
-
-/* Horror Cycle */
-function horrorCycle(){
-
-  const r = Math.random();
-
-  if(r < .2 * intensity){
-    staticEl.style.opacity = .5;
-    setTimeout(()=> staticEl.style.opacity = 0, 150);
-  }
-
-  if(r >= .2 && r < .35 * intensity){
-    blackout.style.opacity = 1;
-    setTimeout(()=> blackout.style.opacity = 0, 200);
-  }
-
-  if(r >= .35 && r < .5 * intensity){
-    video.pause();
-    setTimeout(()=> video.play(), 400);
-  }
-
-  if(r >= .5 && r < .65 * intensity){
-    video.style.transform = "scale(1.7)";
-    setTimeout(()=> video.style.transform = "scale(1)", 120);
-  }
-
-  if(r >= .65){
-    const messages = [
-      "don't turn around",
-      "he's behind you",
-      "we are watching",
-      "stay in the trees",
-      "you shouldn't be here"
-    ];
-    glitchText.innerText = messages[Math.floor(Math.random()*messages.length)];
-    glitchText.style.opacity = 1;
-    setTimeout(()=> glitchText.style.opacity = 0, 200);
-  }
-
-}
+/* Next click increases horror */
+nextBtn.addEventListener("click",()=>{
+  whisper.volume = 0.35;
+  intensity = 3;
+  nextBtn.style.display="none";
+});
 
 /* Escalation */
 setInterval(()=>{
-  if(intensity < 4){
-    intensity += .4;
+  if(intensity < 5) intensity += 0.2;
+},10000);
+
+/* Horror Events */
+function horrorCycle(){
+  const r = Math.random();
+
+  if(r < .25){
+    staticEl.style.opacity = .5;
+    setTimeout(()=>staticEl.style.opacity=0,120);
   }
-},12000);
 
-setInterval(horrorCycle, 3000);
+  if(r < .2 * intensity){
+    blackout.style.opacity = 1;
+    setTimeout(()=>blackout.style.opacity=0,180);
+  }
 
-/* Mouse distortion */
-document.addEventListener("mousemove", (e)=>{
-  const x = (e.clientX / window.innerWidth - .5) * 10;
-  const y = (e.clientY / window.innerHeight - .5) * 10;
-  video.style.transform = `scale(1.05) translate(${x}px, ${y}px)`;
-});
+  if(r > .6){
+    video.style.transform="scale(1.3)";
+    setTimeout(()=>video.style.transform="scale(1.05)",150);
+  }
+
+  if(r > .8){
+    redFlash.style.opacity=.6;
+    setTimeout(()=>redFlash.style.opacity=0,150);
+  }
+
+  if(r > .85){
+    video.pause();
+    setTimeout(()=>video.play(),400);
+  }
+
+  if(r > .9){
+    const messages=["DON'T MOVE","IT'S CLOSER","YOU HEARD THAT","LOOK BEHIND YOU"];
+    glitchText.innerText=messages[Math.floor(Math.random()*messages.length)];
+    glitchText.style.opacity=1;
+    setTimeout(()=>glitchText.style.opacity=0,200);
+  }
+}
+
+setInterval(horrorCycle,3000);
 </script>
 
 </body>
