@@ -7,98 +7,143 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-margin:0;
 background:black;
 color:white;
 font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
+/* VIDEO */
 video{
 position:fixed;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-2;
-filter:grayscale(100%) contrast(130%);
+z-index:-3;
+filter:grayscale(100%) contrast(160%);
+animation:zoomPulse 8s infinite ease-in-out;
 }
 
-.overlay{
+@keyframes zoomPulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.03);}
+100%{transform:scale(1);}
+}
+
+/* STATIC */
+.staticOverlay{
 position:fixed;
 width:100%;
 height:100%;
-background:rgba(0,0,0,.8);
+background:url("https://i.imgur.com/8fK4h6N.png");
+opacity:.12;
 z-index:-1;
+pointer-events:none;
 }
 
-.scan{
+/* SCANLINES */
+.scanlines{
 position:fixed;
 width:100%;
 height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.6) 50%);
+background:linear-gradient(rgba(255,255,255,.06) 50%, rgba(0,0,0,.7) 50%);
 background-size:100% 3px;
+pointer-events:none;
+}
+
+/* VHS UI */
+.vhsUI{
+position:fixed;
+top:10px;
+left:10px;
+font-size:12px;
+opacity:.7;
+}
+
+.battery{
+position:fixed;
+top:10px;
+right:10px;
+font-size:12px;
+opacity:.7;
+}
+
+/* TEXT */
+.title{
+position:absolute;
+top:18%;
+left:50%;
+transform:translateX(-50%);
+font-size:38px;
+letter-spacing:5px;
+animation:textGlitch 1.2s infinite;
+}
+
+@keyframes textGlitch{
+0%{text-shadow:3px 0 red,-3px 0 blue;}
+50%{text-shadow:-3px 0 red,3px 0 blue;}
+100%{text-shadow:3px 0 red,-3px 0 blue;}
 }
 
 .container{
 position:absolute;
-top:50%;
+top:35%;
 left:50%;
-transform:translate(-50%,-50%);
-width:95%;
-text-align:center;
-}
-
-.title{
-font-size:34px;
-letter-spacing:4px;
-margin-bottom:20px;
-animation:flicker 2s infinite;
-}
-
-@keyframes flicker{
-0%,100%{opacity:1;}
-50%{opacity:.6;}
-}
-
-.grid{
+transform:translateX(-50%);
+width:90%;
 display:flex;
 justify-content:space-between;
 flex-wrap:wrap;
 }
 
+/* MEMBERS */
 .member{
 width:45%;
-margin-bottom:25px;
-animation:shake 2s infinite;
+margin-bottom:30px;
+text-align:center;
+animation:nameFlicker 2s infinite;
 }
 
-@keyframes shake{
-0%,100%{transform:translate(0);}
-50%{transform:translate(1px,-1px);}
+@keyframes nameFlicker{
+0%,100%{opacity:1;}
+50%{opacity:.6;}
 }
 
+/* IMAGE PLACEHOLDER */
 .photo{
 height:160px;
 border:2px solid white;
 margin-bottom:10px;
-animation:glitch 1.2s infinite;
+animation:imgGlitch 1.5s infinite;
 }
 
-@keyframes glitch{
+@keyframes imgGlitch{
 0%{transform:translate(0,0);}
-25%{transform:translate(-3px,2px);}
-50%{transform:translate(2px,-3px);}
-75%{transform:translate(-2px,1px);}
+25%{transform:translate(-4px,3px);}
+50%{transform:translate(3px,-4px);}
+75%{transform:translate(-2px,2px);}
 100%{transform:translate(0,0);}
 }
 
 button{
-margin-top:20px;
-padding:12px 30px;
+position:absolute;
+bottom:10%;
+left:50%;
+transform:translateX(-50%);
+padding:14px 30px;
 border:2px solid white;
 background:transparent;
 color:white;
+letter-spacing:2px;
+}
+
+/* SIGNAL STUTTER */
+@keyframes blackout{
+0%,100%{filter:none;}
+50%{filter:brightness(0);}
 }
 </style>
 </head>
@@ -106,47 +151,79 @@ color:white;
 <body>
 
 <video autoplay muted loop playsinline>
-<source src="forrest%20vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="overlay"></div>
-<div class="scan"></div>
+<div class="staticOverlay"></div>
+<div class="scanlines"></div>
 
-<audio id="w" src="whisper.mp3" autoplay loop></audio>
+<div class="vhsUI">REC ● 10.24.2026 21:19:11</div>
+<div class="battery">BAT 66%</div>
 
-<div class="container">
+<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
 
 <div class="title">THOSE WHO STAND</div>
 
-<div class="grid">
+<div class="container">
+
 <div class="member">
 <div class="photo"></div>
-<div>Bridesmaid Name</div>
-</div>
-<div class="member">
-<div class="photo"></div>
-<div>Groomsman Name</div>
-</div>
-<div class="member">
-<div class="photo"></div>
-<div>Bridesmaid Name</div>
-</div>
-<div class="member">
-<div class="photo"></div>
-<div>Groomsman Name</div>
-</div>
+<div>BRIDESMAID NAME</div>
 </div>
 
-<button onclick="next()">PROCEED ANYWAY</button>
+<div class="member">
+<div class="photo"></div>
+<div>GROOMSMAN NAME</div>
+</div>
+
+<div class="member">
+<div class="photo"></div>
+<div>BRIDESMAID NAME</div>
+</div>
+
+<div class="member">
+<div class="photo"></div>
+<div>GROOMSMAN NAME</div>
+</div>
 
 </div>
+
+<button onclick="staticNext()">PROCEED ANYWAY</button>
 
 <script>
-document.getElementById("w").volume=.28;
-function next(){
-document.body.insertAdjacentHTML("beforeend","<div style='position:fixed;width:100%;height:100%;background:white;'></div>");
-setTimeout(()=>{window.location.href='page5.html';},300);
+
+// whisper escalation nearing peak
+const w=document.getElementById("whisper");
+let vol=.35;
+w.volume=vol;
+
+setInterval(()=>{
+if(vol<.65){
+vol+=.01;
+w.volume=vol;
 }
+},3000);
+
+// random signal blackout
+setInterval(()=>{
+if(Math.random()<0.2){
+document.body.style.filter="brightness(0)";
+setTimeout(()=>{document.body.style.filter="none";},120);
+}
+},5000);
+
+// static transition
+function staticNext(){
+const static=document.createElement("div");
+static.style.position="fixed";
+static.style.width="100%";
+static.style.height="100%";
+static.style.background="url('https://i.imgur.com/8fK4h6N.png')";
+static.style.zIndex="999";
+document.body.appendChild(static);
+setTimeout(()=>{window.location.href="page5.html";},350);
+}
+
 </script>
 
 </body>
