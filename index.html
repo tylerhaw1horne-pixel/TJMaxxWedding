@@ -3,39 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>October 24, 2026</title>
+<title>10.24.2026</title>
 
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   background:black;
-  font-family:'VT323', monospace;
   overflow:hidden;
-  color:#00ff9c;
+  font-family:'Share Tech Mono', monospace;
+  color:white;
 }
 
-/* Background forest */
-.bg{
+/* REAL FOREST VIDEO */
+.video-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:grayscale(1) contrast(1.4) brightness(.35);
+  animation:handheld 20s infinite alternate ease-in-out;
+}
+
+/* subtle handheld movement */
+@keyframes handheld{
+  0%{transform:scale(1.1) translate(0px,0px);}
+  25%{transform:scale(1.12) translate(-20px,10px);}
+  50%{transform:scale(1.15) translate(15px,-15px);}
+  75%{transform:scale(1.13) translate(-10px,20px);}
+  100%{transform:scale(1.1) translate(0px,0px);}
+}
+
+/* FLASHLIGHT effect */
+.flashlight{
   position:fixed;
   width:100%;
   height:100%;
-  background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1950&q=80");
-  background-size:cover;
-  background-position:center;
-  filter:brightness(.25) contrast(1.3) grayscale(.6);
-  animation:slowZoom 50s infinite alternate ease-in-out;
+  background:radial-gradient(circle at center, rgba(255,255,255,.25) 0%, rgba(0,0,0,.8) 60%);
+  pointer-events:none;
+  mix-blend-mode:overlay;
 }
 
-@keyframes slowZoom{
-  from{transform:scale(1)}
-  to{transform:scale(1.06)}
+/* HEAVY GRAIN */
+body::after{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:.6;
+  pointer-events:none;
 }
 
 /* VHS scanlines */
@@ -43,41 +64,20 @@ body{
   position:fixed;
   width:100%;
   height:100%;
-  background:linear-gradient(
-    rgba(0,0,0,0) 50%, 
-    rgba(0,0,0,0.4) 50%
-  );
-  background-size:100% 4px;
-  pointer-events:none;
-  mix-blend-mode:overlay;
-}
-
-/* Static noise */
-body::after{
-  content:"";
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.4;
-  mix-blend-mode:overlay;
+  background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.5) 50%);
+  background-size:100% 3px;
   pointer-events:none;
 }
 
-/* Camcorder overlay */
-.camera-overlay{
-  position:fixed;
-  width:100%;
-  height:100%;
-  border:4px solid #00ff9c;
-  pointer-events:none;
-}
-
+/* REC */
 .rec{
   position:absolute;
   top:20px;
-  left:20px;
+  left:25px;
   font-size:20px;
+}
+
+.rec span{
   color:red;
   animation:blink 1s infinite;
 }
@@ -86,82 +86,77 @@ body::after{
   50%{opacity:0;}
 }
 
+/* Timestamp */
 .timestamp{
   position:absolute;
   bottom:20px;
-  left:20px;
-  font-size:22px;
-  letter-spacing:2px;
+  left:25px;
+  font-size:18px;
 }
 
-.battery{
-  position:absolute;
-  top:20px;
-  right:20px;
-  font-size:20px;
+/* subtle focus breathing */
+@keyframes focusBreath{
+  0%{filter:blur(0px);}
+  50%{filter:blur(1px);}
+  100%{filter:blur(0px);}
 }
 
-/* Center text */
+.video-bg{
+  animation:handheld 20s infinite alternate ease-in-out, focusBreath 8s infinite;
+}
+
+/* creepy text */
 .center{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
-  animation:glitch 3s infinite;
+  animation:flicker 6s infinite;
+}
+
+@keyframes flicker{
+  0%,95%,100%{opacity:1;}
+  96%{opacity:.5;}
+  97%{opacity:1;}
 }
 
 .title{
-  font-size:70px;
+  font-size:55px;
   letter-spacing:6px;
 }
 
-.date{
-  margin-top:20px;
-  font-size:28px;
-}
-
 .enter{
-  margin-top:50px;
-  padding:10px 40px;
-  border:2px solid #00ff9c;
+  margin-top:40px;
+  padding:10px 35px;
+  border:1px solid white;
   background:transparent;
-  color:#00ff9c;
-  font-family:'VT323', monospace;
-  font-size:24px;
+  color:white;
+  font-family:'Share Tech Mono', monospace;
+  font-size:20px;
   cursor:pointer;
   transition:.3s;
 }
 
 .enter:hover{
-  background:#00ff9c;
+  background:white;
   color:black;
 }
 
-/* Glitch */
-@keyframes glitch{
-  0%{transform:translate(-50%,-50%)}
-  20%{transform:translate(-49%,-50%)}
-  40%{transform:translate(-51%,-50%)}
-  60%{transform:translate(-50%,-49%)}
-  80%{transform:translate(-50%,-51%)}
-  100%{transform:translate(-50%,-50%)}
-}
-
-/* Random horizontal glitch bar */
-.glitch-bar{
+/* random tracking glitch */
+.tracking{
   position:fixed;
   width:100%;
-  height:60px;
-  background:rgba(0,255,156,.2);
+  height:80px;
+  background:rgba(255,255,255,.1);
   top:-100px;
-  animation:barMove 8s infinite;
+  animation:trackingMove 10s infinite;
 }
 
-@keyframes barMove{
-  0%{top:-100px}
-  50%{top:100%}
-  100%{top:-100px}
+@keyframes trackingMove{
+  0%{top:-100px;}
+  50%{top:100%;}
+  100%{top:-100px;}
 }
 
 </style>
@@ -169,23 +164,24 @@ body::after{
 
 <body>
 
-<div class="bg"></div>
-<div class="scanlines"></div>
-<div class="camera-overlay"></div>
-<div class="glitch-bar"></div>
+<video autoplay muted loop playsinline class="video-bg">
+  <source src="https://cdn.coverr.co/videos/coverr-walking-in-dark-forest-1564/1080p.mp4" type="video/mp4">
+</video>
 
-<div class="rec">● REC</div>
-<div class="battery">BATTERY ▮▮▮▮▯</div>
-<div class="timestamp">10.24.2026  19:04:12</div>
+<div class="flashlight"></div>
+<div class="scanlines"></div>
+<div class="tracking"></div>
+
+<div class="rec"><span>●</span> REC</div>
+<div class="timestamp">10.24.2026   19:04:12</div>
 
 <div class="center">
   <div class="title">YOU ARE MARKED</div>
-  <div class="date">ENTER THE WOODS</div>
   <button class="enter">PLAY TAPE</button>
 </div>
 
 <audio autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b7f1c93fa.mp3?filename=dark-wind-ambience-11037.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2022/02/23/audio_4f8f8211e4.mp3?filename=forest-night-ambient-11015.mp3" type="audio/mpeg">
 </audio>
 
 </body>
