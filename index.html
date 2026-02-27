@@ -17,40 +17,78 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* VIDEO BACKGROUND */
+/* VIDEO */
 video{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
 }
 
-/* VIGNETTE */
-.vignette{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:radial-gradient(circle, transparent 55%, rgba(0,0,0,.85) 100%);
-z-index:3;
-pointer-events:none;
-}
-
-/* SCANLINES */
+/* VHS OVERLAY */
 .scanlines{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 z-index:2;
 pointer-events:none;
 }
 
-/* SCREEN LAYER */
+.vignette{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:radial-gradient(circle, transparent 55%, rgba(0,0,0,.9) 100%);
+z-index:3;
+pointer-events:none;
+}
+
+/* CAM HUD */
+.hud{
+position:fixed;
+top:10px;
+left:15px;
+font-size:14px;
+z-index:5;
+opacity:.85;
+pointer-events:none;
+}
+
+.rec{
+color:red;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,100%{opacity:1;}
+50%{opacity:.2;}
+}
+
+.timestamp{
+position:fixed;
+bottom:10px;
+left:15px;
+font-size:14px;
+z-index:5;
+opacity:.85;
+pointer-events:none;
+}
+
+.battery{
+position:fixed;
+top:10px;
+right:15px;
+font-size:14px;
+z-index:5;
+opacity:.85;
+pointer-events:none;
+}
+
+/* SCREEN */
 .screen{
 position:fixed;
 top:0;
@@ -65,7 +103,7 @@ text-align:center;
 padding:20px;
 z-index:100;
 opacity:0;
-transition:opacity .6s ease;
+transition:opacity .4s ease;
 pointer-events:none;
 }
 
@@ -74,7 +112,19 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* BUTTONS */
+/* TEXT GLITCH */
+.glitch{
+animation:flicker 2s infinite;
+}
+
+@keyframes flicker{
+0%,100%{opacity:1;}
+45%{opacity:.2;}
+50%{opacity:0;}
+55%{opacity:.7;}
+}
+
+/* BUTTON */
 button{
 margin-top:20px;
 padding:14px 32px;
@@ -103,7 +153,7 @@ width:250px;
 }
 
 /* EFFECT LAYERS */
-.flash,.red,.distort,.tear,.rgb{
+.flash,.red,.distort,.tear,.invert{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
@@ -123,12 +173,27 @@ height:60px;
 background:white;
 z-index:13;
 }
-.rgb{
-mix-blend-mode:screen;
+.invert{
+background:white;
+mix-blend-mode:difference;
 z-index:14;
 }
 
-.blur{filter:blur(3px);}
+.shake{
+animation:shake .3s;
+}
+
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(-8px,4px);}
+50%{transform:translate(8px,-4px);}
+75%{transform:translate(-6px,3px);}
+100%{transform:translate(0,0);}
+}
+
+.blackout{
+background:black !important;
+}
 </style>
 </head>
 <body>
@@ -140,21 +205,25 @@ z-index:14;
 <div class="scanlines"></div>
 <div class="vignette"></div>
 
+<div class="hud"><span class="rec">REC</span></div>
+<div class="battery" id="battery">BAT 83%</div>
+<div class="timestamp">10.24.2026 18:42:13</div>
+
 <div class="flash" id="flash"></div>
 <div class="red" id="red"></div>
 <div class="distort" id="distort"></div>
 <div class="tear" id="tear"></div>
-<div class="rgb" id="rgb"></div>
+<div class="invert" id="invert"></div>
 
 <!-- SCREENS -->
 
 <div class="screen active" id="s1">
-<h2>LOST VIDEO FOUND</h2>
+<h2 class="glitch">LOST VIDEO FOUND</h2>
 <button onclick="next(2)">▶ PLAY TAPE</button>
 </div>
 
 <div class="screen" id="s2">
-<h2>STAY QUIET</h2>
+<h2 class="glitch">STAY QUIET</h2>
 <button onclick="next(3)">KEEP WALKING</button>
 </div>
 
@@ -165,25 +234,30 @@ z-index:14;
 
 <div class="screen" id="s4">
 <h2>OUR STORY</h2>
-<p>They met before the storm. They stayed after the warning.</p>
+<p>They met before the storm.<br>They stayed after the warning.</p>
 <button onclick="next(5)">CONTINUE RECORDING</button>
 </div>
 
 <div class="screen" id="s5">
-<h2>THOSE WHO STAND</h2>
+<h2 class="glitch">THE BRIDE</h2>
+<h3 class="glitch" id="brideName">JULIE</h3>
+<br>
+<h2 class="glitch">THE GROOM</h2>
+<h3 class="glitch" id="groomName">TYLER</h3>
+<p class="glitch">They were warned.</p>
 <button onclick="next(6)">CONTINUE</button>
 </div>
 
 <div class="screen" id="s6">
-<h2>THE RITUAL BEGINS</h2>
-<p>10.24.2026 • At Dusk</p>
+<h2 class="glitch">THE RITUAL WILL COMMENCE</h2>
+<p>OCTOBER 24, 2026<br>AT DUSK<br>THE CONSERVATORY – ACWORTH</p>
+<p class="glitch">BEFORE THE TRAGEDY</p>
 <button onclick="next(7)">CONTINUE</button>
 </div>
 
 <div class="screen" id="s7">
-<h2>OFFERINGS TO PREVENT THE TRAGEDY</h2>
-<button>VENMO</button>
-<button>REGISTRY</button>
+<h2 class="glitch">STOP THIS TRAGEDY</h2>
+<p>There is still time.</p>
 <button onclick="next(8)">CONTINUE</button>
 </div>
 
@@ -201,7 +275,7 @@ z-index:14;
 </div>
 
 <div class="screen" id="s9">
-<h2>YOUR PRESENCE HAS BEEN LOGGED</h2>
+<h2 class="glitch">YOUR PRESENCE HAS BEEN LOGGED</h2>
 <p>There is no withdrawal.</p>
 </div>
 
@@ -210,7 +284,6 @@ z-index:14;
 <script>
 const whisper=document.getElementById("whisper");
 whisper.volume=.25;
-
 let started=false;
 
 function startAudio(){
@@ -222,74 +295,86 @@ started=true;
 
 function next(n){
 startAudio();
+staticTransition();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
 }
 
-/* RANDOM AUDIO SPIKES */
-setInterval(()=>{
-if(Math.random()<.25){
-whisper.volume=.9;
-setTimeout(()=>{whisper.volume=.3;},400);
+/* STATIC TRANSITION */
+function staticTransition(){
+flash.style.opacity=.9;
+document.body.classList.add("shake");
+setTimeout(()=>{
+flash.style.opacity=0;
+document.body.classList.remove("shake");
+},250);
 }
-},6000);
 
-/* JUMP SCARE B */
+/* HARD BLACK CUT */
+setInterval(()=>{
+if(Math.random()<.08){
+document.body.classList.add("blackout");
+setTimeout(()=>{document.body.classList.remove("blackout");},150);
+}
+},7000);
+
+/* DISTORTION FREEZE */
 setInterval(()=>{
 if(Math.random()<.15){
 bg.pause();
-distort.style.opacity=.6;
+distort.style.opacity=.7;
 setTimeout(()=>{
 distort.style.opacity=0;
 bg.play();
-},400);
+},350);
 }
-},10000);
+},9000);
 
-/* JUMP SCARE C */
+/* RED FLASH */
 setInterval(()=>{
 if(Math.random()<.12){
 red.style.opacity=.6;
-setTimeout(()=>{red.style.opacity=0;},300);
+setTimeout(()=>{red.style.opacity=0;},250);
 }
-},12000);
+},11000);
 
-/* STATIC FLASH */
+/* INVERT FLASH */
 setInterval(()=>{
-if(Math.random()<.2){
-flash.style.opacity=.8;
-setTimeout(()=>{flash.style.opacity=0;},150);
+if(Math.random()<.1){
+invert.style.opacity=.8;
+setTimeout(()=>{invert.style.opacity=0;},150);
 }
-},8000);
+},10000);
 
 /* SIGNAL TEAR */
 setInterval(()=>{
-if(Math.random()<.2){
+if(Math.random()<.18){
 tear.style.top=Math.random()*window.innerHeight+"px";
-tear.style.opacity=.7;
+tear.style.opacity=.8;
 setTimeout(()=>{tear.style.opacity=0;},150);
 }
 },6000);
 
-/* RGB GLITCH */
+/* BRIDE/GROOM GLITCH SWAP */
+setInterval(()=>{
+if(Math.random()<.12){
+let b=brideName.textContent;
+let g=groomName.textContent;
+brideName.textContent=g;
+groomName.textContent=b;
+setTimeout(()=>{
+brideName.textContent="JULIE";
+groomName.textContent="TYLER";
+},400);
+}
+},12000);
+
+/* BATTERY DROP */
 setInterval(()=>{
 if(Math.random()<.2){
-rgb.style.background="rgba(255,0,0,0.2)";
-rgb.style.opacity=.6;
-setTimeout(()=>{
-rgb.style.background="rgba(0,0,255,0.2)";
-},100);
-setTimeout(()=>{rgb.style.opacity=0;},250);
+battery.textContent="BAT "+Math.floor(Math.random()*40+20)+"%";
 }
-},7000);
-
-/* BLUR MOMENT */
-setInterval(()=>{
-if(Math.random()<.1){
-document.body.classList.add("blur");
-setTimeout(()=>{document.body.classList.remove("blur");},500);
-}
-},9000);
+},6000);
 
 function submitForm(e){
 e.preventDefault();
