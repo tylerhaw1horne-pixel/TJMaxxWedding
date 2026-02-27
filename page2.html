@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REC 02</title>
+<title>FILE_10242026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   background:black;
   overflow:hidden;
@@ -16,16 +17,15 @@ body{
   color:white;
 }
 
-/* FULL STATIC INTRO */
+/* Static intro flash */
 body::before{
   content:"";
   position:fixed;
   width:100%;
   height:100%;
   background:white;
-  animation:flash 0.4s;
+  animation:flash .4s ease;
 }
-
 @keyframes flash{
   0%{opacity:1;}
   100%{opacity:0;}
@@ -37,29 +37,99 @@ body::before{
   left:50%;
   transform:translate(-50%,-50%);
   text-align:center;
+  width:90%;
+}
+
+.glitch{
+  animation:flicker 2s infinite;
+}
+@keyframes flicker{
+  0%,100%{opacity:1;}
+  50%{opacity:.7;}
 }
 
 button{
-  margin-top:20px;
+  margin-top:30px;
   padding:8px 24px;
   border:1px solid white;
   background:transparent;
   color:white;
   font-family:'Share Tech Mono', monospace;
 }
+
+.hidden{opacity:0;}
 </style>
 </head>
 
 <body>
 
-<audio autoplay loop>
-  <source src="whisper.mp3" type="audio/mpeg">
-</audio>
+<audio id="whisper" src="whisper.mp3" loop></audio>
 
 <div class="center">
-  <h1>YOU WERE WARNED</h1>
-  <button onclick="window.location.href='page3.html'">CONTINUE</button>
+
+  <div id="status">FILE CORRUPTED</div>
+
+  <div id="content" class="hidden">
+    <br>
+    <div>Tyler Hawthorne</div>
+    <div>&</div>
+    <div>Julie Eells</div>
+    <br>
+    <div>October 24, 2026</div>
+    <div>The Conservatory</div>
+    <div>Acworth, Georgia</div>
+  </div>
+
+  <button id="terminateBtn" class="hidden">TERMINATE FILE</button>
+
 </div>
+
+<script>
+const whisper = document.getElementById("whisper");
+const content = document.getElementById("content");
+const terminateBtn = document.getElementById("terminateBtn");
+const status = document.getElementById("status");
+
+/* Whisper starts slightly louder than page 1 */
+whisper.volume = 0.15;
+whisper.play();
+
+/* Timeline reveal */
+setTimeout(()=>{
+  status.innerText="ATTEMPTING RECOVERY...";
+},1500);
+
+setTimeout(()=>{
+  status.style.display="none";
+  content.classList.remove("hidden");
+},3000);
+
+setTimeout(()=>{
+  terminateBtn.classList.remove("hidden");
+},4500);
+
+/* Terminate logic */
+terminateBtn.addEventListener("click",()=>{
+
+  status.style.display="block";
+  status.innerText="TERMINATING...";
+  content.style.opacity=.3;
+
+  setTimeout(()=>{
+    status.innerText="ACCESS DENIED";
+  },1000);
+
+  setTimeout(()=>{
+    terminateBtn.innerText="ACCESS CEREMONY";
+    content.style.opacity=1;
+  },2000);
+
+  terminateBtn.onclick=()=>{
+    window.location.href="page3.html";
+  };
+
+});
+</script>
 
 </body>
 </html>
