@@ -17,6 +17,7 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
+/* VIDEO */
 video{
 position:fixed;
 top:0;left:0;
@@ -24,14 +25,24 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-transition:transform 2s ease;
 }
 
+/* DARK OVERLAY (prevents box artifacts) */
+.overlay{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.55);
+z-index:1;
+pointer-events:none;
+}
+
+/* VHS */
 .scanlines{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.02) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 z-index:2;
 pointer-events:none;
@@ -46,6 +57,7 @@ z-index:3;
 pointer-events:none;
 }
 
+/* SCREEN */
 .screen{
 position:fixed;
 top:0;
@@ -60,7 +72,7 @@ text-align:center;
 padding:20px;
 z-index:100;
 opacity:0;
-transition:opacity .4s ease;
+transition:opacity .5s ease;
 pointer-events:none;
 }
 
@@ -69,29 +81,39 @@ opacity:1;
 pointer-events:auto;
 }
 
+/* BUTTON */
 button{
-margin-top:20px;
-padding:14px 32px;
+margin-top:22px;
+padding:14px 34px;
 border:2px solid white;
-background:transparent;
+background:rgba(0,0,0,.6);
 color:white;
 letter-spacing:3px;
 cursor:pointer;
 font-size:14px;
+transition:.25s ease;
 }
 
+button:hover{
+background:white;
+color:black;
+transform:scale(1.05);
+}
+
+/* TEXT FLICKER */
 .glitch{
-animation:flicker 2s infinite;
+animation:flicker 3s infinite;
 }
 
 @keyframes flicker{
 0%,100%{opacity:1;}
-48%{opacity:.2;}
+47%{opacity:.2;}
 50%{opacity:0;}
-52%{opacity:.7;}
+53%{opacity:.7;}
 }
 
-.flash,.red,.distort{
+/* EFFECT LAYERS */
+.darkPulse,.redPulse,.distort{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
@@ -99,8 +121,8 @@ pointer-events:none;
 opacity:0;
 }
 
-.flash{background:rgba(0,0,0,.9);z-index:10;}
-.red{background:rgba(150,0,0,.7);z-index:11;}
+.darkPulse{background:rgba(0,0,0,.85);z-index:10;}
+.redPulse{background:rgba(130,0,0,.6);z-index:11;}
 .distort{
 background:url("https://i.imgur.com/8fK4h6N.png");
 mix-blend-mode:difference;
@@ -108,14 +130,14 @@ z-index:12;
 }
 
 .shake{
-animation:shake .3s;
+animation:shake .25s;
 }
 
 @keyframes shake{
 0%{transform:translate(0,0);}
-25%{transform:translate(-8px,4px);}
-50%{transform:translate(8px,-4px);}
-75%{transform:translate(-6px,3px);}
+25%{transform:translate(-6px,3px);}
+50%{transform:translate(6px,-3px);}
+75%{transform:translate(-4px,2px);}
 100%{transform:translate(0,0);}
 }
 </style>
@@ -126,12 +148,15 @@ animation:shake .3s;
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
+<div class="overlay"></div>
 <div class="scanlines"></div>
 <div class="vignette"></div>
 
-<div class="flash" id="flash"></div>
-<div class="red" id="red"></div>
+<div class="darkPulse" id="darkPulse"></div>
+<div class="redPulse" id="redPulse"></div>
 <div class="distort" id="distort"></div>
+
+<!-- SCREENS -->
 
 <div class="screen active" id="s1">
 <h2 class="glitch">LOST VIDEO FOUND</h2>
@@ -183,19 +208,33 @@ animation:shake .3s;
 <h2 class="glitch">YOUR PRESENCE HAS BEEN LOGGED</h2>
 </div>
 
+<audio id="whisper" src="whisper.mp3" loop></audio>
+
 <script>
+const whisper=document.getElementById("whisper");
+whisper.volume=.25;
+let started=false;
+
+function startAudio(){
+if(!started){
+whisper.play().catch(()=>{});
+started=true;
+}
+}
+
 function next(n){
+startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
-
 triggerScare(n);
 }
 
+/* CONTROLLED ESCALATION */
 function triggerScare(screen){
 
 if(screen===2){
-bg.style.transform="scale(1.05)";
-setTimeout(()=>{bg.style.transform="scale(1)";},800);
+bg.style.transform="scale(1.06)";
+setTimeout(()=>{bg.style.transform="scale(1)";},700);
 }
 
 if(screen===5){
@@ -210,30 +249,36 @@ setTimeout(()=>{
 bride.textContent="JULIE";
 groom.textContent="TYLER";
 },600);
-},500);
+},400);
 }
 
 if(screen===6){
-red.style.opacity=.6;
-setTimeout(()=>{red.style.opacity=0;},400);
+redPulse.style.opacity=.6;
+setTimeout(()=>{redPulse.style.opacity=0;},350);
 }
 
 if(screen===7){
-flash.style.opacity=.9;
+darkPulse.style.opacity=.85;
 document.body.classList.add("shake");
 setTimeout(()=>{
-flash.style.opacity=0;
+darkPulse.style.opacity=0;
 document.body.classList.remove("shake");
-},500);
+},450);
 }
 
 if(screen===8){
 bg.pause();
-setTimeout(()=>{
-bg.play();
-},400);
+setTimeout(()=>{bg.play();},350);
 }
 }
+
+/* RARE AMBIENT DISTURBANCE */
+setInterval(()=>{
+if(Math.random()<.06){
+distort.style.opacity=.5;
+setTimeout(()=>{distort.style.opacity=0;},200);
+}
+},9000);
 </script>
 
 </body>
