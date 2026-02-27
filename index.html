@@ -7,11 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
 background:black;
 color:white;
 font-family:'Share Tech Mono',monospace;
 overflow:hidden;
+animation:cameraSway 18s infinite ease-in-out;
+}
+
+/* CAMERA SWAY */
+@keyframes cameraSway{
+0%{transform:rotate(0deg);}
+50%{transform:rotate(0.3deg);}
+100%{transform:rotate(0deg);}
 }
 
 /* VIDEO */
@@ -22,6 +31,17 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
+animation:tracking 8s infinite;
+}
+
+/* TRACKING DISTORTION */
+@keyframes tracking{
+0%,100%{transform:translateX(0);}
+10%{transform:translateX(-2px);}
+20%{transform:translateX(2px);}
+30%{transform:translateX(-1px);}
+40%{transform:translateX(1px);}
+50%{transform:translateX(0);}
 }
 
 /* VIGNETTE */
@@ -50,10 +70,8 @@ z-index:2;
 /* SCREEN */
 .screen{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -65,7 +83,6 @@ opacity:0;
 transition:opacity .6s;
 pointer-events:none;
 }
-
 .screen.active{
 opacity:1;
 pointer-events:auto;
@@ -91,36 +108,24 @@ color:white;
 width:250px;
 }
 
-/* STATIC FLASH */
-.flash{
+/* EFFECT LAYERS */
+.flash,.red,.distort,.glitchColor,.signalTear{
 position:fixed;
 width:100%;height:100%;
-background:white;
-opacity:0;
-z-index:10;
 pointer-events:none;
+opacity:0;
 }
 
-/* RED FLASH */
-.red{
-position:fixed;
-width:100%;height:100%;
-background:red;
-opacity:0;
-z-index:11;
-pointer-events:none;
-}
-
-/* DISTORT OVERLAY */
+.flash{background:white;z-index:10;}
+.red{background:red;z-index:11;}
 .distort{
-position:fixed;
-width:100%;height:100%;
 background:url("https://i.imgur.com/8fK4h6N.png");
-opacity:0;
-z-index:12;
-pointer-events:none;
 mix-blend-mode:difference;
+z-index:12;
 }
+.glitchColor{z-index:13;}
+.signalTear{height:60px;background:white;z-index:14;}
+.blur{filter:blur(3px);}
 </style>
 </head>
 <body>
@@ -132,9 +137,10 @@ mix-blend-mode:difference;
 <div class="flash" id="flash"></div>
 <div class="red" id="red"></div>
 <div class="distort" id="distort"></div>
+<div class="glitchColor" id="glitchColor"></div>
+<div class="signalTear" id="signalTear"></div>
 
 <!-- SCREENS -->
-
 <div class="screen active" id="s1">
 <h2>LOST VIDEO FOUND</h2>
 <button onclick="next(2)">▶ PLAY TAPE</button>
@@ -158,7 +164,6 @@ mix-blend-mode:difference;
 
 <div class="screen" id="s5">
 <h2>THOSE WHO STAND</h2>
-<p>(Wedding Party)</p>
 <button onclick="next(6)">CONTINUE</button>
 </div>
 
@@ -199,31 +204,29 @@ mix-blend-mode:difference;
 const whisper=document.getElementById("whisper");
 whisper.volume=.2;
 
-let audioStarted = false;
-
+let audioStarted=false;
 function startAudio(){
-  if(!audioStarted){
-    whisper.play().catch(()=>{});
-    audioStarted = true;
-  }
+if(!audioStarted){
+whisper.play().catch(()=>{});
+audioStarted=true;
+}
 }
 
-/* SCREEN SWITCH */
 function next(n){
 startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
 }
 
-/* RANDOM AUDIO SPIKES */
+/* AUDIO SPIKES */
 setInterval(()=>{
 if(Math.random()<.25){
 whisper.volume=.8;
-setTimeout(()=>{whisper.volume=.3;},500);
+setTimeout(()=>{whisper.volume=.3;},400);
 }
 },6000);
 
-/* JUMP SCARE B (freeze + distortion) */
+/* JUMP SCARE B */
 setInterval(()=>{
 if(Math.random()<.15){
 const bg=document.getElementById("bg");
@@ -237,7 +240,7 @@ bg.play();
 }
 },10000);
 
-/* JUMP SCARE C (red flash) */
+/* JUMP SCARE C */
 setInterval(()=>{
 if(Math.random()<.12){
 const red=document.getElementById("red");
@@ -250,7 +253,7 @@ whisper.playbackRate=1;
 }
 },12000);
 
-/* STATIC FLASH RANDOM */
+/* STATIC FLASH */
 setInterval(()=>{
 if(Math.random()<.2){
 const flash=document.getElementById("flash");
@@ -259,7 +262,39 @@ setTimeout(()=>{flash.style.opacity=0;},150);
 }
 },8000);
 
-/* RSVP */
+/* CHROMATIC GLITCH */
+setInterval(()=>{
+if(Math.random()<0.18){
+const gc=document.getElementById("glitchColor");
+gc.style.background="rgba(255,0,0,0.2)";
+gc.style.opacity=.6;
+setTimeout(()=>{
+gc.style.background="rgba(0,0,255,0.2)";
+},100);
+setTimeout(()=>{
+gc.style.opacity=0;
+},250);
+}
+},7000);
+
+/* SIGNAL TEAR */
+setInterval(()=>{
+if(Math.random()<0.2){
+const tear=document.getElementById("signalTear");
+tear.style.top=Math.random()*window.innerHeight+"px";
+tear.style.opacity=.6;
+setTimeout(()=>{tear.style.opacity=0;},150);
+}
+},6000);
+
+/* BLUR MOMENT */
+setInterval(()=>{
+if(Math.random()<0.12){
+document.body.classList.add("blur");
+setTimeout(()=>{document.body.classList.remove("blur");},600);
+}
+},9000);
+
 function submitForm(e){
 e.preventDefault();
 next(9);
