@@ -3,12 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LOST_TAPE_01</title>
+<title>LOST_TAPE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
 background:black;
 color:white;
@@ -16,22 +14,19 @@ font-family:'Share Tech Mono', monospace;
 overflow:hidden;
 }
 
-/* VIDEO LAYER */
+/* VIDEO */
 video{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+top:0;left:0;
+width:100%;height:100%;
 object-fit:cover;
 z-index:0;
-filter:grayscale(100%) contrast(150%);
-animation:slowZoom 14s infinite ease-in-out;
+animation:zoom 18s infinite ease-in-out;
 }
 
-@keyframes slowZoom{
+@keyframes zoom{
 0%{transform:scale(1);}
-50%{transform:scale(1.04);}
+50%{transform:scale(1.03);}
 100%{transform:scale(1);}
 }
 
@@ -39,72 +34,51 @@ animation:slowZoom 14s infinite ease-in-out;
 body::before{
 content:"";
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.85) 50%);
+top:0;left:0;
+width:100%;height:100%;
+background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
+pointer-events:none;
 z-index:2;
 }
 
-/* UI LAYER */
-.ui{
-position:relative;
-z-index:3;
+/* CENTERED UI */
+.center{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 text-align:center;
-top:50%;
-transform:translateY(-50%);
-width:90%;
-margin:auto;
+z-index:3;
 }
 
 button{
-margin-top:25px;
+margin-top:20px;
 padding:12px 28px;
 border:2px solid white;
 background:transparent;
 color:white;
 letter-spacing:2px;
-font-size:14px;
+cursor:pointer;
 }
 
-/* VHS UI TEXT */
-.vhsUI{
-position:fixed;
-top:10px;
-left:10px;
-font-size:12px;
-opacity:.7;
-z-index:3;
-}
-
-.battery{
-position:fixed;
-top:10px;
-right:10px;
-font-size:12px;
-opacity:.7;
-z-index:3;
+button:hover{
+background:white;
+color:black;
 }
 </style>
 </head>
-
 <body>
 
-<!-- VIDEO -->
-<video id="bgVideo" autoplay muted loop playsinline style="display:none;">
-  <source src="forrest vid.mp4" type="video/mp4">
+<video autoplay muted loop playsinline>
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<!-- VHS UI -->
-<div class="vhsUI">REC ● 10.24.2026 21:13:07</div>
-<div class="battery">BAT 73%</div>
-
-<!-- INTRO UI -->
-<div class="ui" id="intro">
-<div style="opacity:.6;">SIGNAL RESTORED</div>
+<div class="center" id="intro">
+<div>SIGNAL RESTORED</div>
 <button onclick="playTape()">▶ PLAY TAPE</button>
 </div>
 
@@ -112,145 +86,64 @@ z-index:3;
 
 <script>
 
-/* ===== PLAY TAPE FUNCTION ===== */
+/* CLEAN TRANSITION */
+function staticNext(page){
+const overlay=document.createElement("div");
+overlay.style.position="fixed";
+overlay.style.top=0;
+overlay.style.left=0;
+overlay.style.width="100%";
+overlay.style.height="100%";
+overlay.style.background="black";
+overlay.style.zIndex="999";
+document.body.appendChild(overlay);
+setTimeout(()=>{window.location.href=page;},250);
+}
 
 function playTape(){
-
-// Static blackout transition
-const static = document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
-
-setTimeout(()=>{
-static.remove();
-document.getElementById("bgVideo").style.display="block";
-document.getElementById("intro").remove();
-},300);
-
-// Start whisper gradually
-const whisper = document.getElementById("whisper");
-whisper.volume = 0.05;
-whisper.play();
-
-let vol = 0.05;
-setInterval(()=>{
-if(vol < 0.4){
-vol += 0.01;
-whisper.volume = vol;
-}
-},4000);
-
-// Show STAY QUIET overlay after video loads
-setTimeout(()=>{
-const ui = document.createElement("div");
-ui.className="ui";
-ui.innerHTML = `
-<div style="font-size:42px;letter-spacing:4px;">STAY QUIET</div>
+document.getElementById("intro").innerHTML = `
+<div style="font-size:40px;margin-bottom:10px;">STAY QUIET</div>
 <button onclick="staticNext('page2.html')">KEEP WALKING</button>
 `;
-document.body.appendChild(ui);
-},1200);
+
+const w=document.getElementById("whisper");
+w.volume=.2;
+w.play();
 }
 
-/* ===== STATIC TRANSITION ===== */
-
-function staticNext(page){
-const static = document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
-
-setTimeout(()=>{
-window.location.href = page;
-},250);
-}
-
-/* ===== REAL CANVAS NOISE (SUBTLE) ===== */
-
-const canvas = document.createElement("canvas");
-canvas.style.position = "fixed";
-canvas.style.top = 0;
-canvas.style.left = 0;
-canvas.style.width = "100%";
-canvas.style.height = "100%";
-canvas.style.pointerEvents = "none";
-canvas.style.zIndex = "1";
-canvas.style.opacity = "0.15";
+/* SUBTLE NOISE */
+const canvas=document.createElement("canvas");
+canvas.style.position="fixed";
+canvas.style.top=0;
+canvas.style.left=0;
+canvas.style.width="100%";
+canvas.style.height="100%";
+canvas.style.pointerEvents="none";
+canvas.style.zIndex="1";
+canvas.style.opacity="0.08";
 document.body.appendChild(canvas);
 
-const ctx = canvas.getContext("2d");
+const ctx=canvas.getContext("2d");
 
 function resize(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 }
-window.addEventListener("resize", resize);
+window.addEventListener("resize",resize);
 resize();
 
-function drawNoise(){
-const imageData = ctx.createImageData(canvas.width, canvas.height);
-const buffer32 = new Uint32Array(imageData.data.buffer);
-for (let i = 0; i < buffer32.length; i++) {
-  const shade = Math.random() * 255 | 0;
-  buffer32[i] = (255 << 24) | (shade << 16) | (shade << 8) | shade;
+function noise(){
+const img=ctx.createImageData(canvas.width,canvas.height);
+const buf=new Uint32Array(img.data.buffer);
+for(let i=0;i<buf.length;i++){
+const shade=Math.random()*255|0;
+buf[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
 }
-ctx.putImageData(imageData, 0, 0);
-requestAnimationFrame(drawNoise);
+ctx.putImageData(img,0,0);
+requestAnimationFrame(noise);
 }
-drawNoise();
-
-/* ===== TRACKING ROLL ===== */
-
-function trackingRoll(){
-const roll = document.createElement("div");
-roll.style.position="fixed";
-roll.style.left=0;
-roll.style.width="100%";
-roll.style.height="60px";
-roll.style.background="rgba(255,255,255,0.15)";
-roll.style.zIndex="2";
-roll.style.top="-60px";
-roll.style.pointerEvents="none";
-document.body.appendChild(roll);
-
-let pos=-60;
-const interval=setInterval(()=>{
-pos+=6;
-roll.style.top=pos+"px";
-if(pos>window.innerHeight){
-clearInterval(interval);
-roll.remove();
-}
-},16);
-}
-
-setInterval(()=>{
-if(Math.random()<0.15){
-trackingRoll();
-}
-},7000);
-
-/* ===== SIGNAL DROP ===== */
-
-setInterval(()=>{
-if(Math.random()<0.1){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},120);
-}
-},8000);
+noise();
 
 </script>
-
 </body>
 </html>
