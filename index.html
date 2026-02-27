@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>October 24, 2026</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Covenant</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
 
@@ -20,43 +20,62 @@ body{
   font-family:'Special Elite', monospace;
   height:100vh;
   overflow:hidden;
-  position:relative;
+  cursor:url("https://cur.cursors-4u.net/cursors/cur-9/cur817.cur"), auto;
 }
 
-/* Film grain overlay */
+/* Forest background */
+.bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1950&q=80");
+  background-size:cover;
+  background-position:center;
+  filter:brightness(.3) contrast(1.2);
+  animation:slowZoom 40s infinite alternate ease-in-out;
+}
+
+@keyframes slowZoom{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
+}
+
+/* Dark overlay */
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.7);
+}
+
+/* Film grain */
 body::after{
   content:"";
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.25;
+  opacity:.3;
   pointer-events:none;
   mix-blend-mode:overlay;
 }
 
-/* Fog animation */
-.fog{
-  position:absolute;
-  width:200%;
-  height:200%;
-  background:radial-gradient(circle at center, rgba(255,255,255,.05) 0%, transparent 70%);
-  animation:fogMove 40s linear infinite;
+/* Static flicker */
+@keyframes staticFlicker{
+  0%,100%{opacity:.2;}
+  50%{opacity:.35;}
 }
 
-@keyframes fogMove{
-  from{transform:translate(-25%, -25%)}
-  to{transform:translate(0%, 0%)}
+.static{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+  opacity:.2;
+  animation:staticFlicker .3s infinite;
 }
 
-/* Flicker */
-@keyframes flicker{
-  0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-  20%,24%,55%{opacity:0.4;}
-}
-
+/* Center content */
 .center{
   position:absolute;
   top:50%;
@@ -68,20 +87,24 @@ body::after{
 .title{
   font-family:'Creepster', cursive;
   font-size:4rem;
-  letter-spacing:3px;
-  animation:flicker 4s infinite;
+  letter-spacing:4px;
+  animation:flicker 3s infinite;
+}
+
+@keyframes flicker{
+  0%,19%,22%,25%,53%,57%,100%{opacity:1;}
+  20%,24%,55%{opacity:.4;}
 }
 
 .date{
   margin-top:20px;
-  font-size:1.2rem;
-  opacity:.7;
-  letter-spacing:4px;
+  letter-spacing:6px;
+  opacity:.8;
 }
 
-.enter-btn{
-  margin-top:50px;
-  padding:15px 40px;
+.enter{
+  margin-top:60px;
+  padding:15px 45px;
   background:transparent;
   border:1px solid white;
   color:white;
@@ -90,50 +113,74 @@ body::after{
   transition:.4s;
 }
 
-.enter-btn:hover{
+.enter:hover{
   background:white;
   color:black;
   transform:scale(1.05);
 }
 
-/* subtle heartbeat */
-@keyframes pulse{
-  0%{transform:translate(-50%,-50%) scale(1);}
-  50%{transform:translate(-50%,-50%) scale(1.02);}
-  100%{transform:translate(-50%,-50%) scale(1);}
+/* Blood drip */
+.blood{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100px;
+  background:linear-gradient(to bottom, darkred, transparent);
+  animation:drip 6s infinite;
 }
 
-.center{
-  animation:pulse 6s infinite ease-in-out;
+@keyframes drip{
+  0%{height:0}
+  50%{height:80px}
+  100%{height:0}
 }
 
-/* hidden audio */
-audio{
-  display:none;
+/* Screen flash */
+.flash{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  opacity:0;
+  pointer-events:none;
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="fog"></div>
+<div class="bg"></div>
+<div class="overlay"></div>
+<div class="static"></div>
+<div class="blood"></div>
+<div class="flash" id="flash"></div>
 
 <div class="center">
   <div class="title">THE COVENANT</div>
   <div class="date">OCTOBER 24 • 2026</div>
-  <button class="enter-btn" onclick="enterSite()">ENTER IF YOU DARE</button>
+  <button class="enter" onclick="enterSite()">ENTER THE WOODS</button>
 </div>
 
-<audio id="ambience" autoplay loop>
+<audio id="hoverSound">
+  <source src="https://cdn.pixabay.com/download/audio/2021/09/29/audio_7b3c2b0d1f.mp3?filename=glitch-1-82308.mp3" type="audio/mpeg">
+</audio>
+
+<audio autoplay loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b7f1c93fa.mp3?filename=dark-wind-ambience-11037.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+const hoverSound = document.getElementById("hoverSound");
+document.querySelector(".enter").addEventListener("mouseenter", ()=>{
+  hoverSound.play();
+});
+
 function enterSite(){
-  document.body.style.background = "black";
-  document.querySelector(".title").innerText = "YOU WERE WARNED";
-  document.querySelector(".enter-btn").style.display="none";
+  const flash = document.getElementById("flash");
+  flash.style.opacity = 1;
+  setTimeout(()=>{flash.style.opacity = 0;},200);
+  document.querySelector(".title").innerText="YOU ARE MARKED";
 }
 </script>
 
