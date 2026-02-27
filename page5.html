@@ -3,182 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BEFORE_THE_TRAGEDY</title>
+<title>BEFORE THE TRAGEDY</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
 
-body{
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-animation:subtleShake 12s infinite;
-}
+video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 20s infinite ease-in-out;}
 
-@keyframes subtleShake{
-0%,100%{transform:translate(0,0);}
-50%{transform:translate(0.5px,-0.5px);}
-}
+@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.03);}100%{transform:scale(1);}}
 
-/* VIDEO */
-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
-filter:grayscale(100%) contrast(170%);
-animation:slowBreath 16s infinite ease-in-out;
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
 
-@keyframes slowBreath{
-0%{transform:scale(1);}
-50%{transform:scale(1.03);}
-100%{transform:scale(1);}
-}
+.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;padding:20px;}
 
-/* SCANLINES */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
-background-size:100% 3px;
-z-index:2;
-}
-
-/* UI */
-.ui{
-position:relative;
-z-index:3;
-text-align:center;
-top:30%;
-width:85%;
-margin:auto;
-}
-
-h1{
-font-size:34px;
-letter-spacing:4px;
-margin-bottom:20px;
-animation:faintFlicker 6s infinite;
-}
-
-@keyframes faintFlicker{
-0%,100%{opacity:1;}
-50%{opacity:.8;}
-}
-
-p{
-font-size:18px;
-line-height:1.6;
-opacity:.85;
-margin-bottom:30px;
-}
-
-button{
-padding:12px 26px;
-border:2px solid white;
-background:transparent;
-color:white;
-letter-spacing:2px;
-font-size:14px;
-}
+button{margin-top:25px;padding:12px 28px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;}
 </style>
 </head>
-
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forrest vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="ui">
-
+<div class="center">
 <h1>BEFORE THE TRAGEDY</h1>
-
-<p>
-Two paths crossed long before the forest.<br><br>
-There were warnings.<br>
-There were signs.<br><br>
+<p style="max-width:400px;margin-top:15px;">
+Two paths crossed long before the forest.
+There were warnings.
 They continued anyway.
 </p>
-
 <button onclick="staticNext('page6.html')">FINAL WARNING</button>
-
 </div>
 
-<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
-
 <script>
-
-/* TRANSITION */
 function staticNext(page){
-const static=document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
+const o=document.createElement("div");
+o.style.position="fixed";o.style.top=0;o.style.left=0;
+o.style.width="100%";o.style.height="100%";
+o.style.background="black";o.style.zIndex="999";
+document.body.appendChild(o);
 setTimeout(()=>{window.location.href=page;},250);
 }
-
-/* CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.12";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function drawNoise(){
-const imageData=ctx.createImageData(canvas.width,canvas.height);
-const buffer32=new Uint32Array(imageData.data.buffer);
-for(let i=0;i<buffer32.length;i++){
-const shade=Math.random()*255|0;
-buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(imageData,0,0);
-requestAnimationFrame(drawNoise);
-}
-drawNoise();
-
-/* VERY RARE SIGNAL DROP */
-setInterval(()=>{
-if(Math.random()<0.05){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},150);
-}
-},9000);
-
-/* WHISPER STEADY */
-const w=document.getElementById("whisper");
-w.volume=.55;
-
 </script>
 
 </body>
