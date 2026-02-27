@@ -3,234 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WARNING_SIGNAL</title>
+<title>WARNING</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
 
-body{
-background:black;
-color:white;
-font-family:'Share Tech Mono', monospace;
-overflow:hidden;
-}
+video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 16s infinite ease-in-out;}
 
-/* VIDEO CONTINUES */
-video{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:0;
-filter:grayscale(100%) contrast(160%);
-animation:slowZoom 14s infinite ease-in-out;
-}
+@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.04);}100%{transform:scale(1);}}
 
-@keyframes slowZoom{
-0%{transform:scale(1);}
-50%{transform:scale(1.05);}
-100%{transform:scale(1);}
-}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
 
-/* SCANLINES */
-body::before{
-content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.85) 50%);
-background-size:100% 3px;
-z-index:2;
-}
+.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;}
 
-/* UI */
-.ui{
-position:relative;
-z-index:3;
-text-align:center;
-top:50%;
-transform:translateY(-50%);
-width:90%;
-margin:auto;
-}
-
-h1{
-font-size:40px;
-letter-spacing:4px;
-animation:flicker 3s infinite;
-}
-
-@keyframes flicker{
-0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-20%,24%,55%{opacity:.3;}
-}
-
-button{
-margin-top:25px;
-padding:12px 28px;
-border:2px solid white;
-background:transparent;
-color:white;
-letter-spacing:2px;
-font-size:14px;
-}
-
-/* VHS UI */
-.vhsUI{
-position:fixed;
-top:10px;
-left:10px;
-font-size:12px;
-opacity:.7;
-z-index:3;
-}
-
-.battery{
-position:fixed;
-top:10px;
-right:10px;
-font-size:12px;
-opacity:.7;
-z-index:3;
-}
-
-/* BIG GLITCH FLASH */
-.flash{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-z-index:4;
-opacity:0;
-pointer-events:none;
-}
-
-/* RED WARNING */
-.redPulse{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:red;
-z-index:4;
-opacity:0;
-pointer-events:none;
-}
+button{margin-top:20px;padding:12px 28px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;}
 </style>
 </head>
-
 <body>
 
 <video autoplay muted loop playsinline>
-  <source src="forrest vid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="vhsUI">REC ● 10.24.2026 21:13:18</div>
-<div class="battery">BAT 72%</div>
-
-<div class="ui">
-<h1>WARNING... SENSITIVE INFORMATION</h1>
+<div class="center">
+<h1 style="font-size:38px;">WARNING: SENSITIVE INFORMATION</h1>
 <button onclick="staticNext('page3.html')">PROCEED ANYWAY</button>
 </div>
 
-<div class="flash" id="flash"></div>
-<div class="redPulse" id="redPulse"></div>
-
-<audio id="whisper" src="whisper.mp3" loop autoplay></audio>
+<audio src="whisper.mp3" autoplay loop volume="0.3"></audio>
 
 <script>
-
-/* TRANSITION */
 function staticNext(page){
-const static=document.createElement("div");
-static.style.position="fixed";
-static.style.top=0;
-static.style.left=0;
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.zIndex="9999";
-document.body.appendChild(static);
+const o=document.createElement("div");
+o.style.position="fixed";
+o.style.top=0;o.style.left=0;
+o.style.width="100%";o.style.height="100%";
+o.style.background="black";
+o.style.zIndex="999";
+document.body.appendChild(o);
 setTimeout(()=>{window.location.href=page;},250);
 }
-
-/* GLITCH FLASH */
-function glitchFlash(){
-const flash=document.getElementById("flash");
-flash.style.opacity=.8;
-setTimeout(()=>{flash.style.opacity=0;},80);
-}
-
-setInterval(()=>{
-if(Math.random()<0.15){
-glitchFlash();
-}
-},4000);
-
-/* RED PULSE */
-function redWarning(){
-const red=document.getElementById("redPulse");
-red.style.opacity=.2;
-setTimeout(()=>{red.style.opacity=0;},200);
-}
-
-setInterval(()=>{
-if(Math.random()<0.1){
-redWarning();
-}
-},6000);
-
-/* CANVAS NOISE */
-const canvas=document.createElement("canvas");
-canvas.style.position="fixed";
-canvas.style.top=0;
-canvas.style.left=0;
-canvas.style.width="100%";
-canvas.style.height="100%";
-canvas.style.pointerEvents="none";
-canvas.style.zIndex="1";
-canvas.style.opacity="0.15";
-document.body.appendChild(canvas);
-
-const ctx=canvas.getContext("2d");
-
-function resize(){
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-}
-window.addEventListener("resize",resize);
-resize();
-
-function drawNoise(){
-const imageData=ctx.createImageData(canvas.width,canvas.height);
-const buffer32=new Uint32Array(imageData.data.buffer);
-for(let i=0;i<buffer32.length;i++){
-const shade=Math.random()*255|0;
-buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
-}
-ctx.putImageData(imageData,0,0);
-requestAnimationFrame(drawNoise);
-}
-drawNoise();
-
-/* SIGNAL DROP */
-setInterval(()=>{
-if(Math.random()<0.1){
-document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},120);
-}
-},7000);
-
 </script>
-
 </body>
 </html>
