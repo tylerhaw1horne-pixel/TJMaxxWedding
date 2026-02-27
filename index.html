@@ -17,27 +17,16 @@ body{
   color:white;
 }
 
-/* VIDEO — CLEAN */
+/* VIDEO CLEAN */
 video{
   position:fixed;
-  top:0;
-  left:0;
   width:100%;
   height:100%;
   object-fit:cover;
-  animation:handheld 12s ease-in-out infinite;
+  transition:transform .1s;
 }
 
-/* Subtle handheld cam movement */
-@keyframes handheld{
-  0%{transform:scale(1.04) translate(0px,0px);}
-  25%{transform:scale(1.04) translate(-4px,2px);}
-  50%{transform:scale(1.04) translate(3px,-3px);}
-  75%{transform:scale(1.04) translate(-2px,3px);}
-  100%{transform:scale(1.04) translate(0px,0px);}
-}
-
-/* VHS grain */
+/* VHS Grain */
 .grain{
   position:fixed;
   width:100%;
@@ -60,45 +49,42 @@ video{
   pointer-events:none;
 }
 
-/* Occasional glitch flash */
-.glitch{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:white;
-  opacity:0;
-  pointer-events:none;
-  animation:glitchFlash 18s infinite;
-}
-
-@keyframes glitchFlash{
-  0%,96%,100%{opacity:0;}
-  97%{opacity:.3;}
-  98%{opacity:0;}
-}
-
-/* Camera shake jump scare */
-.jump{
-  position:fixed;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  animation:jumpScare 25s infinite;
-}
-
-@keyframes jumpScare{
-  0%,94%,100%{transform:none;}
-  95%{transform:translate(20px,-15px);}
-  96%{transform:translate(-25px,20px);}
-  97%{transform:none;}
-}
-
 /* Vignette */
 .vignette{
   position:fixed;
   width:100%;
   height:100%;
   background:radial-gradient(circle at center, transparent 70%, rgba(0,0,0,.85) 100%);
+  pointer-events:none;
+}
+
+/* Static Burst */
+.static{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:white;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Shadow flash */
+.shadow{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Screen tear */
+.tear{
+  position:fixed;
+  width:100%;
+  height:5px;
+  background:white;
+  opacity:0;
   pointer-events:none;
 }
 
@@ -127,7 +113,7 @@ video{
   font-size:18px;
 }
 
-/* Center Text */
+/* Title */
 .center{
   position:absolute;
   top:55%;
@@ -162,15 +148,16 @@ button:hover{
 
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="vid" autoplay muted loop playsinline>
   <source src="forrest%20vid.mp4" type="video/mp4">
 </video>
 
 <div class="grain"></div>
 <div class="scanlines"></div>
-<div class="glitch"></div>
-<div class="jump"></div>
 <div class="vignette"></div>
+<div class="static" id="static"></div>
+<div class="shadow" id="shadow"></div>
+<div class="tear" id="tear"></div>
 
 <div class="rec"><span>●</span> REC</div>
 <div class="timestamp" id="timestamp"></div>
@@ -181,6 +168,8 @@ button:hover{
 </div>
 
 <script>
+
+/* Timestamp */
 function updateTime(){
   const now = new Date();
   const pad = n => n.toString().padStart(2,'0');
@@ -190,6 +179,46 @@ function updateTime(){
 }
 setInterval(updateTime,1000);
 updateTime();
+
+/* Random Horror Events */
+const video = document.getElementById("vid");
+const staticEl = document.getElementById("static");
+const shadowEl = document.getElementById("shadow");
+const tearEl = document.getElementById("tear");
+
+function randomEvent(){
+  
+  const r = Math.random();
+
+  /* Static burst */
+  if(r < 0.25){
+    staticEl.style.opacity = .3;
+    setTimeout(()=> staticEl.style.opacity = 0, 100);
+  }
+
+  /* Shadow flash */
+  if(r >= 0.25 && r < 0.45){
+    shadowEl.style.opacity = .8;
+    setTimeout(()=> shadowEl.style.opacity = 0, 80);
+  }
+
+  /* Screen tear */
+  if(r >= 0.45 && r < 0.65){
+    tearEl.style.top = Math.random()*100 + "%";
+    tearEl.style.opacity = .6;
+    setTimeout(()=> tearEl.style.opacity = 0, 120);
+  }
+
+  /* Zoom pulse scare */
+  if(r >= 0.65){
+    video.style.transform = "scale(1.2)";
+    setTimeout(()=> video.style.transform = "scale(1)", 120);
+  }
+
+}
+
+setInterval(randomEvent, 6000);
+
 </script>
 
 </body>
