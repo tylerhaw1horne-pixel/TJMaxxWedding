@@ -3,47 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WARNING</title>
+<title>LOST_TAPE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:black;color:white;font-family:'Share Tech Mono',monospace;overflow:hidden;}
+body{
+background:black;
+color:white;
+font-family:'Share Tech Mono', monospace;
+overflow:hidden;
+}
 
-video{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;animation:zoom 16s infinite ease-in-out;}
+/* VIDEO */
+video{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+object-fit:cover;
+z-index:0;
+animation:zoom 18s infinite ease-in-out;
+}
 
-@keyframes zoom{0%{transform:scale(1);}50%{transform:scale(1.04);}100%{transform:scale(1);}}
+@keyframes zoom{
+0%{transform:scale(1);}
+50%{transform:scale(1.04);}
+100%{transform:scale(1);}
+}
 
-body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,.04) 50%,rgba(0,0,0,.9) 50%);background-size:100% 3px;pointer-events:none;z-index:2;}
+/* VIGNETTE */
+body::after{
+content:"";
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.75) 100%);
+z-index:4;
+}
 
-.center{position:fixed;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:3;}
+/* SCANLINES */
+body::before{
+content:"";
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.9) 50%);
+background-size:100% 3px;
+pointer-events:none;
+z-index:2;
+}
 
-button{margin-top:20px;padding:12px 28px;border:2px solid white;background:transparent;color:white;letter-spacing:2px;}
+/* UI */
+.screen{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+z-index:5;
+opacity:0;
+transition:opacity .6s;
+}
+
+.screen.active{opacity:1;}
+
+button{
+margin-top:20px;
+padding:12px 28px;
+border:2px solid white;
+background:transparent;
+color:white;
+letter-spacing:2px;
+cursor:pointer;
+}
+
+button:hover{
+background:white;
+color:black;
+}
+
+/* REC + TIME */
+.overlayHUD{
+position:fixed;
+top:15px;
+left:15px;
+z-index:6;
+font-size:14px;
+}
+
+.rec{
+color:red;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,50%,100%{opacity:1;}
+25%,75%{opacity:0;}
+}
+
+.timecode{
+position:fixed;
+bottom:15px;
+left:15px;
+z-index:6;
+font-size:14px;
+}
+
+/* BATTERY */
+.battery{
+position:fixed;
+top:15px;
+right:15px;
+width:40px;
+height:18px;
+border:2px solid white;
+z-index:6;
+}
+
+.battery::after{
+content:"";
+position:absolute;
+right:-6px;
+top:4px;
+width:4px;
+height:8px;
+background:white;
+}
+
+.batteryLevel{
+height:100%;
+background:white;
+width:100%;
+animation:drain 120s linear forwards;
+}
+
+@keyframes drain{
+0%{width:100%;}
+100%{width:15%;}
+}
+
+/* GLITCH BAR */
+.glitchBar{
+position:fixed;
+width:100%;
+height:40px;
+background:white;
+opacity:0;
+z-index:7;
+pointer-events:none;
+}
+
+/* STATIC FLASH */
+.staticFlash{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+z-index:8;
+pointer-events:none;
+}
+
+/* CAMERA SHAKE */
+@keyframes shake{
+0%,100%{transform:translate(0,0);}
+25%{transform:translate(1px,-1px);}
+50%{transform:translate(-1px,1px);}
+75%{transform:translate(1px,1px);}
+}
+
+.shake{
+animation:shake .3s infinite;
+}
 </style>
 </head>
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="bgVideo" autoplay muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="center">
-<h1 style="font-size:38px;">WARNING: SENSITIVE INFORMATION</h1>
-<button onclick="staticNext('page3.html')">PROCEED ANYWAY</button>
+<div class="overlayHUD">
+<span class="rec">REC</span>
 </div>
 
-<audio src="whisper.mp3" autoplay loop volume="0.3"></audio>
+<div class="timecode" id="timecode">00:00:00</div>
+
+<div class="battery">
+<div class="batteryLevel"></div>
+</div>
+
+<div class="glitchBar" id="glitchBar"></div>
+<div class="staticFlash" id="staticFlash"></div>
+
+<!-- SCREENS -->
+<div class="screen active" id="s1">
+<div>SIGNAL RESTORED</div>
+<button onclick="next(2)">▶ PLAY TAPE</button>
+</div>
+
+<div class="screen" id="s2">
+<h1>STAY QUIET</h1>
+<button onclick="next(3)">KEEP WALKING</button>
+</div>
+
+<div class="screen" id="s3">
+<h1>WARNING</h1>
+<button onclick="next(4)">PROCEED</button>
+</div>
+
+<div class="screen" id="s4">
+<h1>THOSE WHO STAND</h1>
+<button onclick="next(5)">CONTINUE</button>
+</div>
+
+<div class="screen" id="s5">
+<h1>PREVENT THE TRAGEDY</h1>
+<button onclick="next(6)">CONTINUE</button>
+</div>
+
+<div class="screen" id="s6">
+<h1>BEFORE THE TRAGEDY</h1>
+<button onclick="next(7)">FINAL WARNING</button>
+</div>
+
+<div class="screen" id="s7">
+<h1>FINAL WARNING</h1>
+<button onclick="next(8)">CONFIRM YOUR PATH</button>
+</div>
+
+<div class="screen" id="s8">
+<h1>CONFIRM YOUR PRESENCE</h1>
+<form onsubmit="submitForm(event)">
+<input required placeholder="Full Name" style="width:260px;padding:10px;background:black;border:2px solid white;color:white;"><br>
+<button type="submit">SUBMIT</button>
+</form>
+<div id="confirmed" style="opacity:0;margin-top:15px;">YOUR RESPONSE HAS BEEN RECORDED.</div>
+</div>
+
+<audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
-function staticNext(page){
-const o=document.createElement("div");
-o.style.position="fixed";
-o.style.top=0;o.style.left=0;
-o.style.width="100%";o.style.height="100%";
-o.style.background="black";
-o.style.zIndex="999";
-document.body.appendChild(o);
-setTimeout(()=>{window.location.href=page;},250);
+const whisper=document.getElementById("whisper");
+whisper.volume=.2;
+whisper.play();
+
+/* TIME CODE */
+let seconds=0;
+setInterval(()=>{
+seconds++;
+let h=Math.floor(seconds/3600).toString().padStart(2,"0");
+let m=Math.floor((seconds%3600)/60).toString().padStart(2,"0");
+let s=(seconds%60).toString().padStart(2,"0");
+document.getElementById("timecode").innerText=`${h}:${m}:${s}`;
+},1000);
+
+/* SCREEN SWITCH */
+function next(num){
+staticBurst();
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById("s"+num).classList.add("active");
+whisper.volume=Math.min(1, whisper.volume+.08);
+}
+
+/* STATIC BURST */
+function staticBurst(){
+const flash=document.getElementById("staticFlash");
+flash.style.opacity=.8;
+setTimeout(()=>{flash.style.opacity=0;},120);
+}
+
+/* RANDOM GLITCH BAR */
+setInterval(()=>{
+if(Math.random()<.25){
+const bar=document.getElementById("glitchBar");
+bar.style.top=Math.random()*window.innerHeight+"px";
+bar.style.opacity=.5;
+setTimeout(()=>{bar.style.opacity=0;},150);
+}
+},3000);
+
+/* FRAME FREEZE */
+setInterval(()=>{
+if(Math.random()<.15){
+document.getElementById("bgVideo").pause();
+setTimeout(()=>{document.getElementById("bgVideo").play();},300);
+}
+},6000);
+
+/* RSVP */
+function submitForm(e){
+e.preventDefault();
+document.getElementById("confirmed").style.opacity=1;
 }
 </script>
+
 </body>
 </html>
