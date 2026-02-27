@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FINAL_WARNING</title>
+<title>CONFIRMATION_FILE</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
@@ -14,124 +14,87 @@ background:black;
 color:white;
 font-family:'Share Tech Mono', monospace;
 overflow:hidden;
-animation:screenShake 6s infinite;
-}
-
-@keyframes screenShake{
-0%,100%{transform:translate(0,0);}
-25%{transform:translate(1px,-1px);}
-50%{transform:translate(-1px,1px);}
-75%{transform:translate(1px,1px);}
 }
 
 /* VIDEO */
 video{
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:-3;
+z-index:0;
 filter:grayscale(100%) contrast(170%);
-animation:slowPulse 10s infinite ease-in-out;
+animation:calmZoom 18s infinite ease-in-out;
 }
 
-@keyframes slowPulse{
+@keyframes calmZoom{
 0%{transform:scale(1);}
-50%{transform:scale(1.05);}
+50%{transform:scale(1.02);}
 100%{transform:scale(1);}
 }
 
-/* STATIC */
-.staticOverlay{
-position:fixed;
-width:100%;
-height:100%;
-background:url("https://i.imgur.com/8fK4h6N.png");
-opacity:.15;
-z-index:-1;
-pointer-events:none;
-}
-
 /* SCANLINES */
-.scanlines{
+body::before{
+content:"";
 position:fixed;
+top:0;
+left:0;
 width:100%;
 height:100%;
-background:linear-gradient(rgba(255,255,255,.1) 50%, rgba(0,0,0,.9) 50%);
-background-size:100% 3px;
 pointer-events:none;
+background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
+background-size:100% 3px;
+z-index:2;
 }
 
-/* VHS UI */
-.vhsUI{
-position:fixed;
-top:10px;
-left:10px;
-font-size:12px;
-opacity:.7;
-}
-
-.battery{
-position:fixed;
-top:10px;
-right:10px;
-font-size:12px;
-opacity:.7;
-}
-
-/* TITLE */
-.title{
-position:absolute;
-top:30%;
-left:50%;
-transform:translateX(-50%);
-font-size:40px;
-letter-spacing:6px;
-animation:textGlitch 1.2s infinite;
-}
-
-@keyframes textGlitch{
-0%{text-shadow:4px 0 red,-4px 0 blue;}
-50%{text-shadow:-4px 0 red,4px 0 blue;}
-100%{text-shadow:4px 0 red,-4px 0 blue;}
-}
-
-/* TEXT */
-.textBlock{
-position:absolute;
-top:45%;
-left:50%;
-transform:translateX(-50%);
-width:85%;
+/* UI */
+.ui{
+position:relative;
+z-index:3;
 text-align:center;
-font-size:20px;
-opacity:.9;
-animation:flicker 3s infinite;
+top:18%;
+width:90%;
+margin:auto;
 }
 
-@keyframes flicker{
-0%,100%{opacity:1;}
-50%{opacity:.6;}
+h1{
+font-size:32px;
+letter-spacing:4px;
+margin-bottom:25px;
 }
 
-/* BUTTON */
+form{
+max-width:400px;
+margin:auto;
+}
+
+input, select{
+width:100%;
+padding:12px;
+margin:12px 0;
+background:black;
+border:2px solid white;
+color:white;
+font-family:'Share Tech Mono', monospace;
+}
+
 button{
-position:absolute;
-bottom:18%;
-left:50%;
-transform:translateX(-50%);
-padding:14px 30px;
+padding:12px;
+width:100%;
+margin-top:20px;
 border:2px solid white;
 background:transparent;
 color:white;
-letter-spacing:3px;
+letter-spacing:2px;
 font-size:14px;
 }
 
-/* occasional blackout */
-@keyframes blackout{
-0%,100%{filter:none;}
-50%{filter:brightness(0);}
+.confirm{
+margin-top:20px;
+opacity:0;
+transition:opacity 1s;
 }
 </style>
 </head>
@@ -139,71 +102,106 @@ font-size:14px;
 <body>
 
 <video autoplay muted loop playsinline>
-<source src="forrest vid.mp4" type="video/mp4">
+  <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="staticOverlay"></div>
-<div class="scanlines"></div>
+<div class="ui">
 
-<div class="vhsUI">REC ● 10.24.2026 21:26:52</div>
-<div class="battery">BAT 54%</div>
+<h1>CONFIRM YOUR PRESENCE</h1>
 
-<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
-<audio id="lowHum" src="lowhum.mp3" autoplay loop></audio>
+<form id="rsvpForm">
+<input type="text" placeholder="Full Name" required>
 
-<div class="title">FINAL WARNING</div>
+<select required>
+<option value="">Will You Attend?</option>
+<option>Yes</option>
+<option>No</option>
+</select>
 
-<div class="textBlock">
-Be careful to accept.<br><br>
-There is no turning back.
+<select>
+<option>Number of Guests</option>
+<option>1</option>
+<option>2</option>
+<option>3</option>
+</select>
+
+<button type="submit">SUBMIT</button>
+</form>
+
+<div class="confirm" id="confirmText">
+YOUR RESPONSE HAS BEEN RECORDED.
 </div>
 
-<button onclick="staticNext()">CONFIRM YOUR PATH</button>
+</div>
+
+<audio id="whisper" src="whisper.mp3" autoplay loop></audio>
 
 <script>
 
-// whisper max
+/* FORM SUBMIT EFFECT */
+document.getElementById("rsvpForm").addEventListener("submit", function(e){
+e.preventDefault();
+
+const blackout=document.createElement("div");
+blackout.style.position="fixed";
+blackout.style.top=0;
+blackout.style.left=0;
+blackout.style.width="100%";
+blackout.style.height="100%";
+blackout.style.background="black";
+blackout.style.zIndex="9999";
+document.body.appendChild(blackout);
+
+setTimeout(()=>{
+blackout.remove();
+document.getElementById("confirmText").style.opacity=1;
+},400);
+});
+
+/* CANVAS NOISE */
+const canvas=document.createElement("canvas");
+canvas.style.position="fixed";
+canvas.style.top=0;
+canvas.style.left=0;
+canvas.style.width="100%";
+canvas.style.height="100%";
+canvas.style.pointerEvents="none";
+canvas.style.zIndex="1";
+canvas.style.opacity="0.12";
+document.body.appendChild(canvas);
+
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+window.addEventListener("resize",resize);
+resize();
+
+function drawNoise(){
+const imageData=ctx.createImageData(canvas.width,canvas.height);
+const buffer32=new Uint32Array(imageData.data.buffer);
+for(let i=0;i<buffer32.length;i++){
+const shade=Math.random()*255|0;
+buffer32[i]=(255<<24)|(shade<<16)|(shade<<8)|shade;
+}
+ctx.putImageData(imageData,0,0);
+requestAnimationFrame(drawNoise);
+}
+drawNoise();
+
+/* WHISPER CALMER */
 const w=document.getElementById("whisper");
-w.volume=.8;
+w.volume=.5;
 
-// low hum subtle
-const hum=document.getElementById("lowHum");
-hum.volume=.2;
-
-// intensified static bursts
+/* VERY RARE SIGNAL DROP */
 setInterval(()=>{
-if(Math.random()<0.4){
-const flash=document.createElement("div");
-flash.style.position="fixed";
-flash.style.width="100%";
-flash.style.height="100%";
-flash.style.background="url('https://i.imgur.com/8fK4h6N.png')";
-flash.style.zIndex="999";
-document.body.appendChild(flash);
-setTimeout(()=>{flash.remove();},150);
-}
-},3000);
-
-// occasional blackout
-setInterval(()=>{
-if(Math.random()<0.15){
+if(Math.random()<0.04){
 document.body.style.filter="brightness(0)";
-setTimeout(()=>{document.body.style.filter="none";},200);
+setTimeout(()=>{document.body.style.filter="none";},120);
 }
-},7000);
-
-// static transition
-function staticNext(){
-const static=document.createElement("div");
-static.style.position="fixed";
-static.style.width="100%";
-static.style.height="100%";
-static.style.background="black";
-static.style.backgroundImage="repeating-linear-gradient(0deg, rgba(255,255,255,.08) 0px, rgba(255,255,255,.08) 1px, transparent 1px, transparent 3px)";
-static.style.zIndex="999";
-document.body.appendChild(static);
-setTimeout(()=>{window.location.href="page8.html";},350);
-}
+},10000);
 
 </script>
 
