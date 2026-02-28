@@ -247,87 +247,123 @@ Acworth, Georgia
 
 <script>
 
-const bg = document.getElementById("bg");
 const whisper = document.getElementById("whisper");
-const overlay = document.getElementById("overlay");
-const redGlitch = document.getElementById("redGlitch");
-const redFlash = document.getElementById("redFlash");
+whisper.volume = 0.18;
+let started = false;
 
-let started=false;
-let intensity=0;
-let ruptureUsed=false;
+/* ================= AUDIO START CONTROL ================= */
 
-/* FORCE AUDIO UNLOCK ON FIRST TAP */
-document.body.addEventListener("click", function(){
+function startAudio(){
 if(!started){
-whisper.volume=0;
-whisper.play().then(()=>{
-fadeInWhisper();
-started=true;
-}).catch(()=>{});
+whisper.play().catch(()=>{});
+started = true;
+startWhisperAtmosphere();
 }
-}, {once:true});
+}
 
-function fadeInWhisper(){
-let v=0;
-let fade=setInterval(()=>{
-v+=0.02;
-whisper.volume=v;
-if(v>=0.35) clearInterval(fade);
-},100);
-}
+/* ================= SCREEN SWITCH ================= */
 
 function next(n){
+startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("s"+n).classList.add("active");
+triggerScare(n);
+}
 
-intensity++;
-if(intensity>6) intensity=6;
+/* ================= WHISPER ATMOSPHERE SYSTEM ================= */
 
-overlay.style.background=`rgba(0,0,0,${.6 + intensity*.05})`;
-bg.style.transform=`scale(${1 + intensity*.01})`;
+function startWhisperAtmosphere(){
 
-/* red glitch pulse */
-redGlitch.style.opacity=.8;
-setTimeout(()=>{redGlitch.style.opacity=0;},120);
+/* subtle breathing volume drift */
+setInterval(()=>{
+let drift = Math.random() * 0.08 + 0.12;
+whisper.volume = drift;
+}, 4000);
 
-/* bride corruption */
-if(n===4){
+/* occasional near-ear spike */
+setInterval(()=>{
+if(Math.random() < 0.18){
+whisper.volume = 0.35;
 setTimeout(()=>{
-bride.textContent="J̴U̴L̴I̴E̴";
-groom.textContent="T̷Y̷L̷E̷R̷";
-},300);
+whisper.volume = 0.15;
+}, 500);
+}
+}, 9000);
+
+/* slow tape drag */
+setInterval(()=>{
+if(Math.random() < 0.15){
+whisper.playbackRate = 0.75;
 setTimeout(()=>{
-bride.textContent="JULIE";
-groom.textContent="TYLER";
+whisper.playbackRate = 1;
+}, 1200);
+}
+}, 11000);
+
+/* sudden silence (this is unsettling) */
+setInterval(()=>{
+if(Math.random() < 0.12){
+whisper.volume = 0;
+setTimeout(()=>{
+whisper.volume = 0.16;
+}, 2000);
+}
+}, 15000);
+
+}
+
+/* ================= SCREEN SCARES ================= */
+
+function triggerScare(screen){
+
+if(screen===2){
+bg.style.transform="scale(1.04)";
+bg.style.filter="brightness(.6)";
+setTimeout(()=>{
+bg.style.transform="scale(1)";
+bg.style.filter="brightness(1)";
 },900);
 }
 
-/* one strong rupture */
-if(!ruptureUsed && n>=5){
-ruptureUsed=true;
-setTimeout(()=>{
-whisper.volume=1;
-redFlash.style.opacity=1;
+if(screen===5){
+distort.style.opacity=.7;
 document.body.classList.add("shake");
-},600);
 setTimeout(()=>{
-redFlash.style.opacity=0;
+distort.style.opacity=0;
 document.body.classList.remove("shake");
-whisper.volume=.4;
-},1200);
+brideName.textContent="J̴U̴L̴I̴E̴";
+groomName.textContent="T̷Y̷L̷E̷R̷";
+setTimeout(()=>{
+brideName.textContent="JULIE";
+groomName.textContent="TYLER";
+},700);
+},600);
 }
+
+if(screen===6){
+redPulse.style.opacity=.6;
+setTimeout(()=>{redPulse.style.opacity=0;},500);
+}
+
+if(screen===7){
+darkPulse.style.opacity=.8;
+document.body.classList.add("shake");
+setTimeout(()=>{
+darkPulse.style.opacity=0;
+document.body.classList.remove("shake");
+},700);
+}
+
+if(screen===8){
+bg.pause();
+setTimeout(()=>{bg.play();},500);
+}
+
 }
 
 function submitForm(e){
 e.preventDefault();
-whisper.volume=0;
-redFlash.style.opacity=1;
-setTimeout(()=>{
-redFlash.style.opacity=0;
-next(8);
-whisper.volume=.5;
-},900);
+next(9);
 }
 
 </script>
