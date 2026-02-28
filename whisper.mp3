@@ -1,11 +1,1 @@
-<audio id="rumble" src="rumble.mp3" loop></audio>
-<img id="intrusion" src="face.png" style="
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-object-fit:cover;
-z-index:500;
-opacity:0;
-pointer-events:none;">
+
