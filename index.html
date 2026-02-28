@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recovered Tape – 10.24.26</title>
+<title>Recovered Tape – 10.24.2026</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+
+/* ================= GLOBAL ================= */
+
 *{margin:0;padding:0;box-sizing:border-box;}
 
 html,body{
@@ -15,37 +18,40 @@ width:100%;
 overflow:hidden;
 background:black;
 color:white;
-font-family:'Share Tech Mono', monospace;
+font-family:'Share Tech Mono',monospace;
 }
 
-/* VIDEO */
+/* ================= VIDEO ================= */
+
 video{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-transition:transform .6s ease;
+transition:transform 2s ease, filter 1.5s ease;
 }
 
-/* DARK OVERLAY */
-.overlay{
+/* ================= ATMOSPHERE LAYERS ================= */
+
+.baseDark{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 background:rgba(0,0,0,.6);
 z-index:1;
 pointer-events:none;
-transition:background 1s ease;
+transition:background 10s linear;
 }
 
-/* VHS EFFECT */
 .scanlines{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.02) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 z-index:2;
 pointer-events:none;
@@ -55,54 +61,27 @@ pointer-events:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.97) 100%);
+background:radial-gradient(circle, transparent 60%, rgba(0,0,0,.96) 100%);
 z-index:3;
 pointer-events:none;
+transition:background 20s linear;
 }
 
-/* RED GLITCH */
-.redGlitch{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:repeating-linear-gradient(
-0deg,
-rgba(255,0,0,.15),
-rgba(255,0,0,.15) 2px,
-transparent 2px,
-transparent 6px
-);
-mix-blend-mode:screen;
-opacity:0;
-pointer-events:none;
-z-index:4;
-transition:opacity .15s;
-}
+/* ================= SCREEN SYSTEM ================= */
 
-/* RED FLASH */
-.redFlash{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(140,0,0,.95);
-opacity:0;
-pointer-events:none;
-z-index:20;
-transition:opacity .2s;
-}
-
-/* SCREENS */
 .screen{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+top:0;
+left:0;
+width:100%;
+height:100%;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:30px;
-z-index:10;
+padding:25px;
+z-index:100;
 opacity:0;
 transition:opacity .6s ease;
 pointer-events:none;
@@ -113,58 +92,77 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* TEXT */
+/* ================= TEXT EFFECTS ================= */
+
 .glitch{
 animation:flicker 3s infinite;
 }
 
 @keyframes flicker{
 0%,100%{opacity:1;}
-45%{opacity:.4;}
+48%{opacity:.2;}
 50%{opacity:0;}
-55%{opacity:.8;}
+52%{opacity:.7;}
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
+
 button{
-margin-top:30px;
-padding:14px 36px;
+margin-top:25px;
+padding:16px 38px;
 border:2px solid white;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.7);
 color:white;
-letter-spacing:3px;
+letter-spacing:4px;
 cursor:pointer;
-font-size:14px;
-transition:.2s;
+font-size:15px;
+transition:.25s ease;
 }
 
 button:hover{
 background:white;
 color:black;
+transform:scale(1.05);
 }
 
-/* FORM */
+/* ================= FORM ================= */
+
 input,select{
 margin-top:12px;
-padding:10px;
-background:black;
+padding:12px;
+background:rgba(0,0,0,.85);
 border:2px solid white;
 color:white;
-width:260px;
+width:280px;
+font-size:14px;
 }
 
-/* SHAKE */
+/* ================= EFFECT LAYERS ================= */
+
+.darkPulse,
+.redPulse{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+pointer-events:none;
+opacity:0;
+}
+
+.darkPulse{background:rgba(0,0,0,.85);z-index:20;}
+.redPulse{background:rgba(120,0,0,.6);z-index:21;}
+
 .shake{
-animation:shake .25s;
+animation:shake .3s;
 }
 
 @keyframes shake{
 0%{transform:translate(0,0);}
-25%{transform:translate(-10px,6px);}
-50%{transform:translate(10px,-6px);}
-75%{transform:translate(-6px,4px);}
+25%{transform:translate(-6px,4px);}
+50%{transform:translate(6px,-4px);}
+75%{transform:translate(-4px,2px);}
 100%{transform:translate(0,0);}
 }
+
 </style>
 </head>
 
@@ -174,58 +172,72 @@ animation:shake .25s;
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="overlay" id="overlay"></div>
+<div class="baseDark" id="baseDark"></div>
 <div class="scanlines"></div>
-<div class="vignette"></div>
-<div class="redGlitch" id="redGlitch"></div>
-<div class="redFlash" id="redFlash"></div>
+<div class="vignette" id="vignette"></div>
 
-<!-- SCREENS -->
+<div class="darkPulse" id="darkPulse"></div>
+<div class="redPulse" id="redPulse"></div>
+
+<!-- ================= SCREENS ================= -->
 
 <div class="screen active" id="s1">
-<h2 class="glitch">RECOVERED TAPE</h2>
-<p>Archive 10.24.26</p>
-<button onclick="next(2)">▶ PLAY</button>
+<h2 class="glitch">RECOVERED TAPE FOUND</h2>
+<p>Archive ID: 10.24.2026</p>
+<button onclick="next(2)">▶ PLAY RECORDING</button>
 </div>
 
 <div class="screen" id="s2">
-<h2>STAY QUIET</h2>
-<p>If something moves — do not respond.</p>
+<h2 class="glitch">STAY QUIET</h2>
+<p>If something calls your name — do not answer.</p>
 <button onclick="next(3)">KEEP WALKING</button>
 </div>
 
 <div class="screen" id="s3">
 <h2>THE CEREMONY HAS BEEN SCHEDULED</h2>
-<p>Your presence was expected.</p>
-<button onclick="next(4)">CONTINUE</button>
+<p>Your presence was anticipated long ago.</p>
+<button onclick="next(4)">PROCEED</button>
 </div>
 
 <div class="screen" id="s4">
-<h2>THE BRIDE</h2>
-<p id="bride">JULIE</p>
-<h2>THE GROOM</h2>
-<p id="groom">TYLER</p>
-<button onclick="next(5)">CONTINUE</button>
+<h2>OUR STORY</h2>
+<p>
+They met before the storm.<br>
+They stayed after the warning.<br>
+They chose not to leave.
+</p>
+<button onclick="next(5)">CONTINUE RECORDING</button>
 </div>
 
 <div class="screen" id="s5">
-<h2 class="glitch">THE RITUAL WILL COMMENCE</h2>
-<p>
-October 24, 2026<br>
-5:00 PM – 9:00 PM<br>
-The Conservatory<br>
-Acworth, Georgia
-</p>
-<p class="glitch">Before the tragedy.</p>
+<h2 class="glitch">THE BRIDE</h2>
+<h3 id="brideName">JULIE EELLS</h3>
+<br>
+<h2 class="glitch">THE GROOM</h2>
+<h3 id="groomName">TYLER HAWTHORNE</h3>
+<p>They were warned.</p>
 <button onclick="next(6)">CONTINUE</button>
 </div>
 
 <div class="screen" id="s6">
-<h2>STOP THIS TRAGEDY</h2>
+<h2 class="glitch">THE RITUAL WILL COMMENCE</h2>
+<p>
+OCTOBER 24, 2026<br>
+5:00 PM – 9:00 PM<br><br>
+THE CONSERVATORY<br>
+ACWORTH, GEORGIA
+</p>
+<p class="glitch">BEFORE THE TRAGEDY</p>
 <button onclick="next(7)">CONTINUE</button>
 </div>
 
 <div class="screen" id="s7">
+<h2 class="glitch">STOP THIS TRAGEDY</h2>
+<p>There is still time to turn back.</p>
+<button onclick="next(8)">CONTINUE</button>
+</div>
+
+<div class="screen" id="s8">
 <h2>DIG YOUR GRAVES</h2>
 <form onsubmit="submitForm(event)">
 <input required placeholder="Full Name"><br>
@@ -238,30 +250,36 @@ Acworth, Georgia
 </form>
 </div>
 
-<div class="screen" id="s8">
+<div class="screen" id="s9">
 <h2 class="glitch">YOUR PRESENCE HAS BEEN LOGGED</h2>
-<p>There is no withdrawal.</p>
+<p>The ritual cannot be undone.</p>
+<button onclick="next(10)">FINAL PLAYBACK</button>
 </div>
 
-<audio id="whisper" src="whisper.mp3" preload="auto" loop></audio>
+<div class="screen" id="s10">
+<h2 class="glitch">SIGNAL LOST</h2>
+<p>Playback terminated.</p>
+</div>
+
+<audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
 
-const whisper = document.getElementById("whisper");
-whisper.volume = 0.18;
-let started = false;
+/* ================= AUDIO SYSTEM ================= */
 
-/* ================= AUDIO START CONTROL ================= */
+const whisper = document.getElementById("whisper");
+whisper.volume = 0.15;
+let started = false;
 
 function startAudio(){
 if(!started){
 whisper.play().catch(()=>{});
 started = true;
-startWhisperAtmosphere();
+startAtmosphere();
 }
 }
 
-/* ================= SCREEN SWITCH ================= */
+/* ================= SCREEN SYSTEM ================= */
 
 function next(n){
 startAudio();
@@ -270,45 +288,34 @@ document.getElementById("s"+n).classList.add("active");
 triggerScare(n);
 }
 
-/* ================= WHISPER ATMOSPHERE SYSTEM ================= */
+/* ================= ATMOSPHERE ================= */
 
-function startWhisperAtmosphere(){
+function startAtmosphere(){
 
-/* subtle breathing volume drift */
+/* volume breathing */
 setInterval(()=>{
-let drift = Math.random() * 0.08 + 0.12;
-whisper.volume = drift;
-}, 4000);
+whisper.volume = Math.random()*0.1 + 0.1;
+},5000);
 
 /* occasional near-ear spike */
 setInterval(()=>{
-if(Math.random() < 0.18){
+if(Math.random()<0.2){
 whisper.volume = 0.35;
-setTimeout(()=>{
-whisper.volume = 0.15;
-}, 500);
+setTimeout(()=>{whisper.volume=0.12;},500);
 }
-}, 9000);
+},10000);
 
-/* slow tape drag */
+/* darkness creeping */
 setInterval(()=>{
-if(Math.random() < 0.15){
-whisper.playbackRate = 0.75;
-setTimeout(()=>{
-whisper.playbackRate = 1;
-}, 1200);
-}
-}, 11000);
+let d = Math.random()*0.1 + 0.6;
+baseDark.style.background = "rgba(0,0,0,"+d+")";
+},8000);
 
-/* sudden silence (this is unsettling) */
+/* slow forest zoom */
 setInterval(()=>{
-if(Math.random() < 0.12){
-whisper.volume = 0;
-setTimeout(()=>{
-whisper.volume = 0.16;
-}, 2000);
-}
-}, 15000);
+bg.style.transform="scale(1.04)";
+setTimeout(()=>{bg.style.transform="scale(1)";},3000);
+},15000);
 
 }
 
@@ -316,47 +323,34 @@ whisper.volume = 0.16;
 
 function triggerScare(screen){
 
-if(screen===2){
-bg.style.transform="scale(1.04)";
-bg.style.filter="brightness(.6)";
-setTimeout(()=>{
-bg.style.transform="scale(1)";
-bg.style.filter="brightness(1)";
-},900);
-}
-
 if(screen===5){
-distort.style.opacity=.7;
 document.body.classList.add("shake");
+redPulse.style.opacity=.5;
 setTimeout(()=>{
-distort.style.opacity=0;
 document.body.classList.remove("shake");
+redPulse.style.opacity=0;
 brideName.textContent="J̴U̴L̴I̴E̴";
 groomName.textContent="T̷Y̷L̷E̷R̷";
 setTimeout(()=>{
-brideName.textContent="JULIE";
-groomName.textContent="TYLER";
+brideName.textContent="JULIE EELLS";
+groomName.textContent="TYLER HAWTHORNE";
+},800);
 },700);
-},600);
 }
 
 if(screen===6){
 redPulse.style.opacity=.6;
-setTimeout(()=>{redPulse.style.opacity=0;},500);
+setTimeout(()=>{redPulse.style.opacity=0;},600);
 }
 
-if(screen===7){
-darkPulse.style.opacity=.8;
-document.body.classList.add("shake");
-setTimeout(()=>{
-darkPulse.style.opacity=0;
-document.body.classList.remove("shake");
-},700);
+if(screen===9){
+darkPulse.style.opacity=.9;
+setTimeout(()=>{darkPulse.style.opacity=0;},800);
 }
 
-if(screen===8){
+if(screen===10){
 bg.pause();
-setTimeout(()=>{bg.play();},500);
+whisper.volume = 0;
 }
 
 }
