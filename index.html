@@ -18,7 +18,7 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* BACKGROUND VIDEO */
+/* VIDEO */
 video{
 position:fixed;
 top:0;left:0;
@@ -26,6 +26,7 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
+transition:transform 6s ease, filter 5s ease;
 }
 
 /* ATMOSPHERE */
@@ -57,6 +58,37 @@ z-index:3;
 pointer-events:none;
 }
 
+/* GLITCH LAYERS */
+.rgb{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+mix-blend-mode:screen;
+opacity:0;
+pointer-events:none;
+z-index:50;
+}
+
+.tear{
+position:fixed;
+height:40px;
+width:100%;
+background:white;
+opacity:0;
+z-index:60;
+pointer-events:none;
+}
+
+.redFlash{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:red;
+opacity:0;
+z-index:500;
+pointer-events:none;
+}
+
 /* SCREEN */
 .screen{
 position:fixed;
@@ -77,22 +109,7 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* CHAPTER 2 LAYOUT */
-.chapter2Layout{
-display:flex;
-gap:80px;
-max-width:1100px;
-width:100%;
-align-items:flex-start;
-}
-
 /* TEXT */
-.chapter2Text{
-flex:1;
-max-width:480px;
-text-align:left;
-}
-
 h2{
 letter-spacing:5px;
 margin-bottom:25px;
@@ -120,54 +137,80 @@ background:white;
 color:black;
 }
 
-/* IMAGE COLUMN */
+/* CHAPTER 2 LAYOUT */
+.chapter2Layout{
+display:flex;
+gap:80px;
+max-width:1100px;
+width:100%;
+align-items:flex-start;
+}
+
+.chapter2Text{
+flex:1;
+max-width:480px;
+text-align:left;
+}
+
 .chapter2Images{
 flex:1;
 display:flex;
 flex-direction:column;
-gap:50px;
-margin-top:40px; /* pushes top image DOWN */
+gap:60px;
+margin-top:80px; /* PUSHES TOP IMAGE DOWN */
 }
 
 /* VHS FRAME */
 .vhsFrame{
-width:420px;
-height:250px;
+width:440px;
+height:260px;
 background:black;
 border:2px solid rgba(255,255,255,.2);
 overflow:hidden;
 position:relative;
 filter:contrast(110%) brightness(90%);
-animation: drift 6s infinite ease-in-out alternate;
+animation: creepZoom 12s infinite alternate ease-in-out;
 }
 
-/* subtle drift */
-@keyframes drift{
-0%{transform:translateY(0px) scale(1);}
-100%{transform:translateY(4px) scale(1.01);}
+/* CREEP ZOOM */
+@keyframes creepZoom{
+0%{transform:scale(1);}
+100%{transform:scale(1.04);}
 }
 
-/* image */
+/* IMAGE */
 .vhsFrame img{
 width:100%;
 height:100%;
 object-fit:cover;
-display:block;
+object-position:center 35%; /* FIXES CROP */
 opacity:0;
 }
 
-/* static entrance */
+/* STATIC ENTRY */
 .staticIn{
-animation: staticEntry .6s forwards;
+animation: staticEntry .7s forwards;
 }
 
 @keyframes staticEntry{
-0%{opacity:0; filter:blur(8px) brightness(0);}
-50%{opacity:.7; filter:blur(2px) brightness(1.4);}
-100%{opacity:1; filter:none;}
+0%{opacity:0;filter:blur(10px) brightness(0);}
+50%{opacity:.8;filter:blur(3px) brightness(1.4);}
+100%{opacity:1;filter:none;}
 }
 
-/* timestamp */
+/* HORIZONTAL JITTER */
+.jitter{
+animation:jitter .2s infinite;
+}
+
+@keyframes jitter{
+0%{transform:translateX(0);}
+25%{transform:translateX(-1px);}
+50%{transform:translateX(1px);}
+75%{transform:translateX(-.5px);}
+100%{transform:translateX(0);}
+}
+
 .timestamp{
 position:absolute;
 top:8px;
@@ -179,50 +222,58 @@ letter-spacing:1px;
 
 /* MOBILE */
 @media(max-width:900px){
-
 .chapter2Layout{
 flex-direction:column;
 align-items:center;
 text-align:center;
 }
-
-.chapter2Text{
-text-align:center;
-}
-
+.chapter2Text{text-align:center;}
 .chapter2Images{
 margin-top:40px;
 align-items:center;
 }
-
 .vhsFrame{
 width:90vw;
-height:50vw;
+height:55vw;
 }
 }
-
 </style>
 </head>
 
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="bg" autoplay muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
 <div class="dark"></div>
 <div class="scan"></div>
 <div class="vignette"></div>
+<div class="rgb" id="rgb"></div>
+<div class="tear" id="tear"></div>
+<div class="redFlash" id="redFlash"></div>
 
-<!-- CHAPTER 2 ONLY (engine safe demo) -->
+<!-- CHAPTER 1 RESTORED -->
+<div class="screen active" id="c1">
+<div>
+<h2>ARCHIVE 10.24.2026</h2>
+<p>
+Recovered from private storage.<br>
+Original device unknown.<br>
+Recording documents the scheduled union of two individuals.<br><br>
+Playback integrity unstable.
+</p>
+<button onclick="next(2)">INITIATE PLAYBACK</button>
+</div>
+</div>
 
-<div class="screen active" id="c2">
+<!-- CHAPTER 2 GOD MODE -->
+<div class="screen" id="c2">
 
 <div class="chapter2Layout">
 
 <div class="chapter2Text">
 <h2>RECONNECTION LOG</h2>
-
 <p>
 They had known of each other for years.<br>
 Through family. Through proximity.<br>
@@ -243,9 +294,7 @@ Neither of them forced it.<br><br>
 Something that never existed before<br>
 was suddenly obvious.
 </p>
-
-<button>CONTINUE</button>
-
+<button onclick="next(3)">CONTINUE</button>
 </div>
 
 <div class="chapter2Images">
@@ -267,14 +316,31 @@ CAM 01 — <span class="timer"></span>
 </div>
 
 </div>
-
 </div>
-
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
+
+/* AUDIO RESTORED */
+const whisper=document.getElementById("whisper");
+whisper.volume=.12;
+
+let started=false;
+function startAudio(){
+if(!started){
+whisper.play().catch(()=>{});
+started=true;
+}
+}
+
+/* SCREEN SWITCH */
+function next(n){
+startAudio();
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById("c"+n).classList.add("active");
+}
 
 /* TIMER */
 let seconds=0;
@@ -283,28 +349,31 @@ seconds++;
 let hrs=Math.floor(seconds/3600);
 let mins=Math.floor((seconds%3600)/60);
 let secs=seconds%60;
-
 let formatted=
 String(hrs).padStart(2,'0')+":"+
 String(mins).padStart(2,'0')+":"+
 String(secs).padStart(2,'0');
-
 document.querySelectorAll(".timer").forEach(el=>{
 el.innerText=formatted;
 });
 },1000);
 
-/* STATIC ENTRY EFFECT */
+/* STATIC ENTRY + RANDOM JITTER */
 window.addEventListener("load",()=>{
 const imgs=document.querySelectorAll(".vhsImg");
 
-setTimeout(()=>{
-imgs[0].classList.add("staticIn");
-},600);
+setTimeout(()=>imgs[0].classList.add("staticIn"),600);
+setTimeout(()=>imgs[1].classList.add("staticIn"),1400);
 
-setTimeout(()=>{
-imgs[1].classList.add("staticIn");
-},1400);
+setInterval(()=>{
+let random=Math.random();
+if(random<.3){
+imgs.forEach(img=>{
+img.parentElement.classList.add("jitter");
+setTimeout(()=>img.parentElement.classList.remove("jitter"),200);
+});
+}
+},3000);
 });
 
 </script>
