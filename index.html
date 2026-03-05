@@ -29,7 +29,7 @@ z-index:0;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.8) contrast(1.15);
+filter:brightness(.8) contrast(1.1);
 }
 
 /* ================= ATMOSPHERE ================= */
@@ -39,7 +39,7 @@ position:fixed;
 inset:0;
 background:rgba(0,0,0,.6);
 z-index:1;
-pointer-events:none;   /* FIXED */
+pointer-events:none;
 }
 
 .scan{
@@ -53,16 +53,10 @@ transparent 1px,
 transparent 3px
 );
 z-index:2;
-animation:scanMove 6s linear infinite;
-pointer-events:none;   /* FIXED */
+pointer-events:none;
 }
 
-@keyframes scanMove{
-0%{background-position:0 0;}
-100%{background-position:0 100px;}
-}
-
-/* ================= SCREENS ================= */
+/* ================= SCREEN ================= */
 
 .screen{
 position:fixed;
@@ -76,54 +70,43 @@ padding:40px;
 z-index:10;
 }
 
-.screen.active{
-display:flex;
-}
-
-/* ================= TEXT ================= */
+.screen.active{display:flex;}
 
 h2{
 letter-spacing:6px;
-margin-bottom:25px;
+margin-bottom:20px;
 font-size:22px;
-opacity:0;
-transform:translateY(10px);
-transition:all 1s ease;
 }
 
 .storyText{
 max-width:700px;
 line-height:1.8;
 font-size:14px;
-opacity:0;
-transform:translateY(10px);
-transition:all 1.5s ease;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
-.screen.active h2,
-.screen.active .storyText{
-opacity:1;
-transform:translateY(0);
-}
+/* ================= IMAGE LAYOUT ================= */
 
-/* ================= IMAGE PANELS ================= */
+.imageRow{
+position:absolute;
+bottom:60px;
+left:0;
+right:0;
+display:flex;
+justify-content:center;
+gap:40px;
+}
 
 .imagePanel{
-position:absolute;
-width:300px;
-height:190px;
+width:280px;
+height:180px;
 overflow:hidden;
 border:2px solid rgba(255,255,255,.4);
-box-shadow:0 0 40px rgba(0,0,0,.8);
+box-shadow:0 0 30px rgba(0,0,0,.8);
 opacity:0;
-transform:scale(1.2);
-transition:opacity 1.5s ease, transform 6s ease;
+transform:scale(1.1);
+transition:opacity 1.2s ease, transform 6s ease;
 }
-
-.imagePanel.left{left:60px;bottom:60px;}
-.imagePanel.right{right:60px;top:60px;}
-.imagePanel.center{bottom:60px;}
 
 .imagePanel img{
 width:100%;
@@ -134,32 +117,6 @@ object-fit:cover;
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
-animation:vhsPulse 5s infinite alternate;
-}
-
-@keyframes vhsPulse{
-0%{filter:brightness(1);}
-50%{filter:brightness(1.08);}
-100%{filter:brightness(.95);}
-}
-
-/* ================= GLITCH ================= */
-
-.glitchFlash{
-animation:rgbSplit .3s ease;
-}
-
-@keyframes rgbSplit{
-50%{filter:drop-shadow(-3px 0 red) drop-shadow(3px 0 cyan);}
-}
-
-.tear{
-animation:tearEffect .2s linear;
-}
-
-@keyframes tearEffect{
-25%{transform:translateX(-15px);}
-50%{transform:translateX(10px);}
 }
 
 /* ================= BUTTONS ================= */
@@ -180,18 +137,48 @@ background:white;
 color:black;
 }
 
-/* ================= PARTY ================= */
+/* ================= WEDDING PARTY ================= */
 
-.partyList{
-display:none;
-margin-top:15px;
+.partyGrid{
+display:flex;
+gap:80px;
+margin-top:30px;
 }
 
-.partyList.show{
-display:block;
+.partyColumn{
+min-width:200px;
+text-align:left;
 }
 
-/* ================= STATIC / CRASH ================= */
+.partyColumn h3{
+margin-bottom:15px;
+letter-spacing:3px;
+font-size:14px;
+}
+
+.partyColumn div{
+margin-bottom:8px;
+font-size:13px;
+}
+
+/* ================= DONATION ================= */
+
+.donationCard{
+border:2px solid rgba(255,255,255,.4);
+padding:40px;
+background:rgba(0,0,0,.7);
+box-shadow:0 0 60px rgba(255,255,255,.08);
+width:400px;
+}
+
+.donationButtons{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+/* ================= STATIC / END ================= */
 
 .static{
 position:fixed;
@@ -225,8 +212,8 @@ animation:shake .2s linear infinite;
 }
 
 @keyframes shake{
-25%{transform:translate(-10px,5px);}
-50%{transform:translate(10px,-5px);}
+25%{transform:translate(-8px,5px);}
+50%{transform:translate(8px,-5px);}
 }
 
 .rewindVideo{
@@ -265,9 +252,10 @@ z-index:1000;
 <div class="static" id="static"></div>
 <div class="whiteFlash" id="whiteFlash"></div>
 <div class="ending" id="ending">TRANSMISSION LOST</div>
+
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<!-- ================= CH1 ================= -->
+<!-- CH1 -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
@@ -277,103 +265,88 @@ Recovered recording. Playback unstable.
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-<!-- ================= CH2 ================= -->
+<!-- CH2 -->
 
 <div class="screen" id="c2">
-<div class="imagePanel left"><img src="c2-1.jpg"></div>
-<div class="imagePanel right"><img src="c2-2.jpg"></div>
-<div class="imagePanel center"><img src="c2-3.jpg"></div>
 <h2>CHAPTER TITLE</h2>
-<div class="storyText">Edit chapter 2 text here.</div>
+<div class="storyText">
+Edit chapter text here.
+</div>
+
+<div class="imageRow">
+<div class="imagePanel"><img src="c2-1.jpg"></div>
+<div class="imagePanel"><img src="c2-2.jpg"></div>
+<div class="imagePanel"><img src="c2-3.jpg"></div>
+</div>
+
 <button onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- ================= CH3 ================= -->
-
-<div class="screen" id="c3">
-<div class="imagePanel left"><img src="c3-1.jpg"></div>
-<div class="imagePanel right"><img src="c3-2.jpg"></div>
-<div class="imagePanel center"><img src="c3-3.jpg"></div>
-<h2>CHAPTER TITLE</h2>
-<div class="storyText">Edit chapter 3 text here.</div>
-<button onclick="goTo(4)">CONTINUE</button>
-</div>
-
-<!-- ================= CH4 ================= -->
-
-<div class="screen" id="c4">
-<h2>WEDDING DETAILS</h2>
-<div class="storyText">
-October 24, 2026<br>
-5:00 PM – 9:00 PM<br>
-The Conservatory — Acworth, GA
-</div>
-<button onclick="goTo(5)">CONTINUE</button>
-</div>
-
-<!-- ================= CH5 ================= -->
+<!-- CH5 WEDDING PARTY -->
 
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-<button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
-<div class="partyList" id="bride"></div>
-<button onclick="toggleParty('groom')">GROOM’S PARTY</button>
-<div class="partyList" id="groom"></div>
+
+<div class="partyGrid">
+
+<div class="partyColumn">
+<h3>BRIDE'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
+</div>
+
+<div class="partyColumn">
+<h3>GROOM'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
+</div>
+
+</div>
+
 <button onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- ================= CH6 ================= -->
+<!-- CH6 DONATION -->
 
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-<div class="storyText">If you wish to contribute to our future:</div>
-<button onclick="goTo(7)">CONTINUE</button>
+
+<div class="donationCard">
+<div class="storyText">
+If you wish to contribute to our future:
 </div>
 
-<!-- ================= CH7 ================= -->
+<div class="donationButtons">
+<a href="#"><button>APPLE CASH</button></a>
+<a href="#"><button>ZELLE</button></a>
+</div>
+</div>
 
-<div class="screen" id="c7">
-<h2>ENTER THE ARCHIVE</h2>
-<input id="rsvpName" placeholder="Your Name"><br>
-<select id="attendance">
-<option value="">Select Attendance</option>
-<option>Attending</option>
-<option>Not Attending</option>
-</select><br>
-<input id="extraGuests" placeholder="Guest Names"><br>
-<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+<button onclick="goTo(7)">CONTINUE</button>
 </div>
 
 <script>
 
-let glitchInterval=null;
+let whisperStarted=false;
+const whisper=document.getElementById("whisper");
+
+function startWhisper(){
+if(!whisperStarted){
+whisper.volume=.1;
+whisper.play().catch(()=>{});
+whisperStarted=true;
+}
+}
 
 function goTo(n){
+startWhisper();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 const target=document.getElementById("c"+n);
 target.classList.add("active");
-activateImages(target);
-startGlitchEngine();
-}
 
-function activateImages(screen){
-screen.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>panel.classList.add("show"),i*1200);
+target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
+setTimeout(()=>panel.classList.add("show"),i*800);
 });
-}
-
-function startGlitchEngine(){
-if(glitchInterval) return;
-glitchInterval=setInterval(()=>{
-if(Math.random()<.3){
-document.body.classList.add("tear");
-setTimeout(()=>document.body.classList.remove("tear"),200);
-}
-},4000);
-}
-
-function toggleParty(id){
-document.getElementById(id).classList.toggle("show");
 }
 
 function endTransmission(){
