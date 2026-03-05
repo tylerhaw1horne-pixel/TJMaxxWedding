@@ -168,7 +168,11 @@ letter-spacing:4px;
 cursor:pointer;
 transition:.3s;
 }
-
+  
+.continueBtn{
+margin-top:60px;
+}
+  
 button:hover{
 background:white;
 color:black;
@@ -176,61 +180,86 @@ color:black;
 
 /* ================= WEDDING PARTY ================= */
 
-.partyWrapper{
-margin-top:50px;
+/* ===== WEDDING PARTY UPGRADE ===== */
+
+.partyContainer{
+margin-top:60px;
 display:flex;
-gap:120px;
-justify-content:center; /* keeps columns centered */
-align-items:flex-start;
-flex-wrap:wrap; /* prevents overlap */
+gap:80px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
-.partyColumn{
-text-align:left;
-min-width:220px;
-max-width:260px;
+.partyCard{
+background:rgba(0,0,0,.85);
+padding:40px 50px;
+min-width:280px;
+border:1px solid rgba(255,255,255,.2);
+box-shadow:
+0 0 40px rgba(255,255,255,.05),
+0 0 120px rgba(255,0,0,.08);
+transition:transform .4s ease;
 }
 
-.partyColumn h3{
+.partyCard:hover{
+transform:translateY(-5px);
+}
+
+.partyCard h3{
 letter-spacing:4px;
-margin-bottom:20px;
+margin-bottom:25px;
 font-size:14px;
-border-bottom:1px solid rgba(255,255,255,.4);
-padding-bottom:8px;
+border-bottom:1px solid rgba(255,255,255,.3);
+padding-bottom:10px;
 }
 
-.partyColumn div{
-margin-bottom:10px;
+.partyList div{
+margin-bottom:12px;
 font-size:13px;
 opacity:.9;
+letter-spacing:2px;
 }
 
 /* ================= DONATION ================= */
 
-.donationCard{
+/* ===== CONTRIBUTION VAULT ===== */
+
+.donationVault{
 margin-top:60px;
-padding:60px 50px;
-width:460px;
-background:rgba(0,0,0,.85);
-border:2px solid rgba(255,255,255,.25);
+padding:6px;
+background:linear-gradient(
+45deg,
+rgba(255,255,255,.1),
+rgba(255,0,0,.15),
+rgba(255,255,255,.1)
+);
 box-shadow:
-0 0 40px rgba(255,255,255,.05),
-0 0 120px rgba(255,0,0,.15);
-display:flex;
-flex-direction:column;
-align-items:center;
+0 0 60px rgba(255,255,255,.05),
+0 0 140px rgba(255,0,0,.15);
 }
 
-.donationCard p{
-margin-bottom:30px;
+.vaultInner{
+background:rgba(0,0,0,.9);
+padding:60px 70px;
+text-align:center;
+min-width:420px;
+}
+
+.vaultInner p{
+margin-bottom:40px;
 font-size:14px;
+letter-spacing:2px;
 }
 
 .donationButtons{
 display:flex;
 flex-direction:column;
 gap:20px;
-margin-bottom:30px;
+}
+
+.donateBtn{
+width:220px;
+align-self:center;
 }
 
 /* ================= CRASH SYSTEM ================= */
@@ -370,21 +399,29 @@ The Conservatory — Acworth, GA
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 
-<div class="partyWrapper">
-<div class="partyColumn">
+<div class="partyContainer">
+
+<div class="partyCard">
 <h3>BRIDE'S PARTY</h3>
+<div class="partyList">
+<div>Name — Role</div>
 <div>Name — Role</div>
 <div>Name — Role</div>
 </div>
+</div>
 
-<div class="partyColumn">
+<div class="partyCard">
 <h3>GROOM'S PARTY</h3>
+<div class="partyList">
+<div>Name — Role</div>
 <div>Name — Role</div>
 <div>Name — Role</div>
 </div>
 </div>
 
-<button onclick="goTo(6)">CONTINUE</button>
+</div>
+
+<button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 6 ================= -->
@@ -392,18 +429,25 @@ The Conservatory — Acworth, GA
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
 
-<div class="donationCard">
+<div class="donationVault">
+
+<div class="vaultInner">
+
 <p>
-If you wish to contribute to our future:
+If you wish to contribute to our future,
+you may do so below.
 </p>
 
 <div class="donationButtons">
-<a href="#"><button>APPLE CASH</button></a>
-<a href="#"><button>ZELLE</button></a>
-</div>
+<a href="#"><button class="donateBtn">APPLE CASH</button></a>
+<a href="#"><button class="donateBtn">ZELLE</button></a>
 </div>
 
-<button onclick="goTo(7)">CONTINUE</button>
+</div>
+
+</div>
+
+<button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 7 ================= -->
