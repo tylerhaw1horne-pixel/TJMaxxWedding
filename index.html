@@ -83,7 +83,7 @@ z-index:10;
 
 .screen.active{
 display:flex;
-animation:fadeIn .7s ease;
+animation:fadeIn .6s ease;
 }
 
 @keyframes fadeIn{
@@ -97,9 +97,6 @@ h2{
 letter-spacing:6px;
 font-size:22px;
 margin-bottom:30px;
-opacity:0;
-transform:translateY(20px);
-transition:all .8s ease;
 }
 
 .storyText{
@@ -107,15 +104,6 @@ max-width:750px;
 line-height:1.8;
 font-size:14px;
 margin:40px 0;
-opacity:0;
-transform:translateY(20px);
-transition:all 1.2s ease;
-}
-
-.screen.active h2,
-.screen.active .storyText{
-opacity:1;
-transform:translateY(0);
 }
 
 /* ================= IMAGE SYSTEM ================= */
@@ -130,14 +118,13 @@ box-shadow:0 0 80px rgba(0,0,0,.9);
 margin:50px 0;
 opacity:0;
 transform:scale(1.05);
-transition:opacity 1s ease, transform 5s ease;
+transition:opacity 1s ease, transform 4s ease;
 }
 
 .imagePanel img{
 width:100%;
 height:100%;
 object-fit:cover;
-filter:contrast(1.1) brightness(.95);
 }
 
 .imagePanel.show{
@@ -171,60 +158,6 @@ color:black;
 
 .continueBtn{
 margin-top:40px;
-}
-
-/* ================= PARTY ================= */
-
-.partyContainer{
-margin-top:60px;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:50px;
-}
-
-.partyCard{
-background:rgba(0,0,0,.95);
-padding:50px;
-width:320px;
-border:1px solid rgba(255,255,255,.2);
-box-shadow:0 0 80px rgba(255,0,0,.1);
-}
-
-.partyCard h3{
-margin-bottom:20px;
-letter-spacing:4px;
-border-bottom:1px solid rgba(255,255,255,.3);
-padding-bottom:10px;
-}
-
-.partyCard div{
-margin-bottom:12px;
-}
-
-/* ================= DONATION ================= */
-
-.donationVault{
-margin-top:60px;
-display:flex;
-justify-content:center;
-}
-
-.vaultInner{
-background:rgba(0,0,0,.95);
-padding:60px;
-width:520px;
-max-width:95%;
-border:1px solid rgba(255,255,255,.2);
-box-shadow:0 0 100px rgba(255,0,0,.15);
-text-align:center;
-}
-
-.donationButtons{
-margin-top:40px;
-display:flex;
-flex-direction:column;
-gap:20px;
 }
 
 /* ================= CRASH SYSTEM ================= */
@@ -264,14 +197,6 @@ animation:shake .2s linear infinite;
 50%{transform:translate(8px,-4px);}
 }
 
-.rewindVideo{
-animation:rewind 1.5s ease forwards;
-}
-
-@keyframes rewind{
-50%{transform:scaleX(-1);}
-}
-
 .ending{
 position:fixed;
 inset:0;
@@ -282,24 +207,6 @@ background:black;
 font-size:24px;
 letter-spacing:8px;
 z-index:1000;
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width:768px){
-
-.imagePanel{
-height:220px;
-}
-
-.partyCard{
-width:95%;
-}
-
-.vaultInner{
-padding:40px 20px;
-}
-
 }
 
 </style>
@@ -322,15 +229,13 @@ padding:40px 20px;
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-<!-- ================= CHAPTER 1 ================= -->
+<!-- ================= CHAPTERS ================= -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
 <div class="storyText">Recovered recording. Playback unstable.</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
-
-<!-- ================= CHAPTER 2 ================= -->
 
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
@@ -340,8 +245,6 @@ padding:40px 20px;
 <button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 3 ================= -->
-
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
 <div class="imagePanel"><img src="c3-1.jpg"></div>
@@ -349,8 +252,6 @@ padding:40px 20px;
 <div class="imagePanel"><img src="c3-2.jpg"></div>
 <button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
 </div>
-
-<!-- ================= CHAPTER 4 ================= -->
 
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
@@ -362,105 +263,79 @@ The Conservatory — Acworth, GA
 <button class="continueBtn" onclick="goTo(5)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 5 ================= -->
-
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-<div class="partyContainer">
-<div class="partyCard">
-<h3>BRIDE'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-<div class="partyCard">
-<h3>GROOM'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-</div>
+<div class="storyText">Insert names manually here.</div>
 <button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 6 ================= -->
-
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-<div class="donationVault">
-<div class="vaultInner">
-<p>If you wish to contribute to our future, you may do so below.</p>
-<div class="donationButtons">
-<a href="#"><button>APPLE CASH</button></a>
-<a href="#"><button>ZELLE</button></a>
-</div>
-</div>
-</div>
+<div class="storyText">Insert Apple Cash & Zelle links here.</div>
 <button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
 </div>
-
-<!-- ================= CHAPTER 7 ================= -->
 
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
 <div class="storyText">Please confirm your presence.</div>
-<div style="margin-top:40px; display:flex; flex-direction:column; gap:18px; width:320px;">
-<input type="text" placeholder="Your Name" style="padding:10px;background:black;border:1px solid white;color:white;">
-<input type="email" placeholder="Email" style="padding:10px;background:black;border:1px solid white;color:white;">
-<select style="padding:10px;background:black;border:1px solid white;color:white;">
-<option>Attending</option>
-<option>Not Attending</option>
-</select>
-<textarea placeholder="Message" style="padding:10px;height:80px;background:black;border:1px solid white;color:white;"></textarea>
-<button>SUBMIT RSVP</button>
-</div>
-<button style="margin-top:50px;" onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
 </div>
 
 <script>
 
-let whisperStarted=false;
-const whisper=document.getElementById("whisper");
+/* SAFE ELEMENT LOOKUPS */
+const whisper = document.getElementById("whisper");
+const screech = document.getElementById("screech");
+const flash = document.getElementById("whiteFlash");
+const staticLayer = document.getElementById("static");
+const ending = document.getElementById("ending");
+
+let whisperStarted = false;
 
 function startWhisper(){
-if(!whisperStarted){
-whisper.volume=.08;
+if(whisper && !whisperStarted){
+whisper.volume = 0.08;
 whisper.play().catch(()=>{});
-whisperStarted=true;
+whisperStarted = true;
 }
 }
 
 function goTo(n){
+
 startWhisper();
-whisper.volume=.25;
-setTimeout(()=>whisper.volume=.08,300);
 
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-const target=document.getElementById("c"+n);
-target.classList.add("active");
+if(whisper){
+whisper.volume = 0.25;
+setTimeout(()=>{ whisper.volume = 0.08; },300);
+}
 
-target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>panel.classList.add("show"),i*600);
+document.querySelectorAll(".screen").forEach(s=>{
+s.classList.remove("active");
 });
+
+const target = document.getElementById("c"+n);
+if(target){
+target.classList.add("active");
+target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
+setTimeout(()=>panel.classList.add("show"), i*600);
+});
+}
 
 window.scrollTo(0,0);
 }
 
 function endTransmission(){
-const flash=document.getElementById("whiteFlash");
-const staticLayer=document.getElementById("static");
-const ending=document.getElementById("ending");
-const screech=document.getElementById("screech");
 
-document.body.classList.add("screenShake");
-flash.classList.add("active");
+if(flash) flash.classList.add("active");
 
 setTimeout(()=>{
-screech.play();
-whisper.pause();
-staticLayer.style.display="block";
+if(screech) screech.play();
+if(whisper) whisper.pause();
+if(staticLayer) staticLayer.style.display="block";
 },800);
 
 setTimeout(()=>{
-ending.style.display="flex";
+if(ending) ending.style.display="flex";
 },2500);
 }
 
