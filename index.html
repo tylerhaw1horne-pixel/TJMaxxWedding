@@ -137,7 +137,29 @@ color:black;
     0%{transform:translateY(0);}
     100%{transform:translateY(4px);}
 }
+/* FILM GRAIN OVERLAY */
+.videoPanel::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-image:
+        url("https://grainy-gradients.vercel.app/noise.svg");
+    opacity:.18;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    animation:grainMove 1s steps(2) infinite;
+}
 
+@keyframes grainMove{
+    0%{transform:translate(0,0);}
+    25%{transform:translate(-2%,1%);}
+    50%{transform:translate(1%,-2%);}
+    75%{transform:translate(-1%,2%);}
+    100%{transform:translate(0,0);}
+}
 /* LEFT PANEL */
 .leftPanel{
 left:60px;
@@ -158,6 +180,27 @@ object-fit:cover;
 object-position:center;
 opacity:0;
 transform:scale(1.2);
+}
+    /* CAMERA BREATHING */
+.videoPanel img.activeFilm{
+    animation:
+        breathing 6s infinite ease-in-out alternate,
+        exposurePulse 5s infinite linear;
+}
+
+@keyframes breathing{
+    0%{transform:scale(1);}
+    100%{transform:scale(1.03);}
+}
+ 
+
+@keyframes exposurePulse{
+    0%{filter:brightness(1);}
+    20%{filter:brightness(1.08);}
+    40%{filter:brightness(.92);}
+    60%{filter:brightness(1.05);}
+    80%{filter:brightness(.96);}
+    100%{filter:brightness(1);}
 }
 #img1{
     object-position:center 15%;
@@ -189,29 +232,6 @@ filter:none;
 }
 }
 
-/* FILM TRACKING GLITCH */
-.tracking{
-animation:tracking .25s infinite;
-}
-
-@keyframes tracking{
-0%{transform:translateX(0);}
-25%{transform:translateX(-3px);}
-50%{transform:translateX(3px);}
-75%{transform:translateX(-1px);}
-100%{transform:translateX(0);}
-}
-
-/* RGB BURST */
-.rgbBurst{
-animation:rgbBurst .35s;
-}
-
-@keyframes rgbBurst{
-0%{filter:drop-shadow(6px 0 red);}
-50%{filter:drop-shadow(-6px 0 cyan);}
-100%{filter:none;}
-}
 
 /* TIMESTAMP */
 .timestamp{
@@ -245,25 +265,6 @@ bottom:auto;
     animation: vhsFlicker 4s infinite linear;
 }
 
-@keyframes vhsFlicker{
-    0%{filter:brightness(1);}
-    20%{filter:brightness(1.05);}
-    40%{filter:brightness(.95);}
-    60%{filter:brightness(1.03);}
-    80%{filter:brightness(.97);}
-    100%{filter:brightness(1);}
-}
-
-/* Tracking roll */
-.trackingRoll{
-    animation: trackingRoll 6s infinite linear;
-}
-
-@keyframes trackingRoll{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(2px);}
-    100%{transform:translateY(0);}
-}
 
 /* Subtle analog warp */
 .analogWarp{
@@ -278,7 +279,6 @@ bottom:auto;
 /* ADD THESE RIGHT UNDER analogWarp */
 /* ============================= */
 
-/* Horizontal tape slip burst */
 .tracking{
     animation: trackingBurst .35s linear;
 }
@@ -320,9 +320,8 @@ bottom:auto;
 }
 
 .vhsDrag{
-    animation: vhsDrag 8s infinite ease-in-out;
+    animation: vhsDrag 5s infinite ease-in-out;
 }
-
 @keyframes vhsDrag{
     0%{transform:translateX(0);}
     50%{transform:translateX(1.5px);}
@@ -437,6 +436,10 @@ setTimeout(()=>{
         img1.parentElement.classList.add("vhsFilm");
         img1.parentElement.classList.add("vhsDrag");
         img1.parentElement.classList.add("chromatic");
+
+        img1.classList.add("activeFilm");
+        
+
     },1200);
 
 },5000);
@@ -449,6 +452,10 @@ setTimeout(()=>{
         img2.parentElement.classList.add("vhsFilm");
         img2.parentElement.classList.add("vhsDrag");
         img2.parentElement.classList.add("chromatic");
+
+        img2.classList.add("activeFilm");
+        
+
     },1200);
 
 },7000);
