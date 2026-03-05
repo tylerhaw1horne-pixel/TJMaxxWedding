@@ -7,8 +7,6 @@
 
 <style>
 
-/* ===== GLOBAL ===== */
-
 *{margin:0;padding:0;box-sizing:border-box;}
 
 html,body{
@@ -23,23 +21,46 @@ overflow-x:hidden;
 .videoWrapper{
 position:fixed;
 inset:0;
-z-index:-2;
+z-index:-3;
 overflow:hidden;
+background:black;
 }
 
 #bgVideo{
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.6) contrast(1.25);
-transition:filter 2s ease;
+filter:brightness(.65) contrast(1.25);
+transition:filter 1.5s ease, transform 1s ease;
 }
 
+/* Dark overlay */
 .darkOverlay{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.65);
+background:rgba(0,0,0,.6);
+z-index:-2;
+}
+
+/* Scanlines */
+.scan{
+position:fixed;
+inset:0;
+background:repeating-linear-gradient(
+0deg,
+rgba(255,255,255,.03),
+rgba(255,255,255,.03) 1px,
+transparent 1px,
+transparent 3px
+);
+pointer-events:none;
 z-index:-1;
+animation:scanMove 8s linear infinite;
+}
+
+@keyframes scanMove{
+0%{background-position:0 0;}
+100%{background-position:0 150px;}
 }
 
 /* ===== SCREEN SYSTEM ===== */
@@ -47,7 +68,7 @@ z-index:-1;
 .screen{
 display:none;
 min-height:100vh;
-padding:120px 25px 100px 25px;
+padding:120px 25px;
 text-align:center;
 opacity:0;
 transform:translateY(20px);
@@ -60,11 +81,8 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* ===== TEXT ===== */
-
 h2{
 letter-spacing:6px;
-font-size:22px;
 margin-bottom:30px;
 }
 
@@ -72,11 +90,9 @@ margin-bottom:30px;
 max-width:750px;
 margin:40px auto;
 line-height:1.8;
-font-size:14px;
 }
 
-/* ===== IMAGE SYSTEM ===== */
-
+/* Images */
 .imagePanel{
 width:600px;
 max-width:95%;
@@ -108,8 +124,7 @@ animation:pulse 6s infinite alternate;
 100%{filter:brightness(.95);}
 }
 
-/* ===== BUTTONS ===== */
-
+/* Buttons */
 button{
 padding:12px 38px;
 border:2px solid white;
@@ -126,7 +141,7 @@ background:white;
 color:black;
 }
 
-/* ===== FINAL EFFECTS ===== */
+/* ===== CRASH EFFECTS ===== */
 
 .whiteFlash{
 position:fixed;
@@ -154,12 +169,24 @@ animation:shake .2s linear infinite;
 50%{transform:translate(8px,-4px);}
 }
 
+.static{
+position:fixed;
+inset:0;
+background:repeating-linear-gradient(
+0deg,white 0px,white 2px,black 2px,black 4px
+);
+display:none;
+z-index:998;
+}
+
 .ending{
 display:none;
 text-align:center;
 padding:200px 20px;
 font-size:26px;
 letter-spacing:8px;
+z-index:1000;
+position:relative;
 }
 
 </style>
@@ -174,18 +201,18 @@ letter-spacing:8px;
 </div>
 
 <div class="darkOverlay"></div>
+<div class="scan"></div>
 <div class="whiteFlash" id="flash"></div>
+<div class="static" id="static"></div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-<!-- ================= CHAPTERS ================= -->
+<!-- CHAPTERS -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
-<div class="storyText">
-Recovered recording. Playback unstable.
-</div>
+<div class="storyText">Recovered recording. Playback unstable.</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
@@ -233,9 +260,7 @@ The Conservatory — Acworth, GA
 <button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
 </div>
 
-<div class="ending" id="ending">
-TRANSMISSION LOST
-</div>
+<div class="ending" id="ending">TRANSMISSION LOST</div>
 
 <script>
 
@@ -243,6 +268,7 @@ var whisper = document.getElementById("whisper");
 var screech = document.getElementById("screech");
 var flash = document.getElementById("flash");
 var video = document.getElementById("bgVideo");
+var staticLayer = document.getElementById("static");
 
 var whisperStarted = false;
 
@@ -259,7 +285,7 @@ if(whisper){
 whisper.volume = 0.25;
 setTimeout(function(){
 whisper.volume = 0.08;
-},250);
+},300);
 }
 }
 
@@ -296,18 +322,21 @@ function endTransmission(){
 document.body.classList.add("screenShake");
 flash.classList.add("active");
 
-if(screech){
-screech.volume = .7;
-screech.play().catch(function(){});
+if(video){
+video.style.transform = "scaleX(-1)";
+video.style.filter = "brightness(.3) contrast(1.5)";
 }
 
+setTimeout(function(){
+if(screech){
+screech.volume = .8;
+screech.play().catch(function(){});
+}
 if(whisper){
 whisper.pause();
 }
-
-if(video){
-video.style.filter = "brightness(.3) contrast(1.4)";
-}
+staticLayer.style.display="block";
+},800);
 
 setTimeout(function(){
 var screens = document.querySelectorAll(".screen");
@@ -316,7 +345,7 @@ screens[i].classList.remove("active");
 }
 document.getElementById("ending").style.display="block";
 document.body.classList.remove("screenShake");
-},2000);
+},2200);
 
 }
 
