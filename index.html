@@ -183,9 +183,7 @@ transform:scale(1.2);
 }
     /* CAMERA BREATHING */
 .videoPanel img.activeFilm{
-    animation:
-        breathing 6s infinite ease-in-out alternate,
-        exposurePulse 5s infinite linear;
+    animation:breathing 6s infinite ease-in-out alternate;
 }
 
 @keyframes breathing{
@@ -309,6 +307,18 @@ bottom:auto;
 
 .vhsFilm{
     animation: vhsFlicker 4s infinite linear;
+}
+.vhsExposure{
+    animation: exposurePulse 5s infinite linear;
+}
+
+@keyframes exposurePulse{
+    0%{filter:brightness(1);}
+    20%{filter:brightness(1.06);}
+    40%{filter:brightness(.95);}
+    60%{filter:brightness(1.04);}
+    80%{filter:brightness(.97);}
+    100%{filter:brightness(1);}
 }
 
 @keyframes vhsFlicker{
@@ -434,8 +444,9 @@ setTimeout(()=>{
 
     setTimeout(()=>{
         img1.parentElement.classList.add("vhsFilm");
-        img1.parentElement.classList.add("vhsDrag");
-        img1.parentElement.classList.add("chromatic");
+img1.parentElement.classList.add("vhsDrag");
+img1.parentElement.classList.add("chromatic");
+img1.parentElement.classList.add("vhsExposure");
 
         img1.classList.add("activeFilm");
         
@@ -450,8 +461,9 @@ setTimeout(()=>{
 
     setTimeout(()=>{
         img2.parentElement.classList.add("vhsFilm");
-        img2.parentElement.classList.add("vhsDrag");
-        img2.parentElement.classList.add("chromatic");
+img2.parentElement.classList.add("vhsDrag");
+img2.parentElement.classList.add("chromatic");
+img2.parentElement.classList.add("vhsExposure");
 
         img2.classList.add("activeFilm");
         
