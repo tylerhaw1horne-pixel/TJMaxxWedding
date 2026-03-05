@@ -4,86 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Recovered Archive — 10.24.2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
 
-/* ================= GLOBAL ================= */
+/* ===== GLOBAL ===== */
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
 html,body{
-height:100%;
-width:100%;
 background:black;
 color:white;
-font-family:'Share Tech Mono',monospace;
+font-family:monospace;
 overflow-x:hidden;
-overflow-y:auto;
 }
 
-/* ================= BACKGROUND VIDEO ================= */
+/* ===== BACKGROUND ===== */
 
-.videoWrapper{
-position:fixed;
-inset:0;
-z-index:0;
+body{
+min-height:100vh;
 }
 
-#bgVideo{
-width:100%;
-height:100%;
-object-fit:cover;
-filter:brightness(.65) contrast(1.25);
-}
-
-/* ================= OVERLAYS ================= */
-
-.dark{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.7);
-z-index:1;
-pointer-events:none;
-}
-
-.scan{
-position:fixed;
-inset:0;
-background:repeating-linear-gradient(
-0deg,
-rgba(255,255,255,.02),
-rgba(255,255,255,.02) 1px,
-transparent 1px,
-transparent 3px
-);
-z-index:2;
-pointer-events:none;
-animation:scanMove 8s linear infinite;
-}
-
-@keyframes scanMove{
-0%{background-position:0 0;}
-100%{background-position:0 150px;}
-}
-
-/* ================= SCREEN SYSTEM ================= */
+/* ===== SCREEN SYSTEM ===== */
 
 .screen{
-position:relative;
-min-height:100vh;
 display:none;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+min-height:100vh;
+padding:120px 25px 100px 25px;
 text-align:center;
-padding:100px 25px;
-z-index:10;
 }
 
 .screen.active{
-display:flex;
-animation:fadeIn .6s ease;
+display:block;
+animation:fadeIn .5s ease;
 }
 
 @keyframes fadeIn{
@@ -91,7 +43,7 @@ from{opacity:0;}
 to{opacity:1;}
 }
 
-/* ================= TEXT ================= */
+/* ===== TEXT ===== */
 
 h2{
 letter-spacing:6px;
@@ -101,24 +53,21 @@ margin-bottom:30px;
 
 .storyText{
 max-width:750px;
+margin:40px auto;
 line-height:1.8;
 font-size:14px;
-margin:40px 0;
 }
 
-/* ================= IMAGE SYSTEM ================= */
+/* ===== IMAGE SYSTEM (TOP / TEXT / BOTTOM) ===== */
 
 .imagePanel{
-width:560px;
+width:600px;
 max-width:95%;
-height:320px;
+height:340px;
+margin:40px auto;
 overflow:hidden;
-border:2px solid rgba(255,255,255,.35);
-box-shadow:0 0 80px rgba(0,0,0,.9);
-margin:50px 0;
-opacity:0;
-transform:scale(1.05);
-transition:opacity 1s ease, transform 4s ease;
+border:2px solid rgba(255,255,255,.4);
+box-shadow:0 0 80px rgba(0,0,0,.8);
 }
 
 .imagePanel img{
@@ -127,19 +76,7 @@ height:100%;
 object-fit:cover;
 }
 
-.imagePanel.show{
-opacity:1;
-transform:scale(1);
-animation:glowPulse 6s infinite alternate;
-}
-
-@keyframes glowPulse{
-0%{filter:brightness(1);}
-50%{filter:brightness(1.08);}
-100%{filter:brightness(.95);}
-}
-
-/* ================= BUTTONS ================= */
+/* ===== BUTTONS ===== */
 
 button{
 padding:12px 38px;
@@ -148,6 +85,7 @@ background:black;
 color:white;
 letter-spacing:4px;
 cursor:pointer;
+margin-top:40px;
 transition:.3s;
 }
 
@@ -156,57 +94,78 @@ background:white;
 color:black;
 }
 
-.continueBtn{
-margin-top:40px;
+/* ===== PARTY ===== */
+
+.partyContainer{
+margin-top:60px;
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:40px;
 }
 
-/* ================= CRASH SYSTEM ================= */
-
-.static{
-position:fixed;
-inset:0;
-background:repeating-linear-gradient(
-0deg,white 0px,white 2px,black 2px,black 4px
-);
-display:none;
-z-index:999;
+.partyCard{
+background:rgba(0,0,0,.9);
+padding:40px;
+width:320px;
+border:1px solid rgba(255,255,255,.3);
 }
 
-.whiteFlash{
-position:fixed;
-inset:0;
-background:white;
-opacity:0;
-z-index:998;
+.partyCard h3{
+margin-bottom:20px;
+letter-spacing:4px;
+border-bottom:1px solid rgba(255,255,255,.4);
+padding-bottom:10px;
 }
 
-.whiteFlash.active{
-animation:flash .4s ease;
+/* ===== DONATION ===== */
+
+.donationVault{
+margin-top:60px;
 }
 
-@keyframes flash{
-50%{opacity:.9;}
+.vaultInner{
+background:rgba(0,0,0,.9);
+padding:50px;
+width:520px;
+max-width:95%;
+margin:auto;
+border:1px solid rgba(255,255,255,.3);
 }
 
-.screenShake{
-animation:shake .2s linear infinite;
+.donationButtons{
+margin-top:30px;
+display:flex;
+flex-direction:column;
+gap:20px;
 }
 
-@keyframes shake{
-25%{transform:translate(-8px,4px);}
-50%{transform:translate(8px,-4px);}
-}
+/* ===== FINAL SCREEN ===== */
 
 .ending{
-position:fixed;
-inset:0;
 display:none;
-justify-content:center;
-align-items:center;
-background:black;
+text-align:center;
+padding:200px 20px;
 font-size:24px;
 letter-spacing:8px;
-z-index:1000;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width:768px){
+
+.imagePanel{
+height:220px;
+}
+
+.partyCard{
+width:95%;
+}
+
+.vaultInner{
+padding:30px;
+}
+
 }
 
 </style>
@@ -214,129 +173,166 @@ z-index:1000;
 
 <body>
 
-<div class="videoWrapper">
-<video id="bgVideo" autoplay muted loop playsinline>
-<source src="forrest vid.mp4" type="video/mp4">
-</video>
-</div>
-
-<div class="dark"></div>
-<div class="scan"></div>
-<div class="static" id="static"></div>
-<div class="whiteFlash" id="whiteFlash"></div>
-<div class="ending" id="ending">TRANSMISSION LOST</div>
-
-<audio id="whisper" src="whisper.mp3" loop></audio>
-<audio id="screech" src="screech.mp3"></audio>
-
-<!-- ================= CHAPTERS ================= -->
+<!-- ================= CHAPTER 1 ================= -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
-<div class="storyText">Recovered recording. Playback unstable.</div>
+<div class="storyText">
+Recovered recording. Playback unstable.
+</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
+<!-- ================= CHAPTER 2 ================= -->
+
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
-<div class="imagePanel"><img src="c2-1.jpg"></div>
-<div class="storyText">(Insert chapter 2 text here.)</div>
-<div class="imagePanel"><img src="c2-2.jpg"></div>
-<button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
+
+<div class="imagePanel">
+<img src="c2-1.jpg">
 </div>
+
+<div class="storyText">
+(Insert chapter 2 text here.)
+</div>
+
+<div class="imagePanel">
+<img src="c2-2.jpg">
+</div>
+
+<button onclick="goTo(3)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 3 ================= -->
 
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
-<div class="imagePanel"><img src="c3-1.jpg"></div>
-<div class="storyText">(Insert chapter 3 text here.)</div>
-<div class="imagePanel"><img src="c3-2.jpg"></div>
-<button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
+
+<div class="imagePanel">
+<img src="c3-1.jpg">
 </div>
+
+<div class="storyText">
+(Insert chapter 3 text here.)
+</div>
+
+<div class="imagePanel">
+<img src="c3-2.jpg">
+</div>
+
+<button onclick="goTo(4)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 4 ================= -->
 
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
+
 <div class="storyText">
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
 </div>
-<button class="continueBtn" onclick="goTo(5)">CONTINUE</button>
+
+<button onclick="goTo(5)">CONTINUE</button>
 </div>
+
+<!-- ================= CHAPTER 5 ================= -->
 
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-<div class="storyText">Insert names manually here.</div>
-<button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
+
+<div class="partyContainer">
+
+<div class="partyCard">
+<h3>BRIDE'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
 </div>
+
+<div class="partyCard">
+<h3>GROOM'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
+</div>
+
+</div>
+
+<button onclick="goTo(6)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 6 ================= -->
 
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-<div class="storyText">Insert Apple Cash & Zelle links here.</div>
-<button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
+
+<div class="donationVault">
+<div class="vaultInner">
+<p>If you wish to contribute to our future, you may do so below.</p>
+
+<div class="donationButtons">
+<a href="#"><button>APPLE CASH</button></a>
+<a href="#"><button>ZELLE</button></a>
 </div>
+
+</div>
+</div>
+
+<button onclick="goTo(7)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 7 ================= -->
 
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
-<div class="storyText">Please confirm your presence.</div>
-<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+
+<div class="storyText">
+Please confirm your presence.
+</div>
+
+<button onclick="finalize()">FINALIZE TRANSMISSION</button>
+</div>
+
+<!-- ================= FINAL MESSAGE ================= -->
+
+<div class="ending" id="ending">
+TRANSMISSION LOST
 </div>
 
 <script>
 
-/* SAFE ELEMENT LOOKUPS */
-const whisper = document.getElementById("whisper");
-const screech = document.getElementById("screech");
-const flash = document.getElementById("whiteFlash");
-const staticLayer = document.getElementById("static");
-const ending = document.getElementById("ending");
-
-let whisperStarted = false;
-
-function startWhisper(){
-if(whisper && !whisperStarted){
-whisper.volume = 0.08;
-whisper.play().catch(()=>{});
-whisperStarted = true;
-}
-}
+/* PURE, GUARANTEED SAFE NAVIGATION */
 
 function goTo(n){
 
-startWhisper();
-
-if(whisper){
-whisper.volume = 0.25;
-setTimeout(()=>{ whisper.volume = 0.08; },300);
+// Hide all screens
+var screens = document.querySelectorAll(".screen");
+for(var i=0;i<screens.length;i++){
+screens[i].classList.remove("active");
 }
 
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
-});
-
-const target = document.getElementById("c"+n);
+// Show target
+var target = document.getElementById("c"+n);
 if(target){
 target.classList.add("active");
-target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>panel.classList.add("show"), i*600);
-});
-}
-
 window.scrollTo(0,0);
 }
 
-function endTransmission(){
+}
 
-if(flash) flash.classList.add("active");
+function finalize(){
 
-setTimeout(()=>{
-if(screech) screech.play();
-if(whisper) whisper.pause();
-if(staticLayer) staticLayer.style.display="block";
-},800);
+// Hide screens
+var screens = document.querySelectorAll(".screen");
+for(var i=0;i<screens.length;i++){
+screens[i].classList.remove("active");
+}
 
-setTimeout(()=>{
-if(ending) ending.style.display="flex";
-},2500);
+// Show ending
+document.getElementById("ending").style.display="block";
+
+window.scrollTo(0,0);
+
 }
 
 </script>
