@@ -343,82 +343,95 @@ Name — Role
 
 
 <script>
-document.addEventListener("DOMContentLoaded", function(){
 
-    const whisper = document.getElementById("whisper");
-    const screens = document.querySelectorAll(".screen");
-    const staticLayer = document.getElementById("static");
-    const endingText = document.getElementById("endingText");
+/* ================= CORE ELEMENTS ================= */
 
-    let audioStarted = false;
+const whisper = document.getElementById("whisper");
+const screens = document.querySelectorAll(".screen");
+const staticLayer = document.getElementById("static");
+const endingText = document.getElementById("endingText");
 
-    function startAudio(){
-        if(!audioStarted && whisper){
-            whisper.volume = 0.12;
-            whisper.play().catch(()=>{});
-            audioStarted = true;
-        }
+let audioStarted = false;
+
+/* ================= AUDIO ================= */
+
+function startAudio(){
+    if(!audioStarted && whisper){
+        whisper.volume = 0.12;
+        whisper.play().catch(()=>{});
+        audioStarted = true;
     }
+}
 
-    function goToScreen(n){
-        startAudio();
-        screens.forEach(screen => screen.classList.remove("active"));
-        const target = document.getElementById("c"+n);
-        if(target){
-            target.classList.add("active");
-        }
+/* ================= SCREEN NAVIGATION ================= */
+
+function goToScreen(n){
+    startAudio();
+    screens.forEach(screen => screen.classList.remove("active"));
+    const target = document.getElementById("c" + n);
+    if(target){
+        target.classList.add("active");
     }
+}
 
-    /* Attach button navigation */
-    document.querySelectorAll("[data-next]").forEach(btn=>{
-        btn.addEventListener("click", function(){
-            goToScreen(this.dataset.next);
-        });
-    });
-
-    /* Party Toggle */
-    document.querySelectorAll("[data-party]").forEach(btn=>{
-        btn.addEventListener("click", function(){
-            const section = document.getElementById(this.dataset.party);
-            if(section){
-                section.classList.toggle("active");
-            }
-        });
-    });
-
-    /* RSVP */
-    const rsvpBtn = document.getElementById("submitRSVP");
-    if(rsvpBtn){
-        rsvpBtn.addEventListener("click", function(){
-            const data = {
-                name: document.getElementById("rsvpName")?.value || "",
-                email: document.getElementById("rsvpEmail")?.value || "",
-                attendance: document.getElementById("attendance")?.value || "",
-                guests: document.getElementById("guestCount")?.value || "",
-                message: document.getElementById("message")?.value || ""
-            };
-
-            localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
-            alert("RSVP ARCHIVED");
-        });
-    }
-
-    /* End Transmission */
-    const endBtn = document.getElementById("endTransmission");
-    if(endBtn){
-        endBtn.addEventListener("click", function(){
-            if(staticLayer){
-                staticLayer.classList.add("active");
-            }
-            setTimeout(()=>{
-                if(endingText){
-                    endingText.classList.add("active");
-                }
-            },3000);
-        });
-    }
-
+/* Bind navigation buttons */
+document.querySelectorAll("[data-next]").forEach(btn=>{
+    btn.onclick = function(){
+        goToScreen(this.dataset.next);
+    };
 });
+
+/* ================= PARTY TOGGLE ================= */
+
+document.querySelectorAll("[data-party]").forEach(btn=>{
+    btn.onclick = function(){
+        const section = document.getElementById(this.dataset.party);
+        if(section){
+            section.classList.toggle("active");
+        }
+    };
+});
+
+/* ================= RSVP ================= */
+
+const rsvpBtn = document.getElementById("submitRSVP");
+
+if(rsvpBtn){
+    rsvpBtn.onclick = function(){
+
+        const data = {
+            name: document.getElementById("rsvpName").value,
+            email: document.getElementById("rsvpEmail").value,
+            attendance: document.getElementById("attendance").value,
+            guests: document.getElementById("guestCount").value,
+            message: document.getElementById("message").value
+        };
+
+        localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
+
+        alert("RSVP ARCHIVED");
+    };
+}
+
+/* ================= FINAL TRANSMISSION ================= */
+
+const endBtn = document.getElementById("endTransmission");
+
+if(endBtn){
+    endBtn.onclick = function(){
+
+        if(staticLayer){
+            staticLayer.classList.add("active");
+        }
+
+        setTimeout(()=>{
+            if(endingText){
+                endingText.classList.add("active");
+            }
+        },3000);
+    };
+}
+
 </script>
 
 </body>
