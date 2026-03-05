@@ -118,18 +118,20 @@ transform:translateY(0);
 
 /* ================= IMAGE SYSTEM ================= */
 
+/* ================= IMAGE SYSTEM (VERTICAL STACKED) ================= */
+
 .imageRow{
-margin-top:40px;
 display:flex;
 flex-direction:column;
 align-items:center;
-gap:60px;
-margin-bottom:70px;
+gap:40px;
+margin:40px 0 60px 0;
+width:100%;
 }
 
 .imagePanel{
-width:420px;
-height:240px;
+width:520px;
+height:300px;
 overflow:hidden;
 border:2px solid rgba(255,255,255,.35);
 box-shadow:0 0 60px rgba(0,0,0,.9);
@@ -138,22 +140,13 @@ transform:scale(1.05);
 transition:opacity 1.2s ease, transform 6s ease;
 }
 
-.imagePanel:nth-child(1){
-align-self:flex-start;
-margin-left:8%;
-}
-
-.imagePanel:nth-child(2){
-align-self:flex-end;
-margin-right:8%;
-}
-
 .imagePanel img{
 width:100%;
 height:100%;
 object-fit:cover;
 }
 
+/* reveal */
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
@@ -320,20 +313,26 @@ z-index:1000;
 
 @media (max-width:768px){
 
+.screen{
+padding:40px 20px;
+overflow-y:auto;
+}
+
 .imagePanel{
-width:90%;
-height:180px;
-margin:0 !important;
-align-self:center !important;
+width:100%;
+height:200px;
+}
+
+.storyText{
+max-width:100%;
 }
 
 .partyCard{
-width:90%;
-padding:40px 30px;
+width:100%;
 }
 
 .vaultInner{
-width:95%;
+width:100%;
 padding:50px 30px;
 }
 
@@ -341,13 +340,7 @@ padding:50px 30px;
 width:100%;
 }
 
-.screen{
-padding:40px 20px;
 }
-
-}
-
-</style>
 </head>
 
 <body>
@@ -377,29 +370,43 @@ Recovered recording. Playback unstable.
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
+
 <!-- ================= CHAPTER 2 ================= -->
 
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
-<div class="storyText">(Insert chapter 2 text here.)</div>
 
 <div class="imageRow">
-<div class="imagePanel"><img src="c2-1.jpg"></div>
-<div class="imagePanel"><img src="c2-2.jpg"></div>
+  <div class="imagePanel"><img src="c2-1.jpg"></div>
+</div>
+
+<div class="storyText">
+(Insert chapter 2 text here.)
+</div>
+
+<div class="imageRow">
+  <div class="imagePanel"><img src="c2-2.jpg"></div>
 </div>
 
 <button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
 </div>
 
+
 <!-- ================= CHAPTER 3 ================= -->
 
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
-<div class="storyText">(Insert chapter 3 text here.)</div>
 
 <div class="imageRow">
-<div class="imagePanel"><img src="c3-1.jpg"></div>
-<div class="imagePanel"><img src="c3-2.jpg"></div>
+  <div class="imagePanel"><img src="c3-1.jpg"></div>
+</div>
+
+<div class="storyText">
+(Insert chapter 3 text here.)
+</div>
+
+<div class="imageRow">
+  <div class="imagePanel"><img src="c3-2.jpg"></div>
 </div>
 
 <button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
