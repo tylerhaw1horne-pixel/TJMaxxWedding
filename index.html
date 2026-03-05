@@ -7,6 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+
+/* ================= GLOBAL ================= */
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{
 height:100%;
@@ -17,7 +20,7 @@ font-family:'Share Tech Mono',monospace;
 overflow:hidden;
 }
 
-/* ================= VIDEO ================= */
+/* ================= BACKGROUND VIDEO ================= */
 
 .videoWrapper{
 position:fixed;
@@ -29,7 +32,8 @@ z-index:0;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.8) contrast(1.1);
+filter:brightness(.75) contrast(1.2);
+transition:filter 2s ease;
 }
 
 /* ================= ATMOSPHERE ================= */
@@ -37,7 +41,7 @@ filter:brightness(.8) contrast(1.1);
 .dark{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.6);
+background:rgba(0,0,0,.65);
 z-index:1;
 pointer-events:none;
 }
@@ -47,16 +51,22 @@ position:fixed;
 inset:0;
 background:repeating-linear-gradient(
 0deg,
-rgba(255,255,255,.03),
-rgba(255,255,255,.03) 1px,
+rgba(255,255,255,.02),
+rgba(255,255,255,.02) 1px,
 transparent 1px,
 transparent 3px
 );
 z-index:2;
 pointer-events:none;
+animation:scanMove 7s linear infinite;
 }
 
-/* ================= SCREEN ================= */
+@keyframes scanMove{
+0%{background-position:0 0;}
+100%{background-position:0 120px;}
+}
+
+/* ================= SCREEN SYSTEM ================= */
 
 .screen{
 position:fixed;
@@ -66,43 +76,62 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:40px;
+padding:60px 40px;
 z-index:10;
 }
 
-.screen.active{display:flex;}
+.screen.active{
+display:flex;
+animation:fadeScreen .8s ease forwards;
+}
+
+@keyframes fadeScreen{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+/* ================= TEXT ================= */
 
 h2{
 letter-spacing:6px;
-margin-bottom:20px;
 font-size:22px;
+margin-bottom:25px;
+opacity:0;
+transform:translateY(15px);
+transition:all 1.2s ease;
 }
 
 .storyText{
-max-width:700px;
+max-width:720px;
 line-height:1.8;
 font-size:14px;
-margin-bottom:25px;
+opacity:0;
+transform:translateY(15px);
+transition:all 1.6s ease;
+margin-bottom:35px;
 }
 
-/* ================= IMAGE LAYOUT ================= */
+.screen.active h2,
+.screen.active .storyText{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ================= IMAGE PANELS ================= */
 
 .imageRow{
-position:absolute;
-bottom:60px;
-left:0;
-right:0;
 display:flex;
-justify-content:center;
 gap:40px;
+justify-content:center;
+margin-top:30px;
 }
 
 .imagePanel{
-width:280px;
-height:180px;
+width:260px;
+height:170px;
 overflow:hidden;
-border:2px solid rgba(255,255,255,.4);
-box-shadow:0 0 30px rgba(0,0,0,.8);
+border:2px solid rgba(255,255,255,.35);
+box-shadow:0 0 35px rgba(0,0,0,.8);
 opacity:0;
 transform:scale(1.1);
 transition:opacity 1.2s ease, transform 6s ease;
@@ -117,13 +146,19 @@ object-fit:cover;
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
+animation:subtlePulse 6s infinite alternate;
+}
+
+@keyframes subtlePulse{
+0%{filter:brightness(1);}
+50%{filter:brightness(1.05);}
+100%{filter:brightness(.95);}
 }
 
 /* ================= BUTTONS ================= */
 
 button{
-margin-top:20px;
-padding:12px 30px;
+padding:12px 34px;
 border:2px solid white;
 background:black;
 color:white;
@@ -139,46 +174,55 @@ color:black;
 
 /* ================= WEDDING PARTY ================= */
 
-.partyGrid{
+.partyWrapper{
+margin-top:40px;
 display:flex;
-gap:80px;
-margin-top:30px;
+gap:120px;
 }
 
 .partyColumn{
-min-width:200px;
 text-align:left;
 }
 
 .partyColumn h3{
-margin-bottom:15px;
-letter-spacing:3px;
+letter-spacing:4px;
+margin-bottom:20px;
 font-size:14px;
+border-bottom:1px solid rgba(255,255,255,.4);
+padding-bottom:8px;
 }
 
 .partyColumn div{
-margin-bottom:8px;
+margin-bottom:10px;
 font-size:13px;
+opacity:.9;
 }
 
 /* ================= DONATION ================= */
 
 .donationCard{
-border:2px solid rgba(255,255,255,.4);
-padding:40px;
-background:rgba(0,0,0,.7);
-box-shadow:0 0 60px rgba(255,255,255,.08);
-width:400px;
+margin-top:40px;
+padding:50px;
+width:460px;
+background:rgba(0,0,0,.8);
+border:2px solid rgba(255,255,255,.3);
+box-shadow:
+0 0 60px rgba(255,255,255,.05),
+0 0 120px rgba(255,0,0,.1);
+}
+
+.donationCard p{
+margin-bottom:30px;
+font-size:14px;
 }
 
 .donationButtons{
-margin-top:25px;
 display:flex;
 flex-direction:column;
-gap:15px;
+gap:18px;
 }
 
-/* ================= STATIC / END ================= */
+/* ================= CRASH SYSTEM ================= */
 
 .static{
 position:fixed;
@@ -212,8 +256,8 @@ animation:shake .2s linear infinite;
 }
 
 @keyframes shake{
-25%{transform:translate(-8px,5px);}
-50%{transform:translate(8px,-5px);}
+25%{transform:translate(-8px,4px);}
+50%{transform:translate(8px,-4px);}
 }
 
 .rewindVideo{
@@ -252,10 +296,9 @@ z-index:1000;
 <div class="static" id="static"></div>
 <div class="whiteFlash" id="whiteFlash"></div>
 <div class="ending" id="ending">TRANSMISSION LOST</div>
-
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<!-- CH1 -->
+<!-- ================= CHAPTER 1 ================= -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
@@ -265,12 +308,12 @@ Recovered recording. Playback unstable.
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-<!-- CH2 -->
+<!-- ================= CHAPTER 2 ================= -->
 
 <div class="screen" id="c2">
-<h2>CHAPTER TITLE</h2>
+<h2>RECONNECTION LOG</h2>
 <div class="storyText">
-Edit chapter text here.
+(Insert chapter 2 text here.)
 </div>
 
 <div class="imageRow">
@@ -282,13 +325,41 @@ Edit chapter text here.
 <button onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- CH5 WEDDING PARTY -->
+<!-- ================= CHAPTER 3 ================= -->
+
+<div class="screen" id="c3">
+<h2>OUR STORY</h2>
+<div class="storyText">
+(Insert chapter 3 text here.)
+</div>
+
+<div class="imageRow">
+<div class="imagePanel"><img src="c3-1.jpg"></div>
+<div class="imagePanel"><img src="c3-2.jpg"></div>
+<div class="imagePanel"><img src="c3-3.jpg"></div>
+</div>
+
+<button onclick="goTo(4)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 4 ================= -->
+
+<div class="screen" id="c4">
+<h2>WEDDING DETAILS</h2>
+<div class="storyText">
+October 24, 2026<br>
+5:00 PM – 9:00 PM<br>
+The Conservatory — Acworth, GA
+</div>
+<button onclick="goTo(5)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 5 ================= -->
 
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 
-<div class="partyGrid">
-
+<div class="partyWrapper">
 <div class="partyColumn">
 <h3>BRIDE'S PARTY</h3>
 <div>Name — Role</div>
@@ -300,21 +371,20 @@ Edit chapter text here.
 <div>Name — Role</div>
 <div>Name — Role</div>
 </div>
-
 </div>
 
 <button onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- CH6 DONATION -->
+<!-- ================= CHAPTER 6 ================= -->
 
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
 
 <div class="donationCard">
-<div class="storyText">
+<p>
 If you wish to contribute to our future:
-</div>
+</p>
 
 <div class="donationButtons">
 <a href="#"><button>APPLE CASH</button></a>
@@ -325,6 +395,16 @@ If you wish to contribute to our future:
 <button onclick="goTo(7)">CONTINUE</button>
 </div>
 
+<!-- ================= CHAPTER 7 ================= -->
+
+<div class="screen" id="c7">
+<h2>ENTER THE ARCHIVE</h2>
+<div class="storyText">
+RSVP functionality can be added here.
+</div>
+<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+</div>
+
 <script>
 
 let whisperStarted=false;
@@ -332,7 +412,7 @@ const whisper=document.getElementById("whisper");
 
 function startWhisper(){
 if(!whisperStarted){
-whisper.volume=.1;
+whisper.volume=.08;
 whisper.play().catch(()=>{});
 whisperStarted=true;
 }
@@ -345,7 +425,7 @@ const target=document.getElementById("c"+n);
 target.classList.add("active");
 
 target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>panel.classList.add("show"),i*800);
+setTimeout(()=>panel.classList.add("show"),i*700);
 });
 }
 
