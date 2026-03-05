@@ -249,6 +249,37 @@ bottom:auto;
     0%{transform:scale(1);}
     100%{transform:scale(1.02);}
 }
+    /* ============================= */
+/* ADD THESE RIGHT UNDER analogWarp */
+/* ============================= */
+
+/* Horizontal tape slip burst */
+.tracking{
+    animation: trackingBurst .35s linear;
+}
+
+@keyframes trackingBurst{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-10px);}
+    50%{transform:translateX(8px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
+}
+
+/* RGB color separation burst */
+.rgbBurst{
+    animation: rgbShift .3s linear;
+}
+
+@keyframes rgbShift{
+    0%{filter:none;}
+    50%{
+        filter:
+        drop-shadow(-4px 0 red)
+        drop-shadow(4px 0 cyan);
+    }
+    100%{filter:none;}
+}
 </style>
 </head>
 
@@ -347,7 +378,7 @@ setTimeout(()=>{
         img1.parentElement.classList.add("analogWarp");
     },1200);
 
-},3000);
+},5000);
 
 setTimeout(()=>{
     img2.classList.add("distortIn");
@@ -358,7 +389,7 @@ setTimeout(()=>{
         img2.parentElement.classList.add("analogWarp");
     },1200);
 
-},6000);
+},7000);
 
 /* FILMING GLITCH LOOP */
 setInterval(()=>{
