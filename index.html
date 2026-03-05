@@ -17,14 +17,8 @@ font-family:'Share Tech Mono',monospace;
 overflow:hidden;
 }
 
-/* ================= VIDEO ================= */
-
-.videoWrapper{
-position:fixed;
-inset:0;
-z-index:0;
-}
-
+/* VIDEO */
+.videoWrapper{position:fixed;inset:0;z-index:0;}
 #bgVideo{
 width:100%;
 height:100%;
@@ -32,19 +26,10 @@ object-fit:cover;
 filter:brightness(.8) contrast(1.15);
 }
 
-/* ================= ATMOSPHERE ================= */
-
-.dark{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-z-index:1;
-pointer-events:none;
-}
-
+/* ATMOSPHERE */
+.dark{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1;}
 .scan{
-position:fixed;
-inset:0;
+position:fixed;inset:0;
 background:repeating-linear-gradient(
 0deg,
 rgba(255,255,255,.03),
@@ -53,17 +38,14 @@ transparent 1px,
 transparent 3px
 );
 z-index:2;
-pointer-events:none;
 animation:scanMove 6s linear infinite;
 }
-
 @keyframes scanMove{
 0%{background-position:0 0;}
 100%{background-position:0 100px;}
 }
 
-/* ================= SCREENS ================= */
-
+/* SCREENS */
 .screen{
 position:fixed;
 inset:0;
@@ -75,7 +57,6 @@ text-align:center;
 padding:40px;
 z-index:10;
 }
-
 .screen.active{display:flex;}
 
 h2{
@@ -86,7 +67,6 @@ opacity:0;
 transform:translateY(10px);
 transition:all 1s ease;
 }
-
 .storyText{
 max-width:700px;
 line-height:1.8;
@@ -96,16 +76,13 @@ transform:translateY(10px);
 transition:all 1.5s ease;
 margin-bottom:20px;
 }
-
-/* Cinematic text reveal */
 .screen.active h2,
 .screen.active .storyText{
 opacity:1;
 transform:translateY(0);
 }
 
-/* ================= IMAGE PANELS ================= */
-
+/* IMAGE PANELS */
 .imagePanel{
 position:absolute;
 width:300px;
@@ -117,57 +94,33 @@ opacity:0;
 transform:scale(1.2);
 transition:opacity 1.5s ease, transform 6s ease;
 }
-
 .imagePanel.left{left:60px;bottom:60px;}
 .imagePanel.right{right:60px;top:60px;}
 .imagePanel.center{bottom:60px;}
-
-.imagePanel img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* Reveal state */
+.imagePanel img{width:100%;height:100%;object-fit:cover;}
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
 animation:vhsPulse 5s infinite alternate;
 }
-
-/* VHS brightness pulse */
 @keyframes vhsPulse{
 0%{filter:brightness(1);}
 50%{filter:brightness(1.08);}
 100%{filter:brightness(.95);}
 }
 
-/* RGB glitch flash */
-.glitchFlash{
-animation:rgbSplit .3s ease;
-}
-
+/* GLITCH */
+.glitchFlash{animation:rgbSplit .3s ease;}
 @keyframes rgbSplit{
-0%{filter:none;}
 50%{filter:drop-shadow(-3px 0 red) drop-shadow(3px 0 cyan);}
-100%{filter:none;}
 }
-
-/* Micro screen tear */
-.tear{
-animation:tearEffect .2s linear;
-}
-
+.tear{animation:tearEffect .2s linear;}
 @keyframes tearEffect{
-0%{transform:translateX(0);}
 25%{transform:translateX(-15px);}
 50%{transform:translateX(10px);}
-75%{transform:translateX(-5px);}
-100%{transform:translateX(0);}
 }
 
-/* ================= BUTTONS ================= */
-
+/* BUTTON */
 button{
 margin-top:20px;
 padding:12px 30px;
@@ -178,48 +131,13 @@ letter-spacing:4px;
 cursor:pointer;
 transition:.3s;
 }
+button:hover{background:white;color:black;}
 
-button:hover{
-background:white;
-color:black;
-}
+/* PARTY */
+.partyList{display:none;margin-top:15px;}
+.partyList.show{display:block;}
 
-/* ================= PARTY ================= */
-
-.partyList{
-display:none;
-margin-top:15px;
-line-height:1.8;
-}
-
-.partyList.show{
-display:block;
-animation:fadeIn .8s ease forwards;
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-/* ================= CONTRIBUTION ================= */
-
-.contributionBox{
-border:2px solid rgba(255,255,255,.4);
-padding:30px;
-background:rgba(0,0,0,.7);
-box-shadow:0 0 40px rgba(255,255,255,.1);
-animation:portalGlow 6s infinite ease-in-out;
-}
-
-@keyframes portalGlow{
-0%{box-shadow:0 0 20px rgba(255,255,255,.1);}
-50%{box-shadow:0 0 60px rgba(255,0,0,.4);}
-100%{box-shadow:0 0 20px rgba(255,255,255,.1);}
-}
-
-/* ================= FORM ================= */
-
+/* FORM */
 input,select,textarea{
 margin-top:10px;
 padding:10px;
@@ -228,78 +146,37 @@ background:black;
 color:white;
 border:1px solid white;
 }
-
 textarea{height:80px;resize:none;}
 
-/* ================= SIGNAL LOSS ================= */
-
+/* STATIC + CRASH */
 .static{
-position:fixed;
-inset:0;
+position:fixed;inset:0;
 background:repeating-linear-gradient(
-0deg,
-white 0px,
-white 2px,
-black 2px,
-black 4px
+0deg,white 0px,white 2px,black 2px,black 4px
 );
-display:none;
-z-index:999;
+display:none;z-index:999;
 }
-
-.ending{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:black;
-font-size:24px;
-letter-spacing:8px;
-z-index:1000;
+.whiteFlash{
+position:fixed;inset:0;background:white;
+opacity:0;z-index:998;
 }
-  
-  /* ===== VHS REWIND CRASH ENGINE ===== */
-
-.rewindVideo{
-animation:rewindFX 1.5s ease forwards;
+.whiteFlash.active{animation:flashFX .4s ease;}
+@keyframes flashFX{
+50%{opacity:.9;}
 }
-
-@keyframes rewindFX{
-0%{transform:scaleX(1);}
-50%{transform:scaleX(-1);}
-100%{transform:scaleX(1);}
-}
-
-.screenShake{
-animation:shake .2s linear infinite;
-}
-
+.screenShake{animation:shake .2s linear infinite;}
 @keyframes shake{
-0%{transform:translate(0,0);}
 25%{transform:translate(-10px,5px);}
 50%{transform:translate(10px,-5px);}
-75%{transform:translate(-6px,4px);}
-100%{transform:translate(0,0);}
 }
-
-.whiteFlash{
-position:fixed;
-inset:0;
-background:white;
-opacity:0;
-z-index:998;
-pointer-events:none;
+.rewindVideo{animation:rewindFX 1.5s ease forwards;}
+@keyframes rewindFX{
+50%{transform:scaleX(-1);}
 }
-
-.whiteFlash.active{
-animation:flashFX .4s ease;
-}
-
-@keyframes flashFX{
-0%{opacity:0;}
-50%{opacity:.9;}
-100%{opacity:0;}
+.ending{
+position:fixed;inset:0;
+display:none;justify-content:center;align-items:center;
+background:black;font-size:24px;letter-spacing:8px;z-index:1000;
 }
 </style>
 </head>
@@ -319,51 +196,101 @@ animation:flashFX .4s ease;
 <div class="ending" id="ending">TRANSMISSION LOST</div>
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<!-- Keep your existing chapter structure unchanged here -->
+<!-- CH1 -->
+<div class="screen active" id="c1">
+<h2>ARCHIVE 10.24.2026</h2>
+<div class="storyText">Recovered recording. Playback unstable.</div>
+<button onclick="goTo(2)">INITIATE PLAYBACK</button>
+</div>
+
+<!-- CH2 -->
+<div class="screen" id="c2">
+<div class="imagePanel left"><img src="c2-1.jpg"></div>
+<div class="imagePanel right"><img src="c2-2.jpg"></div>
+<div class="imagePanel center"><img src="c2-3.jpg"></div>
+<h2>CHAPTER TITLE</h2>
+<div class="storyText">Edit chapter 2 text here.</div>
+<button onclick="goTo(3)">CONTINUE</button>
+</div>
+
+<!-- CH3 -->
+<div class="screen" id="c3">
+<div class="imagePanel left"><img src="c3-1.jpg"></div>
+<div class="imagePanel right"><img src="c3-2.jpg"></div>
+<div class="imagePanel center"><img src="c3-3.jpg"></div>
+<h2>CHAPTER TITLE</h2>
+<div class="storyText">Edit chapter 3 text here.</div>
+<button onclick="goTo(4)">CONTINUE</button>
+</div>
+
+<!-- CH4 -->
+<div class="screen" id="c4">
+<div class="imagePanel left"><img src="c4-1.jpg"></div>
+<div class="imagePanel right"><img src="c4-2.jpg"></div>
+<div class="imagePanel center"><img src="c4-3.jpg"></div>
+<h2>WEDDING DETAILS</h2>
+<div class="storyText">
+October 24, 2026<br>
+5:00 PM – 9:00 PM<br>
+The Conservatory — Acworth, GA
+</div>
+<button onclick="goTo(5)">CONTINUE</button>
+</div>
+
+<!-- CH5 -->
+<div class="screen" id="c5">
+<h2>WEDDING PARTY</h2>
+<button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
+<div class="partyList" id="bride"></div>
+<button onclick="toggleParty('groom')">GROOM’S PARTY</button>
+<div class="partyList" id="groom"></div>
+<button onclick="goTo(6)">CONTINUE</button>
+</div>
+
+<!-- CH6 -->
+<div class="screen" id="c6">
+<h2>CONTRIBUTION PORTAL</h2>
+<div class="storyText">If you wish to contribute to our future:</div>
+<button onclick="goTo(7)">CONTINUE</button>
+</div>
+
+<!-- CH7 -->
+<div class="screen" id="c7">
+<h2>ENTER THE ARCHIVE</h2>
+<input id="rsvpName" placeholder="Your Name"><br>
+<select id="attendance">
+<option value="">Select Attendance</option>
+<option>Attending</option>
+<option>Not Attending</option>
+</select><br>
+<input id="extraGuests" placeholder="Guest Names"><br>
+<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+</div>
 
 <script>
 
-let audioStarted=false;
-const whisper=document.getElementById("whisper");
-
-function startAudio(){
-if(!audioStarted){
-whisper.volume=.12;
-whisper.play().catch(()=>{});
-audioStarted=true;
-}
-}
+let glitchInterval=null;
 
 function goTo(n){
-startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 const target=document.getElementById("c"+n);
 target.classList.add("active");
 activateImages(target);
-triggerRandomGlitch();
+startGlitchEngine();
 }
 
 function activateImages(screen){
-const panels=screen.querySelectorAll(".imagePanel");
-let delay=0;
-panels.forEach(panel=>{
-setTimeout(()=>panel.classList.add("show"),delay);
-delay+=1200;
+screen.querySelectorAll(".imagePanel").forEach((panel,i)=>{
+setTimeout(()=>panel.classList.add("show"),i*1200);
 });
 }
 
-/* Random glitch engine */
-function triggerRandomGlitch(){
-setInterval(()=>{
-if(Math.random()<.4){
+function startGlitchEngine(){
+if(glitchInterval) return;
+glitchInterval=setInterval(()=>{
+if(Math.random()<.3){
 document.body.classList.add("tear");
 setTimeout(()=>document.body.classList.remove("tear"),200);
-}
-if(Math.random()<.3){
-document.querySelectorAll(".imagePanel.show").forEach(p=>{
-p.classList.add("glitchFlash");
-setTimeout(()=>p.classList.remove("glitchFlash"),300);
-});
 }
 },4000);
 }
@@ -372,61 +299,20 @@ function toggleParty(id){
 document.getElementById(id).classList.toggle("show");
 }
 
-function submitRSVP(){
-const name=document.getElementById("rsvpName").value.trim();
-const attendance=document.getElementById("attendance").value;
-const extras=document.getElementById("extraGuests").value.trim();
-
-if(!name||!attendance||!extras){
-alert("Please complete required fields.");
-return;
-}
-
-fetch("YOUR_GOOGLE_SCRIPT_URL_HERE",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-name,
-attendance,
-extras,
-message:document.getElementById("message").value,
-timestamp:new Date().toISOString()
-})
-});
-
-alert("RSVP ARCHIVED");
-}
-
 function endTransmission(){
-
 const video=document.getElementById("bgVideo");
 const flash=document.getElementById("whiteFlash");
 const staticLayer=document.getElementById("static");
 const ending=document.getElementById("ending");
 
-/* 1️⃣ Screen shake chaos */
 document.body.classList.add("screenShake");
-
-/* 2️⃣ RGB glitch burst */
-document.querySelectorAll(".imagePanel.show").forEach(p=>{
-p.classList.add("glitchFlash");
-});
-
-/* 3️⃣ VHS rewind visual */
 video.classList.add("rewindVideo");
 
-/* 4️⃣ Flash burst */
-setTimeout(()=>{
-flash.classList.add("active");
-},600);
-
-/* 5️⃣ Static takeover */
+setTimeout(()=>flash.classList.add("active"),600);
 setTimeout(()=>{
 document.body.classList.remove("screenShake");
 staticLayer.style.display="block";
 },1500);
-
-/* 6️⃣ Permanent signal loss */
 setTimeout(()=>{
 ending.style.display="flex";
 },3000);
