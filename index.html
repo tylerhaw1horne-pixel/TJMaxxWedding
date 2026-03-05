@@ -17,8 +17,14 @@ font-family:'Share Tech Mono',monospace;
 overflow:hidden;
 }
 
-/* VIDEO */
-.videoWrapper{position:fixed;inset:0;z-index:0;}
+/* ================= VIDEO ================= */
+
+.videoWrapper{
+position:fixed;
+inset:0;
+z-index:0;
+}
+
 #bgVideo{
 width:100%;
 height:100%;
@@ -26,10 +32,19 @@ object-fit:cover;
 filter:brightness(.8) contrast(1.15);
 }
 
-/* ATMOSPHERE */
-.dark{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1;}
+/* ================= ATMOSPHERE ================= */
+
+.dark{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+z-index:1;
+pointer-events:none;   /* FIXED */
+}
+
 .scan{
-position:fixed;inset:0;
+position:fixed;
+inset:0;
 background:repeating-linear-gradient(
 0deg,
 rgba(255,255,255,.03),
@@ -39,13 +54,16 @@ transparent 3px
 );
 z-index:2;
 animation:scanMove 6s linear infinite;
+pointer-events:none;   /* FIXED */
 }
+
 @keyframes scanMove{
 0%{background-position:0 0;}
 100%{background-position:0 100px;}
 }
 
-/* SCREENS */
+/* ================= SCREENS ================= */
+
 .screen{
 position:fixed;
 inset:0;
@@ -57,7 +75,12 @@ text-align:center;
 padding:40px;
 z-index:10;
 }
-.screen.active{display:flex;}
+
+.screen.active{
+display:flex;
+}
+
+/* ================= TEXT ================= */
 
 h2{
 letter-spacing:6px;
@@ -67,6 +90,7 @@ opacity:0;
 transform:translateY(10px);
 transition:all 1s ease;
 }
+
 .storyText{
 max-width:700px;
 line-height:1.8;
@@ -76,13 +100,15 @@ transform:translateY(10px);
 transition:all 1.5s ease;
 margin-bottom:20px;
 }
+
 .screen.active h2,
 .screen.active .storyText{
 opacity:1;
 transform:translateY(0);
 }
 
-/* IMAGE PANELS */
+/* ================= IMAGE PANELS ================= */
+
 .imagePanel{
 position:absolute;
 width:300px;
@@ -94,33 +120,50 @@ opacity:0;
 transform:scale(1.2);
 transition:opacity 1.5s ease, transform 6s ease;
 }
+
 .imagePanel.left{left:60px;bottom:60px;}
 .imagePanel.right{right:60px;top:60px;}
 .imagePanel.center{bottom:60px;}
-.imagePanel img{width:100%;height:100%;object-fit:cover;}
+
+.imagePanel img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
 animation:vhsPulse 5s infinite alternate;
 }
+
 @keyframes vhsPulse{
 0%{filter:brightness(1);}
 50%{filter:brightness(1.08);}
 100%{filter:brightness(.95);}
 }
 
-/* GLITCH */
-.glitchFlash{animation:rgbSplit .3s ease;}
+/* ================= GLITCH ================= */
+
+.glitchFlash{
+animation:rgbSplit .3s ease;
+}
+
 @keyframes rgbSplit{
 50%{filter:drop-shadow(-3px 0 red) drop-shadow(3px 0 cyan);}
 }
-.tear{animation:tearEffect .2s linear;}
+
+.tear{
+animation:tearEffect .2s linear;
+}
+
 @keyframes tearEffect{
 25%{transform:translateX(-15px);}
 50%{transform:translateX(10px);}
 }
 
-/* BUTTON */
+/* ================= BUTTONS ================= */
+
 button{
 margin-top:20px;
 padding:12px 30px;
@@ -131,53 +174,81 @@ letter-spacing:4px;
 cursor:pointer;
 transition:.3s;
 }
-button:hover{background:white;color:black;}
 
-/* PARTY */
-.partyList{display:none;margin-top:15px;}
-.partyList.show{display:block;}
-
-/* FORM */
-input,select,textarea{
-margin-top:10px;
-padding:10px;
-width:280px;
-background:black;
-color:white;
-border:1px solid white;
+button:hover{
+background:white;
+color:black;
 }
-textarea{height:80px;resize:none;}
 
-/* STATIC + CRASH */
+/* ================= PARTY ================= */
+
+.partyList{
+display:none;
+margin-top:15px;
+}
+
+.partyList.show{
+display:block;
+}
+
+/* ================= STATIC / CRASH ================= */
+
 .static{
-position:fixed;inset:0;
+position:fixed;
+inset:0;
 background:repeating-linear-gradient(
 0deg,white 0px,white 2px,black 2px,black 4px
 );
-display:none;z-index:999;
+display:none;
+z-index:999;
 }
+
 .whiteFlash{
-position:fixed;inset:0;background:white;
-opacity:0;z-index:998;
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+z-index:998;
+pointer-events:none;
 }
-.whiteFlash.active{animation:flashFX .4s ease;}
+
+.whiteFlash.active{
+animation:flashFX .4s ease;
+}
+
 @keyframes flashFX{
 50%{opacity:.9;}
 }
-.screenShake{animation:shake .2s linear infinite;}
+
+.screenShake{
+animation:shake .2s linear infinite;
+}
+
 @keyframes shake{
 25%{transform:translate(-10px,5px);}
 50%{transform:translate(10px,-5px);}
 }
-.rewindVideo{animation:rewindFX 1.5s ease forwards;}
+
+.rewindVideo{
+animation:rewindFX 1.5s ease forwards;
+}
+
 @keyframes rewindFX{
 50%{transform:scaleX(-1);}
 }
+
 .ending{
-position:fixed;inset:0;
-display:none;justify-content:center;align-items:center;
-background:black;font-size:24px;letter-spacing:8px;z-index:1000;
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+background:black;
+font-size:24px;
+letter-spacing:8px;
+z-index:1000;
 }
+
 </style>
 </head>
 
@@ -196,14 +267,18 @@ background:black;font-size:24px;letter-spacing:8px;z-index:1000;
 <div class="ending" id="ending">TRANSMISSION LOST</div>
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<!-- CH1 -->
+<!-- ================= CH1 ================= -->
+
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
-<div class="storyText">Recovered recording. Playback unstable.</div>
+<div class="storyText">
+Recovered recording. Playback unstable.
+</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-<!-- CH2 -->
+<!-- ================= CH2 ================= -->
+
 <div class="screen" id="c2">
 <div class="imagePanel left"><img src="c2-1.jpg"></div>
 <div class="imagePanel right"><img src="c2-2.jpg"></div>
@@ -213,7 +288,8 @@ background:black;font-size:24px;letter-spacing:8px;z-index:1000;
 <button onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- CH3 -->
+<!-- ================= CH3 ================= -->
+
 <div class="screen" id="c3">
 <div class="imagePanel left"><img src="c3-1.jpg"></div>
 <div class="imagePanel right"><img src="c3-2.jpg"></div>
@@ -223,11 +299,9 @@ background:black;font-size:24px;letter-spacing:8px;z-index:1000;
 <button onclick="goTo(4)">CONTINUE</button>
 </div>
 
-<!-- CH4 -->
+<!-- ================= CH4 ================= -->
+
 <div class="screen" id="c4">
-<div class="imagePanel left"><img src="c4-1.jpg"></div>
-<div class="imagePanel right"><img src="c4-2.jpg"></div>
-<div class="imagePanel center"><img src="c4-3.jpg"></div>
 <h2>WEDDING DETAILS</h2>
 <div class="storyText">
 October 24, 2026<br>
@@ -237,7 +311,8 @@ The Conservatory — Acworth, GA
 <button onclick="goTo(5)">CONTINUE</button>
 </div>
 
-<!-- CH5 -->
+<!-- ================= CH5 ================= -->
+
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 <button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
@@ -247,14 +322,16 @@ The Conservatory — Acworth, GA
 <button onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- CH6 -->
+<!-- ================= CH6 ================= -->
+
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
 <div class="storyText">If you wish to contribute to our future:</div>
 <button onclick="goTo(7)">CONTINUE</button>
 </div>
 
-<!-- CH7 -->
+<!-- ================= CH7 ================= -->
+
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
 <input id="rsvpName" placeholder="Your Name"><br>
