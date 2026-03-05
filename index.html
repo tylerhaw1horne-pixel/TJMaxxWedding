@@ -22,7 +22,7 @@ overflow-x:hidden;
 overflow-y:auto;
 }
 
-/* ================= VIDEO ================= */
+/* ================= BACKGROUND VIDEO ================= */
 
 .videoWrapper{
 position:fixed;
@@ -67,7 +67,7 @@ animation:scanMove 8s linear infinite;
 100%{background-position:0 150px;}
 }
 
-/* ================= SCREEN ================= */
+/* ================= SCREEN SYSTEM ================= */
 
 .screen{
 position:relative;
@@ -77,13 +77,13 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:90px 25px;
+padding:100px 25px;
 z-index:10;
 }
 
 .screen.active{
 display:flex;
-animation:fadeIn .8s ease;
+animation:fadeIn .7s ease;
 }
 
 @keyframes fadeIn{
@@ -99,7 +99,7 @@ font-size:22px;
 margin-bottom:30px;
 opacity:0;
 transform:translateY(20px);
-transition:all 1s ease;
+transition:all .8s ease;
 }
 
 .storyText{
@@ -109,7 +109,7 @@ font-size:14px;
 margin:40px 0;
 opacity:0;
 transform:translateY(20px);
-transition:all 1.5s ease;
+transition:all 1.2s ease;
 }
 
 .screen.active h2,
@@ -118,16 +118,16 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* ================= IMAGE ================= */
+/* ================= IMAGE SYSTEM ================= */
 
 .imagePanel{
-width:550px;
+width:560px;
 max-width:95%;
 height:320px;
 overflow:hidden;
 border:2px solid rgba(255,255,255,.35);
 box-shadow:0 0 80px rgba(0,0,0,.9);
-margin:40px 0;
+margin:50px 0;
 opacity:0;
 transform:scale(1.05);
 transition:opacity 1s ease, transform 5s ease;
@@ -155,7 +155,7 @@ animation:glowPulse 6s infinite alternate;
 /* ================= BUTTONS ================= */
 
 button{
-padding:12px 36px;
+padding:12px 38px;
 border:2px solid white;
 background:black;
 color:white;
@@ -170,7 +170,7 @@ color:black;
 }
 
 .continueBtn{
-margin-top:50px;
+margin-top:40px;
 }
 
 /* ================= PARTY ================= */
@@ -227,7 +227,7 @@ flex-direction:column;
 gap:20px;
 }
 
-/* ================= CRASH ================= */
+/* ================= CRASH SYSTEM ================= */
 
 .static{
 position:fixed;
@@ -322,14 +322,16 @@ padding:40px 20px;
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-<!-- CHAPTER 1 -->
+<!-- ================= CHAPTER 1 ================= -->
+
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
 <div class="storyText">Recovered recording. Playback unstable.</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-<!-- CHAPTER 2 -->
+<!-- ================= CHAPTER 2 ================= -->
+
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
 <div class="imagePanel"><img src="c2-1.jpg"></div>
@@ -338,7 +340,8 @@ padding:40px 20px;
 <button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- CHAPTER 3 -->
+<!-- ================= CHAPTER 3 ================= -->
+
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
 <div class="imagePanel"><img src="c3-1.jpg"></div>
@@ -347,7 +350,8 @@ padding:40px 20px;
 <button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
 </div>
 
-<!-- CHAPTER 4 -->
+<!-- ================= CHAPTER 4 ================= -->
+
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
 <div class="storyText">
@@ -358,7 +362,8 @@ The Conservatory — Acworth, GA
 <button class="continueBtn" onclick="goTo(5)">CONTINUE</button>
 </div>
 
-<!-- CHAPTER 5 -->
+<!-- ================= CHAPTER 5 ================= -->
+
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 <div class="partyContainer">
@@ -376,7 +381,8 @@ The Conservatory — Acworth, GA
 <button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- CHAPTER 6 -->
+<!-- ================= CHAPTER 6 ================= -->
+
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
 <div class="donationVault">
@@ -391,7 +397,8 @@ The Conservatory — Acworth, GA
 <button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
 </div>
 
-<!-- CHAPTER 7 -->
+<!-- ================= CHAPTER 7 ================= -->
+
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
 <div class="storyText">Please confirm your presence.</div>
