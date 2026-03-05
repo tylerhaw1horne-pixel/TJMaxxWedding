@@ -343,98 +343,71 @@ Name — Role
 
 
 <script>
-const whisper = document.getElementById("whisper");
-const img1 = document.getElementById("img1");
-const img2 = document.getElementById("img2");
+document.addEventListener("DOMContentLoaded", function(){
 
-let audioStarted = false;
-
-/* ================= AUDIO START ================= */
-function startAudio(){
-    if(!audioStarted){
-        whisper.volume = .12;
-        whisper.play().catch(()=>{});
-        audioStarted = true;
-    }
-}
-
-/* ================= PAGE NAVIGATION ================= */
-function next(n){
-    startAudio();
-
-    document.querySelectorAll(".screen").forEach(screen=>{
-        screen.classList.remove("active");
-    });
-
-    const target = document.getElementById("c"+n);
-    if(target){
-        target.classList.add("active");
-    }
-}
-
-/* ================= PHOTO DISTORTION ================= */
-window.addEventListener("load", function(){
-
-    if(img1){
-        setTimeout(()=>{
-            img1.classList.add("distortIn");
-        },4000);
-    }
-
-    if(img2){
-        setTimeout(()=>{
-            img2.classList.add("distortIn");
-        },6000);
-    }
-
-});
-
-/* ================= PARTY TOGGLE ================= */
-function toggleParty(id){
-    const section = document.getElementById(id);
-    if(section){
-        section.classList.toggle("active");
-    }
-}
-
-/* ================= RSVP STORAGE ================= */
-function submitRSVP(){
-
-    const data = {
-        name: document.getElementById("rsvpName")?.value || "",
-        email: document.getElementById("rsvpEmail")?.value || "",
-        attendance: document.getElementById("attendance")?.value || "",
-        guests: document.getElementById("guestCount")?.value || "",
-        message: document.getElementById("message")?.value || ""
-    };
-
-    localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
-
-    fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" }
-    }).catch(()=>{});
-
-    alert("RSVP ARCHIVED");
-}
-
-/* ================= PERMANENT END ================= */
-function endTransmission(){
-
+    const whisper = document.getElementById("whisper");
+    const screens = document.querySelectorAll(".screen");
     const staticLayer = document.getElementById("static");
     const endingText = document.getElementById("endingText");
 
-    if(staticLayer){
-        staticLayer.classList.add("active");
+    let audioStarted = false;
+
+    function startAudio(){
+        if(!audioStarted && whisper){
+            whisper.volume = 0.12;
+            whisper.play().catch(()=>{});
+            audioStarted = true;
+        }
     }
 
-    setTimeout(()=>{
-        if(endingText){
-            endingText.classList.add("active");
+    window.next = function(n){
+        startAudio();
+        screens.forEach(screen => screen.classList.remove("active"));
+        const target = document.getElementById("c"+n);
+        if(target){
+            target.classList.add("active");
         }
-    },3000);
-}
+    };
+
+    window.toggleParty = function(id){
+        const section = document.getElementById(id);
+        if(section){
+            section.classList.toggle("active");
+        }
+    };
+
+    window.submitRSVP = function(){
+        const data = {
+            name: document.getElementById("rsvpName")?.value || "",
+            email: document.getElementById("rsvpEmail")?.value || "",
+            attendance: document.getElementById("attendance")?.value || "",
+            guests: document.getElementById("guestCount")?.value || "",
+            message: document.getElementById("message")?.value || ""
+        };
+
+        localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
+
+        fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json" }
+        }).catch(()=>{});
+
+        alert("RSVP ARCHIVED");
+    };
+
+    window.endTransmission = function(){
+        if(staticLayer){
+            staticLayer.classList.add("active");
+        }
+        setTimeout(()=>{
+            if(endingText){
+                endingText.classList.add("active");
+            }
+        },3000);
+    };
+
+});
 </script>
 
 </body>
