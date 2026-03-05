@@ -342,63 +342,100 @@ Name — Role
 </div>
 
 <script>
-const whisper=document.getElementById("whisper");
-let audioStarted=false;
+<script>
+const whisper = document.getElementById("whisper");
+const img1 = document.getElementById("img1");
+const img2 = document.getElementById("img2");
 
+let audioStarted = false;
+
+/* ================= AUDIO START ================= */
 function startAudio(){
-if(!audioStarted){
-whisper.volume=.12;
-whisper.play().catch(()=>{});
-audioStarted=true;
-}
+    if(!audioStarted){
+        whisper.volume = .12;
+        whisper.play().catch(()=>{});
+        audioStarted = true;
+    }
 }
 
+/* ================= PAGE NAVIGATION ================= */
 function next(n){
-startAudio();
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById("c"+n).classList.add("active");
+    startAudio();
+
+    document.querySelectorAll(".screen").forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    const target = document.getElementById("c"+n);
+    if(target){
+        target.classList.add("active");
+    }
 }
 
-/* Photo distortion */
-window.onload=function(){
-setTimeout(()=>{img1.classList.add("distortIn");},4000);
-setTimeout(()=>{img2.classList.add("distortIn");},6000);
-};
+/* ================= PHOTO DISTORTION ================= */
+window.addEventListener("load", function(){
 
-/* Party toggle */
+    if(img1){
+        setTimeout(()=>{
+            img1.classList.add("distortIn");
+        },4000);
+    }
+
+    if(img2){
+        setTimeout(()=>{
+            img2.classList.add("distortIn");
+        },6000);
+    }
+
+});
+
+/* ================= PARTY TOGGLE ================= */
 function toggleParty(id){
-document.getElementById(id).classList.toggle("active");
+    const section = document.getElementById(id);
+    if(section){
+        section.classList.toggle("active");
+    }
 }
 
-/* RSVP storage */
+/* ================= RSVP STORAGE ================= */
 function submitRSVP(){
-const data={
-name:document.getElementById("rsvpName").value,
-email:document.getElementById("rsvpEmail").value,
-attendance:document.getElementById("attendance").value,
-guests:document.getElementById("guestCount").value,
-message:document.getElementById("message").value
-};
 
-localStorage.setItem("rsvp_"+Date.now(),JSON.stringify(data));
+    const data = {
+        name: document.getElementById("rsvpName")?.value || "",
+        email: document.getElementById("rsvpEmail")?.value || "",
+        attendance: document.getElementById("attendance")?.value || "",
+        guests: document.getElementById("guestCount")?.value || "",
+        message: document.getElementById("message")?.value || ""
+    };
 
-/* OPTIONAL GOOGLE SHEET */
-fetch("YOUR_GOOGLE_SCRIPT_URL_HERE",{
-method:"POST",
-body:JSON.stringify(data),
-headers:{"Content-Type":"application/json"}
-}).catch(()=>{});
+    localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
 
-alert("RSVP ARCHIVED");
+    fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+    }).catch(()=>{});
+
+    alert("RSVP ARCHIVED");
 }
 
-/* Permanent ending */
+/* ================= PERMANENT END ================= */
 function endTransmission(){
-document.getElementById("static").classList.add("active");
-setTimeout(()=>{
-document.getElementById("endingText").classList.add("active");
-},3000);
+
+    const staticLayer = document.getElementById("static");
+    const endingText = document.getElementById("endingText");
+
+    if(staticLayer){
+        staticLayer.classList.add("active");
+    }
+
+    setTimeout(()=>{
+        if(endingText){
+            endingText.classList.add("active");
+        }
+    },3000);
 }
+</script>
 </script>
 
 </body>
