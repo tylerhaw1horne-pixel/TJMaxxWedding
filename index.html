@@ -8,6 +8,7 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 html,body{
 height:100%;
 width:100%;
@@ -17,33 +18,41 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* ================= FOREST VIDEO ================= */
+/* ================= VIDEO LAYER ================= */
 
-video{
+.videoWrapper{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-object-fit:cover;
+top:0;
+left:0;
+width:100%;
+height:100%;
 z-index:0;
-pointer-events:none;
-filter:brightness(.95) contrast(1.1);
-transition:transform 1s ease;
+overflow:hidden;
 }
 
-/* VHS REWIND EFFECT */
-video.rewind{
+#bgVideo{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.95) contrast(1.1);
+}
+
+/* VHS rewind */
+#bgVideo.rewind{
 animation:rewind 1.5s linear forwards;
 }
+
 @keyframes rewind{
 0%{transform:scaleX(1);}
 50%{transform:scaleX(-1);}
 100%{transform:scaleX(1);}
 }
 
+/* ================= ATMOSPHERE ================= */
+
 .dark{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+inset:0;
 background:rgba(0,0,0,.3);
 z-index:1;
 pointer-events:none;
@@ -51,8 +60,7 @@ pointer-events:none;
 
 .scan{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+inset:0;
 background:repeating-linear-gradient(
 0deg,
 rgba(255,255,255,.03),
@@ -68,8 +76,7 @@ pointer-events:none;
 
 .screen{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
+inset:0;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -142,38 +149,29 @@ opacity:0;
 transform:scale(1.1);
 }
 
-/* Distort entry */
 .distortIn{
 animation:distortEntry 1.2s forwards;
 }
+
 @keyframes distortEntry{
 0%{opacity:0;transform:scale(1.5) skewX(20deg);filter:blur(20px);}
 100%{opacity:1;transform:scale(1);filter:none;}
 }
 
-/* Continuous film effect */
-.filmFX{
-animation:filmFX 6s infinite linear alternate;
-}
+.filmFX{animation:filmFX 6s infinite alternate;}
 @keyframes filmFX{
-0%{filter:brightness(1) contrast(1);}
-50%{filter:brightness(1.1) contrast(1.2);}
-100%{filter:brightness(.95) contrast(.9);}
+0%{filter:brightness(1);}
+50%{filter:brightness(1.1);}
+100%{filter:brightness(.95);}
 }
 
-/* RGB separation */
-.rgb{
-animation:rgbShift 3s infinite alternate;
-}
+.rgb{animation:rgbShift 3s infinite alternate;}
 @keyframes rgbShift{
 0%{filter:none;}
 100%{filter:drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);}
 }
 
-/* Screen tearing */
-.tear{
-animation:tear 0.2s linear;
-}
+.tear{animation:tear .2s linear;}
 @keyframes tear{
 0%{transform:translateX(0);}
 25%{transform:translateX(-15px);}
@@ -190,6 +188,7 @@ padding:20px;
 margin-top:25px;
 animation:donationPulse 4s infinite ease-in-out;
 }
+
 @keyframes donationPulse{
 0%{box-shadow:0 0 5px white;}
 50%{box-shadow:0 0 25px red;}
@@ -205,16 +204,12 @@ color:white;
 border:1px solid white;
 }
 
-/* ================= SIGNAL CRASH (FIXED) ================= */
+/* ================= SIGNAL CRASH ================= */
 
 .staticCrash{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-repeating-linear-gradient(
+inset:0;
+background:repeating-linear-gradient(
 0deg,
 white 0px,
 white 2px,
@@ -224,10 +219,8 @@ black 4px
 opacity:0;
 z-index:999;
 pointer-events:none;
-mix-blend-mode:overlay;
 }
 
-/* active glitch */
 .staticCrash.active{
 animation:signalCrash 2.5s forwards;
 }
@@ -235,16 +228,12 @@ animation:signalCrash 2.5s forwards;
 @keyframes signalCrash{
 0%{opacity:0;}
 10%{opacity:1;}
-20%{opacity:0;}
-30%{opacity:1;}
-50%{opacity:.8;}
-70%{opacity:.5;}
-90%{opacity:.3;}
-100%{opacity:0;} /* IMPORTANT — returns to video */
+30%{opacity:.9;}
+60%{opacity:.6;}
+100%{opacity:0;}
 }
 
-/* SCREEN TEARING ON WHOLE PAGE */
-body.tearing{
+.tearing .screen{
 animation:pageTear .25s linear infinite;
 }
 
@@ -255,14 +244,17 @@ animation:pageTear .25s linear infinite;
 75%{transform:translateX(-8px);}
 100%{transform:translateX(0);}
 }
+
 </style>
 </head>
 
 <body>
 
+<div class="videoWrapper">
 <video id="bgVideo" autoplay muted loop playsinline>
-<source src="forrestvid.mp4" type="video/mp4">
+<source src="forrest vid.mp4" type="video/mp4">
 </video>
+</div>
 
 <div class="dark"></div>
 <div class="scan"></div>
@@ -279,15 +271,11 @@ animation:pageTear .25s linear infinite;
 
 <!-- CHAPTER 2 -->
 <div class="screen" id="c2">
-<div class="videoPanel leftPanel">
-<img src="early1.jpg" id="img1">
-</div>
-<div class="videoPanel rightPanel">
-<img src="early2.jpg" id="img2">
-</div>
+<div class="videoPanel leftPanel"><img src="early1.jpg" id="img1"></div>
+<div class="videoPanel rightPanel"><img src="early2.jpg" id="img2"></div>
 <div class="centerText">
 <h2>RECONNECTION LOG</h2>
-<p>Edit story here.</p>
+<p>Edit your story here.</p>
 <button onclick="next(3)">CONTINUE</button>
 </div>
 </div>
@@ -305,7 +293,6 @@ animation:pageTear .25s linear infinite;
 <div class="screen" id="c4">
 <div class="centerText">
 <h2>CONTRIBUTION PORTAL</h2>
-<p>Enter your name into the archive.</p>
 <input type="text" id="guestName" placeholder="Your Name">
 <button onclick="saveGuest()">ENTER ARCHIVE</button>
 
@@ -319,31 +306,36 @@ animation:pageTear .25s linear infinite;
 </div>
 </div>
 
-<audio id="whisper" src="whisper.mp3" loop></audio>
+<audio id="whisper" src="whisper.mp3" loop preload="auto"></audio>
 
 <script>
-const whisper=document.getElementById("whisper");
 const video=document.getElementById("bgVideo");
+const whisper=document.getElementById("whisper");
+const img1=document.getElementById("img1");
+const img2=document.getElementById("img2");
+
 whisper.volume=.12;
-let started=false;
+
+let audioStarted=false;
+
+function startAudio(){
+if(!audioStarted){
+whisper.play().catch(()=>{});
+audioStarted=true;
+}
+}
+
+video.play().catch(()=>{});
 
 function next(n){
-if(!started){
-whisper.play().catch(()=>{});
-started=true;
-}
+startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("c"+n).classList.add("active");
 }
 
-/* Photo FX */
 window.addEventListener("load",()=>{
-setTimeout(()=>{
-img1.classList.add("distortIn","filmFX","rgb");
-},4000);
-setTimeout(()=>{
-img2.classList.add("distortIn","filmFX","rgb");
-},6000);
+setTimeout(()=>{img1.classList.add("distortIn","filmFX","rgb");},4000);
+setTimeout(()=>{img2.classList.add("distortIn","filmFX","rgb");},6000);
 
 setInterval(()=>{
 if(Math.random()<.5){
@@ -355,49 +347,21 @@ setTimeout(()=>img.classList.remove("tear"),200);
 },3000);
 });
 
-/* Google Sheet Logging */
 function saveGuest(){
 let name=document.getElementById("guestName").value;
 if(!name)return;
-
-let guests=JSON.parse(localStorage.getItem("guestList")||"[]");
-guests.push(name);
-localStorage.setItem("guestList",JSON.stringify(guests));
-
-fetch("YOUR_GOOGLE_SCRIPT_URL_HERE",{
-method:"POST",
-body:JSON.stringify({name:name}),
-headers:{"Content-Type":"application/json"}
-});
-
 alert("NAME ARCHIVED");
 }
 
-/* Rewind + Crash */
 function triggerCrash(){
-
-/* 1️⃣ VHS REWIND */
+startAudio();
 video.classList.add("rewind");
-
-/* 2️⃣ Screen tearing chaos */
 document.body.classList.add("tearing");
-
-/* 3️⃣ Static overlay */
-setTimeout(()=>{
-document.getElementById("staticCrash").classList.add("active");
-},1200);
-
-/* 4️⃣ Release tearing */
+setTimeout(()=>{document.getElementById("staticCrash").classList.add("active");},1200);
 setTimeout(()=>{
 document.body.classList.remove("tearing");
-},2500);
-
-/* 5️⃣ Clean reset so video continues */
-setTimeout(()=>{
 video.classList.remove("rewind");
-document.getElementById("staticCrash").classList.remove("active");
 },3000);
-
 }
 </script>
 
