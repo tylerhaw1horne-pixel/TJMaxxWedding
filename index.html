@@ -59,7 +59,6 @@ width:100%;height:100%;
 background:radial-gradient(circle, transparent 55%, rgba(0,0,0,.98) 100%);
 z-index:3;
 pointer-events:none;
-transition:all 20s linear;
 }
 
 /* GLITCH LAYERS */
@@ -131,15 +130,6 @@ font-size:14px;
 opacity:.9;
 }
 
-.roll{
-opacity:0;
-transition:opacity .4s ease;
-}
-
-.roll.show{
-opacity:1;
-}
-
 /* BUTTON */
 
 button{
@@ -158,45 +148,47 @@ background:white;
 color:black;
 }
 
-/* FORM */
+/* VHS FRAME */
 
-input,select{
-margin-top:12px;
-padding:12px;
+.vhsFrame{
+position:relative;
+margin-top:30px;
+width:420px;
+height:260px;
 background:black;
-border:2px solid white;
-color:white;
-width:280px;
+border:3px solid rgba(255,255,255,.2);
+overflow:hidden;
+filter:contrast(110%) brightness(90%);
 }
 
-/* MAP */
-
-.mapOverlay{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.95);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:200;
+.vhsFrame img{
+width:100%;
+height:100%;
+object-fit:cover;
 opacity:0;
-pointer-events:none;
-transition:opacity .6s;
+transition:opacity .6s ease, transform .3s ease;
 }
 
-.mapOverlay.active{
-opacity:1;
-pointer-events:auto;
+.timestamp{
+position:absolute;
+top:10px;
+left:10px;
+font-size:11px;
+opacity:.8;
+letter-spacing:1px;
 }
 
-.mapOverlay iframe{
-width:80%;
-height:70%;
-border:none;
-filter:grayscale(100%) contrast(120%);
+.vhsGlitch{
+animation:vhsGlitch .3s;
 }
 
+@keyframes vhsGlitch{
+0%{transform:translateX(0);}
+25%{transform:translateX(-6px);}
+50%{transform:translateX(6px);}
+75%{transform:translateX(-3px);}
+100%{transform:translateX(0);}
+}
 </style>
 </head>
 
@@ -206,17 +198,12 @@ filter:grayscale(100%) contrast(120%);
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
-<div class="dark" id="dark"></div>
+<div class="dark"></div>
 <div class="scan"></div>
-<div class="vignette" id="vignette"></div>
+<div class="vignette"></div>
 <div class="rgb" id="rgb"></div>
 <div class="tear" id="tear"></div>
 <div class="redFlash" id="redFlash"></div>
-
-<div class="mapOverlay" id="mapOverlay">
-<iframe src="https://www.google.com/maps?q=4849+N+Main+St+Acworth+GA+30101&output=embed"></iframe>
-<button onclick="closeMap()">CLOSE</button>
-</div>
 
 <!-- CHAPTER 1 -->
 
@@ -230,8 +217,6 @@ Playback integrity unstable.
 </p>
 <button onclick="next(2)">INITIATE PLAYBACK</button>
 </div>
-
-<!-- CHAPTER 2 -->
 
 <!-- CHAPTER 2 -->
 
@@ -260,124 +245,14 @@ was suddenly obvious.
 </p>
 
 <div class="vhsFrame" id="photoBox">
-    <img id="chapter2img" src="early1.jpg">
-    <div class="timestamp">
-        REC ● OCT 24 2026<br>
-        CAM 01 — <span id="timer">00:00:00</span>
-    </div>
+<img id="chapter2img" src="early1.jpg">
+<div class="timestamp">
+REC ● OCT 24 2026<br>
+CAM 01 — <span id="timer">00:00:00</span>
+</div>
 </div>
 
 <button onclick="next(3)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 3 -->
-
-<div class="screen" id="c3">
-<h2>EMOTIONAL DEVIATION</h2>
-<p>
-For the bride — it was quiet.<br>
-A visit to his workplace.<br>
-An overwhelming certainty she could not explain.<br><br>
-
-For the groom — it was resistance.<br>
-A moment she chose not to leave.<br>
-A refusal during the most unstable period.<br><br>
-
-Their pasts complicated the present.<br>
-The present overruled the past.
-</p>
-<button onclick="next(4)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 4 -->
-
-<div class="screen" id="c4">
-<h2>DECEMBER 4, 2025</h2>
-<p>
-Jasper Hawthorne was born.<br>
-Everything changed.<br><br>
-Learning each other.<br>
-Learning him.<br>
-Rebuilding from previous lives.<br><br>
-The obsession never weakened.
-</p>
-<button onclick="next(5)">CONTINUE</button>
-</div>
-
-<!-- WEDDING PARTY -->
-
-<div class="screen" id="c5">
-<h2>ATTENDING ENTITIES</h2>
-<p class="roll">Maid of Honor — Kristian Thomason</p>
-<p class="roll">Bridesmaid — Allie Rollins</p>
-<p class="roll">Bridesmaid — Kayden Rollins</p>
-<p class="roll">Bridesmaid — Tori Dawe</p>
-<p class="roll">Bridesmaid — Alyssa Hargrove</p>
-<p class="roll">Best Man — Sam Newman</p>
-<p class="roll">Best Little Man — Jasper Hawthorne</p>
-<p class="roll">Groomsman — Zachary Hawthorne</p>
-<p class="roll">Groomsman — Josey Green</p>
-<p class="roll">Groomsman — Bryan Faroul</p>
-<button onclick="next(6)">CONTINUE</button>
-</div>
-
-<!-- CEREMONY -->
-
-<div class="screen" id="c6">
-<h2>OCTOBER 24, 2026</h2>
-<p>
-Arrival: 4:30 PM<br>
-Ceremony: 5:00 PM<br>
-Conclusion: 10:00 PM<br><br>
-The Conservatory<br>
-4849 N Main St<br>
-Acworth, Georgia 30101<br><br>
-Indoor.
-</p>
-<button onclick="openMap()">VIEW LOCATION</button>
-<button onclick="next(7)">CONTINUE</button>
-</div>
-
-<!-- GATHERING -->
-
-<div class="screen" id="c7">
-<h2>THE GATHERING</h2>
-<p>
-A curated Tex-Mex spread.<br>
-Full bar access.<br>
-Live DJ until close.<br><br>
-Signature Drinks:<br>
-Hot Blooded — gin, spice.<br>
-Sweet Heat — pineapple infused tequila.
-</p>
-<button onclick="next(8)">CONTINUE</button>
-</div>
-
-<!-- RSVP -->
-
-<div class="screen" id="c8">
-<h2>CONFIRM PRESENCE</h2>
-<p>RSVP Deadline: August 15, 2026</p>
-<form onsubmit="submitForm(event)">
-<input required placeholder="Full Name"><br>
-<input required type="number" min="1" max="6" placeholder="Number of Guests"><br>
-<input placeholder="Guest Names"><br>
-<select required>
-<option value="">Will You Attend?</option>
-<option>Yes</option>
-<option>No</option>
-</select><br>
-<button type="submit">SUBMIT</button>
-</form>
-</div>
-
-<div class="screen" id="c9">
-<h2>RECORDED</h2>
-<p>
-Your attendance has been logged.<br>
-The archive will remain open.<br>
-Until October 24, 2026.
-</p>
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
@@ -386,21 +261,15 @@ Until October 24, 2026.
 
 const whisper=document.getElementById("whisper");
 const bg=document.getElementById("bg");
-const rgb=document.getElementById("rgb");
-const tear=document.getElementById("tear");
-const redFlash=document.getElementById("redFlash");
 
 whisper.volume=.12;
+
 let started=false;
-let chapter=1;
 
 function startAudio(){
 if(!started){
 whisper.play().catch(()=>{});
 started=true;
-setInterval(()=>{
-whisper.volume=Math.random()*.08+.08;
-},5000);
 }
 }
 
@@ -408,65 +277,59 @@ function next(n){
 startAudio();
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("c"+n).classList.add("active");
-chapter=n;
-escalate();
-if(n===5) rollCall();
-if(n===9) rupture();
-}
 
-function rollCall(){
-const items=document.querySelectorAll("#c5 .roll");
-let i=0;
-function reveal(){
-if(i<items.length){
-items[i].classList.add("show");
-if(items[i].innerText.includes("Jasper")){
-whisper.volume=0;
-setTimeout(()=>{whisper.volume=.12;},2000);
-}
-i++;
-setTimeout(reveal,600);
-}
-}
-reveal();
-}
-
-function openMap(){
-document.getElementById("mapOverlay").classList.add("active");
-}
-
-function closeMap(){
-document.getElementById("mapOverlay").classList.remove("active");
-}
-
-function escalate(){
-bg.style.transform="scale("+(1+chapter*.02)+")";
-bg.style.filter="brightness("+(1-chapter*.05)+")";
-if(Math.random()<.5){
-rgb.style.background="rgba(255,0,0,.2)";
-rgb.style.opacity=.6;
-setTimeout(()=>{rgb.style.opacity=0;},200);
-}
-if(Math.random()<.3){
-tear.style.top=Math.random()*window.innerHeight+"px";
-tear.style.opacity=.8;
-setTimeout(()=>{tear.style.opacity=0;},150);
+if(n===2){
+runChapter2Photos();
 }
 }
 
-function rupture(){
-whisper.volume=.4;
-redFlash.style.opacity=1;
+/* TIMER */
+
+let seconds=0;
+setInterval(()=>{
+seconds++;
+let hrs=Math.floor(seconds/3600);
+let mins=Math.floor((seconds%3600)/60);
+let secs=seconds%60;
+
+let timer=document.getElementById("timer");
+if(timer){
+timer.innerText=
+String(hrs).padStart(2,'0') + ":" +
+String(mins).padStart(2,'0') + ":" +
+String(secs).padStart(2,'0');
+}
+},1000);
+
+/* PHOTO SEQUENCE */
+
+function runChapter2Photos(){
+
+let img=document.getElementById("chapter2img");
+let box=document.getElementById("photoBox");
+
+if(!img || !box) return;
+
+img.style.opacity=0;
+
 setTimeout(()=>{
-redFlash.style.opacity=0;
-whisper.pause();
-bg.pause();
-},400);
-}
+box.classList.add("vhsGlitch");
+img.style.opacity=1;
+},800);
 
-function submitForm(e){
-e.preventDefault();
-next(9);
+setTimeout(()=>{
+img.style.opacity=0;
+},4000);
+
+setTimeout(()=>{
+img.src="early2.jpg";
+box.classList.add("vhsGlitch");
+img.style.opacity=1;
+},5000);
+
+setTimeout(()=>{
+img.style.opacity=0;
+},9000);
 }
 
 </script>
