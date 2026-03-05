@@ -214,6 +214,41 @@ top:auto;
 bottom:auto;
 }
 }
+    /* VHS CONTINUOUS EFFECTS */
+
+.vhsActive{
+    animation: vhsFlicker 4s infinite linear;
+}
+
+@keyframes vhsFlicker{
+    0%{filter:brightness(1);}
+    20%{filter:brightness(1.05);}
+    40%{filter:brightness(.95);}
+    60%{filter:brightness(1.03);}
+    80%{filter:brightness(.97);}
+    100%{filter:brightness(1);}
+}
+
+/* Tracking roll */
+.trackingRoll{
+    animation: trackingRoll 6s infinite linear;
+}
+
+@keyframes trackingRoll{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(2px);}
+    100%{transform:translateY(0);}
+}
+
+/* Subtle analog warp */
+.analogWarp{
+    animation: analogWarp 8s infinite ease-in-out alternate;
+}
+
+@keyframes analogWarp{
+    0%{transform:scale(1);}
+    100%{transform:scale(1.02);}
+}
 </style>
 </head>
 
@@ -245,12 +280,12 @@ Playback integrity unstable.
 
 <div class="videoPanel leftPanel">
 <img src="early1.jpg" id="img1">
-<div class="timestamp">REC ● OCT 24 2026</div>
+<div class="timestamp">REC ● JUN 22 2024</div>
 </div>
 
 <div class="videoPanel rightPanel">
 <img src="early2.jpg" id="img2">
-<div class="timestamp">REC ● OCT 24 2026</div>
+<div class="timestamp">REC ● AUG 17 2024</div>
 </div>
 
 <div class="centerText">
@@ -303,8 +338,27 @@ const img1=document.getElementById("img1");
 const img2=document.getElementById("img2");
 
 /* DISTORT TIMING */
-setTimeout(()=>{img1.classList.add("distortIn");},3000);
-setTimeout(()=>{img2.classList.add("distortIn");},6000);
+setTimeout(()=>{
+    img1.classList.add("distortIn");
+
+    setTimeout(()=>{
+        img1.parentElement.classList.add("vhsActive");
+        img1.parentElement.classList.add("trackingRoll");
+        img1.parentElement.classList.add("analogWarp");
+    },1200);
+
+},3000);
+
+setTimeout(()=>{
+    img2.classList.add("distortIn");
+
+    setTimeout(()=>{
+        img2.parentElement.classList.add("vhsActive");
+        img2.parentElement.classList.add("trackingRoll");
+        img2.parentElement.classList.add("analogWarp");
+    },1200);
+
+},6000);
 
 /* FILMING GLITCH LOOP */
 setInterval(()=>{
