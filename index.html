@@ -11,16 +11,18 @@
 /* ================= GLOBAL ================= */
 
 *{margin:0;padding:0;box-sizing:border-box;}
+
 html,body{
 height:100%;
 width:100%;
 background:black;
 color:white;
 font-family:'Share Tech Mono',monospace;
-overflow:hidden;
+overflow-x:hidden;
+overflow-y:auto;
 }
 
-/* ================= BACKGROUND VIDEO ================= */
+/* ================= VIDEO ================= */
 
 .videoWrapper{
 position:fixed;
@@ -32,15 +34,15 @@ z-index:0;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.75) contrast(1.2);
+filter:brightness(.65) contrast(1.25);
 }
 
-/* ================= ATMOSPHERE ================= */
+/* ================= OVERLAYS ================= */
 
 .dark{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.65);
+background:rgba(0,0,0,.7);
 z-index:1;
 pointer-events:none;
 }
@@ -57,34 +59,34 @@ transparent 3px
 );
 z-index:2;
 pointer-events:none;
-animation:scanMove 7s linear infinite;
+animation:scanMove 8s linear infinite;
 }
 
 @keyframes scanMove{
 0%{background-position:0 0;}
-100%{background-position:0 120px;}
+100%{background-position:0 150px;}
 }
 
-/* ================= SCREEN SYSTEM ================= */
+/* ================= SCREEN ================= */
 
 .screen{
-position:fixed;
-inset:0;
+position:relative;
+min-height:100vh;
 display:none;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:60px 40px;
+padding:90px 25px;
 z-index:10;
 }
 
 .screen.active{
 display:flex;
-animation:fadeScreen .8s ease forwards;
+animation:fadeIn .8s ease;
 }
 
-@keyframes fadeScreen{
+@keyframes fadeIn{
 from{opacity:0;}
 to{opacity:1;}
 }
@@ -94,20 +96,20 @@ to{opacity:1;}
 h2{
 letter-spacing:6px;
 font-size:22px;
-margin-bottom:25px;
+margin-bottom:30px;
 opacity:0;
-transform:translateY(15px);
-transition:all 1.2s ease;
+transform:translateY(20px);
+transition:all 1s ease;
 }
 
 .storyText{
-max-width:720px;
+max-width:750px;
 line-height:1.8;
 font-size:14px;
+margin:40px 0;
 opacity:0;
-transform:translateY(15px);
-transition:all 1.6s ease;
-margin-bottom:35px;
+transform:translateY(20px);
+transition:all 1.5s ease;
 }
 
 .screen.active h2,
@@ -116,53 +118,44 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* ================= IMAGE SYSTEM ================= */
-
-/* ================= IMAGE SYSTEM (VERTICAL STACKED) ================= */
-
-.imageRow{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:40px;
-margin:40px 0 60px 0;
-width:100%;
-}
+/* ================= IMAGE ================= */
 
 .imagePanel{
-width:520px;
-height:300px;
+width:550px;
+max-width:95%;
+height:320px;
 overflow:hidden;
 border:2px solid rgba(255,255,255,.35);
-box-shadow:0 0 60px rgba(0,0,0,.9);
+box-shadow:0 0 80px rgba(0,0,0,.9);
+margin:40px 0;
 opacity:0;
 transform:scale(1.05);
-transition:opacity 1.2s ease, transform 6s ease;
+transition:opacity 1s ease, transform 5s ease;
 }
 
 .imagePanel img{
 width:100%;
 height:100%;
 object-fit:cover;
+filter:contrast(1.1) brightness(.95);
 }
 
-/* reveal */
 .imagePanel.show{
 opacity:1;
 transform:scale(1);
-animation:subtlePulse 6s infinite alternate;
+animation:glowPulse 6s infinite alternate;
 }
 
-@keyframes subtlePulse{
+@keyframes glowPulse{
 0%{filter:brightness(1);}
-50%{filter:brightness(1.05);}
+50%{filter:brightness(1.08);}
 100%{filter:brightness(.95);}
 }
 
 /* ================= BUTTONS ================= */
 
 button{
-padding:12px 34px;
+padding:12px 36px;
 border:2px solid white;
 background:black;
 color:white;
@@ -177,81 +170,64 @@ color:black;
 }
 
 .continueBtn{
-margin-top:60px;
+margin-top:50px;
 }
 
-/* ================= WEDDING PARTY ================= */
+/* ================= PARTY ================= */
 
 .partyContainer{
-margin-top:80px;
+margin-top:60px;
 display:flex;
-justify-content:center;
-gap:80px;
 flex-wrap:wrap;
+justify-content:center;
+gap:50px;
 }
 
 .partyCard{
 background:rgba(0,0,0,.95);
-padding:60px 50px;
-width:340px;
+padding:50px;
+width:320px;
 border:1px solid rgba(255,255,255,.2);
-box-shadow:
-0 0 80px rgba(255,0,0,.1),
-0 0 40px rgba(255,255,255,.05);
+box-shadow:0 0 80px rgba(255,0,0,.1);
 }
 
 .partyCard h3{
-letter-spacing:5px;
-margin-bottom:30px;
+margin-bottom:20px;
+letter-spacing:4px;
 border-bottom:1px solid rgba(255,255,255,.3);
-padding-bottom:12px;
-font-size:15px;
+padding-bottom:10px;
 }
 
 .partyCard div{
-margin-bottom:14px;
-font-size:13px;
-letter-spacing:2px;
+margin-bottom:12px;
 }
 
 /* ================= DONATION ================= */
 
 .donationVault{
-margin-top:80px;
+margin-top:60px;
 display:flex;
 justify-content:center;
-width:100%;
 }
 
 .vaultInner{
 background:rgba(0,0,0,.95);
-padding:80px 70px;
-width:500px;
+padding:60px;
+width:520px;
+max-width:95%;
 border:1px solid rgba(255,255,255,.2);
-box-shadow:
-0 0 100px rgba(255,0,0,.15),
-0 0 50px rgba(255,255,255,.05);
+box-shadow:0 0 100px rgba(255,0,0,.15);
 text-align:center;
 }
 
-.vaultInner p{
-margin-bottom:50px;
-font-size:14px;
-letter-spacing:2px;
-}
-
 .donationButtons{
+margin-top:40px;
 display:flex;
 flex-direction:column;
-gap:25px;
+gap:20px;
 }
 
-.donateBtn{
-width:260px;
-align-self:center;
-}
-
-/* ================= CRASH SYSTEM ================= */
+/* ================= CRASH ================= */
 
 .static{
 position:fixed;
@@ -269,14 +245,13 @@ inset:0;
 background:white;
 opacity:0;
 z-index:998;
-pointer-events:none;
 }
 
 .whiteFlash.active{
-animation:flashFX .4s ease;
+animation:flash .4s ease;
 }
 
-@keyframes flashFX{
+@keyframes flash{
 50%{opacity:.9;}
 }
 
@@ -290,10 +265,10 @@ animation:shake .2s linear infinite;
 }
 
 .rewindVideo{
-animation:rewindFX 1.5s ease forwards;
+animation:rewind 1.5s ease forwards;
 }
 
-@keyframes rewindFX{
+@keyframes rewind{
 50%{transform:scaleX(-1);}
 }
 
@@ -313,34 +288,21 @@ z-index:1000;
 
 @media (max-width:768px){
 
-.screen{
-padding:40px 20px;
-overflow-y:auto;
-}
-
 .imagePanel{
-width:100%;
-height:200px;
-}
-
-.storyText{
-max-width:100%;
+height:220px;
 }
 
 .partyCard{
-width:100%;
+width:95%;
 }
 
 .vaultInner{
-width:100%;
-padding:50px 30px;
-}
-
-.donateBtn{
-width:100%;
+padding:40px 20px;
 }
 
 }
+
+</style>
 </head>
 
 <body>
@@ -360,60 +322,32 @@ width:100%;
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-<!-- ================= CHAPTER 1 ================= -->
-
+<!-- CHAPTER 1 -->
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
-<div class="storyText">
-Recovered recording. Playback unstable.
-</div>
+<div class="storyText">Recovered recording. Playback unstable.</div>
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-
-<!-- ================= CHAPTER 2 ================= -->
-
+<!-- CHAPTER 2 -->
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
-
-<div class="imageRow">
-  <div class="imagePanel"><img src="c2-1.jpg"></div>
-</div>
-
-<div class="storyText">
-(Insert chapter 2 text here.)
-</div>
-
-<div class="imageRow">
-  <div class="imagePanel"><img src="c2-2.jpg"></div>
-</div>
-
+<div class="imagePanel"><img src="c2-1.jpg"></div>
+<div class="storyText">(Insert chapter 2 text here.)</div>
+<div class="imagePanel"><img src="c2-2.jpg"></div>
 <button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
 </div>
 
-
-<!-- ================= CHAPTER 3 ================= -->
-
+<!-- CHAPTER 3 -->
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
-
-<div class="imageRow">
-  <div class="imagePanel"><img src="c3-1.jpg"></div>
-</div>
-
-<div class="storyText">
-(Insert chapter 3 text here.)
-</div>
-
-<div class="imageRow">
-  <div class="imagePanel"><img src="c3-2.jpg"></div>
-</div>
-
+<div class="imagePanel"><img src="c3-1.jpg"></div>
+<div class="storyText">(Insert chapter 3 text here.)</div>
+<div class="imagePanel"><img src="c3-2.jpg"></div>
 <button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 4 ================= -->
-
+<!-- CHAPTER 4 -->
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
 <div class="storyText">
@@ -424,52 +358,43 @@ The Conservatory — Acworth, GA
 <button class="continueBtn" onclick="goTo(5)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 5 ================= -->
-
+<!-- CHAPTER 5 -->
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-
 <div class="partyContainer">
 <div class="partyCard">
 <h3>BRIDE'S PARTY</h3>
 <div>Name — Role</div>
 <div>Name — Role</div>
 </div>
-
 <div class="partyCard">
 <h3>GROOM'S PARTY</h3>
 <div>Name — Role</div>
 <div>Name — Role</div>
 </div>
 </div>
-
 <button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 6 ================= -->
-
+<!-- CHAPTER 6 -->
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-
 <div class="donationVault">
 <div class="vaultInner">
 <p>If you wish to contribute to our future, you may do so below.</p>
 <div class="donationButtons">
-<a href="#"><button class="donateBtn">APPLE CASH</button></a>
-<a href="#"><button class="donateBtn">ZELLE</button></a>
+<a href="#"><button>APPLE CASH</button></a>
+<a href="#"><button>ZELLE</button></a>
 </div>
 </div>
 </div>
-
 <button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 7 ================= -->
-
+<!-- CHAPTER 7 -->
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
 <div class="storyText">Please confirm your presence.</div>
-
 <div style="margin-top:40px; display:flex; flex-direction:column; gap:18px; width:320px;">
 <input type="text" placeholder="Your Name" style="padding:10px;background:black;border:1px solid white;color:white;">
 <input type="email" placeholder="Email" style="padding:10px;background:black;border:1px solid white;color:white;">
@@ -480,7 +405,6 @@ The Conservatory — Acworth, GA
 <textarea placeholder="Message" style="padding:10px;height:80px;background:black;border:1px solid white;color:white;"></textarea>
 <button>SUBMIT RSVP</button>
 </div>
-
 <button style="margin-top:50px;" onclick="endTransmission()">FINALIZE TRANSMISSION</button>
 </div>
 
@@ -499,7 +423,6 @@ whisperStarted=true;
 
 function goTo(n){
 startWhisper();
-
 whisper.volume=.25;
 setTimeout(()=>whisper.volume=.08,300);
 
@@ -508,38 +431,30 @@ const target=document.getElementById("c"+n);
 target.classList.add("active");
 
 target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>panel.classList.add("show"),i*800);
+setTimeout(()=>panel.classList.add("show"),i*600);
 });
+
+window.scrollTo(0,0);
 }
 
 function endTransmission(){
-
-const video=document.getElementById("bgVideo");
 const flash=document.getElementById("whiteFlash");
 const staticLayer=document.getElementById("static");
 const ending=document.getElementById("ending");
 const screech=document.getElementById("screech");
 
-whisper.volume=.5;
-
 document.body.classList.add("screenShake");
-video.classList.add("rewindVideo");
-
-setTimeout(()=>flash.classList.add("active"),600);
+flash.classList.add("active");
 
 setTimeout(()=>{
-screech.volume=.7;
 screech.play();
 whisper.pause();
-},900);
-
-setTimeout(()=>{
 staticLayer.style.display="block";
-},1500);
+},800);
 
 setTimeout(()=>{
 ending.style.display="flex";
-},3000);
+},2500);
 }
 
 </script>
