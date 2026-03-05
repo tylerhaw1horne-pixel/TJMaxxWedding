@@ -17,7 +17,7 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* ================= BACKGROUND ================= */
+/* ================= FOREST VIDEO ================= */
 
 video{
 position:fixed;
@@ -27,6 +27,17 @@ object-fit:cover;
 z-index:0;
 pointer-events:none;
 filter:brightness(.95) contrast(1.1);
+transition:transform 1s ease;
+}
+
+/* VHS REWIND EFFECT */
+video.rewind{
+animation:rewind 1.5s linear forwards;
+}
+@keyframes rewind{
+0%{transform:scaleX(1);}
+50%{transform:scaleX(-1);}
+100%{transform:scaleX(1);}
 }
 
 .dark{
@@ -108,7 +119,7 @@ background:white;
 color:black;
 }
 
-/* ================= VIDEO PANEL ================= */
+/* ================= PHOTO PANELS ================= */
 
 .videoPanel{
 position:absolute;
@@ -123,70 +134,55 @@ background:black;
 .leftPanel{left:60px;bottom:60px;}
 .rightPanel{right:60px;top:60px;}
 
-.imageLayer{
-position:absolute;
-width:100%;
-height:100%;
-z-index:1;
-}
-
-.imageLayer img{
+.videoPanel img{
 width:100%;
 height:100%;
 object-fit:cover;
 opacity:0;
-transform:scale(1.15);
+transform:scale(1.1);
 }
 
+/* Distort entry */
 .distortIn{
 animation:distortEntry 1.2s forwards;
 }
-
 @keyframes distortEntry{
-0%{opacity:0;transform:scale(1.6) skewX(30deg);filter:blur(20px) brightness(0);}
+0%{opacity:0;transform:scale(1.5) skewX(20deg);filter:blur(20px);}
 100%{opacity:1;transform:scale(1);filter:none;}
 }
 
-/* ================= FILM FX ================= */
-
-.fxLayer{
-position:absolute;
-width:100%;
-height:100%;
-z-index:2;
-pointer-events:none;
-mix-blend-mode:overlay;
-animation:filmInstability 6s infinite linear;
+/* Continuous film effect */
+.filmFX{
+animation:filmFX 6s infinite linear alternate;
 }
-
-.fxLayer::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background-image:url("https://grainy-gradients.vercel.app/noise.svg");
-opacity:.3;
-animation:grainMove 1s steps(2) infinite;
-}
-
-@keyframes grainMove{
-0%{transform:translate(0,0);}
-25%{transform:translate(-2%,1%);}
-50%{transform:translate(1%,-2%);}
-75%{transform:translate(-1%,2%);}
-100%{transform:translate(0,0);}
-}
-
-@keyframes filmInstability{
+@keyframes filmFX{
 0%{filter:brightness(1) contrast(1);}
-15%{filter:brightness(1.1) contrast(1.25);}
-35%{filter:brightness(.9) contrast(.9);}
-50%{filter:brightness(1.15) contrast(1.3);}
-70%{filter:brightness(.95) contrast(1.05);}
-100%{filter:brightness(1) contrast(1);}
+50%{filter:brightness(1.1) contrast(1.2);}
+100%{filter:brightness(.95) contrast(.9);}
 }
 
-/* ================= DONATION STYLE ================= */
+/* RGB separation */
+.rgb{
+animation:rgbShift 3s infinite alternate;
+}
+@keyframes rgbShift{
+0%{filter:none;}
+100%{filter:drop-shadow(-2px 0 red) drop-shadow(2px 0 cyan);}
+}
+
+/* Screen tearing */
+.tear{
+animation:tear 0.2s linear;
+}
+@keyframes tear{
+0%{transform:translateX(0);}
+25%{transform:translateX(-15px);}
+50%{transform:translateX(10px);}
+75%{transform:translateX(-5px);}
+100%{transform:translateX(0);}
+}
+
+/* ================= DONATION ================= */
 
 .donationBox{
 border:1px solid rgba(255,255,255,.5);
@@ -194,41 +190,50 @@ padding:20px;
 margin-top:25px;
 animation:donationPulse 4s infinite ease-in-out;
 }
-
 @keyframes donationPulse{
 0%{box-shadow:0 0 5px white;}
-50%{box-shadow:0 0 20px red;}
+50%{box-shadow:0 0 25px red;}
 100%{box-shadow:0 0 5px white;}
+}
+
+input{
+padding:10px;
+width:80%;
+margin-top:10px;
+background:black;
+color:white;
+border:1px solid white;
 }
 
 /* ================= SIGNAL CRASH ================= */
 
-.crash{
+.staticCrash{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:white;
-z-index:999;
+background:repeating-linear-gradient(
+0deg,
+white 0px,
+white 2px,
+black 2px,
+black 4px
+);
 opacity:0;
+z-index:999;
 pointer-events:none;
 }
 
-.crash.active{
-animation:crashAnim 2.5s forwards;
+.staticCrash.active{
+animation:signalCrash 2s forwards;
 }
-
-@keyframes crashAnim{
+@keyframes signalCrash{
 0%{opacity:0;}
 10%{opacity:1;}
 20%{opacity:0;}
-30%{opacity:1;}
-40%{opacity:0;}
-60%{opacity:1;}
-80%{opacity:0;}
-100%{opacity:0;}
+40%{opacity:1;}
+70%{opacity:.8;}
+100%{opacity:1;}
 }
-
-/* ================= MOBILE ================= */
 
 @media(max-width:900px){
 .videoPanel{
@@ -237,22 +242,20 @@ width:90vw;
 height:55vw;
 margin:20px auto;
 }
-.leftPanel,.rightPanel{
-left:auto;right:auto;top:auto;bottom:auto;
-}
+.leftPanel,.rightPanel{left:auto;right:auto;top:auto;bottom:auto;}
 }
 </style>
 </head>
 
 <body>
 
-<video autoplay muted loop playsinline>
+<video id="bgVideo" autoplay muted loop playsinline>
 <source src="forrestvid.mp4" type="video/mp4">
 </video>
 
 <div class="dark"></div>
 <div class="scan"></div>
-<div class="crash" id="crash"></div>
+<div class="staticCrash" id="staticCrash"></div>
 
 <!-- CHAPTER 1 -->
 <div class="screen active" id="c1">
@@ -266,12 +269,10 @@ left:auto;right:auto;top:auto;bottom:auto;
 <!-- CHAPTER 2 -->
 <div class="screen" id="c2">
 <div class="videoPanel leftPanel">
-<div class="imageLayer"><img src="early1.jpg" id="img1"></div>
-<div class="fxLayer"></div>
+<img src="early1.jpg" id="img1">
 </div>
 <div class="videoPanel rightPanel">
-<div class="imageLayer"><img src="early2.jpg" id="img2"></div>
-<div class="fxLayer"></div>
+<img src="early2.jpg" id="img2">
 </div>
 <div class="centerText">
 <h2>RECONNECTION LOG</h2>
@@ -289,27 +290,21 @@ left:auto;right:auto;top:auto;bottom:auto;
 </div>
 </div>
 
-<!-- CHAPTER 4 – GUEST LIST + DONATIONS -->
+<!-- CHAPTER 4 -->
 <div class="screen" id="c4">
 <div class="centerText">
 <h2>CONTRIBUTION PORTAL</h2>
 <p>Enter your name into the archive.</p>
-
-<input type="text" id="guestName" placeholder="Your Name" style="padding:10px;width:80%;margin-top:10px;">
+<input type="text" id="guestName" placeholder="Your Name">
 <button onclick="saveGuest()">ENTER ARCHIVE</button>
 
 <div class="donationBox">
-<a href="https://cash.app/$YourCashtag" target="_blank">
-<button>APPLE CASH</button>
-</a>
+<a href="https://cash.app/$YourCashtag" target="_blank"><button>APPLE CASH</button></a>
 <br>
-<a href="mailto:yourzelleemail@example.com">
-<button>ZELLE</button>
-</a>
+<a href="mailto:yourzelleemail@example.com"><button>ZELLE</button></a>
 </div>
 
 <button onclick="triggerCrash()">FINALIZE TRANSMISSION</button>
-
 </div>
 </div>
 
@@ -317,6 +312,7 @@ left:auto;right:auto;top:auto;bottom:auto;
 
 <script>
 const whisper=document.getElementById("whisper");
+const video=document.getElementById("bgVideo");
 whisper.volume=.12;
 let started=false;
 
@@ -329,28 +325,49 @@ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("c"+n).classList.add("active");
 }
 
+/* Photo FX */
 window.addEventListener("load",()=>{
-setTimeout(()=>{document.getElementById("img1").classList.add("distortIn");},4000);
-setTimeout(()=>{document.getElementById("img2").classList.add("distortIn");},6000);
+setTimeout(()=>{
+img1.classList.add("distortIn","filmFX","rgb");
+},4000);
+setTimeout(()=>{
+img2.classList.add("distortIn","filmFX","rgb");
+},6000);
+
+setInterval(()=>{
+if(Math.random()<.5){
+document.querySelectorAll(".videoPanel img").forEach(img=>{
+img.classList.add("tear");
+setTimeout(()=>img.classList.remove("tear"),200);
+});
+}
+},3000);
 });
 
-/* Guest List Storage */
+/* Google Sheet Logging */
 function saveGuest(){
 let name=document.getElementById("guestName").value;
-if(name){
+if(!name)return;
+
 let guests=JSON.parse(localStorage.getItem("guestList")||"[]");
 guests.push(name);
 localStorage.setItem("guestList",JSON.stringify(guests));
+
+fetch("YOUR_GOOGLE_SCRIPT_URL_HERE",{
+method:"POST",
+body:JSON.stringify({name:name}),
+headers:{"Content-Type":"application/json"}
+});
+
 alert("NAME ARCHIVED");
 }
-}
 
-/* Signal Crash */
+/* Rewind + Crash */
 function triggerCrash(){
-document.getElementById("crash").classList.add("active");
+video.classList.add("rewind");
 setTimeout(()=>{
-document.body.style.background="black";
-},2500);
+document.getElementById("staticCrash").classList.add("active");
+},1500);
 }
 </script>
 
