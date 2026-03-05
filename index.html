@@ -8,7 +8,6 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 html,body{
 height:100%;
 width:100%;
@@ -18,7 +17,7 @@ font-family:'Share Tech Mono',monospace;
 overflow:hidden;
 }
 
-/* ===== VIDEO ===== */
+/* ================= VIDEO ================= */
 
 .videoWrapper{
 position:fixed;
@@ -30,16 +29,17 @@ z-index:0;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.9) contrast(1.1);
+filter:brightness(.8) contrast(1.15);
 }
 
-/* ===== ATMOSPHERE ===== */
+/* ================= ATMOSPHERE ================= */
 
 .dark{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.45);
+background:rgba(0,0,0,.6);
 z-index:1;
+pointer-events:none;
 }
 
 .scan{
@@ -53,9 +53,16 @@ transparent 1px,
 transparent 3px
 );
 z-index:2;
+pointer-events:none;
+animation:scanMove 6s linear infinite;
 }
 
-/* ===== SCREENS ===== */
+@keyframes scanMove{
+0%{background-position:0 0;}
+100%{background-position:0 100px;}
+}
+
+/* ================= SCREENS ================= */
 
 .screen{
 position:fixed;
@@ -65,26 +72,101 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:30px;
+padding:40px;
 z-index:10;
 }
 
-.screen.active{
-display:flex;
-}
+.screen.active{display:flex;}
 
 h2{
 letter-spacing:6px;
 margin-bottom:25px;
 font-size:22px;
+opacity:0;
+transform:translateY(10px);
+transition:all 1s ease;
 }
 
-p{
+.storyText{
 max-width:700px;
 line-height:1.8;
 font-size:14px;
-opacity:.95;
+opacity:0;
+transform:translateY(10px);
+transition:all 1.5s ease;
+margin-bottom:20px;
 }
+
+/* Cinematic text reveal */
+.screen.active h2,
+.screen.active .storyText{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ================= IMAGE PANELS ================= */
+
+.imagePanel{
+position:absolute;
+width:300px;
+height:190px;
+overflow:hidden;
+border:2px solid rgba(255,255,255,.4);
+box-shadow:0 0 40px rgba(0,0,0,.8);
+opacity:0;
+transform:scale(1.2);
+transition:opacity 1.5s ease, transform 6s ease;
+}
+
+.imagePanel.left{left:60px;bottom:60px;}
+.imagePanel.right{right:60px;top:60px;}
+.imagePanel.center{bottom:60px;}
+
+.imagePanel img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+/* Reveal state */
+.imagePanel.show{
+opacity:1;
+transform:scale(1);
+animation:vhsPulse 5s infinite alternate;
+}
+
+/* VHS brightness pulse */
+@keyframes vhsPulse{
+0%{filter:brightness(1);}
+50%{filter:brightness(1.08);}
+100%{filter:brightness(.95);}
+}
+
+/* RGB glitch flash */
+.glitchFlash{
+animation:rgbSplit .3s ease;
+}
+
+@keyframes rgbSplit{
+0%{filter:none;}
+50%{filter:drop-shadow(-3px 0 red) drop-shadow(3px 0 cyan);}
+100%{filter:none;}
+}
+
+/* Micro screen tear */
+.tear{
+animation:tearEffect .2s linear;
+}
+
+@keyframes tearEffect{
+0%{transform:translateX(0);}
+25%{transform:translateX(-15px);}
+50%{transform:translateX(10px);}
+75%{transform:translateX(-5px);}
+100%{transform:translateX(0);}
+}
+
+/* ================= BUTTONS ================= */
 
 button{
 margin-top:20px;
@@ -102,18 +184,41 @@ background:white;
 color:black;
 }
 
-/* ===== PARTY ===== */
+/* ================= PARTY ================= */
 
 .partyList{
 display:none;
 margin-top:15px;
+line-height:1.8;
 }
 
 .partyList.show{
 display:block;
+animation:fadeIn .8s ease forwards;
 }
 
-/* ===== FORM ===== */
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* ================= CONTRIBUTION ================= */
+
+.contributionBox{
+border:2px solid rgba(255,255,255,.4);
+padding:30px;
+background:rgba(0,0,0,.7);
+box-shadow:0 0 40px rgba(255,255,255,.1);
+animation:portalGlow 6s infinite ease-in-out;
+}
+
+@keyframes portalGlow{
+0%{box-shadow:0 0 20px rgba(255,255,255,.1);}
+50%{box-shadow:0 0 60px rgba(255,0,0,.4);}
+100%{box-shadow:0 0 20px rgba(255,255,255,.1);}
+}
+
+/* ================= FORM ================= */
 
 input,select,textarea{
 margin-top:10px;
@@ -124,12 +229,9 @@ color:white;
 border:1px solid white;
 }
 
-textarea{
-height:80px;
-resize:none;
-}
+textarea{height:80px;resize:none;}
 
-/* ===== SIGNAL LOSS ===== */
+/* ================= SIGNAL LOSS ================= */
 
 .static{
 position:fixed;
@@ -156,6 +258,49 @@ font-size:24px;
 letter-spacing:8px;
 z-index:1000;
 }
+  
+  /* ===== VHS REWIND CRASH ENGINE ===== */
+
+.rewindVideo{
+animation:rewindFX 1.5s ease forwards;
+}
+
+@keyframes rewindFX{
+0%{transform:scaleX(1);}
+50%{transform:scaleX(-1);}
+100%{transform:scaleX(1);}
+}
+
+.screenShake{
+animation:shake .2s linear infinite;
+}
+
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(-10px,5px);}
+50%{transform:translate(10px,-5px);}
+75%{transform:translate(-6px,4px);}
+100%{transform:translate(0,0);}
+}
+
+.whiteFlash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+z-index:998;
+pointer-events:none;
+}
+
+.whiteFlash.active{
+animation:flashFX .4s ease;
+}
+
+@keyframes flashFX{
+0%{opacity:0;}
+50%{opacity:.9;}
+100%{opacity:0;}
+}
 </style>
 </head>
 
@@ -169,128 +314,122 @@ z-index:1000;
 
 <div class="dark"></div>
 <div class="scan"></div>
-
 <div class="static" id="static"></div>
+<div class="whiteFlash" id="whiteFlash"></div>
 <div class="ending" id="ending">TRANSMISSION LOST</div>
-
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
-<!-- CHAPTER 1 -->
-<div class="screen active" id="c1">
-<h2>ARCHIVE 10.24.2026</h2>
-<p>Recovered recording. Playback unstable.</p>
-<button onclick="goTo(2)">INITIATE PLAYBACK</button>
-</div>
-
-<!-- CHAPTER 2 -->
-<div class="screen" id="c2">
-<h2>RECONNECTION LOG</h2>
-<p>Edit your early story here.</p>
-<button onclick="goTo(3)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 3 -->
-<div class="screen" id="c3">
-<h2>OUR STORY</h2>
-<p>Edit long story here.</p>
-<button onclick="goTo(4)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 4 -->
-<div class="screen" id="c4">
-<h2>WEDDING DETAILS</h2>
-<p>
-October 24, 2026<br>
-5:00 PM – 9:00 PM<br>
-The Conservatory — Acworth, GA
-</p>
-<button onclick="goTo(5)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 5 -->
-<div class="screen" id="c5">
-<h2>WEDDING PARTY</h2>
-
-<button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
-<div class="partyList" id="bride">
-Name — Role<br>
-Name — Role<br>
-Name — Role
-</div>
-
-<button onclick="toggleParty('groom')">GROOM’S PARTY</button>
-<div class="partyList" id="groom">
-Name — Role<br>
-Name — Role<br>
-Name — Role
-</div>
-
-<button onclick="goTo(6)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 6 -->
-<div class="screen" id="c6">
-<h2>CONTRIBUTION PORTAL</h2>
-
-<a href="https://cash.app/$YourCashtag" target="_blank">
-<button>APPLE CASH</button>
-</a>
-
-<a href="mailto:yourzelle@email.com">
-<button>ZELLE</button>
-</a>
-
-<button onclick="goTo(7)">CONTINUE</button>
-</div>
-
-<!-- CHAPTER 7 -->
-<div class="screen" id="c7">
-<h2>ENTER THE ARCHIVE</h2>
-
-<input type="text" placeholder="Your Name"><br>
-<input type="email" placeholder="Email"><br>
-
-<select>
-<option>Attending</option>
-<option>Not Attending</option>
-</select><br>
-
-<textarea placeholder="Message"></textarea><br>
-
-<button onclick="alert('RSVP ARCHIVED')">SUBMIT RSVP</button>
-<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
-</div>
+<!-- Keep your existing chapter structure unchanged here -->
 
 <script>
 
-let audioStarted = false;
-const whisper = document.getElementById("whisper");
+let audioStarted=false;
+const whisper=document.getElementById("whisper");
 
 function startAudio(){
 if(!audioStarted){
-whisper.volume = 0.12;
+whisper.volume=.12;
 whisper.play().catch(()=>{});
-audioStarted = true;
+audioStarted=true;
 }
 }
 
 function goTo(n){
 startAudio();
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+const target=document.getElementById("c"+n);
+target.classList.add("active");
+activateImages(target);
+triggerRandomGlitch();
+}
+
+function activateImages(screen){
+const panels=screen.querySelectorAll(".imagePanel");
+let delay=0;
+panels.forEach(panel=>{
+setTimeout(()=>panel.classList.add("show"),delay);
+delay+=1200;
 });
-document.getElementById("c"+n).classList.add("active");
+}
+
+/* Random glitch engine */
+function triggerRandomGlitch(){
+setInterval(()=>{
+if(Math.random()<.4){
+document.body.classList.add("tear");
+setTimeout(()=>document.body.classList.remove("tear"),200);
+}
+if(Math.random()<.3){
+document.querySelectorAll(".imagePanel.show").forEach(p=>{
+p.classList.add("glitchFlash");
+setTimeout(()=>p.classList.remove("glitchFlash"),300);
+});
+}
+},4000);
 }
 
 function toggleParty(id){
 document.getElementById(id).classList.toggle("show");
 }
 
+function submitRSVP(){
+const name=document.getElementById("rsvpName").value.trim();
+const attendance=document.getElementById("attendance").value;
+const extras=document.getElementById("extraGuests").value.trim();
+
+if(!name||!attendance||!extras){
+alert("Please complete required fields.");
+return;
+}
+
+fetch("YOUR_GOOGLE_SCRIPT_URL_HERE",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+name,
+attendance,
+extras,
+message:document.getElementById("message").value,
+timestamp:new Date().toISOString()
+})
+});
+
+alert("RSVP ARCHIVED");
+}
+
 function endTransmission(){
-document.getElementById("static").style.display = "block";
+
+const video=document.getElementById("bgVideo");
+const flash=document.getElementById("whiteFlash");
+const staticLayer=document.getElementById("static");
+const ending=document.getElementById("ending");
+
+/* 1️⃣ Screen shake chaos */
+document.body.classList.add("screenShake");
+
+/* 2️⃣ RGB glitch burst */
+document.querySelectorAll(".imagePanel.show").forEach(p=>{
+p.classList.add("glitchFlash");
+});
+
+/* 3️⃣ VHS rewind visual */
+video.classList.add("rewindVideo");
+
+/* 4️⃣ Flash burst */
 setTimeout(()=>{
-document.getElementById("ending").style.display = "flex";
-},2000);
+flash.classList.add("active");
+},600);
+
+/* 5️⃣ Static takeover */
+setTimeout(()=>{
+document.body.classList.remove("screenShake");
+staticLayer.style.display="block";
+},1500);
+
+/* 6️⃣ Permanent signal loss */
+setTimeout(()=>{
+ending.style.display="flex";
+},3000);
 }
 
 </script>
