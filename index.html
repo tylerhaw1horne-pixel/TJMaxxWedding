@@ -33,7 +33,6 @@ width:100%;
 height:100%;
 object-fit:cover;
 filter:brightness(.75) contrast(1.2);
-transition:filter 2s ease;
 }
 
 /* ================= ATMOSPHERE ================= */
@@ -117,7 +116,7 @@ opacity:1;
 transform:translateY(0);
 }
 
-/* ================= IMAGE PANELS (FIXED) ================= */
+/* ================= IMAGE SYSTEM ================= */
 
 .imageRow{
 margin-top:40px;
@@ -179,16 +178,16 @@ cursor:pointer;
 transition:.3s;
 }
 
-.continueBtn{
-margin-top:60px;
-}
-
 button:hover{
 background:white;
 color:black;
 }
 
-/* ================= WEDDING PARTY (STABLE + DARKER) ================= */
+.continueBtn{
+margin-top:60px;
+}
+
+/* ================= WEDDING PARTY ================= */
 
 .partyContainer{
 margin-top:80px;
@@ -222,7 +221,7 @@ font-size:13px;
 letter-spacing:2px;
 }
 
-/* ================= DONATION (ELEVATED CENTERED) ================= */
+/* ================= DONATION ================= */
 
 .donationVault{
 margin-top:80px;
@@ -317,7 +316,7 @@ letter-spacing:8px;
 z-index:1000;
 }
 
-/* ================= MOBILE FIX ================= */
+/* ================= MOBILE ================= */
 
 @media (max-width:768px){
 
@@ -326,10 +325,6 @@ width:90%;
 height:180px;
 margin:0 !important;
 align-self:center !important;
-}
-
-.partyContainer{
-gap:40px;
 }
 
 .partyCard{
@@ -368,10 +363,119 @@ padding:40px 20px;
 <div class="static" id="static"></div>
 <div class="whiteFlash" id="whiteFlash"></div>
 <div class="ending" id="ending">TRANSMISSION LOST</div>
+
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-<!-- CHAPTER STRUCTURE UNCHANGED -->
+<!-- ================= CHAPTER 1 ================= -->
+
+<div class="screen active" id="c1">
+<h2>ARCHIVE 10.24.2026</h2>
+<div class="storyText">
+Recovered recording. Playback unstable.
+</div>
+<button onclick="goTo(2)">INITIATE PLAYBACK</button>
+</div>
+
+<!-- ================= CHAPTER 2 ================= -->
+
+<div class="screen" id="c2">
+<h2>RECONNECTION LOG</h2>
+<div class="storyText">(Insert chapter 2 text here.)</div>
+
+<div class="imageRow">
+<div class="imagePanel"><img src="c2-1.jpg"></div>
+<div class="imagePanel"><img src="c2-2.jpg"></div>
+</div>
+
+<button class="continueBtn" onclick="goTo(3)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 3 ================= -->
+
+<div class="screen" id="c3">
+<h2>OUR STORY</h2>
+<div class="storyText">(Insert chapter 3 text here.)</div>
+
+<div class="imageRow">
+<div class="imagePanel"><img src="c3-1.jpg"></div>
+<div class="imagePanel"><img src="c3-2.jpg"></div>
+</div>
+
+<button class="continueBtn" onclick="goTo(4)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 4 ================= -->
+
+<div class="screen" id="c4">
+<h2>WEDDING DETAILS</h2>
+<div class="storyText">
+October 24, 2026<br>
+5:00 PM – 9:00 PM<br>
+The Conservatory — Acworth, GA
+</div>
+<button class="continueBtn" onclick="goTo(5)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 5 ================= -->
+
+<div class="screen" id="c5">
+<h2>WEDDING PARTY</h2>
+
+<div class="partyContainer">
+<div class="partyCard">
+<h3>BRIDE'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
+</div>
+
+<div class="partyCard">
+<h3>GROOM'S PARTY</h3>
+<div>Name — Role</div>
+<div>Name — Role</div>
+</div>
+</div>
+
+<button class="continueBtn" onclick="goTo(6)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 6 ================= -->
+
+<div class="screen" id="c6">
+<h2>CONTRIBUTION PORTAL</h2>
+
+<div class="donationVault">
+<div class="vaultInner">
+<p>If you wish to contribute to our future, you may do so below.</p>
+<div class="donationButtons">
+<a href="#"><button class="donateBtn">APPLE CASH</button></a>
+<a href="#"><button class="donateBtn">ZELLE</button></a>
+</div>
+</div>
+</div>
+
+<button class="continueBtn" onclick="goTo(7)">CONTINUE</button>
+</div>
+
+<!-- ================= CHAPTER 7 ================= -->
+
+<div class="screen" id="c7">
+<h2>ENTER THE ARCHIVE</h2>
+<div class="storyText">Please confirm your presence.</div>
+
+<div style="margin-top:40px; display:flex; flex-direction:column; gap:18px; width:320px;">
+<input type="text" placeholder="Your Name" style="padding:10px;background:black;border:1px solid white;color:white;">
+<input type="email" placeholder="Email" style="padding:10px;background:black;border:1px solid white;color:white;">
+<select style="padding:10px;background:black;border:1px solid white;color:white;">
+<option>Attending</option>
+<option>Not Attending</option>
+</select>
+<textarea placeholder="Message" style="padding:10px;height:80px;background:black;border:1px solid white;color:white;"></textarea>
+<button>SUBMIT RSVP</button>
+</div>
+
+<button style="margin-top:50px;" onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+</div>
 
 <script>
 
@@ -387,10 +491,8 @@ whisperStarted=true;
 }
 
 function goTo(n){
-
 startWhisper();
 
-/* audio spike */
 whisper.volume=.25;
 setTimeout(()=>whisper.volume=.08,300);
 
