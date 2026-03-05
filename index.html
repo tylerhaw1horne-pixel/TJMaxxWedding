@@ -319,7 +319,77 @@ font-size:24px;
 letter-spacing:8px;
 z-index:1000;
 }
+/* ================= CINEMATIC MOBILE SCALE ================= */
 
+@media (max-width: 768px){
+
+/* Scale text proportionally */
+h2{
+font-size:18px;
+letter-spacing:4px;
+}
+
+.storyText{
+font-size:13px;
+max-width:90%;
+}
+
+/* Keep images side by side but smaller */
+.imageRow{
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.imagePanel{
+width:42%;
+height:140px;
+}
+
+/* If 3 images, third wraps cleanly */
+.imagePanel:nth-child(3){
+width:60%;
+}
+
+/* Party cards stay side by side but tighter */
+.partyContainer{
+gap:40px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.partyCard{
+min-width:180px;
+padding:25px;
+}
+
+/* Donation vault scales down proportionally */
+.donationVault{
+width:90%;
+margin:40px auto 0;
+}
+
+.vaultInner{
+width:100%;
+padding:40px 30px;
+}
+
+.donateBtn{
+width:100%;
+}
+
+/* Buttons scale but keep cinematic look */
+button{
+padding:10px 22px;
+letter-spacing:3px;
+}
+
+/* Screen padding reduced but not stacked */
+.screen{
+padding:40px 20px;
+}
+
+}
 </style>
 </head>
 
