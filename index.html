@@ -242,7 +242,7 @@ transition:opacity 2s ease;
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
 <p>Recovered recording. Playback unstable.</p>
-<button onclick="next(2)">INITIATE PLAYBACK</button>
+<button data-next="2">INITIATE PLAYBACK</button>
 </div>
 
 <!-- ================= CHAPTER 2 ================= -->
@@ -255,7 +255,7 @@ transition:opacity 2s ease;
 <!-- EDIT STORY BELOW -->
 Your early story text goes here.
 </p>
-<button onclick="next(3)">CONTINUE</button>
+<button data-next="3">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 3 ================= -->
@@ -265,7 +265,7 @@ Your early story text goes here.
 <!-- EDIT LONG STORY BELOW -->
 Insert your long-form story here.
 </p>
-<button onclick="next(4)">CONTINUE</button>
+<button data-next="4">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 4 ================= -->
@@ -279,14 +279,14 @@ The Conservatory — Acworth, GA<br>
 Dress Code: [Edit]<br>
 Parking Info: [Edit]
 </p>
-<button onclick="next(5)">CONTINUE</button>
+<button data-next="5">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 5 ================= -->
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 
-<button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
+<button data-party="bride">BRIDE’S PARTY</button>
 <div class="partyList" id="bride">
 <!-- EDIT NAMES BELOW -->
 Name — Role<br>
@@ -294,7 +294,7 @@ Name — Role<br>
 Name — Role
 </div>
 
-<button onclick="toggleParty('groom')">GROOM’S PARTY</button>
+<button data-party="groom">GROOM’S PARTY</button>
 <div class="partyList" id="groom">
 <!-- EDIT NAMES BELOW -->
 Name — Role<br>
@@ -302,7 +302,7 @@ Name — Role<br>
 Name — Role
 </div>
 
-<button onclick="next(6)">CONTINUE</button>
+<button data-next="6">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 6 ================= -->
@@ -319,7 +319,7 @@ Name — Role
 <button>ZELLE</button>
 </a>
 
-<button onclick="next(7)">CONTINUE</button>
+<button data-next="7">CONTINUE</button>
 </div>
 
 <!-- ================= CHAPTER 7 ================= -->
@@ -337,8 +337,8 @@ Name — Role
 <input type="number" id="guestCount" placeholder="Number of Guests"><br>
 <textarea id="message" placeholder="Message"></textarea><br>
 
-<button onclick="submitRSVP()">SUBMIT RSVP</button>
-<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+<button id="submitRSVP">SUBMIT RSVP</button>
+<button id="endTransmission">FINALIZE TRANSMISSION</button>
 </div>
 
 
@@ -360,52 +360,63 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-    window.next = function(n){
+    function goToScreen(n){
         startAudio();
         screens.forEach(screen => screen.classList.remove("active"));
         const target = document.getElementById("c"+n);
         if(target){
             target.classList.add("active");
         }
-    };
+    }
 
-    window.toggleParty = function(id){
-        const section = document.getElementById(id);
-        if(section){
-            section.classList.toggle("active");
-        }
-    };
+    /* Attach button navigation */
+    document.querySelectorAll("[data-next]").forEach(btn=>{
+        btn.addEventListener("click", function(){
+            goToScreen(this.dataset.next);
+        });
+    });
 
-    window.submitRSVP = function(){
-        const data = {
-            name: document.getElementById("rsvpName")?.value || "",
-            email: document.getElementById("rsvpEmail")?.value || "",
-            attendance: document.getElementById("attendance")?.value || "",
-            guests: document.getElementById("guestCount")?.value || "",
-            message: document.getElementById("message")?.value || ""
-        };
-
-        localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
-
-        fetch("YOUR_GOOGLE_SCRIPT_URL_HERE", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: { "Content-Type": "application/json" }
-        }).catch(()=>{});
-
-        alert("RSVP ARCHIVED");
-    };
-
-    window.endTransmission = function(){
-        if(staticLayer){
-            staticLayer.classList.add("active");
-        }
-        setTimeout(()=>{
-            if(endingText){
-                endingText.classList.add("active");
+    /* Party Toggle */
+    document.querySelectorAll("[data-party]").forEach(btn=>{
+        btn.addEventListener("click", function(){
+            const section = document.getElementById(this.dataset.party);
+            if(section){
+                section.classList.toggle("active");
             }
-        },3000);
-    };
+        });
+    });
+
+    /* RSVP */
+    const rsvpBtn = document.getElementById("submitRSVP");
+    if(rsvpBtn){
+        rsvpBtn.addEventListener("click", function(){
+            const data = {
+                name: document.getElementById("rsvpName")?.value || "",
+                email: document.getElementById("rsvpEmail")?.value || "",
+                attendance: document.getElementById("attendance")?.value || "",
+                guests: document.getElementById("guestCount")?.value || "",
+                message: document.getElementById("message")?.value || ""
+            };
+
+            localStorage.setItem("rsvp_" + Date.now(), JSON.stringify(data));
+            alert("RSVP ARCHIVED");
+        });
+    }
+
+    /* End Transmission */
+    const endBtn = document.getElementById("endTransmission");
+    if(endBtn){
+        endBtn.addEventListener("click", function(){
+            if(staticLayer){
+                staticLayer.classList.add("active");
+            }
+            setTimeout(()=>{
+                if(endingText){
+                    endingText.classList.add("active");
+                }
+            },3000);
+        });
+    }
 
 });
 </script>
