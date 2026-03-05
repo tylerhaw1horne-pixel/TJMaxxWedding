@@ -18,7 +18,7 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* VIDEO — LESS DARK */
+/* FOREST VIDEO — MORE VISIBLE */
 video{
 position:fixed;
 top:0;left:0;
@@ -26,8 +26,7 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-filter:brightness(.65) contrast(1.1);
-transition:transform 10s ease;
+filter:brightness(.7) contrast(1.15);
 }
 
 /* ATMOSPHERE */
@@ -35,7 +34,7 @@ transition:transform 10s ease;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(0,0,0,.55); /* LIGHTER */
+background:rgba(0,0,0,.45);
 z-index:1;
 pointer-events:none;
 }
@@ -44,7 +43,7 @@ pointer-events:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.03) 50%, rgba(0,0,0,.9) 50%);
+background:linear-gradient(rgba(255,255,255,.04) 50%, rgba(0,0,0,.9) 50%);
 background-size:100% 3px;
 z-index:2;
 pointer-events:none;
@@ -54,29 +53,8 @@ pointer-events:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:radial-gradient(circle, transparent 50%, rgba(0,0,0,.95) 100%);
+background:radial-gradient(circle, transparent 45%, rgba(0,0,0,.95) 100%);
 z-index:3;
-pointer-events:none;
-}
-
-/* GLITCH LAYERS */
-.rgb{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-mix-blend-mode:screen;
-opacity:0;
-pointer-events:none;
-z-index:50;
-}
-
-.tear{
-position:fixed;
-height:60px;
-width:100%;
-background:white;
-opacity:0;
-z-index:60;
 pointer-events:none;
 }
 
@@ -88,7 +66,6 @@ width:100%;height:100%;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:40px;
 z-index:100;
 opacity:0;
 transition:opacity .6s ease;
@@ -100,21 +77,32 @@ opacity:1;
 pointer-events:auto;
 }
 
-/* TEXT */
+/* CENTER TEXT BLOCK */
+.centerText{
+position:relative;
+z-index:200;
+text-align:center;
+max-width:600px;
+padding:20px;
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(3px);
+border:1px solid rgba(255,255,255,.2);
+}
+
 h2{
 letter-spacing:6px;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 p{
 line-height:1.8;
 font-size:14px;
-opacity:.9;
+opacity:.95;
 }
 
 button{
-margin-top:35px;
-padding:14px 40px;
+margin-top:30px;
+padding:14px 36px;
 border:2px solid white;
 background:black;
 color:white;
@@ -128,68 +116,57 @@ background:white;
 color:black;
 }
 
-/* CHAPTER 2 LAYOUT */
-.chapter2Layout{
-display:flex;
-gap:100px;
-max-width:1200px;
-width:100%;
-align-items:flex-start;
-}
-
-.chapter2Text{
-flex:1;
-max-width:500px;
-text-align:left;
-}
-
-.chapter2Images{
-flex:1;
-display:flex;
-flex-direction:column;
-gap:90px;
-margin-top:140px; /* PULLED DOWN MORE */
-}
-
-/* VHS FRAME */
-.vhsFrame{
-width:480px;
-height:280px;
+/* VIDEO PANELS */
+.videoPanel{
+position:absolute;
+width:380px;
+height:220px;
 background:black;
-border:2px solid rgba(255,255,255,.3);
 overflow:hidden;
-position:relative;
+border:2px solid rgba(255,255,255,.3);
+box-shadow:0 0 40px rgba(0,0,0,.8);
 transform:scale(1);
 }
 
-/* IMAGE */
-.vhsFrame img{
+/* LEFT PANEL */
+.leftPanel{
+left:40px;
+bottom:80px;
+}
+
+/* RIGHT PANEL */
+.rightPanel{
+right:60px;
+top:60px;
+}
+
+/* PANEL IMAGE */
+.videoPanel img{
 width:100%;
 height:100%;
 object-fit:cover;
-object-position:center 45%;
 opacity:0;
-transform:scale(1.2);
+transform:scale(1.3) skewX(25deg);
 }
 
-/* CINEMATIC DISTORT ENTRY */
+/* DISTORT ENTRY */
 .distortIn{
-animation:distortEntry 1.2s forwards;
+animation:distortEntry 1.3s forwards;
 }
 
 @keyframes distortEntry{
 0%{
 opacity:0;
-transform:scale(1.4) skewX(20deg);
+transform:scale(1.5) skewX(30deg);
 filter:blur(20px) brightness(0);
 }
-30%{
-opacity:.7;
-transform:scale(1.1) skewX(-8deg);
-filter:blur(5px) brightness(1.6);
+40%{
+opacity:.8;
+transform:scale(1.1) skewX(-10deg);
+filter:blur(6px) brightness(1.6);
 }
-60%{
-transform:scale(1.05) skewX(3deg);
+70%{
+transform:scale(1.05) skewX(4deg);
 filter:blur(2px) brightness(1.3);
 }
 100%{
@@ -199,7 +176,7 @@ filter:none;
 }
 }
 
-/* RANDOM HORIZONTAL SHAKE */
+/* RANDOM SHAKE */
 .shake{
 animation:shake .25s infinite;
 }
@@ -212,9 +189,9 @@ animation:shake .25s infinite;
 100%{transform:translateX(0);}
 }
 
-/* RGB GHOST FLASH */
+/* RGB GLITCH */
 .rgbFlash{
-animation:rgbFlash .4s;
+animation:rgbFlash .35s;
 }
 
 @keyframes rgbFlash{
@@ -231,23 +208,28 @@ left:8px;
 font-size:11px;
 opacity:.85;
 letter-spacing:1px;
+color:white;
 }
 
 /* MOBILE */
 @media(max-width:900px){
-.chapter2Layout{
-flex-direction:column;
-align-items:center;
-text-align:center;
-}
-.chapter2Text{text-align:center;}
-.chapter2Images{
-margin-top:60px;
-gap:60px;
-}
-.vhsFrame{
-width:92vw;
+
+.videoPanel{
+position:relative;
+width:90vw;
 height:55vw;
+margin:20px auto;
+}
+
+.leftPanel,.rightPanel{
+left:auto;
+right:auto;
+top:auto;
+bottom:auto;
+}
+
+.centerText{
+margin-top:40px;
 }
 }
 </style>
@@ -255,19 +237,17 @@ height:55vw;
 
 <body>
 
-<video id="bg" autoplay muted loop playsinline>
+<video autoplay muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 
 <div class="dark"></div>
 <div class="scan"></div>
 <div class="vignette"></div>
-<div class="rgb" id="rgb"></div>
-<div class="tear" id="tear"></div>
 
 <!-- CHAPTER 1 -->
 <div class="screen active" id="c1">
-<div>
+<div class="centerText">
 <h2>ARCHIVE 10.24.2026</h2>
 <p>
 Recovered from private storage.<br>
@@ -281,9 +261,21 @@ Playback integrity unstable.
 
 <!-- CHAPTER 2 -->
 <div class="screen" id="c2">
-<div class="chapter2Layout">
 
-<div class="chapter2Text">
+<!-- LEFT VIDEO -->
+<div class="videoPanel leftPanel">
+<img src="early1.jpg" id="img1">
+<div class="timestamp">REC ● OCT 24 2026</div>
+</div>
+
+<!-- RIGHT VIDEO -->
+<div class="videoPanel rightPanel">
+<img src="early2.jpg" id="img2">
+<div class="timestamp">REC ● OCT 24 2026</div>
+</div>
+
+<!-- CENTER TEXT -->
+<div class="centerText">
 <h2>RECONNECTION LOG</h2>
 <p>
 They had known of each other for years.<br>
@@ -308,30 +300,16 @@ was suddenly obvious.
 <button>CONTINUE</button>
 </div>
 
-<div class="chapter2Images">
-
-<div class="vhsFrame">
-<img src="early1.jpg" id="img1">
-<div class="timestamp">REC ● OCT 24 2026</div>
-</div>
-
-<div class="vhsFrame">
-<img src="early2.jpg" id="img2">
-<div class="timestamp">REC ● OCT 24 2026</div>
-</div>
-
-</div>
-</div>
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
 
-/* AUDIO */
 const whisper=document.getElementById("whisper");
 whisper.volume=.12;
 let started=false;
+
 function next(n){
 if(!started){
 whisper.play().catch(()=>{});
@@ -341,12 +319,12 @@ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("c"+n).classList.add("active");
 }
 
-/* CINEMATIC DELAYED DISTORT ENTRANCE */
 window.addEventListener("load",()=>{
 
 const img1=document.getElementById("img1");
 const img2=document.getElementById("img2");
 
+/* DELAYED DISTORT ENTRY */
 setTimeout(()=>{
 img1.classList.add("distortIn");
 },3000);
@@ -355,19 +333,20 @@ setTimeout(()=>{
 img2.classList.add("distortIn");
 },6000);
 
-/* MOVIE-LIKE RANDOM DISTORTION */
+/* RANDOM MOVIE GLITCH */
 setInterval(()=>{
 if(Math.random()<.4){
 img1.parentElement.classList.add("shake");
 setTimeout(()=>img1.parentElement.classList.remove("shake"),400);
 }
-if(Math.random()<.3){
+if(Math.random()<.35){
 img2.parentElement.classList.add("rgbFlash");
 setTimeout(()=>img2.parentElement.classList.remove("rgbFlash"),300);
 }
 },3500);
 
 });
+
 </script>
 
 </body>
