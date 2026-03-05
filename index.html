@@ -12,10 +12,10 @@
 html,body{
 height:100%;
 width:100%;
-overflow:hidden;
 background:black;
 color:white;
 font-family:'Share Tech Mono',monospace;
+overflow:hidden;
 }
 
 /* ===== VIDEO ===== */
@@ -30,7 +30,7 @@ z-index:0;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.9) contrast(1.15);
+filter:brightness(.9) contrast(1.1);
 }
 
 /* ===== ATMOSPHERE ===== */
@@ -38,7 +38,7 @@ filter:brightness(.9) contrast(1.15);
 .dark{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.4);
+background:rgba(0,0,0,.45);
 z-index:1;
 }
 
@@ -55,26 +55,22 @@ transparent 3px
 z-index:2;
 }
 
-/* ===== SCREEN SYSTEM ===== */
+/* ===== SCREENS ===== */
 
 .screen{
 position:fixed;
 inset:0;
-display:flex;
+display:none;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-z-index:10;
-opacity:0;
-pointer-events:none;
-transition:opacity .6s ease;
 text-align:center;
 padding:30px;
+z-index:10;
 }
 
 .screen.active{
-opacity:1;
-pointer-events:auto;
+display:flex;
 }
 
 h2{
@@ -106,38 +102,6 @@ background:white;
 color:black;
 }
 
-/* ===== PHOTO PANELS ===== */
-
-.videoPanel{
-position:absolute;
-width:400px;
-height:240px;
-overflow:hidden;
-border:2px solid rgba(255,255,255,.4);
-background:black;
-box-shadow:0 0 40px rgba(0,0,0,.8);
-}
-
-.leftPanel{left:60px;bottom:60px;}
-.rightPanel{right:60px;top:60px;}
-
-.videoPanel img{
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0;
-transform:scale(1.3);
-}
-
-.fadeIn{
-animation:photoIn 1.2s forwards;
-}
-
-@keyframes photoIn{
-0%{opacity:0;transform:scale(1.6) skewX(15deg);filter:blur(20px);}
-100%{opacity:1;transform:scale(1);filter:none;}
-}
-
 /* ===== PARTY ===== */
 
 .partyList{
@@ -145,7 +109,7 @@ display:none;
 margin-top:15px;
 }
 
-.partyList.active{
+.partyList.show{
 display:block;
 }
 
@@ -177,42 +141,20 @@ white 2px,
 black 2px,
 black 4px
 );
-opacity:0;
+display:none;
 z-index:999;
-}
-
-.static.active{
-opacity:1;
 }
 
 .ending{
 position:fixed;
 inset:0;
-display:flex;
+display:none;
 justify-content:center;
 align-items:center;
 background:black;
 font-size:24px;
 letter-spacing:8px;
-opacity:0;
 z-index:1000;
-}
-
-.ending.active{
-opacity:1;
-}
-
-@media(max-width:900px){
-.videoPanel{
-position:relative;
-width:90vw;
-height:55vw;
-left:auto;
-right:auto;
-top:auto;
-bottom:auto;
-margin:15px auto;
-}
 }
 </style>
 </head>
@@ -237,28 +179,21 @@ margin:15px auto;
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
 <p>Recovered recording. Playback unstable.</p>
-<button data-go="2">INITIATE PLAYBACK</button>
+<button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
 <!-- CHAPTER 2 -->
 <div class="screen" id="c2">
-<div class="videoPanel leftPanel">
-<img src="early1.jpg" id="img1">
-</div>
-<div class="videoPanel rightPanel">
-<img src="early2.jpg" id="img2">
-</div>
-
 <h2>RECONNECTION LOG</h2>
 <p>Edit your early story here.</p>
-<button data-go="3">CONTINUE</button>
+<button onclick="goTo(3)">CONTINUE</button>
 </div>
 
 <!-- CHAPTER 3 -->
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
 <p>Edit long story here.</p>
-<button data-go="4">CONTINUE</button>
+<button onclick="goTo(4)">CONTINUE</button>
 </div>
 
 <!-- CHAPTER 4 -->
@@ -269,28 +204,28 @@ October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
 </p>
-<button data-go="5">CONTINUE</button>
+<button onclick="goTo(5)">CONTINUE</button>
 </div>
 
 <!-- CHAPTER 5 -->
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
 
-<button data-party="bride">BRIDE’S PARTY</button>
+<button onclick="toggleParty('bride')">BRIDE’S PARTY</button>
 <div class="partyList" id="bride">
 Name — Role<br>
 Name — Role<br>
 Name — Role
 </div>
 
-<button data-party="groom">GROOM’S PARTY</button>
+<button onclick="toggleParty('groom')">GROOM’S PARTY</button>
 <div class="partyList" id="groom">
 Name — Role<br>
 Name — Role<br>
 Name — Role
 </div>
 
-<button data-go="6">CONTINUE</button>
+<button onclick="goTo(6)">CONTINUE</button>
 </div>
 
 <!-- CHAPTER 6 -->
@@ -305,33 +240,31 @@ Name — Role
 <button>ZELLE</button>
 </a>
 
-<button data-go="7">CONTINUE</button>
+<button onclick="goTo(7)">CONTINUE</button>
 </div>
 
 <!-- CHAPTER 7 -->
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
 
-<input type="text" id="name" placeholder="Your Name"><br>
-<input type="email" id="email" placeholder="Email"><br>
+<input type="text" placeholder="Your Name"><br>
+<input type="email" placeholder="Email"><br>
 
-<select id="attendance">
+<select>
 <option>Attending</option>
 <option>Not Attending</option>
 </select><br>
 
-<textarea id="message" placeholder="Message"></textarea><br>
+<textarea placeholder="Message"></textarea><br>
 
-<button id="submit">SUBMIT RSVP</button>
-<button id="final">FINALIZE TRANSMISSION</button>
+<button onclick="alert('RSVP ARCHIVED')">SUBMIT RSVP</button>
+<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
 </div>
 
 <script>
 
-/* ===== CORE ===== */
-
-const whisper = document.getElementById("whisper");
 let audioStarted = false;
+const whisper = document.getElementById("whisper");
 
 function startAudio(){
 if(!audioStarted){
@@ -341,48 +274,24 @@ audioStarted = true;
 }
 }
 
-/* ===== NAVIGATION ===== */
-
-function show(n){
+function goTo(n){
 startAudio();
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll(".screen").forEach(s=>{
+s.classList.remove("active");
+});
 document.getElementById("c"+n).classList.add("active");
 }
 
-document.querySelectorAll("[data-go]").forEach(btn=>{
-btn.onclick = ()=> show(btn.dataset.go);
-});
+function toggleParty(id){
+document.getElementById(id).classList.toggle("show");
+}
 
-document.querySelectorAll("[data-party]").forEach(btn=>{
-btn.onclick = ()=>{
-document.getElementById(btn.dataset.party).classList.toggle("active");
-};
-});
-
-/* ===== RSVP ===== */
-
-document.getElementById("submit").onclick = ()=>{
-alert("RSVP ARCHIVED");
-};
-
-/* ===== FINAL SIGNAL LOSS ===== */
-
-document.getElementById("final").onclick = ()=>{
-document.getElementById("static").classList.add("active");
+function endTransmission(){
+document.getElementById("static").style.display = "block";
 setTimeout(()=>{
-document.getElementById("ending").classList.add("active");
+document.getElementById("ending").style.display = "flex";
 },2000);
-};
-
-/* ===== PHOTO ENTRANCE ===== */
-
-setTimeout(()=>{
-document.getElementById("img1").classList.add("fadeIn");
-},3000);
-
-setTimeout(()=>{
-document.getElementById("img2").classList.add("fadeIn");
-},5000);
+}
 
 </script>
 
