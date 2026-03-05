@@ -26,7 +26,7 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-filter:brightness(.75) contrast(1.15);
+filter:brightness(.85) contrast(1.2);
 }
 
 /* ATMOSPHERE */
@@ -104,13 +104,38 @@ color:black;
 
 /* VIDEO PANELS */
 .videoPanel{
-position:absolute;
-width:420px;
-height:250px;
-background:black;
-overflow:hidden;
-border:2px solid rgba(255,255,255,.35);
-box-shadow:0 0 40px rgba(0,0,0,.8);
+    position:absolute;
+    width:420px;
+    height:250px;
+    background:black;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.35);
+    box-shadow:0 0 40px rgba(0,0,0,.8);
+}
+
+/* VHS NOISE OVERLAY */
+.videoPanel::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,.03),
+        rgba(255,255,255,.03) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events:none;
+    animation: noiseMove 1.2s infinite linear;
+    opacity:.5;
+}
+
+@keyframes noiseMove{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(4px);}
 }
 
 /* LEFT PANEL */
@@ -280,6 +305,42 @@ bottom:auto;
     }
     100%{filter:none;}
 }
+    /* CONTINUOUS VHS FILM INSTABILITY */
+
+.vhsFilm{
+    animation: vhsFlicker 4s infinite linear;
+}
+
+@keyframes vhsFlicker{
+    0%{filter:brightness(1);}
+    25%{filter:brightness(1.05);}
+    50%{filter:brightness(.94);}
+    75%{filter:brightness(1.03);}
+    100%{filter:brightness(1);}
+}
+
+.vhsDrag{
+    animation: vhsDrag 8s infinite ease-in-out;
+}
+
+@keyframes vhsDrag{
+    0%{transform:translateX(0);}
+    50%{transform:translateX(1.5px);}
+    100%{transform:translateX(0);}
+}
+
+.chromatic{
+    animation: chromaBleed 7s infinite ease-in-out alternate;
+}
+
+@keyframes chromaBleed{
+    0%{filter:none;}
+    100%{
+        filter:
+        drop-shadow(-2px 0 red)
+        drop-shadow(2px 0 cyan);
+    }
+}
 </style>
 </head>
 
@@ -368,39 +429,41 @@ window.addEventListener("load",()=>{
 const img1=document.getElementById("img1");
 const img2=document.getElementById("img2");
 
-/* DISTORT TIMING */
+/* IMAGE 1 ENTRY */
 setTimeout(()=>{
     img1.classList.add("distortIn");
 
     setTimeout(()=>{
-        img1.parentElement.classList.add("vhsActive");
-        img1.parentElement.classList.add("trackingRoll");
-        img1.parentElement.classList.add("analogWarp");
+        img1.parentElement.classList.add("vhsFilm");
+        img1.parentElement.classList.add("vhsDrag");
+        img1.parentElement.classList.add("chromatic");
     },1200);
 
 },5000);
 
+/* IMAGE 2 ENTRY */
 setTimeout(()=>{
     img2.classList.add("distortIn");
 
     setTimeout(()=>{
-        img2.parentElement.classList.add("vhsActive");
-        img2.parentElement.classList.add("trackingRoll");
-        img2.parentElement.classList.add("analogWarp");
+        img2.parentElement.classList.add("vhsFilm");
+        img2.parentElement.classList.add("vhsDrag");
+        img2.parentElement.classList.add("chromatic");
     },1200);
 
 },7000);
 
-/* FILMING GLITCH LOOP */
+/* RANDOM GLITCH LOOP */
 setInterval(()=>{
-if(Math.random()<.5){
-img1.parentElement.classList.add("tracking");
-setTimeout(()=>img1.parentElement.classList.remove("tracking"),300);
-}
-if(Math.random()<.4){
-img2.parentElement.classList.add("rgbBurst");
-setTimeout(()=>img2.parentElement.classList.remove("rgbBurst"),300);
-}
+    if(Math.random()<.5){
+        img1.parentElement.classList.add("tracking");
+        setTimeout(()=>img1.parentElement.classList.remove("tracking"),250);
+    }
+
+    if(Math.random()<.4){
+        img2.parentElement.classList.add("rgbBurst");
+        setTimeout(()=>img2.parentElement.classList.remove("rgbBurst"),250);
+    }
 },3500);
 
 });
