@@ -8,7 +8,6 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-
 html,body{
 height:100%;
 width:100%;
@@ -18,7 +17,8 @@ color:white;
 font-family:'Share Tech Mono',monospace;
 }
 
-/* FOREST VIDEO */
+/* ================= BACKGROUND ================= */
+
 video{
 position:fixed;
 top:0;left:0;
@@ -26,14 +26,14 @@ width:100%;height:100%;
 object-fit:cover;
 z-index:0;
 pointer-events:none;
-filter:brightness(.85) contrast(1.2);
+filter:brightness(.95) contrast(1.1);
 }
 
 .dark{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:rgba(0,0,0,.35);
+background:rgba(0,0,0,.3);
 z-index:1;
 pointer-events:none;
 }
@@ -42,13 +42,19 @@ pointer-events:none;
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
-background:linear-gradient(rgba(255,255,255,.05) 50%, rgba(0,0,0,.85) 50%);
-background-size:100% 3px;
+background:repeating-linear-gradient(
+0deg,
+rgba(255,255,255,.03),
+rgba(255,255,255,.03) 1px,
+transparent 1px,
+transparent 3px
+);
 z-index:2;
 pointer-events:none;
 }
 
-/* SCREEN */
+/* ================= SCREEN SYSTEM ================= */
+
 .screen{
 position:fixed;
 top:0;left:0;
@@ -56,9 +62,9 @@ width:100%;height:100%;
 display:flex;
 justify-content:center;
 align-items:center;
-z-index:100;
+z-index:10;
 opacity:0;
-transition:opacity .6s ease;
+transition:opacity .8s ease;
 pointer-events:none;
 }
 
@@ -69,13 +75,15 @@ pointer-events:auto;
 
 .centerText{
 text-align:center;
-max-width:600px;
-z-index:200;
+max-width:700px;
+padding:20px;
+z-index:20;
 }
 
 h2{
 letter-spacing:6px;
 margin-bottom:25px;
+font-size:22px;
 }
 
 p{
@@ -85,8 +93,8 @@ opacity:.95;
 }
 
 button{
-margin-top:30px;
-padding:14px 36px;
+margin-top:20px;
+padding:12px 32px;
 border:2px solid white;
 background:black;
 color:white;
@@ -100,29 +108,64 @@ background:white;
 color:black;
 }
 
-/* VIDEO PANELS */
+/* ================= VIDEO PANEL ================= */
+
 .videoPanel{
 position:absolute;
 width:420px;
 height:250px;
-background:black;
 overflow:hidden;
-border:2px solid rgba(255,255,255,.35);
+border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 40px rgba(0,0,0,.8);
+background:black;
 }
 
-/* Grain */
-.videoPanel::before{
+.leftPanel{left:60px;bottom:60px;}
+.rightPanel{right:60px;top:60px;}
+
+.imageLayer{
+position:absolute;
+width:100%;
+height:100%;
+z-index:1;
+}
+
+.imageLayer img{
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+transform:scale(1.15);
+}
+
+.distortIn{
+animation:distortEntry 1.2s forwards;
+}
+
+@keyframes distortEntry{
+0%{opacity:0;transform:scale(1.6) skewX(30deg);filter:blur(20px) brightness(0);}
+100%{opacity:1;transform:scale(1);filter:none;}
+}
+
+/* ================= FILM FX ================= */
+
+.fxLayer{
+position:absolute;
+width:100%;
+height:100%;
+z-index:2;
+pointer-events:none;
+mix-blend-mode:overlay;
+animation:filmInstability 6s infinite linear;
+}
+
+.fxLayer::before{
 content:"";
 position:absolute;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background-image:url("https://grainy-gradients.vercel.app/noise.svg");
-opacity:.22;
-mix-blend-mode:overlay;
-pointer-events:none;
+opacity:.3;
 animation:grainMove 1s steps(2) infinite;
 }
 
@@ -134,140 +177,58 @@ animation:grainMove 1s steps(2) infinite;
 100%{transform:translate(0,0);}
 }
 
-/* Scanlines */
-.videoPanel::after{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:repeating-linear-gradient(
-0deg,
-rgba(255,255,255,.04),
-rgba(255,255,255,.04) 1px,
-transparent 1px,
-transparent 3px
-);
-pointer-events:none;
-opacity:.6;
-animation:noiseMove 1.2s infinite linear;
-}
-
-@keyframes noiseMove{
-0%{transform:translateY(0);}
-100%{transform:translateY(4px);}
-}
-
-.leftPanel{left:60px;bottom:60px;}
-.rightPanel{right:60px;top:60px;}
-
-.videoPanel img{
-width:100%;
-height:100%;
-object-fit:cover;
-object-position:center;
-opacity:0;
-transform:scale(1.2);
-}
-
-#img1{object-position:center 15%;}
-
-/* DISTORT ENTRY */
-.distortIn{
-animation:distortEntry 1.4s forwards;
-}
-
-@keyframes distortEntry{
-0%{
-opacity:0;
-transform:scale(1.6) skewX(30deg);
-filter:blur(20px) brightness(0);
-}
-40%{
-opacity:.8;
-transform:scale(1.1) skewX(-8deg);
-filter:blur(6px) brightness(1.6);
-}
-70%{
-transform:scale(1.05) skewX(4deg);
-filter:blur(2px) brightness(1.3);
-}
-100%{
-opacity:1;
-transform:scale(1);
-filter:none;
-}
-}
-
-/* STRONGER ANALOG INSTABILITY */
-.videoPanel img.activeFilm{
-animation:
-breathing 6s infinite ease-in-out alternate,
-filmInstability 6s infinite linear,
-tapeWarp 8s infinite ease-in-out alternate;
-}
-
-@keyframes breathing{
-0%{transform:scale(1);}
-100%{transform:scale(1.04);}
-}
-
-/* More aggressive exposure/contrast variation */
 @keyframes filmInstability{
-0%{filter:brightness(1) contrast(1) saturate(1);}
-10%{filter:brightness(1.08) contrast(1.2) saturate(1.1);}
-20%{filter:brightness(.92) contrast(.9) saturate(.9);}
-35%{filter:brightness(1.1) contrast(1.25) saturate(1.15);}
-50%{filter:brightness(.95) contrast(1.05) saturate(1);}
-65%{filter:brightness(1.07) contrast(1.15) saturate(1.1);}
-80%{filter:brightness(.93) contrast(.88) saturate(.92);}
-100%{filter:brightness(1) contrast(1) saturate(1);}
+0%{filter:brightness(1) contrast(1);}
+15%{filter:brightness(1.1) contrast(1.25);}
+35%{filter:brightness(.9) contrast(.9);}
+50%{filter:brightness(1.15) contrast(1.3);}
+70%{filter:brightness(.95) contrast(1.05);}
+100%{filter:brightness(1) contrast(1);}
 }
 
-/* Subtle VHS tape bending */
-@keyframes tapeWarp{
-0%{transform:scale(1) skewX(0deg);}
-50%{transform:scale(1.02) skewX(.6deg);}
-100%{transform:scale(1) skewX(0deg);}
+/* ================= DONATION STYLE ================= */
+
+.donationBox{
+border:1px solid rgba(255,255,255,.5);
+padding:20px;
+margin-top:25px;
+animation:donationPulse 4s infinite ease-in-out;
 }
 
-/* Glitch bursts */
-.tracking{
-animation:trackingBurst .35s linear;
+@keyframes donationPulse{
+0%{box-shadow:0 0 5px white;}
+50%{box-shadow:0 0 20px red;}
+100%{box-shadow:0 0 5px white;}
 }
 
-@keyframes trackingBurst{
-0%{transform:translateX(0);}
-25%{transform:translateX(-12px);}
-50%{transform:translateX(9px);}
-75%{transform:translateX(-6px);}
-100%{transform:translateX(0);}
+/* ================= SIGNAL CRASH ================= */
+
+.crash{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:white;
+z-index:999;
+opacity:0;
+pointer-events:none;
 }
 
-.rgbBurst{
-animation:rgbShift .3s linear;
+.crash.active{
+animation:crashAnim 2.5s forwards;
 }
 
-@keyframes rgbShift{
-0%{filter:none;}
-50%{
-filter:
-drop-shadow(-5px 0 red)
-drop-shadow(5px 0 cyan);
-}
-100%{filter:none;}
+@keyframes crashAnim{
+0%{opacity:0;}
+10%{opacity:1;}
+20%{opacity:0;}
+30%{opacity:1;}
+40%{opacity:0;}
+60%{opacity:1;}
+80%{opacity:0;}
+100%{opacity:0;}
 }
 
-.timestamp{
-position:absolute;
-top:8px;
-left:8px;
-font-size:11px;
-opacity:.9;
-letter-spacing:1px;
-color:white;
-}
+/* ================= MOBILE ================= */
 
 @media(max-width:900px){
 .videoPanel{
@@ -277,10 +238,7 @@ height:55vw;
 margin:20px auto;
 }
 .leftPanel,.rightPanel{
-left:auto;
-right:auto;
-top:auto;
-bottom:auto;
+left:auto;right:auto;top:auto;bottom:auto;
 }
 }
 </style>
@@ -289,49 +247,75 @@ bottom:auto;
 <body>
 
 <video autoplay muted loop playsinline>
-<source src="forrest vid.mp4" type="video/mp4">
+<source src="forrestvid.mp4" type="video/mp4">
 </video>
 
 <div class="dark"></div>
 <div class="scan"></div>
+<div class="crash" id="crash"></div>
 
+<!-- CHAPTER 1 -->
 <div class="screen active" id="c1">
 <div class="centerText">
 <h2>ARCHIVE 10.24.2026</h2>
-<p>
-Recovered from private storage.<br>
-Original device unknown.<br>
-Recording documents the scheduled union of two individuals.<br><br>
-Playback integrity unstable.
-</p>
+<p>Recovered recording. Playback unstable.</p>
 <button onclick="next(2)">INITIATE PLAYBACK</button>
 </div>
 </div>
 
+<!-- CHAPTER 2 -->
 <div class="screen" id="c2">
-
 <div class="videoPanel leftPanel">
-<img src="early1.jpg" id="img1">
-<div class="timestamp">REC ● JUN 22 2024</div>
+<div class="imageLayer"><img src="early1.jpg" id="img1"></div>
+<div class="fxLayer"></div>
 </div>
-
 <div class="videoPanel rightPanel">
-<img src="early2.jpg" id="img2">
-<div class="timestamp">REC ● AUG 17 2024</div>
+<div class="imageLayer"><img src="early2.jpg" id="img2"></div>
+<div class="fxLayer"></div>
 </div>
-
 <div class="centerText">
 <h2>RECONNECTION LOG</h2>
-<p>Your existing text unchanged.</p>
-<button>CONTINUE</button>
+<p>Edit story here.</p>
+<button onclick="next(3)">CONTINUE</button>
+</div>
 </div>
 
+<!-- CHAPTER 3 -->
+<div class="screen" id="c3">
+<div class="centerText">
+<h2>THE UNION</h2>
+<p>October 24, 2026<br>The Conservatory — Acworth, GA</p>
+<button onclick="next(4)">PROCEED</button>
+</div>
+</div>
+
+<!-- CHAPTER 4 – GUEST LIST + DONATIONS -->
+<div class="screen" id="c4">
+<div class="centerText">
+<h2>CONTRIBUTION PORTAL</h2>
+<p>Enter your name into the archive.</p>
+
+<input type="text" id="guestName" placeholder="Your Name" style="padding:10px;width:80%;margin-top:10px;">
+<button onclick="saveGuest()">ENTER ARCHIVE</button>
+
+<div class="donationBox">
+<a href="https://cash.app/$YourCashtag" target="_blank">
+<button>APPLE CASH</button>
+</a>
+<br>
+<a href="mailto:yourzelleemail@example.com">
+<button>ZELLE</button>
+</a>
+</div>
+
+<button onclick="triggerCrash()">FINALIZE TRANSMISSION</button>
+
+</div>
 </div>
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 
 <script>
-
 const whisper=document.getElementById("whisper");
 whisper.volume=.12;
 let started=false;
@@ -346,36 +330,28 @@ document.getElementById("c"+n).classList.add("active");
 }
 
 window.addEventListener("load",()=>{
-
-const img1=document.getElementById("img1");
-const img2=document.getElementById("img2");
-
-setTimeout(()=>{
-img1.classList.add("distortIn");
-setTimeout(()=>{
-img1.classList.add("activeFilm");
-},1200);
-},5000);
-
-setTimeout(()=>{
-img2.classList.add("distortIn");
-setTimeout(()=>{
-img2.classList.add("activeFilm");
-},1200);
-},7000);
-
-setInterval(()=>{
-if(Math.random()<.5){
-img1.classList.add("tracking");
-setTimeout(()=>img1.classList.remove("tracking"),250);
-}
-if(Math.random()<.4){
-img2.classList.add("rgbBurst");
-setTimeout(()=>img2.classList.remove("rgbBurst"),250);
-}
-},3500);
-
+setTimeout(()=>{document.getElementById("img1").classList.add("distortIn");},4000);
+setTimeout(()=>{document.getElementById("img2").classList.add("distortIn");},6000);
 });
+
+/* Guest List Storage */
+function saveGuest(){
+let name=document.getElementById("guestName").value;
+if(name){
+let guests=JSON.parse(localStorage.getItem("guestList")||"[]");
+guests.push(name);
+localStorage.setItem("guestList",JSON.stringify(guests));
+alert("NAME ARCHIVED");
+}
+}
+
+/* Signal Crash */
+function triggerCrash(){
+document.getElementById("crash").classList.add("active");
+setTimeout(()=>{
+document.body.style.background="black";
+},2500);
+}
 </script>
 
 </body>
