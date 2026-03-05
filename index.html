@@ -18,10 +18,28 @@ font-family:monospace;
 overflow-x:hidden;
 }
 
-/* ===== BACKGROUND ===== */
+/* ===== VIDEO BACKGROUND ===== */
 
-body{
-min-height:100vh;
+.videoWrapper{
+position:fixed;
+inset:0;
+z-index:-2;
+overflow:hidden;
+}
+
+#bgVideo{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.6) contrast(1.25);
+transition:filter 2s ease;
+}
+
+.darkOverlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:-1;
 }
 
 /* ===== SCREEN SYSTEM ===== */
@@ -31,16 +49,15 @@ display:none;
 min-height:100vh;
 padding:120px 25px 100px 25px;
 text-align:center;
+opacity:0;
+transform:translateY(20px);
+transition:opacity .6s ease, transform .6s ease;
 }
 
 .screen.active{
 display:block;
-animation:fadeIn .5s ease;
-}
-
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+opacity:1;
+transform:translateY(0);
 }
 
 /* ===== TEXT ===== */
@@ -58,22 +75,37 @@ line-height:1.8;
 font-size:14px;
 }
 
-/* ===== IMAGE SYSTEM (TOP / TEXT / BOTTOM) ===== */
+/* ===== IMAGE SYSTEM ===== */
 
 .imagePanel{
 width:600px;
 max-width:95%;
 height:340px;
-margin:40px auto;
+margin:50px auto;
 overflow:hidden;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.8);
+opacity:0;
+transform:scale(1.05);
+transition:opacity 1s ease, transform 4s ease;
 }
 
 .imagePanel img{
 width:100%;
 height:100%;
 object-fit:cover;
+}
+
+.imagePanel.show{
+opacity:1;
+transform:scale(1);
+animation:pulse 6s infinite alternate;
+}
+
+@keyframes pulse{
+0%{filter:brightness(1);}
+50%{filter:brightness(1.08);}
+100%{filter:brightness(.95);}
 }
 
 /* ===== BUTTONS ===== */
@@ -94,78 +126,40 @@ background:white;
 color:black;
 }
 
-/* ===== PARTY ===== */
+/* ===== FINAL EFFECTS ===== */
 
-.partyContainer{
-margin-top:60px;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:40px;
+.whiteFlash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+pointer-events:none;
+z-index:999;
 }
 
-.partyCard{
-background:rgba(0,0,0,.9);
-padding:40px;
-width:320px;
-border:1px solid rgba(255,255,255,.3);
+.whiteFlash.active{
+animation:flash .4s ease;
 }
 
-.partyCard h3{
-margin-bottom:20px;
-letter-spacing:4px;
-border-bottom:1px solid rgba(255,255,255,.4);
-padding-bottom:10px;
+@keyframes flash{
+50%{opacity:.9;}
 }
 
-/* ===== DONATION ===== */
-
-.donationVault{
-margin-top:60px;
+.screenShake{
+animation:shake .2s linear infinite;
 }
 
-.vaultInner{
-background:rgba(0,0,0,.9);
-padding:50px;
-width:520px;
-max-width:95%;
-margin:auto;
-border:1px solid rgba(255,255,255,.3);
+@keyframes shake{
+25%{transform:translate(-8px,4px);}
+50%{transform:translate(8px,-4px);}
 }
-
-.donationButtons{
-margin-top:30px;
-display:flex;
-flex-direction:column;
-gap:20px;
-}
-
-/* ===== FINAL SCREEN ===== */
 
 .ending{
 display:none;
 text-align:center;
 padding:200px 20px;
-font-size:24px;
+font-size:26px;
 letter-spacing:8px;
-}
-
-/* ===== MOBILE ===== */
-
-@media (max-width:768px){
-
-.imagePanel{
-height:220px;
-}
-
-.partyCard{
-width:95%;
-}
-
-.vaultInner{
-padding:30px;
-}
-
 }
 
 </style>
@@ -173,7 +167,19 @@ padding:30px;
 
 <body>
 
-<!-- ================= CHAPTER 1 ================= -->
+<div class="videoWrapper">
+<video id="bgVideo" autoplay muted loop playsinline>
+<source src="forrest vid.mp4" type="video/mp4">
+</video>
+</div>
+
+<div class="darkOverlay"></div>
+<div class="whiteFlash" id="flash"></div>
+
+<audio id="whisper" src="whisper.mp3" loop></audio>
+<audio id="screech" src="screech.mp3"></audio>
+
+<!-- ================= CHAPTERS ================= -->
 
 <div class="screen active" id="c1">
 <h2>ARCHIVE 10.24.2026</h2>
@@ -183,117 +189,49 @@ Recovered recording. Playback unstable.
 <button onclick="goTo(2)">INITIATE PLAYBACK</button>
 </div>
 
-<!-- ================= CHAPTER 2 ================= -->
-
 <div class="screen" id="c2">
 <h2>RECONNECTION LOG</h2>
-
-<div class="imagePanel">
-<img src="c2-1.jpg">
-</div>
-
-<div class="storyText">
-(Insert chapter 2 text here.)
-</div>
-
-<div class="imagePanel">
-<img src="c2-2.jpg">
-</div>
-
+<div class="imagePanel"><img src="c2-1.jpg"></div>
+<div class="storyText">(Insert chapter 2 text here.)</div>
+<div class="imagePanel"><img src="c2-2.jpg"></div>
 <button onclick="goTo(3)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 3 ================= -->
-
 <div class="screen" id="c3">
 <h2>OUR STORY</h2>
-
-<div class="imagePanel">
-<img src="c3-1.jpg">
-</div>
-
-<div class="storyText">
-(Insert chapter 3 text here.)
-</div>
-
-<div class="imagePanel">
-<img src="c3-2.jpg">
-</div>
-
+<div class="imagePanel"><img src="c3-1.jpg"></div>
+<div class="storyText">(Insert chapter 3 text here.)</div>
+<div class="imagePanel"><img src="c3-2.jpg"></div>
 <button onclick="goTo(4)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 4 ================= -->
-
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
-
 <div class="storyText">
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
 </div>
-
 <button onclick="goTo(5)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 5 ================= -->
-
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-
-<div class="partyContainer">
-
-<div class="partyCard">
-<h3>BRIDE'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-
-<div class="partyCard">
-<h3>GROOM'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-
-</div>
-
+<div class="storyText">Insert names manually.</div>
 <button onclick="goTo(6)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 6 ================= -->
-
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-
-<div class="donationVault">
-<div class="vaultInner">
-<p>If you wish to contribute to our future, you may do so below.</p>
-
-<div class="donationButtons">
-<a href="#"><button>APPLE CASH</button></a>
-<a href="#"><button>ZELLE</button></a>
-</div>
-
-</div>
-</div>
-
+<div class="storyText">Insert Apple Cash & Zelle links.</div>
 <button onclick="goTo(7)">CONTINUE</button>
 </div>
 
-<!-- ================= CHAPTER 7 ================= -->
-
 <div class="screen" id="c7">
 <h2>ENTER THE ARCHIVE</h2>
-
-<div class="storyText">
-Please confirm your presence.
+<div class="storyText">Please confirm your presence.</div>
+<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
 </div>
-
-<button onclick="finalize()">FINALIZE TRANSMISSION</button>
-</div>
-
-<!-- ================= FINAL MESSAGE ================= -->
 
 <div class="ending" id="ending">
 TRANSMISSION LOST
@@ -301,37 +239,84 @@ TRANSMISSION LOST
 
 <script>
 
-/* PURE, GUARANTEED SAFE NAVIGATION */
+var whisper = document.getElementById("whisper");
+var screech = document.getElementById("screech");
+var flash = document.getElementById("flash");
+var video = document.getElementById("bgVideo");
+
+var whisperStarted = false;
+
+function startWhisper(){
+if(!whisperStarted){
+whisper.volume = 0.08;
+whisper.play().catch(function(){});
+whisperStarted = true;
+}
+}
+
+function spikeAudio(){
+if(whisper){
+whisper.volume = 0.25;
+setTimeout(function(){
+whisper.volume = 0.08;
+},250);
+}
+}
+
+function revealImages(target){
+var panels = target.querySelectorAll(".imagePanel");
+for(let i=0;i<panels.length;i++){
+setTimeout(function(){
+panels[i].classList.add("show");
+}, i*600);
+}
+}
 
 function goTo(n){
 
-// Hide all screens
+startWhisper();
+spikeAudio();
+
 var screens = document.querySelectorAll(".screen");
 for(var i=0;i<screens.length;i++){
 screens[i].classList.remove("active");
 }
 
-// Show target
 var target = document.getElementById("c"+n);
 if(target){
 target.classList.add("active");
+revealImages(target);
+}
+
 window.scrollTo(0,0);
 }
 
+function endTransmission(){
+
+document.body.classList.add("screenShake");
+flash.classList.add("active");
+
+if(screech){
+screech.volume = .7;
+screech.play().catch(function(){});
 }
 
-function finalize(){
+if(whisper){
+whisper.pause();
+}
 
-// Hide screens
+if(video){
+video.style.filter = "brightness(.3) contrast(1.4)";
+}
+
+setTimeout(function(){
 var screens = document.querySelectorAll(".screen");
 for(var i=0;i<screens.length;i++){
 screens[i].classList.remove("active");
 }
-
-// Show ending
 document.getElementById("ending").style.display="block";
-
-window.scrollTo(0,0);
+document.body.classList.remove("screenShake");
+},2000);
 
 }
 
