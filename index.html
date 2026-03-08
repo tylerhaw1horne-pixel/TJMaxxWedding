@@ -370,8 +370,11 @@ top:0;
 left:0;
 width:100%;
 height:100%;
+
 pointer-events:none;
+
 z-index:5;
+
 font-family:'Courier New', monospace;
 color:white;
 }
@@ -408,8 +411,9 @@ animation:recBlink 1.4s infinite;
 
 .vhsTimestamp{
 position:absolute;
-bottom:15px;
-left:18px;
+bottom:25px;
+left:20px;
+
 font-size:14px;
 letter-spacing:2px;
 opacity:.85;
@@ -428,13 +432,13 @@ background:linear-gradient(
 transparent 96%,
 rgba(255,255,255,.06) 100%
 );
-animation:vhsTracking 6s infinite linear;
+animation:vhsTracking 5.6s infinite linear;
 opacity:.4;
 }
 
 @keyframes vhsTracking{
-0%{transform:translateY(-100%)}
-100%{transform:translateY(100%)}
+0%{transform:translateY(-110%)}
+100%{transform:translateY(110%)}
 }
 /* ================= MOBILE ================= */
 @media(max-width:768px){
@@ -633,28 +637,34 @@ font-size:13px;
 body{
 overscroll-behavior:none;
 }
-/* ================= SIGNAL LOST ================= */
-.signalLost{
+
+}
+
+/* ================= SIGNAL OVERLAYS ================= */
+
+.signalLost,
+.signalRecovered{
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%, -50%);
-font-size:42px;
-letter-spacing:10px;
+transform:translate(-50%,-50%);
+
+font-size:38px;
+letter-spacing:8px;
 font-weight:bold;
+
 color:white;
+text-align:center;
+
 opacity:0;
 pointer-events:none;
-z-index:12;
 
-mix-blend-mode:screen;
+z-index:40;
 
 text-shadow:
 0 0 10px white,
 0 0 30px red,
 0 0 60px red;
-
-animation:signalFlicker .35s steps(2);
 }
 
 
@@ -682,29 +692,9 @@ transform:translate(-50%,-50%) scale(.98);
 }
 
 }
-/* ================= SIGNAL RECOVERED ================= */
+/* ================= SIGNAL RECOVERED ANIMATION ================= */
 
 .signalRecovered{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-
-font-size:36px;
-letter-spacing:8px;
-font-weight:bold;
-
-color:white;
-
-opacity:0;
-pointer-events:none;
-z-index:13;
-
-text-shadow:
-0 0 10px white,
-0 0 20px white,
-0 0 40px white;
-
 animation:signalRecoveredFlicker .35s steps(2);
 }
 
@@ -738,14 +728,20 @@ top:0;
 left:0;
 width:100%;
 height:100%;
+
 background:black;
+
 display:none;
 align-items:center;
 justify-content:center;
-z-index:20;
+
+z-index:35;
+
 font-size:26px;
 letter-spacing:6px;
 text-align:center;
+
+pointer-events:none;
 }
 
 .bootSequence.active{
@@ -758,7 +754,7 @@ animation:bootFlicker .6s steps(2);
 50%{opacity:1}
 100%{opacity:1}
 }
-  /* ================= VHS TAPE JUMP ================= */
+/* ================= VHS TAPE JUMP ================= */
 
 .vhsJump{
 position:fixed;
@@ -801,6 +797,12 @@ opacity:1;
 opacity:0;
 }
 
+}
+  /* ================= INTERACTION FIX ================= */
+
+.screen button{
+position:relative;
+z-index:50;
 }
 </style>
 </head>
