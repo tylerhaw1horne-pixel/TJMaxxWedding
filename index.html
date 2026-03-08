@@ -480,17 +480,19 @@ The Conservatory — Acworth, GA
 
 <script>
 
-// reveal chapter 1 photo
-window.addEventListener("load",()=>{
+window.addEventListener("load", function(){
 
-const panel=document.querySelector("#c1 .imagePanel");
+const panel = document.querySelector("#c1 .imagePanel");
 
-setTimeout(()=>{
+if(panel){
+
+setTimeout(function(){
 panel.classList.add("show");
-},1200);
+}, 1500);
+
+}
 
 });
-<script>
 
 var whisper=document.getElementById("whisper");
 var screech=document.getElementById("screech");
