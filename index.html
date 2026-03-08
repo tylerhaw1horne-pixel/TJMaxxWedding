@@ -78,8 +78,9 @@ z-index:3;
 .screen{
 display:none;
 height:100vh;
-padding:70px 25px 40px;
+padding:55px 25px 25px;
 text-align:center;
+
 opacity:0;
 transform:translateY(20px);
 transition:opacity .6s ease, transform .6s ease;
@@ -98,38 +99,45 @@ font-size:22px;
 }
 
 .storyText{
-max-width:600px;
-margin:22px auto;
-line-height:1.6;
+max-width:520px;
+margin:16px auto;
+line-height:1.5;
 font-size:14px;
 }
 
 /* ================= IMAGE SYSTEM ================= */
 
 .imagePanel{
-width:380px;
-max-width:90%;
-height:auto;
-margin:40px auto 30px auto;
+width:360px;
+max-width:88%;
+margin:25px auto;
 position:relative;
 overflow:hidden;
+
 border:2px solid rgba(255,255,255,.4);
+
 box-shadow:
 0 0 80px rgba(0,0,0,.9),
-0 0 25px rgba(255,255,255,.12);
+0 0 20px rgba(255,255,255,.08);
+
 opacity:0;
-filter:brightness(.4);
-transform:scale(1.05);
-transition:opacity 8s ease, transform 10s ease;
+filter:brightness(.35);
+transform:scale(1.02);
+
+transition:
+opacity 6s ease,
+filter 6s ease,
+transform 14s ease;
 }
 
 /* IMAGE */
 
-.imagePanel.show{
-opacity:1;
-filter:brightness(1);
-transform:scale(1);
-animation:glowPulse 10s infinite alternate;
+.imagePanel img{
+width:100%;
+height:auto;
+display:block;
+
+animation:slowZoom 45s ease-in-out infinite alternate;
 }
 
 /* VIGNETTE FADE */
@@ -143,36 +151,36 @@ width:100%;
 height:100%;
 pointer-events:none;
 
-background:
-radial-gradient(
+background:radial-gradient(
 circle at center,
-rgba(0,0,0,0) 60%,
+rgba(0,0,0,0) 65%,
 rgba(0,0,0,.55) 100%
 );
 }
 
-/* IMAGE REVEAL */
+/* REVEAL */
 
 .imagePanel.show{
 opacity:1;
 filter:brightness(1);
 transform:scale(1);
-animation:glowPulse 6s infinite alternate;
+
+animation:glowPulse 10s infinite alternate;
 }
 
 /* GLOW */
 
 @keyframes glowPulse{
 0%{filter:brightness(1);}
-50%{filter:brightness(1.1);}
+50%{filter:brightness(1.08);}
 100%{filter:brightness(.95);}
 }
 
-/* SLOW CINEMATIC ZOOM */
+/* CINEMATIC ZOOM */
 
 @keyframes slowZoom{
 0%{transform:scale(1);}
-100%{transform:scale(1.08);}
+100%{transform:scale(1.07);}
 }
 
 
@@ -319,28 +327,21 @@ animation:shake .2s linear infinite;
 @media(max-width:768px){
 
 .screen{
-padding:60px 20px 30px;
+padding:45px 20px 20px;
 }
 
 .imagePanel{
-width:280px;
-margin:30px auto;
+width:260px;
+margin:20px auto;
 }
 
-}
-  
-@media(max-width:768px){
-
-.imagePanel{
-height:220px;
+.storyText{
+font-size:13px;
+margin:14px auto;
 }
 
-.partyCard{
-width:95%;
-}
-
-.vaultInner{
-padding:40px 20px;
+button{
+margin-top:25px;
 }
 
 }
@@ -383,7 +384,7 @@ October 24, 2026<br>
 The Conservatory — Acworth, GA
 </div>
 
-<div class="imagePanel show">
+<div class="imagePanel">
 <img src="early1.png">
 </div>
 
