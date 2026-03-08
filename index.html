@@ -607,12 +607,11 @@ body{
 overscroll-behavior:none;
 }
 /* ================= SIGNAL LOST ================= */
-
 .signalLost{
 position:fixed;
 top:50%;
 left:50%;
-transform:translate(-50%,-50%);
+transform:translate(-50%, -50%);
 font-size:42px;
 letter-spacing:10px;
 font-weight:bold;
@@ -621,12 +620,16 @@ opacity:0;
 pointer-events:none;
 z-index:12;
 
+mix-blend-mode:screen;
+
 text-shadow:
 0 0 10px white,
-0 0 30px red;
+0 0 30px red,
+0 0 60px red;
 
 animation:signalFlicker .35s steps(2);
 }
+
 
 /* VHS signal glitch */
 
@@ -1038,25 +1041,40 @@ function revealChapter3Images(){
 const img1 = document.getElementById("c3img1");
 const img2 = document.getElementById("c3img2");
 
+/* FIRST PHOTO */
+
 if(img1){
+
 img1.classList.add("static");
+
+/* signal glitch */
+triggerSignalLost();
 
 setTimeout(()=>{
 img1.classList.remove("static");
 img1.classList.add("show");
-},2200);
+},2000);
+
 }
 
+/* SECOND PHOTO */
+
 if(img2){
+
 setTimeout(()=>{
+
 img2.classList.add("static");
+
+/* signal glitch again */
+triggerSignalLost();
 
 setTimeout(()=>{
 img2.classList.remove("static");
 img2.classList.add("show");
-},2200);
+},2000);
 
-},3500);
+},4000);
+
 }
 
 }
