@@ -228,7 +228,12 @@ background:black;
 color:white;
 letter-spacing:4px;
 cursor:pointer;
-margin-top:40px;
+
+margin-top:35px;
+display:block;
+margin-left:auto;
+margin-right:auto;
+
 transition:.3s;
 }
 
@@ -471,11 +476,13 @@ margin-top:25px;
 position:relative;
 display:flex;
 flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:flex-start;
 text-align:center;
-height:100vh;
-padding:40px 20px;
+
+padding-top:120px;
+padding-left:20px;
+padding-right:20px;
 }
 
 #c2 .storyText{
@@ -487,19 +494,13 @@ z-index:2;
 }
 
 #c2 .imageTop{
-position:absolute;
-top:70px;
-left:60px;
-width:160px;
-z-index:1;
+margin-top:20px;
+width:220px;
 }
 
 #c2 .imageBottom{
-position:absolute;
-bottom:80px;
-right:60px;
-width:170px;
-z-index:1;
+margin-top:25px;
+width:220px;
 }
 
 #c2 img{
@@ -681,6 +682,54 @@ transform:translate(-50%,-50%) scale(.98);
 }
 
 }
+/* ================= SIGNAL RECOVERED ================= */
+
+.signalRecovered{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+
+font-size:36px;
+letter-spacing:8px;
+font-weight:bold;
+
+color:white;
+
+opacity:0;
+pointer-events:none;
+z-index:13;
+
+text-shadow:
+0 0 10px white,
+0 0 20px white,
+0 0 40px white;
+
+animation:signalRecoveredFlicker .35s steps(2);
+}
+
+@keyframes signalRecoveredFlicker{
+
+0%{
+opacity:0;
+transform:translate(-50%,-50%) scale(1);
+}
+
+40%{
+opacity:1;
+transform:translate(-50%,-50%) scale(1.05);
+}
+
+80%{
+opacity:.4;
+}
+
+100%{
+opacity:0;
+transform:translate(-50%,-50%) scale(.98);
+}
+
+}
 /* ================= PLAYBACK BOOT SEQUENCE ================= */
 
 .bootSequence{
@@ -709,6 +758,50 @@ animation:bootFlicker .6s steps(2);
 50%{opacity:1}
 100%{opacity:1}
 }
+  /* ================= VHS TAPE JUMP ================= */
+
+.vhsJump{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:black;
+color:white;
+
+font-size:28px;
+letter-spacing:6px;
+
+opacity:0;
+pointer-events:none;
+
+z-index:30;
+}
+
+.vhsJump.active{
+animation:vhsJumpFlash .35s steps(2);
+}
+
+@keyframes vhsJumpFlash{
+
+0%{
+opacity:0;
+}
+
+40%{
+opacity:1;
+}
+
+100%{
+opacity:0;
+}
+
+}
 </style>
 </head>
 
@@ -735,6 +828,9 @@ animation:bootFlicker .6s steps(2);
 <div class="signalLost" id="signalLost">
 SIGNAL LOST
 </div>
+<div class="signalRecovered" id="signalRecovered">
+SIGNAL RECOVERED
+</div>
 
 <div id="bootSequence" class="bootSequence">
 <div id="bootText">PLAYBACK INITIATED</div>
@@ -743,6 +839,9 @@ SIGNAL LOST
 </div>
 <div class="whiteFlash" id="flash"></div>
 <div class="staticLayer" id="static"></div>
+<div id="vhsJump" class="vhsJump">
+TRACKING ERROR
+</div>
 
 <div class="contentLayer">
 
@@ -965,6 +1064,19 @@ triggerSignalLost();
 }
 
 },4000);
+  function triggerSignalRecovered(){
+
+const recovered = document.getElementById("signalRecovered");
+
+if(!recovered) return;
+
+recovered.style.opacity = 1;
+
+setTimeout(()=>{
+recovered.style.opacity = 0;
+},350);
+
+}
 /* ================= VHS TIME WITH FLICKER ================= */
 
 function updateVHSTime(){
@@ -1069,29 +1181,44 @@ function goTo(n){
 
 try{
 
-/* start ambience safely */
-if(typeof startWhisper === "function"){
+const jump=document.getElementById("vhsJump");
+
+/* VHS tape jump */
+
+if(jump){
+jump.classList.add("active");
+}
+
+/* small delay before switching chapter */
+
+setTimeout(()=>{
+
+/* start ambience */
+if(typeof startWhisper==="function"){
 startWhisper();
 }
 
-/* adjust whisper volume safely */
 if(whisper){
 whisper.volume=.25;
 setTimeout(()=>{ if(whisper) whisper.volume=.08; },400);
 }
 
 /* hide all screens */
+
 document.querySelectorAll(".screen").forEach(s=>{
 s.classList.remove("active");
 });
 
-/* activate target screen */
+/* activate target */
+
 var target=document.getElementById("c"+n);
+
 if(target){
 target.classList.add("active");
 }
 
 /* chapter triggers */
+
 if(n===2 && typeof revealChapter2Images==="function"){
 revealChapter2Images();
 }
@@ -1100,7 +1227,8 @@ if(n===3 && typeof revealChapter3Images==="function"){
 revealChapter3Images();
 }
 
-/* image panel reveal */
+/* panel images */
+
 if(target){
 target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
 setTimeout(()=>{
@@ -1109,8 +1237,17 @@ panel.classList.add("show");
 });
 }
 
-/* reset scroll */
 window.scrollTo(0,0);
+
+},250);
+
+/* remove VHS jump */
+
+setTimeout(()=>{
+if(jump){
+jump.classList.remove("active");
+}
+},400);
 
 }
 catch(err){
@@ -1153,6 +1290,7 @@ img1.classList.add("static");
 triggerSignalLost();
 
 setTimeout(()=>{
+triggerSignalRecovered();
 img1.classList.remove("static");
 img1.classList.add("show");
 },2000);
@@ -1171,6 +1309,7 @@ img2.classList.add("static");
 triggerSignalLost();
 
 setTimeout(()=>{
+triggerSignalRecovered();
 img2.classList.remove("static");
 img2.classList.add("show");
 },2000);
@@ -1178,7 +1317,7 @@ img2.classList.add("show");
 },4000);
 
 }
-
+  
 }
 function updateCountdown(){
 
