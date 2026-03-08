@@ -323,7 +323,80 @@ animation:shake .2s linear infinite;
 25%{transform:translate(-8px,4px);}
 50%{transform:translate(8px,-4px);}
 }
+/* ================= VHS CAMERA HUD ================= */
 
+.vhsHUD{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:5;
+font-family:'Courier New', monospace;
+color:white;
+}
+
+/* REC indicator */
+
+.recIndicator{
+position:absolute;
+top:15px;
+left:18px;
+font-size:14px;
+letter-spacing:2px;
+display:flex;
+align-items:center;
+gap:6px;
+opacity:.9;
+}
+
+.recDot{
+width:10px;
+height:10px;
+background:red;
+border-radius:50%;
+animation:recBlink 1.4s infinite;
+}
+
+@keyframes recBlink{
+0%{opacity:1}
+50%{opacity:.2}
+100%{opacity:1}
+}
+
+/* timestamp */
+
+.vhsTimestamp{
+position:absolute;
+bottom:15px;
+left:18px;
+font-size:14px;
+letter-spacing:2px;
+opacity:.85;
+}
+
+/* tape distortion */
+
+.vhsHUD::after{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:linear-gradient(
+transparent 96%,
+rgba(255,255,255,.06) 100%
+);
+animation:vhsTracking 6s infinite linear;
+opacity:.4;
+}
+
+@keyframes vhsTracking{
+0%{transform:translateY(-100%)}
+100%{transform:translateY(100%)}
+}
 /* ================= MOBILE ================= */
 @media(max-width:768px){
 #c2 .imageTop{
@@ -422,6 +495,143 @@ transition:opacity 4s ease, transform 12s ease;
 opacity:1;
 transform:scale(1);
 }
+  /* ================= CHAPTER 3 GLITCH PHOTO SYSTEM ================= */
+
+.c3photo{
+position:relative;
+width:320px;
+max-width:85%;
+margin:20px auto;
+overflow:hidden;
+border:2px solid rgba(255,255,255,.35);
+box-shadow:0 0 80px rgba(0,0,0,.9);
+}
+
+/* actual image */
+
+.c3photo img{
+width:100%;
+height:auto;
+display:block;
+opacity:0;
+filter:brightness(.6);
+transition:opacity 4s ease, filter 4s ease;
+}
+
+/* static overlay */
+
+.c3photo::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:repeating-linear-gradient(
+0deg,
+white 0px,
+white 2px,
+black 2px,
+black 4px
+);
+opacity:0;
+pointer-events:none;
+}
+
+/* static flicker */
+
+.c3photo.static::before{
+animation:staticFlicker .35s steps(3) infinite;
+opacity:.6;
+}
+
+/* signal restored */
+
+.c3photo.show img{
+opacity:1;
+filter:brightness(1);
+}
+
+/* static animation */
+
+@keyframes staticFlicker{
+0%{opacity:.7}
+50%{opacity:.4}
+100%{opacity:.8}
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.c3photo{
+width:260px;
+margin:16px auto;
+}
+
+}
+  #c3{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+height:100vh;
+padding:40px 20px;
+}
+
+#c3 .storyText{
+max-width:520px;
+margin:18px auto;
+line-height:1.5;
+}
+
+/* ================= SIGNAL LOST ================= */
+
+.signalLost{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:42px;
+letter-spacing:10px;
+font-weight:bold;
+color:white;
+opacity:0;
+pointer-events:none;
+z-index:12;
+
+text-shadow:
+0 0 10px white,
+0 0 30px red;
+
+animation:signalFlicker .35s steps(2);
+}
+
+/* VHS signal glitch */
+
+@keyframes signalFlicker{
+
+0%{
+opacity:0;
+transform:translate(-50%,-50%) scale(1);
+}
+
+30%{
+opacity:1;
+transform:translate(-50%,-50%) scale(1.05);
+}
+
+60%{
+opacity:.35;
+}
+
+100%{
+opacity:0;
+transform:translate(-50%,-50%) scale(.98);
+}
+
+}
 </style>
 </head>
 
@@ -435,6 +645,22 @@ transform:scale(1);
 
 <div class="darkOverlay"></div>
 <div class="scanLayer"></div>
+  <div class="vhsHUD">
+
+<div class="recIndicator">
+<span class="recDot"></span> REC
+</div>
+
+<div class="vhsTimestamp" id="vhsTime">
+00:00:00
+</div>
+
+<div class="signalLost" id="signalLost">
+SIGNAL LOST
+</div>
+
+
+</div>
 <div class="whiteFlash" id="flash"></div>
 <div class="staticLayer" id="static"></div>
 
@@ -516,11 +742,57 @@ for the right moment.
 
 <!-- CHAPTER 3 -->
 <div class="screen" id="c3">
+
 <h2>OUR STORY</h2>
-<div class="imagePanel"><img src="c3-1.jpg"></div>
-<div class="storyText">(Insert chapter 3 text here.)</div>
-<div class="imagePanel"><img src="c3-2.jpg"></div>
-<button onclick="goTo(4)">CONTINUE</button>
+
+<div class="c3photo" id="c3img1">
+<img src="c3-1.png">
+</div>
+
+<div class="storyText">
+
+After that night,
+things began to change.
+
+What started as an unexpected reunion
+slowly became shared days,
+late conversations,
+and memories neither of them wanted to end.
+
+The more time they spent together,
+the clearer it became
+that something rare had found its way into their lives.
+
+</div>
+
+<div class="c3photo" id="c3img2">
+<img src="c3-2.png">
+</div>
+
+<div class="storyText">
+
+Through every step forward,
+every challenge,
+and every quiet moment in between,
+their lives continued to grow closer together.
+
+Somewhere along the way,
+they realized they had already built
+the most perfect little family.
+
+A home filled with love,
+laughter,
+and the life they had always hoped to share.
+
+At that point,
+there was really only one thing left to do —
+
+make their last names the same.
+
+</div>
+
+<button onclick="goTo(4)">CONTINUE ARCHIVE</button>
+
 </div>
 
 <!-- CHAPTER 4 -->
@@ -585,11 +857,70 @@ The Conservatory — Acworth, GA
 <div class="ending" id="ending">TRANSMISSION LOST</div>
 
 </div>
-</div>
+
 
 
 
 <script>
+/* ================= SIGNAL LOST GLITCH ================= */
+
+function triggerSignalLost(){
+
+const signal = document.getElementById("signalLost");
+
+signal.style.opacity = 1;
+
+setTimeout(()=>{
+signal.style.opacity = 0;
+},300);
+
+}
+
+/* random glitch trigger */
+
+setInterval(()=>{
+
+if(Math.random() < 0.03){
+triggerSignalLost();
+}
+
+},4000);
+/* ================= VHS TIME WITH FLICKER ================= */
+
+function updateVHSTime(){
+
+const now = new Date();
+
+function pad(n){
+return n.toString().padStart(2,'0');
+}
+
+let hrs = pad(now.getHours());
+let mins = pad(now.getMinutes());
+let secs = pad(now.getSeconds());
+
+let month = pad(now.getMonth()+1);
+let day = pad(now.getDate());
+let year = now.getFullYear();
+
+let timeString = month+"."+day+"."+year+"   "+hrs+":"+mins+":"+secs;
+
+/* occasional VHS glitch */
+
+if(Math.random() < 0.05){
+
+timeString =
+month+"."+day+"."+year+"   "+hrs+":"+mins+":"+
+(Math.random() < .5 ? "_" : "##");
+
+}
+
+document.getElementById("vhsTime").innerText = timeString;
+
+}
+
+setInterval(updateVHSTime,1000);
+updateVHSTime();
 
 window.addEventListener("load", function(){
 
@@ -632,6 +963,9 @@ if(target) target.classList.add("active");
 if(n === 2){
 revealChapter2Images();
 }
+  if(n === 3){
+revealChapter3Images();
+}
 target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
 setTimeout(()=>panel.classList.add("show"), i*600);
 });
@@ -656,6 +990,33 @@ img2.classList.add("show");
 }
 
 }  
+function revealChapter3Images(){
+
+const img1 = document.getElementById("c3img1");
+const img2 = document.getElementById("c3img2");
+
+if(img1){
+img1.classList.add("static");
+
+setTimeout(()=>{
+img1.classList.remove("static");
+img1.classList.add("show");
+},2200);
+}
+
+if(img2){
+setTimeout(()=>{
+img2.classList.add("static");
+
+setTimeout(()=>{
+img2.classList.remove("static");
+img2.classList.add("show");
+},2200);
+
+},3500);
+}
+
+}
 function updateCountdown(){
 
 const weddingDate = new Date("Oct 24, 2026 17:00:00").getTime();
