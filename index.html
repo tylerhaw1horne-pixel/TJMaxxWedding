@@ -118,8 +118,9 @@ box-shadow:
 0 0 80px rgba(0,0,0,.9),
 0 0 25px rgba(255,255,255,.12);
 opacity:0;
+filter:brightness(.7);
 transform:scale(1.05);
-transition:opacity 1s ease, transform 4s ease;
+transition:opacity 3.5s ease, transform 5s ease;
 }
 
 /* IMAGE */
@@ -154,6 +155,7 @@ rgba(0,0,0,.55) 100%
 
 .imagePanel.show{
 opacity:1;
+filter:brightness(1);
 transform:scale(1);
 animation:glowPulse 6s infinite alternate;
 }
