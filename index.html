@@ -80,6 +80,7 @@ display:none;
 height:100vh;
 padding:55px 25px 25px;
 text-align:center;
+overflow:hidden;
 
 opacity:0;
 transform:translateY(20px);
@@ -325,11 +326,23 @@ animation:shake .2s linear infinite;
 
 /* ================= MOBILE ================= */
 @media(max-width:768px){
+#c2 .imageTop{
+top:30px;
+left:15px;
+width:85px;
+}
 
+#c2 .imageBottom{
+bottom:30px;
+right:15px;
+width:90px;
+}
 .screen{
 padding:45px 20px 20px;
 }
-
+.screen{
+overflow:hidden;
+}
 .imagePanel{
 width:260px;
 margin:20px auto;
@@ -346,6 +359,69 @@ margin-top:25px;
 
 }
 
+
+/* ================= CHAPTER 2 LAYOUT ================= */
+
+#c2{
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+height:100vh;
+padding:40px 20px;
+}
+
+#c2 .storyText{
+max-width:520px;
+font-size:14px;
+line-height:1.45;
+margin:12px auto;
+z-index:2;
+}
+
+#c2 .imageTop{
+position:absolute;
+top:70px;
+left:60px;
+width:160px;
+z-index:1;
+}
+
+#c2 .imageBottom{
+position:absolute;
+bottom:80px;
+right:60px;
+width:170px;
+z-index:1;
+}
+
+#c2 img{
+width:100%;
+height:auto;
+display:block;
+}
+
+#c2 button{
+margin-top:18px;
+z-index:2;
+}
+
+/* ================= CHAPTER 2 IMAGE ANIMATION ================= */
+
+#c2 .imageTop,
+#c2 .imageBottom{
+opacity:0;
+transform:scale(1.03);
+transition:opacity 4s ease, transform 12s ease;
+}
+
+#c2 .imageTop.show,
+#c2 .imageBottom.show{
+opacity:1;
+transform:scale(1);
+}
 </style>
 </head>
 
@@ -409,20 +485,11 @@ Julie Eells<br><br>
 They first crossed paths years ago through mutual friends,
 both young and simply passing through the same moment in life.<br><br>
 
-At the time, neither of them thought much of it.
-
-</div>
-
-<div class="imagePanel">
-<img src="early2.png">
-</div>
-
-<div class="storyText">
+At the time, neither of them thought much of it.<br><br>
 
 Life moved forward and their paths drifted apart.<br><br>
 
-Until one quiet night,
-years later,
+Until one quiet night, years later,
 they unexpectedly ran into each other again.<br><br>
 
 This time was different.<br><br>
@@ -435,7 +502,11 @@ for the right moment.
 
 </div>
 
-<div class="imagePanel">
+<div class="imageTop">
+<img src="early2.png">
+</div>
+
+<div class="imageBottom">
 <img src="early3.png">
 </div>
 
@@ -516,7 +587,7 @@ The Conservatory — Acworth, GA
 </div>
 </div>
 
-</div>
+
 
 <script>
 
@@ -558,14 +629,33 @@ setTimeout(()=>whisper.volume=.08,400);
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 var target=document.getElementById("c"+n);
 if(target) target.classList.add("active");
-
+if(n === 2){
+revealChapter2Images();
+}
 target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
 setTimeout(()=>panel.classList.add("show"), i*600);
 });
 
 window.scrollTo(0,0);
 }
-  
+function revealChapter2Images(){
+
+const img1 = document.querySelector("#c2 .imageTop");
+const img2 = document.querySelector("#c2 .imageBottom");
+
+if(img1){
+setTimeout(()=>{
+img1.classList.add("show");
+},1200);
+}
+
+if(img2){
+setTimeout(()=>{
+img2.classList.add("show");
+},4200);
+}
+
+}  
 function updateCountdown(){
 
 const weddingDate = new Date("Oct 24, 2026 17:00:00").getTime();
