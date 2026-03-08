@@ -474,7 +474,19 @@ The Conservatory — Acworth, GA
 <div class="ending" id="ending">TRANSMISSION LOST</div>
 
 </div>
+// reveal chapter 1 image after page loads
 
+window.addEventListener("load", ()=>{
+
+const panels = document.querySelectorAll("#c1 .imagePanel");
+
+panels.forEach((panel,i)=>{
+setTimeout(()=>{
+panel.classList.add("show");
+},1200 + i*600);
+});
+
+});
 <script>
 
 var whisper=document.getElementById("whisper");
