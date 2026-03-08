@@ -956,27 +956,41 @@ panel.classList.add("show");
 
 });
 
-var whisper=document.getElementById("whisper");
-var screech=document.getElementById("screech");
-var video=document.getElementById("bgVideo");
-var flash=document.getElementById("flash");
-var staticLayer=document.getElementById("static");
+var whisper, screech, video, flash, staticLayer;
+
+document.addEventListener("DOMContentLoaded", function(){
+
+whisper = document.getElementById("whisper");
+screech = document.getElementById("screech");
+video = document.getElementById("bgVideo");
+flash = document.getElementById("flash");
+staticLayer = document.getElementById("static");
+
+});
 
 var whisperStarted=false;
 
 function startWhisper(){
-if(!whisperStarted){
+
+if(!whisperStarted && whisper){
+
 whisper.volume=.08;
 whisper.play().catch(()=>{});
 whisperStarted=true;
+
 }
+
 }
+
 
 function goTo(n){
 
 startWhisper();
+
+if(whisper){
 whisper.volume=.25;
 setTimeout(()=>whisper.volume=.08,400);
+}
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 
