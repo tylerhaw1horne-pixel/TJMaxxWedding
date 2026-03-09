@@ -709,7 +709,167 @@ document.getElementById("ending").style.display="block";
 },2500);
 
 }
+/* ===========================
+CINEMATIC VHS UPGRADE PACK
+=========================== */
 
+/* RANDOM SIGNAL GLITCH */
+
+function randomSignalGlitch(){
+
+const lost=document.getElementById("signalLost");
+const recovered=document.getElementById("signalRecovered");
+
+lost.style.opacity=1;
+
+setTimeout(()=>{
+lost.style.opacity=0;
+recovered.style.opacity=1;
+
+setTimeout(()=>{
+recovered.style.opacity=0;
+},700);
+
+},900);
+
+}
+
+/* RANDOM VHS TRACKING ERROR */
+
+function randomTracking(){
+
+const jump=document.getElementById("vhsJump");
+
+jump.classList.add("active");
+
+setTimeout(()=>{
+jump.classList.remove("active");
+},400);
+
+}
+
+/* CAMERA AUDIO HUM */
+
+function randomAudioWarp(){
+
+const whisper=document.getElementById("whisper");
+
+if(!whisper) return;
+
+let rand=Math.random()*0.05;
+
+whisper.playbackRate=1+rand;
+
+}
+
+/* OCCASIONAL SCREEN SHAKE */
+
+function randomCameraShake(){
+
+if(Math.random()<0.3){
+
+document.body.classList.add("screenShake");
+
+setTimeout(()=>{
+document.body.classList.remove("screenShake");
+},500);
+
+}
+
+}
+
+/* RARE STATIC BLAST */
+
+function randomStaticBlast(){
+
+if(Math.random()<0.15){
+
+const static=document.getElementById("static");
+
+static.style.display="block";
+
+setTimeout(()=>{
+static.style.display="none";
+},350);
+
+}
+
+}
+
+/* MASTER AMBIENCE LOOP */
+
+setInterval(()=>{
+
+let roll=Math.random();
+
+if(roll<0.15) randomSignalGlitch();
+
+if(roll>0.15 && roll<0.3) randomTracking();
+
+if(roll>0.3 && roll<0.5) randomCameraShake();
+
+if(roll>0.5 && roll<0.65) randomStaticBlast();
+
+randomAudioWarp();
+
+},8000);
+
+
+/* WHISPER PAN EFFECT */
+
+const whisper=document.getElementById("whisper");
+
+if(whisper){
+
+setInterval(()=>{
+
+let pan=(Math.random()*0.6)-0.3;
+
+whisper.volume=0.2+Math.random()*0.05;
+
+},6000);
+
+}
+
+
+/* VHS TIME DRIFT */
+
+setInterval(()=>{
+
+const t=document.getElementById("vhsTime");
+
+if(Math.random()<0.1){
+
+t.style.transform="translateX(3px)";
+
+setTimeout(()=>{
+
+t.style.transform="translateX(-3px)";
+
+setTimeout(()=>{
+
+t.style.transform="translateX(0)";
+
+},80);
+
+},80);
+
+}
+
+},4000);
+
+
+/* OCCASIONAL SIGNAL CUT */
+
+setInterval(()=>{
+
+if(Math.random()<0.08){
+
+randomSignalGlitch();
+
+}
+
+},15000);
 </script>
 
 </body>
