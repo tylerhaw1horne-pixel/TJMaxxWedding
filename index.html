@@ -33,6 +33,7 @@ width:100%;
 height:100%;
 z-index:0;
 overflow:hidden;
+animation:cameraShake 6s infinite;
 }
 
 #bgVideo{
@@ -44,13 +45,9 @@ animation:cameraDrift 22s infinite ease-in-out;
 }
 
 @keyframes cameraDrift{
-
-0%{transform:scale(1.02) translate(0px,0px);}
-25%{transform:scale(1.025) translate(-6px,3px);}
-50%{transform:scale(1.03) translate(5px,-4px);}
-75%{transform:scale(1.025) translate(-3px,4px);}
-100%{transform:scale(1.02) translate(0px,0px);}
-
+0%{transform:scale(1.02)}
+50%{transform:scale(1.05)}
+100%{transform:scale(1.02)}
 }
 
 /* OVERLAYS */
@@ -77,6 +74,31 @@ z-index:2;
 pointer-events:none;
 }
 
+/* VHS TRACKING BAR */
+
+.trackingBar{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:60px;
+background:linear-gradient(
+to bottom,
+rgba(255,255,255,.25),
+rgba(255,255,255,0)
+);
+mix-blend-mode:overlay;
+opacity:.25;
+animation:trackingMove 9s infinite linear;
+pointer-events:none;
+z-index:4;
+}
+
+@keyframes trackingMove{
+0%{transform:translateY(-80px)}
+100%{transform:translateY(110vh)}
+}
+
 /* HUD */
 
 .vhsHUD{
@@ -84,7 +106,10 @@ position:fixed;
 inset:0;
 pointer-events:none;
 z-index:5;
+text-shadow:0 0 8px rgba(255,255,255,.5);
 }
+
+/* REC */
 
 .recIndicator{
 position:absolute;
@@ -107,10 +132,30 @@ animation:blink 1.3s infinite;
 50%{opacity:.3}
 }
 
+/* BATTERY */
+
+.battery{
+position:absolute;
+top:14px;
+right:18px;
+font-size:13px;
+}
+
+/* TIMESTAMP */
+
 .vhsTimestamp{
 position:absolute;
 bottom:25px;
 left:20px;
+font-size:14px;
+}
+
+/* TAPE COUNTER */
+
+.tapeCounter{
+position:absolute;
+bottom:25px;
+right:20px;
 font-size:14px;
 }
 
@@ -123,13 +168,13 @@ z-index:10;
 
 .screen{
 display:none;
-position:absolute;
-top:0;
-left:0;
+position:relative;
 width:100%;
 min-height:100vh;
-padding:80px 25px 140px 25px;
+padding:90px 25px 160px 25px;
 text-align:center;
+max-width:900px;
+margin:auto;
 }
 
 .screen.active{
@@ -161,7 +206,7 @@ border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
 filter:brightness(.35);
-transition:opacity 5s ease, filter 5s ease;
+transition:opacity 4s ease, filter 4s ease;
 }
 
 .imagePanel.show{
@@ -173,41 +218,30 @@ filter:brightness(1);
 width:100%;
 }
 
-/* CH2 IMAGES */
+/* CH2 */
 
-.imageTop{
-position:absolute;
-top:120px;
-left:40px;
-width:180px;
+.imageTop,.imageBottom{
+width:240px;
+max-width:80%;
+margin:30px auto;
 opacity:0;
 transition:opacity 4s ease;
 }
 
-.imageBottom{
-position:absolute;
-bottom:80px;
-right:40px;
-width:180px;
-opacity:0;
-transition:opacity 4s ease;
-}
-
-.imageTop.show,
-.imageBottom.show{
+.imageTop.show,.imageBottom.show{
 opacity:1;
 }
 
-.imageTop img,
-.imageBottom img{
+.imageTop img,.imageBottom img{
 width:100%;
 }
 
-/* CH3 IMAGES */
+/* CH3 */
 
 .c3photo{
-width:320px;
-margin:20px auto;
+width:340px;
+max-width:90%;
+margin:35px auto;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
@@ -238,143 +272,94 @@ button:hover{
 background:white;
 color:black;
 }
-/* CAMERA OBJECT */
+
+/* CAMERA */
 
 .cameraObject{
-width:220px;
-height:140px;
-margin:90px auto;
+width:240px;
+height:150px;
+margin:120px auto 40px auto;
 cursor:pointer;
 position:relative;
+animation:cameraIdle 6s infinite ease-in-out;
+}
+
+@keyframes cameraIdle{
+50%{transform:translateY(-6px)}
 }
 
 .cameraBody{
-width:200px;
-height:110px;
-background:#111;
-border:2px solid #666;
+width:210px;
+height:120px;
+background:#0c0c0c;
+border:2px solid #777;
 position:absolute;
-left:10px;
-top:15px;
-box-shadow:0 0 30px black;
+left:15px;
+top:20px;
+box-shadow:0 0 40px rgba(0,0,0,.9);
 }
 
 .cameraLens{
-width:70px;
-height:70px;
+width:75px;
+height:75px;
 border-radius:50%;
-border:4px solid #777;
+border:4px solid #999;
 background:black;
 position:absolute;
-left:75px;
-top:35px;
-box-shadow:0 0 20px rgba(255,255,255,.15) inset;
+left:80px;
+top:40px;
 }
 
-.cameraLabel{
-margin-top:150px;
-font-size:13px;
-letter-spacing:2px;
-opacity:.8;
+.cameraLens::after{
+content:"";
+position:absolute;
+width:18px;
+height:18px;
+background:rgba(255,255,255,.25);
+border-radius:50%;
+top:15px;
+left:15px;
 }
 
 /* VHS PHOTO DISTORTION */
 
 .vhsPhoto img{
-animation:vhsNoise 6s infinite;
+animation:vhsNoise 6s infinite, slowZoom 30s infinite alternate;
+}
+
+@keyframes slowZoom{
+0%{transform:scale(1)}
+100%{transform:scale(1.05)}
 }
 
 @keyframes vhsNoise{
-
-0%{filter:contrast(1) brightness(.9)}
+0%{filter:contrast(1)}
 5%{filter:contrast(1.6)}
 6%{filter:contrast(.7)}
 7%{filter:contrast(1)}
 50%{filter:contrast(1.2)}
 51%{filter:contrast(.6)}
 52%{filter:contrast(1)}
-100%{filter:contrast(1)}
-
 }
-/* VHS GLITCH BURSTS */
+
+/* GLITCH */
 
 .glitchFlash{
 animation:glitchFlash .15s;
 }
 
 @keyframes glitchFlash{
-
-0%{filter:brightness(1)}
 50%{filter:brightness(2.5) contrast(3)}
-100%{filter:brightness(1)}
-
-}
-/* VHS TRACKING DISTORTION */
-
-.trackingBar{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:60px;
-
-background:linear-gradient(
-to bottom,
-rgba(255,255,255,.25),
-rgba(255,255,255,0)
-);
-
-mix-blend-mode:overlay;
-
-opacity:.25;
-
-animation:trackingMove 9s infinite linear;
-
-pointer-events:none;
-
-z-index:4;
-
 }
 
-@keyframes trackingMove{
-
-0%{transform:translateY(-80px)}
-100%{transform:translateY(110vh)}
-
-}
-/* TAPE REWIND */
-
-.rewind{
-
-animation:rewind .35s;
-
-}
-
-@keyframes rewind{
-
-0%{transform:scale(1)}
-50%{transform:scale(1.05) skewX(2deg)}
-100%{transform:scale(1)}
-
-}
 /* CAMERA SHAKE */
 
 @keyframes cameraShake{
-
-0%{transform:translate(0,0)}
 25%{transform:translate(1px,-1px)}
 50%{transform:translate(-1px,1px)}
 75%{transform:translate(1px,1px)}
-100%{transform:translate(0,0)}
-
 }
 
-.videoLayer{
-
-animation:cameraShake 5s infinite;
-
-}
 </style>
 </head>
 
@@ -396,7 +381,11 @@ animation:cameraShake 5s infinite;
 <span class="recDot"></span> REC
 </div>
 
+<div class="battery">BAT 87%</div>
+
 <div class="vhsTimestamp" id="vhsTime">00:00:00</div>
+
+<div class="tapeCounter" id="counter">TAPE 00:00</div>
 
 </div>
 
@@ -411,16 +400,13 @@ animation:cameraShake 5s infinite;
 <h2>FOUND CAMERA</h2>
 
 <div class="cameraObject" onclick="openCamera()">
-
 <div class="cameraLens"></div>
-
 <div class="cameraBody"></div>
-
-<div class="cameraLabel">
-Recovered Camcorder<br>
-Click to Open Recording
 </div>
 
+<div class="storyText">
+Recovered Camcorder<br>
+Click to Open Recording
 </div>
 
 </div>
@@ -436,9 +422,6 @@ Click to Open Recording
 Recovered recording detected.<br>
 Initializing tape playback...<br><br>
 
-Signal unstable.<br>
-Tracking distortion present.<br><br>
-
 Archive timestamp:<br>
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br><br>
@@ -450,9 +433,7 @@ Julie Eells
 </div>
 
 <div class="imagePanel vhsPhoto" id="ch1img">
-
 <img src="early1.png">
-
 </div>
 
 <div class="storyText" id="countdown"></div>
@@ -473,40 +454,19 @@ PLAY NEXT SEGMENT
 
 Playback recovered from corrupted tape segment.<br><br>
 
-Signal clarity improving...<br><br>
-
-Two names appear repeatedly in the archive.<br><br>
-
 Tyler Hawthorne<br>
 Julie Eells<br><br>
-
-The first connection happened years earlier.<br>
-A brief crossing of paths through mutual friends.<br><br>
-
-At the time, neither realized the moment mattered.<br><br>
-
-Time passed.<br>
-Lives moved forward.<br>
-The connection faded.<br><br>
-
-Until one quiet night years later...<br><br>
-
-The archive shows something changed.<br><br>
 
 They found each other again.
 
 </div>
 
 <div class="imageTop vhsPhoto" id="ch2img1">
-
 <img src="early2.png">
-
 </div>
 
 <div class="imageBottom vhsPhoto" id="ch2img2">
-
 <img src="early3.png">
-
 </div>
 
 <button onclick="goTo('c3')">
@@ -527,22 +487,14 @@ CONTINUE ARCHIVE
 
 <div class="storyText">
 
-After that night,
-things began to change.<br><br>
+After that night,  
+things began to change.
 
-What started as an unexpected reunion
-slowly became shared days,
-late conversations,
-and a life growing together.<br><br>
-
-It wasn't sudden.<br>
-It wasn't planned.<br><br>
-
-But somewhere along the way,
-they realized something had changed forever.
+What started as an unexpected reunion  
+became shared days and a life growing together.
 
 </div>
-  
+
 <div class="c3photo vhsPhoto" id="c3img2">
 <img src="c3-2.png">
 </div>
@@ -569,11 +521,20 @@ document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
 
 }
 
-updateVHSTime();
 setInterval(updateVHSTime,1000);
 
+/* TAPE COUNTER */
 
-/* NAVIGATION */
+let tape=0;
+
+setInterval(()=>{
+tape++
+let m=Math.floor(tape/60)
+let s=String(tape%60).padStart(2,'0')
+document.getElementById("counter").innerText="TAPE "+m+":"+s
+},1000)
+
+/* OPEN CAMERA */
 
 function openCamera(){
 
@@ -588,6 +549,8 @@ goTo('c1');
 
 }
 
+/* NAV */
+
 function goTo(id){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -596,69 +559,42 @@ const next=document.getElementById(id);
 
 if(next) next.classList.add("active");
 
-/* glitch flash */
+/* glitch */
 
 document.body.classList.add("glitchFlash")
-document.body.classList.add("rewind")
 
 setTimeout(()=>{
 document.body.classList.remove("glitchFlash")
-document.body.classList.remove("rewind")
-},180)
-  
+},160)
+
+/* whisper */
+
 const whisper=document.getElementById("whisper");
 
-/* stop whisper if leaving chapter 2 */
-
-if(id!=="c2" && !whisper.paused){
+if(id==="c2"){
+whisper.volume=.25;
+whisper.play().catch(()=>{});
+}else{
 whisper.pause();
 }
 
-/* start whisper only in chapter 2 */
-
-if(id==="c2" && whisper.paused){
-
-whisper.volume=.25;
-whisper.play().catch(()=>{});
-
-}
-
-/* chapter reveals */
+/* reveals */
 
 if(id==="c1"){
-
-setTimeout(()=>{
-document.getElementById("ch1img").classList.add("show");
-},1500);
-
+setTimeout(()=>{document.getElementById("ch1img").classList.add("show")},1500);
 }
 
 if(id==="c2"){
-
-setTimeout(()=>{
-document.getElementById("ch2img1").classList.add("show");
-},1200);
-
-setTimeout(()=>{
-document.getElementById("ch2img2").classList.add("show");
-},4200);
-
+setTimeout(()=>{document.getElementById("ch2img1").classList.add("show")},1200);
+setTimeout(()=>{document.getElementById("ch2img2").classList.add("show")},4200);
 }
 
 if(id==="c3"){
-
-setTimeout(()=>{
-document.getElementById("c3img1").classList.add("show");
-},1200);
-
-setTimeout(()=>{
-document.getElementById("c3img2").classList.add("show");
-},4200);
-
+setTimeout(()=>{document.getElementById("c3img1").classList.add("show")},1200);
+setTimeout(()=>{document.getElementById("c3img2").classList.add("show")},4200);
 }
 
 }
-
 
 /* COUNTDOWN */
 
@@ -678,22 +614,6 @@ days+" DAYS UNTIL CEREMONY";
 
 updateCountdown();
 setInterval(updateCountdown,60000);
-
-/* RANDOM VHS STATIC BURSTS */
-
-setInterval(()=>{
-
-if(Math.random()>.92){
-
-document.body.classList.add("glitchFlash")
-
-setTimeout(()=>{
-document.body.classList.remove("glitchFlash")
-},120)
-
-}
-
-},4000)
 
 </script>
 
