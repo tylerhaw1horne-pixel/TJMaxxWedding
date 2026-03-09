@@ -591,15 +591,18 @@ document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
 updateVHSTime();
 setInterval(updateVHSTime,1000);
 
+
 /* CH1 IMAGE */
 
 window.addEventListener("load",function(){
 
 setTimeout(()=>{
-document.querySelector(".imagePanel").classList.add("show");
+const img=document.querySelector(".imagePanel");
+if(img) img.classList.add("show");
 },1500);
 
 });
+
 
 /* BOOT */
 
@@ -622,7 +625,8 @@ goTo(n);
 
 }
 
-/* NAV */
+
+/* NAVIGATION */
 
 function goTo(n){
 
@@ -631,12 +635,25 @@ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 const next=document.getElementById("c"+n);
 if(next) next.classList.add("active");
 
+
+/* CH2 IMAGE REVEALS */
+
 if(n===2){
 
-setTimeout(()=>document.querySelector(".imageTop").classList.add("show"),1200);
-setTimeout(()=>document.querySelector(".imageBottom").classList.add("show"),4200);
+setTimeout(()=>{
+const t=document.querySelector(".imageTop");
+if(t) t.classList.add("show");
+},1200);
+
+setTimeout(()=>{
+const b=document.querySelector(".imageBottom");
+if(b) b.classList.add("show");
+},4200);
 
 }
+
+
+/* CH3 GLITCH PHOTO REVEAL */
 
 if(n===3){
 
@@ -672,6 +689,9 @@ img2.style.opacity=1;
 
 }
 
+} /* <-- THIS WAS THE MISSING BRACKET */
+
+
 /* COUNTDOWN */
 
 function updateCountdown(){
@@ -691,13 +711,16 @@ days+" DAYS UNTIL CEREMONY";
 setInterval(updateCountdown,60000);
 updateCountdown();
 
-/* END */
+
+/* END TRANSMISSION */
 
 function endTransmission(){
 
 document.body.classList.add("screenShake");
 
-setTimeout(()=>document.getElementById("flash").classList.add("active"),500);
+setTimeout(()=>{
+document.getElementById("flash").classList.add("active");
+},500);
 
 setTimeout(()=>{
 document.getElementById("static").style.display="block";
@@ -709,9 +732,12 @@ document.getElementById("ending").style.display="block";
 },2500);
 
 }
+
+
 /* ===========================
 CINEMATIC VHS UPGRADE PACK
 =========================== */
+
 
 /* RANDOM SIGNAL GLITCH */
 
@@ -734,7 +760,8 @@ recovered.style.opacity=0;
 
 }
 
-/* RANDOM VHS TRACKING ERROR */
+
+/* RANDOM TRACKING ERROR */
 
 function randomTracking(){
 
@@ -748,7 +775,8 @@ jump.classList.remove("active");
 
 }
 
-/* CAMERA AUDIO HUM */
+
+/* AUDIO DRIFT */
 
 function randomAudioWarp(){
 
@@ -757,12 +785,12 @@ const whisper=document.getElementById("whisper");
 if(!whisper) return;
 
 let rand=Math.random()*0.05;
-
 whisper.playbackRate=1+rand;
 
 }
 
-/* OCCASIONAL SCREEN SHAKE */
+
+/* CAMERA SHAKE */
 
 function randomCameraShake(){
 
@@ -778,7 +806,8 @@ document.body.classList.remove("screenShake");
 
 }
 
-/* RARE STATIC BLAST */
+
+/* STATIC BLAST */
 
 function randomStaticBlast(){
 
@@ -796,6 +825,7 @@ static.style.display="none";
 
 }
 
+
 /* MASTER AMBIENCE LOOP */
 
 setInterval(()=>{
@@ -803,33 +833,13 @@ setInterval(()=>{
 let roll=Math.random();
 
 if(roll<0.15) randomSignalGlitch();
-
 if(roll>0.15 && roll<0.3) randomTracking();
-
 if(roll>0.3 && roll<0.5) randomCameraShake();
-
 if(roll>0.5 && roll<0.65) randomStaticBlast();
 
 randomAudioWarp();
 
 },8000);
-
-
-/* WHISPER PAN EFFECT */
-
-const whisper=document.getElementById("whisper");
-
-if(whisper){
-
-setInterval(()=>{
-
-let pan=(Math.random()*0.6)-0.3;
-
-whisper.volume=0.2+Math.random()*0.05;
-
-},6000);
-
-}
 
 
 /* VHS TIME DRIFT */
@@ -844,12 +854,10 @@ t.style.transform="translateX(3px)";
 
 setTimeout(()=>{
 
-t.style.transform="translateX(-3px)";
+t.style.transform="translateX(-3px)");
 
 setTimeout(()=>{
-
 t.style.transform="translateX(0)";
-
 },80);
 
 },80);
@@ -864,12 +872,11 @@ t.style.transform="translateX(0)";
 setInterval(()=>{
 
 if(Math.random()<0.08){
-
 randomSignalGlitch();
-
 }
 
 },15000);
+
 </script>
 
 </body>
