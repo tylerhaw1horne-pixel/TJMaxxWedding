@@ -850,6 +850,7 @@ TRACKING ERROR
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
+  
 <!-- CHAPTER 1 -->
 <div class="screen active" id="c1">
 
@@ -1011,8 +1012,8 @@ The Conservatory — Acworth, GA
 <div class="vaultInner">
 <p>If you wish to contribute to our future, you may do so below.</p>
 <div class="donationButtons">
-<a href="#"><button>APPLE CASH</button></a>
-<a href="#"><button>ZELLE</button></a>
+<a href="#">APPLE CASH</a>
+<a href="#">ZELLE</a>
 </div>
 </div>
 <button onclick="goTo(7)">CONTINUE</button>
@@ -1040,9 +1041,8 @@ The Conservatory — Acworth, GA
 </div>
 
 
-
-
-<script>
+ <script>
+window.addEventListener("DOMContentLoaded", function(){ 
 /* ================= SIGNAL LOST GLITCH ================= */
 
 function triggerSignalLost(){
@@ -1131,8 +1131,6 @@ panel.classList.add("show");
 });
 
 var whisper, screech, video, flash, staticLayer;
-
-document.addEventListener("DOMContentLoaded", function(){
 
 whisper = document.getElementById("whisper");
 screech = document.getElementById("screech");
@@ -1241,7 +1239,7 @@ panel.classList.add("show");
 
 window.scrollTo(0,0);
 
-},250);
+},180);
 
 /* remove VHS jump */
 
@@ -1370,6 +1368,7 @@ document.body.classList.remove("screenShake");
 },2500);
 }
 
+});
 </script>
 
 </body>
