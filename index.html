@@ -59,6 +59,7 @@ position:fixed;
 inset:0;
 background:rgba(0,0,0,.65);
 z-index:1;
+pointer-events:none;
 }
 
 .scanLayer{
@@ -72,6 +73,7 @@ transparent 1px,
 transparent 3px
 );
 z-index:2;
+pointer-events:none;
 }
 
 /* HUD */
@@ -293,6 +295,7 @@ letter-spacing:6px;
 background:black;
 opacity:0;
 z-index:25;
+pointer-events:none;
 }
 
 .vhsJump.active{
@@ -311,6 +314,7 @@ inset:0;
 background:white;
 opacity:0;
 z-index:40;
+pointer-events:none;
 }
 
 .whiteFlash.active{
@@ -329,6 +333,7 @@ background:repeating-linear-gradient(
 );
 display:none;
 z-index:41;
+pointer-events:none;
 }
 
 .screenShake{
@@ -347,7 +352,10 @@ padding:200px 20px;
 font-size:28px;
 letter-spacing:8px;
 }
-
+.screen button{
+position:relative;
+z-index:50;
+}
 </style>
 </head>
 
@@ -553,6 +561,7 @@ document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
 
 }
 
+updateVHSTime();
 setInterval(updateVHSTime,1000);
 
 /* CH1 IMAGE */
@@ -586,7 +595,8 @@ function goTo(n){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 
-document.getElementById("c"+n).classList.add("active");
+const next=document.getElementById("c"+n);
+if(next) next.classList.add("active");
 
 if(n===2){
 
@@ -629,7 +639,7 @@ const now=new Date().getTime();
 
 let diff=wedding-now;
 
-let days=Math.floor(diff/(1000*60*60*24));
+let days=Math.max(0, Math.floor(diff/(1000*60*60*24)));
 
 document.getElementById("countdown").innerText=
 days+" DAYS UNTIL CEREMONY";
