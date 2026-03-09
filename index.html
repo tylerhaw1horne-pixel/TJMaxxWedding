@@ -22,7 +22,7 @@ font-family:'Courier New', monospace;
 overflow:hidden;
 }
 
-/* VIDEO */
+/* VIDEO BACKGROUND */
 
 .videoLayer{
 position:fixed;
@@ -43,9 +43,13 @@ animation:cameraDrift 22s infinite ease-in-out;
 }
 
 @keyframes cameraDrift{
-0%{transform:scale(1.02)}
-50%{transform:scale(1.03) translate(4px,-3px)}
-100%{transform:scale(1.02)}
+
+0%{transform:scale(1.02) translate(0px,0px);}
+25%{transform:scale(1.025) translate(-6px,3px);}
+50%{transform:scale(1.03) translate(5px,-4px);}
+75%{transform:scale(1.025) translate(-3px,4px);}
+100%{transform:scale(1.02) translate(0px,0px);}
+
 }
 
 /* ATMOSPHERE */
@@ -70,11 +74,62 @@ transparent 3px
 z-index:2;
 }
 
+/* HUD */
+
+.vhsHUD{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:5;
+}
+
+.recIndicator{
+position:absolute;
+top:15px;
+left:18px;
+display:flex;
+gap:6px;
+font-size:14px;
+}
+
+.recDot{
+width:10px;
+height:10px;
+background:red;
+border-radius:50%;
+animation:blink 1.3s infinite;
+}
+
+@keyframes blink{
+50%{opacity:.3}
+}
+
+.vhsTimestamp{
+position:absolute;
+bottom:25px;
+left:20px;
+font-size:14px;
+}
+
+/* SIGNAL */
+
+.signalLost,.signalRecovered{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:36px;
+letter-spacing:8px;
+opacity:0;
+z-index:30;
+text-shadow:0 0 10px white,0 0 40px red;
+}
+
 /* CONTENT */
 
 .contentLayer{
 position:relative;
-z-index:3;
+z-index:10;
 }
 
 .screen{
@@ -125,14 +180,24 @@ filter:brightness(1);
 
 .imagePanel img{
 width:100%;
-display:block;
 }
 
 /* CH2 IMAGES */
 
-.imageTop,.imageBottom{
-width:220px;
-margin:20px auto;
+.imageTop{
+position:absolute;
+top:120px;
+left:40px;
+width:180px;
+opacity:0;
+transition:opacity 4s ease;
+}
+
+.imageBottom{
+position:absolute;
+bottom:80px;
+right:40px;
+width:180px;
 opacity:0;
 transition:opacity 4s ease;
 }
@@ -151,15 +216,15 @@ width:100%;
 width:320px;
 margin:20px auto;
 position:relative;
-overflow:hidden;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
+overflow:hidden;
 }
 
 .c3photo img{
 width:100%;
 opacity:0;
-transition:opacity 4s ease;
+transition:opacity 3s ease;
 }
 
 .c3photo.show img{
@@ -181,7 +246,7 @@ opacity:0;
 }
 
 .c3photo.static::before{
-opacity:.5;
+opacity:.6;
 animation:staticFlicker .3s steps(2) infinite;
 }
 
@@ -201,48 +266,6 @@ cursor:pointer;
 margin-top:35px;
 }
 
-button:hover{
-background:white;
-color:black;
-}
-
-/* HUD */
-
-.vhsHUD{
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:5;
-}
-
-.recIndicator{
-position:absolute;
-top:15px;
-left:18px;
-display:flex;
-gap:6px;
-font-size:14px;
-}
-
-.recDot{
-width:10px;
-height:10px;
-background:red;
-border-radius:50%;
-animation:blink 1.3s infinite;
-}
-
-@keyframes blink{
-50%{opacity:.3}
-}
-
-.vhsTimestamp{
-position:absolute;
-bottom:25px;
-left:20px;
-font-size:14px;
-}
-
 /* BOOT */
 
 .bootSequence{
@@ -257,20 +280,65 @@ font-size:28px;
 letter-spacing:6px;
 }
 
-/* SIGNAL */
+/* TRACKING ERROR */
 
-.signalLost,.signalRecovered{
+.vhsJump{
 position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:36px;
-letter-spacing:8px;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+letter-spacing:6px;
+background:black;
 opacity:0;
-z-index:30;
+z-index:25;
 }
 
-/* ENDING */
+.vhsJump.active{
+animation:vhsJumpFlash .4s steps(2);
+}
+
+@keyframes vhsJumpFlash{
+50%{opacity:1}
+}
+
+/* CRASH */
+
+.whiteFlash{
+position:fixed;
+inset:0;
+background:white;
+opacity:0;
+z-index:40;
+}
+
+.whiteFlash.active{
+animation:flash .4s ease;
+}
+
+@keyframes flash{
+50%{opacity:.9}
+}
+
+.staticLayer{
+position:fixed;
+inset:0;
+background:repeating-linear-gradient(
+0deg,white 0px,white 2px,black 2px,black 4px
+);
+display:none;
+z-index:41;
+}
+
+.screenShake{
+animation:shake .2s linear infinite;
+}
+
+@keyframes shake{
+25%{transform:translate(-8px,4px);}
+50%{transform:translate(8px,-4px);}
+}
 
 .ending{
 display:none;
@@ -295,16 +363,26 @@ letter-spacing:8px;
 <div class="scanLayer"></div>
 
 <div class="vhsHUD">
-<div class="recIndicator"><span class="recDot"></span>REC</div>
-<div class="vhsTimestamp" id="vhsTime">00:00:00</div>
+
+<div class="recIndicator">
+<span class="recDot"></span> REC
 </div>
+
+<div class="vhsTimestamp" id="vhsTime">00:00:00</div>
+
+</div>
+
+<div class="signalLost" id="signalLost">SIGNAL LOST</div>
+<div class="signalRecovered" id="signalRecovered">SIGNAL RECOVERED</div>
 
 <div id="bootSequence" class="bootSequence">
 <div id="bootText">PLAYBACK INITIATED</div>
 </div>
 
-<div class="signalLost" id="signalLost">SIGNAL LOST</div>
-<div class="signalRecovered" id="signalRecovered">SIGNAL RECOVERED</div>
+<div id="vhsJump" class="vhsJump">TRACKING ERROR</div>
+
+<div class="whiteFlash" id="flash"></div>
+<div class="staticLayer" id="static"></div>
 
 <div class="contentLayer">
 
@@ -351,9 +429,7 @@ Some stories don’t begin the way you expect them to.<br><br>
 
 They first crossed paths years ago through mutual friends.<br><br>
 
-Years later they met again.<br><br>
-
-This time was different.
+Until one quiet night years later when they ran into each other again.
 
 </div>
 
@@ -381,10 +457,9 @@ This time was different.
 
 <div class="storyText">
 
-After that night things began to change.<br><br>
-
-Shared days.<br>
-Late conversations.
+What started as an unexpected reunion slowly became shared days,
+late conversations,
+and a life growing together.
 
 </div>
 
@@ -399,12 +474,15 @@ Late conversations.
 <!-- CH4 -->
 
 <div class="screen" id="c4">
+
 <h2>WEDDING DETAILS</h2>
 
 <div class="storyText">
+
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
+
 </div>
 
 <button onclick="goTo(5)">CONTINUE</button>
@@ -414,9 +492,14 @@ The Conservatory — Acworth, GA
 <!-- CH5 -->
 
 <div class="screen" id="c5">
+
 <h2>WEDDING PARTY</h2>
 
-<div class="storyText">Details coming soon</div>
+<div class="storyText">
+
+Details coming soon
+
+</div>
 
 <button onclick="goTo(6)">CONTINUE</button>
 
@@ -425,9 +508,14 @@ The Conservatory — Acworth, GA
 <!-- CH6 -->
 
 <div class="screen" id="c6">
+
 <h2>CONTRIBUTION PORTAL</h2>
 
-<div class="storyText">Optional contributions</div>
+<div class="storyText">
+
+Optional contributions
+
+</div>
 
 <button onclick="goTo(7)">CONTINUE</button>
 
@@ -451,11 +539,6 @@ The Conservatory — Acworth, GA
 
 <script>
 
-/* VARIABLES */
-
-var whisper=document.getElementById("whisper");
-var screech=document.getElementById("screech");
-
 /* CLOCK */
 
 function updateVHSTime(){
@@ -472,21 +555,19 @@ document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
 
 setInterval(updateVHSTime,1000);
 
-/* IMAGE FADE */
+/* CH1 IMAGE */
 
 window.addEventListener("load",function(){
 
-const panel=document.querySelector(".imagePanel");
-
 setTimeout(()=>{
-panel.classList.add("show");
+document.querySelector(".imagePanel").classList.add("show");
 },1500);
 
 });
 
 /* BOOT */
 
-function bootPlayback(next){
+function bootPlayback(n){
 
 const boot=document.getElementById("bootSequence");
 
@@ -494,8 +575,8 @@ boot.style.display="flex";
 
 setTimeout(()=>{
 boot.style.display="none";
-goTo(next);
-},2500);
+goTo(n);
+},2600);
 
 }
 
@@ -503,16 +584,14 @@ goTo(next);
 
 function goTo(n){
 
-document.querySelectorAll(".screen").forEach(s=>{
-s.classList.remove("active");
-});
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 
 document.getElementById("c"+n).classList.add("active");
 
 if(n===2){
 
-setTimeout(()=>document.querySelector(".imageTop").classList.add("show"),1000);
-setTimeout(()=>document.querySelector(".imageBottom").classList.add("show"),3000);
+setTimeout(()=>document.querySelector(".imageTop").classList.add("show"),1200);
+setTimeout(()=>document.querySelector(".imageBottom").classList.add("show"),4200);
 
 }
 
@@ -530,12 +609,12 @@ i1.classList.add("show");
 
 setTimeout(()=>{
 i2.classList.add("static");
-},3000);
+},3500);
 
 setTimeout(()=>{
 i2.classList.remove("static");
 i2.classList.add("show");
-},5000);
+},5200);
 
 }
 
@@ -564,9 +643,18 @@ updateCountdown();
 
 function endTransmission(){
 
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.body.classList.add("screenShake");
 
+setTimeout(()=>document.getElementById("flash").classList.add("active"),500);
+
+setTimeout(()=>{
+document.getElementById("static").style.display="block";
+},900);
+
+setTimeout(()=>{
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById("ending").style.display="block";
+},2500);
 
 }
 
