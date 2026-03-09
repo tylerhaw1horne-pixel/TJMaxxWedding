@@ -643,23 +643,32 @@ if(n===3){
 let i1=document.getElementById("c3img1");
 let i2=document.getElementById("c3img2");
 
+let img1=i1.querySelector("img");
+let img2=i2.querySelector("img");
+
+i1.classList.remove("show","static");
+i2.classList.remove("show","static");
+
+img1.style.opacity=0;
+img2.style.opacity=0;
+
 i1.classList.add("static");
 
 setTimeout(()=>{
 i1.classList.remove("static");
 i1.classList.add("show");
+img1.style.opacity=1;
 },2000);
 
 setTimeout(()=>{
 i2.classList.add("static");
-},3500);
+},3800);
 
 setTimeout(()=>{
 i2.classList.remove("static");
 i2.classList.add("show");
-},5200);
-
-}
+img2.style.opacity=1;
+},5500);
 
 }
 
