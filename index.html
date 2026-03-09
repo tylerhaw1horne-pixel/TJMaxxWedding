@@ -38,7 +38,7 @@ overflow:hidden;
 width:100%;
 height:100%;
 object-fit:cover;
-filter:brightness(.65) contrast(1.3);
+filter:brightness(.6) contrast(1.2);
 animation:cameraDrift 22s infinite ease-in-out;
 }
 
@@ -52,7 +52,7 @@ animation:cameraDrift 22s infinite ease-in-out;
 
 }
 
-/* ATMOSPHERE */
+/* OVERLAYS */
 
 .darkOverlay{
 position:fixed;
@@ -67,8 +67,8 @@ position:fixed;
 inset:0;
 background:repeating-linear-gradient(
 0deg,
-rgba(255,255,255,.03),
-rgba(255,255,255,.03) 1px,
+rgba(255,255,255,.04),
+rgba(255,255,255,.04) 1px,
 transparent 1px,
 transparent 3px
 );
@@ -113,20 +113,6 @@ left:20px;
 font-size:14px;
 }
 
-/* SIGNAL */
-
-.signalLost,.signalRecovered{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-font-size:36px;
-letter-spacing:8px;
-opacity:0;
-z-index:30;
-text-shadow:0 0 10px white,0 0 40px red;
-}
-
 /* CONTENT */
 
 .contentLayer{
@@ -149,6 +135,8 @@ text-align:center;
 display:block;
 }
 
+/* TEXT */
+
 h2{
 letter-spacing:6px;
 margin-bottom:30px;
@@ -158,7 +146,7 @@ font-size:22px;
 .storyText{
 max-width:520px;
 margin:16px auto;
-line-height:1.5;
+line-height:1.6;
 font-size:14px;
 }
 
@@ -172,7 +160,7 @@ border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
 filter:brightness(.35);
-transition:opacity 6s ease, filter 6s ease;
+transition:opacity 5s ease, filter 5s ease;
 }
 
 .imagePanel.show{
@@ -204,56 +192,33 @@ opacity:0;
 transition:opacity 4s ease;
 }
 
-.imageTop.show,.imageBottom.show{
+.imageTop.show,
+.imageBottom.show{
 opacity:1;
 }
 
-.imageTop img,.imageBottom img{
+.imageTop img,
+.imageBottom img{
 width:100%;
 }
 
-/* CH3 GLITCH PHOTOS */
+/* CH3 IMAGES */
 
 .c3photo{
 width:320px;
 margin:20px auto;
-position:relative;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
-overflow:hidden;
-}
-
-.c3photo img{
-width:100%;
 opacity:0;
 transition:opacity 3s ease;
 }
 
-.c3photo.show img{
+.c3photo.show{
 opacity:1;
 }
 
-.c3photo::before{
-content:"";
-position:absolute;
-inset:0;
-background:repeating-linear-gradient(
-0deg,
-white 0px,
-white 2px,
-black 2px,
-black 4px
-);
-opacity:0;
-}
-
-.c3photo.static::before{
-opacity:.6;
-animation:staticFlicker .3s steps(2) infinite;
-}
-
-@keyframes staticFlicker{
-50%{opacity:.2}
+.c3photo img{
+width:100%;
 }
 
 /* BUTTON */
@@ -268,101 +233,18 @@ cursor:pointer;
 margin-top:35px;
 }
 
-/* BOOT */
-
-.bootSequence{
-position:fixed;
-inset:0;
-background:black;
-display:none;
-align-items:center;
-justify-content:center;
-z-index:20;
-font-size:28px;
-letter-spacing:6px;
-}
-
-/* TRACKING ERROR */
-
-.vhsJump{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-letter-spacing:6px;
-background:black;
-opacity:0;
-z-index:25;
-pointer-events:none;
-}
-
-.vhsJump.active{
-animation:vhsJumpFlash .4s steps(2);
-}
-
-@keyframes vhsJumpFlash{
-50%{opacity:1}
-}
-
-/* CRASH */
-
-.whiteFlash{
-position:fixed;
-inset:0;
+button:hover{
 background:white;
-opacity:0;
-z-index:40;
-pointer-events:none;
+color:black;
 }
 
-.whiteFlash.active{
-animation:flash .4s ease;
-}
-
-@keyframes flash{
-50%{opacity:.9}
-}
-
-.staticLayer{
-position:fixed;
-inset:0;
-background:repeating-linear-gradient(
-0deg,white 0px,white 2px,black 2px,black 4px
-);
-display:none;
-z-index:41;
-pointer-events:none;
-}
-
-.screenShake{
-animation:shake .2s linear infinite;
-}
-
-@keyframes shake{
-25%{transform:translate(-8px,4px);}
-50%{transform:translate(8px,-4px);}
-}
-
-.ending{
-display:none;
-text-align:center;
-padding:200px 20px;
-font-size:28px;
-letter-spacing:8px;
-}
-.screen button{
-position:relative;
-z-index:50;
-}
 </style>
 </head>
 
 <body>
 
 <div class="videoLayer">
-<video id="bgVideo" autoplay muted loop playsinline preload="auto">
+<video id="bgVideo" autoplay muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 </div>
@@ -380,30 +262,39 @@ z-index:50;
 
 </div>
 
-<div class="signalLost" id="signalLost">SIGNAL LOST</div>
-<div class="signalRecovered" id="signalRecovered">SIGNAL RECOVERED</div>
-
-<div id="bootSequence" class="bootSequence">
-<div id="bootText">PLAYBACK INITIATED</div>
-</div>
-
-<div id="vhsJump" class="vhsJump">TRACKING ERROR</div>
-
-<div class="whiteFlash" id="flash"></div>
-<div class="staticLayer" id="static"></div>
-
 <div class="contentLayer">
 
 <audio id="whisper" src="whisper.mp3" loop preload="auto"></audio>
-<audio id="screech" src="screech.mp3"></audio>
+
+<!-- INTRO -->
+
+<div class="screen active" id="intro">
+
+<h2>FOUND CAMERA</h2>
+
+<div class="storyText">
+
+Recovered camera discovered in wooded area.<br><br>
+
+Footage partially corrupted.<br>
+Playback unstable.<br><br>
+
+Archive reconstruction in progress.
+
+</div>
+
+<button onclick="goTo('c1')">OPEN RECORDING</button>
+
+</div>
 
 <!-- CH1 -->
 
-<div class="screen active" id="c1">
+<div class="screen" id="c1">
 
 <h2>LOST FOOTAGE</h2>
 
 <div class="storyText">
+
 Recovered recording.<br>
 Playback unstable.<br><br>
 
@@ -413,15 +304,16 @@ Julie Eells<br><br>
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
+
 </div>
 
-<div class="imagePanel">
+<div class="imagePanel" id="ch1img">
 <img src="early1.png">
 </div>
 
 <div class="storyText" id="countdown"></div>
 
-<button onclick="bootPlayback(2)">INITIATE PLAYBACK</button>
+<button onclick="goTo('c2')">INITIATE PLAYBACK</button>
 
 </div>
 
@@ -448,25 +340,19 @@ Life moved forward and their paths drifted apart.<br><br>
 Until one quiet night, years later,
 they unexpectedly ran into each other again.<br><br>
 
-This time was different.<br><br>
-
-Some meetings feel ordinary at the time.<br><br>
-
-But years later,
-you realize it was fate patiently waiting
-for the right moment.
+This time was different.
 
 </div>
 
-<div class="imageTop">
+<div class="imageTop" id="ch2img1">
 <img src="early2.png">
 </div>
 
-<div class="imageBottom">
+<div class="imageBottom" id="ch2img2">
 <img src="early3.png">
 </div>
 
-<button onclick="goTo(3)">CONTINUE ARCHIVE</button>
+<button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
 
 </div>
 
@@ -502,73 +388,9 @@ they realized something had changed forever.
 <img src="c3-2.png">
 </div>
 
-<button onclick="goTo(4)">CONTINUE ARCHIVE</button>
+<button onclick="goTo('c4')">CONTINUE ARCHIVE</button>
 
 </div>
-  
-<!-- CH4 -->
-
-<div class="screen" id="c4">
-
-<h2>WEDDING DETAILS</h2>
-
-<div class="storyText">
-
-October 24, 2026<br>
-5:00 PM – 9:00 PM<br>
-The Conservatory — Acworth, GA
-
-</div>
-
-<button onclick="goTo(5)">CONTINUE</button>
-
-</div>
-
-<!-- CH5 -->
-
-<div class="screen" id="c5">
-
-<h2>WEDDING PARTY</h2>
-
-<div class="storyText">
-
-Details coming soon
-
-</div>
-
-<button onclick="goTo(6)">CONTINUE</button>
-
-</div>
-
-<!-- CH6 -->
-
-<div class="screen" id="c6">
-
-<h2>CONTRIBUTION PORTAL</h2>
-
-<div class="storyText">
-
-Optional contributions
-
-</div>
-
-<button onclick="goTo(7)">CONTINUE</button>
-
-</div>
-
-<!-- CH7 -->
-
-<div class="screen" id="c7">
-
-<h2>ENTER THE ARCHIVE</h2>
-
-<div class="storyText">Please confirm your presence.</div>
-
-<button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
-
-</div>
-
-<div class="ending" id="ending">TRANSMISSION LOST</div>
 
 </div>
 
@@ -592,104 +414,60 @@ updateVHSTime();
 setInterval(updateVHSTime,1000);
 
 
-/* CH1 IMAGE */
-
-window.addEventListener("load",function(){
-
-setTimeout(()=>{
-const img=document.querySelector(".imagePanel");
-if(img) img.classList.add("show");
-},1500);
-
-});
-
-
-/* BOOT */
-
-function bootPlayback(n){
-
-const boot=document.getElementById("bootSequence");
-const whisper=document.getElementById("whisper");
-
-if(whisper){
-whisper.volume=0.25;
-whisper.play().catch(()=>{});
-}
-
-boot.style.display="flex";
-
-setTimeout(()=>{
-boot.style.display="none";
-goTo(n);
-},2600);
-
-}
-
-
 /* NAVIGATION */
 
-function goTo(n){
+function goTo(id){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 
-const next=document.getElementById("c"+n);
+const next=document.getElementById(id);
+
 if(next) next.classList.add("active");
 
+/* audio start */
 
-/* CH2 IMAGE REVEALS */
+const whisper=document.getElementById("whisper");
 
-if(n===2){
+if(whisper && whisper.paused){
+whisper.volume=.25;
+whisper.play().catch(()=>{});
+}
+
+/* chapter reveals */
+
+if(id==="c1"){
 
 setTimeout(()=>{
-const t=document.querySelector(".imageTop");
-if(t) t.classList.add("show");
+document.getElementById("ch1img").classList.add("show");
+},1500);
+
+}
+
+if(id==="c2"){
+
+setTimeout(()=>{
+document.getElementById("ch2img1").classList.add("show");
 },1200);
 
 setTimeout(()=>{
-const b=document.querySelector(".imageBottom");
-if(b) b.classList.add("show");
+document.getElementById("ch2img2").classList.add("show");
 },4200);
 
 }
 
-
-/* CH3 GLITCH PHOTO REVEAL */
-
-if(n===3){
-
-let i1=document.getElementById("c3img1");
-let i2=document.getElementById("c3img2");
-
-let img1=i1.querySelector("img");
-let img2=i2.querySelector("img");
-
-i1.classList.remove("show","static");
-i2.classList.remove("show","static");
-
-img1.style.opacity=0;
-img2.style.opacity=0;
-
-i1.classList.add("static");
+if(id==="c3"){
 
 setTimeout(()=>{
-i1.classList.remove("static");
-i1.classList.add("show");
-img1.style.opacity=1;
-},2000);
+document.getElementById("c3img1").classList.add("show");
+},1200);
 
 setTimeout(()=>{
-i2.classList.add("static");
-},3800);
-
-setTimeout(()=>{
-i2.classList.remove("static");
-i2.classList.add("show");
-img2.style.opacity=1;
-},5500);
+document.getElementById("c3img2").classList.add("show");
+},4200);
 
 }
 
-} /* <-- THIS WAS THE MISSING BRACKET */
+}
 
 
 /* COUNTDOWN */
@@ -708,174 +486,8 @@ days+" DAYS UNTIL CEREMONY";
 
 }
 
-setInterval(updateCountdown,60000);
 updateCountdown();
-
-
-/* END TRANSMISSION */
-
-function endTransmission(){
-
-document.body.classList.add("screenShake");
-
-setTimeout(()=>{
-document.getElementById("flash").classList.add("active");
-},500);
-
-setTimeout(()=>{
-document.getElementById("static").style.display="block";
-},900);
-
-setTimeout(()=>{
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById("ending").style.display="block";
-},2500);
-
-}
-
-
-/* ===========================
-CINEMATIC VHS UPGRADE PACK
-=========================== */
-
-
-/* RANDOM SIGNAL GLITCH */
-
-function randomSignalGlitch(){
-
-const lost=document.getElementById("signalLost");
-const recovered=document.getElementById("signalRecovered");
-
-lost.style.opacity=1;
-
-setTimeout(()=>{
-lost.style.opacity=0;
-recovered.style.opacity=1;
-
-setTimeout(()=>{
-recovered.style.opacity=0;
-},700);
-
-},900);
-
-}
-
-
-/* RANDOM TRACKING ERROR */
-
-function randomTracking(){
-
-const jump=document.getElementById("vhsJump");
-
-jump.classList.add("active");
-
-setTimeout(()=>{
-jump.classList.remove("active");
-},400);
-
-}
-
-
-/* AUDIO DRIFT */
-
-function randomAudioWarp(){
-
-const whisper=document.getElementById("whisper");
-
-if(!whisper) return;
-
-let rand=Math.random()*0.05;
-whisper.playbackRate=1+rand;
-
-}
-
-
-/* CAMERA SHAKE */
-
-function randomCameraShake(){
-
-if(Math.random()<0.3){
-
-document.body.classList.add("screenShake");
-
-setTimeout(()=>{
-document.body.classList.remove("screenShake");
-},500);
-
-}
-
-}
-
-
-/* STATIC BLAST */
-
-function randomStaticBlast(){
-
-if(Math.random()<0.15){
-
-const static=document.getElementById("static");
-
-static.style.display="block";
-
-setTimeout(()=>{
-static.style.display="none";
-},350);
-
-}
-
-}
-
-
-/* MASTER AMBIENCE LOOP */
-
-setInterval(()=>{
-
-let roll=Math.random();
-
-if(roll<0.15) randomSignalGlitch();
-if(roll>0.15 && roll<0.3) randomTracking();
-if(roll>0.3 && roll<0.5) randomCameraShake();
-if(roll>0.5 && roll<0.65) randomStaticBlast();
-
-randomAudioWarp();
-
-},8000);
-
-
-/* VHS TIME DRIFT */
-
-setInterval(()=>{
-
-const t=document.getElementById("vhsTime");
-
-if(Math.random()<0.1){
-
-t.style.transform="translateX(3px)";
-
-setTimeout(()=>{
-
-t.style.transform="translateX(-3px)");
-
-setTimeout(()=>{
-t.style.transform="translateX(0)";
-},80);
-
-},80);
-
-}
-
-},4000);
-
-
-/* OCCASIONAL SIGNAL CUT */
-
-setInterval(()=>{
-
-if(Math.random()<0.08){
-randomSignalGlitch();
-}
-
-},15000);
+setInterval(updateCountdown,60000);
 
 </script>
 
