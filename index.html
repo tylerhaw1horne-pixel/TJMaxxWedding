@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Recovered Archive — 10.24.2026</title>
 
 <style>
+
+/* RESET */
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
@@ -15,11 +19,10 @@ width:100%;
 background:#050505;
 color:white;
 font-family:'Courier New', monospace;
-
 overflow:hidden;
 }
 
-/* ================= VIDEO BACKGROUND ================= */
+/* VIDEO */
 
 .videoLayer{
 position:fixed;
@@ -36,55 +39,27 @@ width:100%;
 height:100%;
 object-fit:cover;
 filter:brightness(.65) contrast(1.3);
-transition:transform 1s ease, filter 1s ease;
-will-change:transform;
-
 animation:cameraDrift 22s infinite ease-in-out;
 }
-/* ================= HANDHELD CAMERA DRIFT ================= */
 
 @keyframes cameraDrift{
-
-0%{
-transform:scale(1.02) translate(0px,0px);
+0%{transform:scale(1.02)}
+50%{transform:scale(1.03) translate(4px,-3px)}
+100%{transform:scale(1.02)}
 }
 
-25%{
-transform:scale(1.025) translate(-6px,3px);
-}
-
-50%{
-transform:scale(1.03) translate(5px,-4px);
-}
-
-75%{
-transform:scale(1.025) translate(-3px,4px);
-}
-
-100%{
-transform:scale(1.02) translate(0px,0px);
-}
-
-}
-/* ================= ATMOSPHERE ================= */
+/* ATMOSPHERE */
 
 .darkOverlay{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+inset:0;
 background:rgba(0,0,0,.65);
 z-index:1;
-pointer-events:none;
 }
 
 .scanLayer{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+inset:0;
 background:repeating-linear-gradient(
 0deg,
 rgba(255,255,255,.03),
@@ -93,10 +68,9 @@ transparent 1px,
 transparent 3px
 );
 z-index:2;
-pointer-events:none;
 }
 
-/* ================= CONTENT ================= */
+/* CONTENT */
 
 .contentLayer{
 position:relative;
@@ -110,21 +84,12 @@ top:0;
 left:0;
 width:100%;
 height:100vh;
-
-padding:80px 25px 40px;
+padding:80px 25px;
 text-align:center;
-
-opacity:0;
-transform:translateY(20px);
-transition:opacity .6s ease, transform .6s ease;
-
-overflow:hidden;
 }
 
 .screen.active{
 display:block;
-opacity:1;
-transform:translateY(0);
 }
 
 h2{
@@ -140,86 +105,91 @@ line-height:1.5;
 font-size:14px;
 }
 
-/* ================= IMAGE SYSTEM ================= */
+/* IMAGE PANEL */
 
 .imagePanel{
 width:360px;
 max-width:88%;
 margin:25px auto;
-position:relative;
-overflow:hidden;
-
 border:2px solid rgba(255,255,255,.4);
-
-box-shadow:
-0 0 80px rgba(0,0,0,.9),
-0 0 20px rgba(255,255,255,.08);
-
+box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
 filter:brightness(.35);
-transform:scale(1.02);
-
-transition:
-opacity 6s ease,
-filter 6s ease,
-transform 14s ease;
+transition:opacity 6s ease, filter 6s ease;
 }
-
-/* IMAGE */
-
-.imagePanel img{
-width:100%;
-height:auto;
-display:block;
-
-animation:slowZoom 45s ease-in-out infinite alternate;
-}
-
-/* VIGNETTE FADE */
-
-.imagePanel::after{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-
-background:radial-gradient(
-circle at center,
-rgba(0,0,0,0) 65%,
-rgba(0,0,0,.55) 100%
-);
-}
-
-/* REVEAL */
 
 .imagePanel.show{
 opacity:1;
 filter:brightness(1);
-transform:scale(1);
-
-animation:glowPulse 10s infinite alternate;
 }
 
-/* GLOW */
-
-@keyframes glowPulse{
-0%{filter:brightness(1);}
-50%{filter:brightness(1.08);}
-100%{filter:brightness(.95);}
+.imagePanel img{
+width:100%;
+display:block;
 }
 
-/* CINEMATIC ZOOM */
+/* CH2 IMAGES */
 
-@keyframes slowZoom{
-0%{transform:scale(1);}
-100%{transform:scale(1.07);}
+.imageTop,.imageBottom{
+width:220px;
+margin:20px auto;
+opacity:0;
+transition:opacity 4s ease;
 }
 
+.imageTop.show,.imageBottom.show{
+opacity:1;
+}
 
-/* ================= BUTTONS ================= */
+.imageTop img,.imageBottom img{
+width:100%;
+}
+
+/* CH3 GLITCH PHOTOS */
+
+.c3photo{
+width:320px;
+margin:20px auto;
+position:relative;
+overflow:hidden;
+border:2px solid rgba(255,255,255,.4);
+box-shadow:0 0 80px rgba(0,0,0,.9);
+}
+
+.c3photo img{
+width:100%;
+opacity:0;
+transition:opacity 4s ease;
+}
+
+.c3photo.show img{
+opacity:1;
+}
+
+.c3photo::before{
+content:"";
+position:absolute;
+inset:0;
+background:repeating-linear-gradient(
+0deg,
+white 0px,
+white 2px,
+black 2px,
+black 4px
+);
+opacity:0;
+}
+
+.c3photo.static::before{
+opacity:.5;
+animation:staticFlicker .3s steps(2) infinite;
+}
+
+@keyframes staticFlicker{
+50%{opacity:.2}
+}
+
+/* BUTTON */
 
 button{
 padding:12px 38px;
@@ -228,13 +198,7 @@ background:black;
 color:white;
 letter-spacing:4px;
 cursor:pointer;
-
 margin-top:35px;
-display:block;
-margin-left:auto;
-margin-right:auto;
-
-transition:.3s;
 }
 
 button:hover{
@@ -242,109 +206,71 @@ background:white;
 color:black;
 }
 
-/* ================= WEDDING PARTY ================= */
+/* HUD */
 
-.partyContainer{
-margin-top:60px;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:50px;
-}
-
-.partyCard{
-background:rgba(0,0,0,.85);
-padding:45px;
-width:330px;
-border:1px solid rgba(255,255,255,.3);
-box-shadow:0 0 60px rgba(255,0,0,.1);
-}
-
-.partyCard h3{
-margin-bottom:20px;
-letter-spacing:4px;
-border-bottom:1px solid rgba(255,255,255,.4);
-padding-bottom:10px;
-}
-
-.partyCard div{
-margin-bottom:10px;
-}
-
-/* ================= DONATION ================= */
-
-.vaultInner{
-background:rgba(0,0,0,.85);
-padding:60px;
-width:540px;
-max-width:95%;
-margin:auto;
-border:1px solid rgba(255,255,255,.3);
-box-shadow:0 0 100px rgba(255,0,0,.15);
-}
-
-.donationButtons{
-margin-top:30px;
-display:flex;
-flex-direction:column;
-gap:20px;
-}
-
-/* ================= RSVP ================= */
-
-.rsvpForm{
-margin-top:40px;
-display:flex;
-flex-direction:column;
-gap:18px;
-width:320px;
-margin-left:auto;
-margin-right:auto;
-}
-
-.rsvpForm input,
-.rsvpForm select,
-.rsvpForm textarea{
-padding:10px;
-background:black;
-border:1px solid white;
-color:white;
-}
-
-/* ================= CRASH SEQUENCE ================= */
-
-.whiteFlash{
+.vhsHUD{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-opacity:0;
-z-index:10;
+inset:0;
 pointer-events:none;
+z-index:5;
 }
 
-.whiteFlash.active{
-animation:flash .4s ease;
+.recIndicator{
+position:absolute;
+top:15px;
+left:18px;
+display:flex;
+gap:6px;
+font-size:14px;
 }
 
-@keyframes flash{
-50%{opacity:.9;}
+.recDot{
+width:10px;
+height:10px;
+background:red;
+border-radius:50%;
+animation:blink 1.3s infinite;
 }
 
-.staticLayer{
+@keyframes blink{
+50%{opacity:.3}
+}
+
+.vhsTimestamp{
+position:absolute;
+bottom:25px;
+left:20px;
+font-size:14px;
+}
+
+/* BOOT */
+
+.bootSequence{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:repeating-linear-gradient(
-0deg,white 0px,white 2px,black 2px,black 4px
-);
+inset:0;
+background:black;
 display:none;
-z-index:11;
+align-items:center;
+justify-content:center;
+z-index:20;
+font-size:28px;
+letter-spacing:6px;
 }
+
+/* SIGNAL */
+
+.signalLost,.signalRecovered{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:36px;
+letter-spacing:8px;
+opacity:0;
+z-index:30;
+}
+
+/* ENDING */
 
 .ending{
 display:none;
@@ -354,456 +280,6 @@ font-size:28px;
 letter-spacing:8px;
 }
 
-.screenShake{
-animation:shake .2s linear infinite;
-}
-
-@keyframes shake{
-25%{transform:translate(-8px,4px);}
-50%{transform:translate(8px,-4px);}
-}
-/* ================= VHS CAMERA HUD ================= */
-
-.vhsHUD{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-pointer-events:none;
-
-z-index:5;
-
-font-family:'Courier New', monospace;
-color:white;
-}
-
-/* REC indicator */
-
-.recIndicator{
-position:absolute;
-top:15px;
-left:18px;
-font-size:14px;
-letter-spacing:2px;
-display:flex;
-align-items:center;
-gap:6px;
-opacity:.9;
-}
-
-.recDot{
-width:10px;
-height:10px;
-background:red;
-border-radius:50%;
-animation:recBlink 1.4s infinite;
-}
-
-@keyframes recBlink{
-0%{opacity:1}
-50%{opacity:.2}
-100%{opacity:1}
-}
-
-/* timestamp */
-
-.vhsTimestamp{
-position:absolute;
-bottom:25px;
-left:20px;
-
-font-size:14px;
-letter-spacing:2px;
-opacity:.85;
-}
-
-/* tape distortion */
-
-.vhsHUD::after{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:linear-gradient(
-transparent 96%,
-rgba(255,255,255,.06) 100%
-);
-animation:vhsTracking 5.6s infinite linear;
-opacity:.4;
-}
-
-@keyframes vhsTracking{
-0%{transform:translateY(-110%)}
-100%{transform:translateY(110%)}
-}
-/* ================= MOBILE ================= */
-@media(max-width:768px){
-#c2 .imageTop{
-top:30px;
-left:15px;
-width:85px;
-}
-
-#c2 .imageBottom{
-bottom:30px;
-right:15px;
-width:90px;
-}
-.screen{
-padding:45px 20px 20px;
-overflow:hidden;
-}
-.imagePanel{
-width:260px;
-margin:20px auto;
-}
-
-.storyText{
-font-size:13px;
-margin:14px auto;
-}
-
-button{
-margin-top:25px;
-}
-
-}
-
-
-/* ================= CHAPTER 2 LAYOUT ================= */
-
-#c2{
-position:relative;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:flex-start;
-text-align:center;
-
-padding-top:120px;
-padding-left:20px;
-padding-right:20px;
-}
-
-#c2 .storyText{
-max-width:520px;
-font-size:14px;
-line-height:1.45;
-margin:12px auto;
-z-index:2;
-}
-
-#c2 .imageTop{
-margin-top:20px;
-width:220px;
-}
-
-#c2 .imageBottom{
-margin-top:25px;
-width:220px;
-}
-
-#c2 img{
-width:100%;
-height:auto;
-display:block;
-}
-
-#c2 button{
-margin-top:18px;
-z-index:2;
-}
-
-/* ================= CHAPTER 2 IMAGE ANIMATION ================= */
-
-#c2 .imageTop,
-#c2 .imageBottom{
-opacity:0;
-transform:scale(1.03);
-transition:opacity 4s ease, transform 12s ease;
-}
-
-#c2 .imageTop.show,
-#c2 .imageBottom.show{
-opacity:1;
-transform:scale(1);
-}
-  /* ================= CHAPTER 3 GLITCH PHOTO SYSTEM ================= */
-
-.c3photo{
-position:relative;
-width:320px;
-max-width:85%;
-margin:20px auto;
-overflow:hidden;
-border:2px solid rgba(255,255,255,.35);
-box-shadow:0 0 80px rgba(0,0,0,.9);
-}
-
-/* actual image */
-
-.c3photo img{
-width:100%;
-height:auto;
-display:block;
-opacity:0;
-filter:brightness(.6);
-transition:opacity 4s ease, filter 4s ease;
-}
-
-/* static overlay */
-
-.c3photo::before{
-content:"";
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:repeating-linear-gradient(
-0deg,
-white 0px,
-white 2px,
-black 2px,
-black 4px
-);
-opacity:0;
-pointer-events:none;
-}
-
-/* static flicker */
-
-.c3photo.static::before{
-animation:staticFlicker .35s steps(3) infinite;
-opacity:.6;
-}
-
-/* signal restored */
-
-.c3photo.show img{
-opacity:1;
-filter:brightness(1);
-}
-
-/* static animation */
-
-@keyframes staticFlicker{
-0%{opacity:.7}
-50%{opacity:.4}
-100%{opacity:.8}
-}
-
-/* mobile */
-
-@media(max-width:768px){
-
-.c3photo{
-position:relative;
-width:300px;
-max-width:75%;
-margin:16px auto;
-
-overflow:hidden;
-border:2px solid rgba(255,255,255,.35);
-box-shadow:0 0 80px rgba(0,0,0,.9);
-}
-.c3photo img{
-width:100%;
-height:auto;
-max-height:240px;
-object-fit:cover;
-}
-  
-#c3{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:flex-start;
-text-align:center;
-
-padding-top:110px;
-}
-
-#c3 .storyText{
-max-width:520px;
-margin:12px auto;
-line-height:1.45;
-font-size:13px;
-}
-body{
-overscroll-behavior:none;
-}
-
-}
-
-/* ================= SIGNAL OVERLAYS ================= */
-
-.signalLost,
-.signalRecovered{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-
-font-size:38px;
-letter-spacing:8px;
-font-weight:bold;
-
-color:white;
-text-align:center;
-
-opacity:0;
-pointer-events:none;
-
-z-index:40;
-
-text-shadow:
-0 0 10px white,
-0 0 30px red,
-0 0 60px red;
-}
-
-
-/* VHS signal glitch */
-
-@keyframes signalFlicker{
-
-0%{
-opacity:0;
-transform:translate(-50%,-50%) scale(1);
-}
-
-30%{
-opacity:1;
-transform:translate(-50%,-50%) scale(1.05);
-}
-
-60%{
-opacity:.35;
-}
-
-100%{
-opacity:0;
-transform:translate(-50%,-50%) scale(.98);
-}
-
-}
-/* ================= SIGNAL RECOVERED ANIMATION ================= */
-
-.signalRecovered{
-animation:signalRecoveredFlicker .35s steps(2);
-}
-
-@keyframes signalRecoveredFlicker{
-
-0%{
-opacity:0;
-transform:translate(-50%,-50%) scale(1);
-}
-
-40%{
-opacity:1;
-transform:translate(-50%,-50%) scale(1.05);
-}
-
-80%{
-opacity:.4;
-}
-
-100%{
-opacity:0;
-transform:translate(-50%,-50%) scale(.98);
-}
-
-}
-/* ================= PLAYBACK BOOT SEQUENCE ================= */
-
-.bootSequence{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background:black;
-
-display:none;
-align-items:center;
-justify-content:center;
-
-z-index:35;
-
-font-size:26px;
-letter-spacing:6px;
-text-align:center;
-
-pointer-events:none;
-}
-
-.bootSequence.active{
-display:flex;
-animation:bootFlicker .6s steps(2);
-}
-
-@keyframes bootFlicker{
-0%{opacity:0}
-50%{opacity:1}
-100%{opacity:1}
-}
-/* ================= VHS TAPE JUMP ================= */
-
-.vhsJump{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:black;
-color:white;
-
-font-size:28px;
-letter-spacing:6px;
-
-opacity:0;
-pointer-events:none;
-
-z-index:30;
-}
-
-.vhsJump.active{
-animation:vhsJumpFlash .35s steps(2);
-}
-
-@keyframes vhsJumpFlash{
-
-0%{
-opacity:0;
-}
-
-40%{
-opacity:1;
-}
-
-100%{
-opacity:0;
-}
-
-}
-  /* ================= INTERACTION FIX ================= */
-
-.screen button{
-position:relative;
-z-index:50;
-}
 </style>
 </head>
 
@@ -817,41 +293,26 @@ z-index:50;
 
 <div class="darkOverlay"></div>
 <div class="scanLayer"></div>
-  <div class="vhsHUD">
 
-<div class="recIndicator">
-<span class="recDot"></span> REC
-</div>
-
-<div class="vhsTimestamp" id="vhsTime">
-00:00:00
-</div>
-
-<div class="signalLost" id="signalLost">
-SIGNAL LOST
-</div>
-<div class="signalRecovered" id="signalRecovered">
-SIGNAL RECOVERED
+<div class="vhsHUD">
+<div class="recIndicator"><span class="recDot"></span>REC</div>
+<div class="vhsTimestamp" id="vhsTime">00:00:00</div>
 </div>
 
 <div id="bootSequence" class="bootSequence">
 <div id="bootText">PLAYBACK INITIATED</div>
 </div>
-    
-</div>
-<div class="whiteFlash" id="flash"></div>
-<div class="staticLayer" id="static"></div>
-<div id="vhsJump" class="vhsJump">
-TRACKING ERROR
-</div>
+
+<div class="signalLost" id="signalLost">SIGNAL LOST</div>
+<div class="signalRecovered" id="signalRecovered">SIGNAL RECOVERED</div>
 
 <div class="contentLayer">
 
 <audio id="whisper" src="whisper.mp3" loop></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
-  
-<!-- CHAPTER 1 -->
+<!-- CH1 -->
+
 <div class="screen active" id="c1">
 
 <h2>LOST FOOTAGE</h2>
@@ -878,7 +339,8 @@ The Conservatory — Acworth, GA
 
 </div>
 
-<!-- CHAPTER 2 -->
+<!-- CH2 -->
+
 <div class="screen" id="c2">
 
 <h2>RECONNECTION LOG</h2>
@@ -887,26 +349,11 @@ The Conservatory — Acworth, GA
 
 Some stories don’t begin the way you expect them to.<br><br>
 
-Tyler Hawthorne<br>
-Julie Eells<br><br>
+They first crossed paths years ago through mutual friends.<br><br>
 
-They first crossed paths years ago through mutual friends,
-both young and simply passing through the same moment in life.<br><br>
+Years later they met again.<br><br>
 
-At the time, neither of them thought much of it.<br><br>
-
-Life moved forward and their paths drifted apart.<br><br>
-
-Until one quiet night, years later,
-they unexpectedly ran into each other again.<br><br>
-
-This time was different.<br><br>
-
-Some meetings feel ordinary at the time.<br><br>
-
-But years later,
-you realize it was fate patiently waiting
-for the right moment.
+This time was different.
 
 </div>
 
@@ -922,7 +369,8 @@ for the right moment.
 
 </div>
 
-<!-- CHAPTER 3 -->
+<!-- CH3 -->
+
 <div class="screen" id="c3">
 
 <h2>OUR STORY</h2>
@@ -933,17 +381,10 @@ for the right moment.
 
 <div class="storyText">
 
-After that night,
-things began to change.
+After that night things began to change.<br><br>
 
-What started as an unexpected reunion
-slowly became shared days,
-late conversations,
-and memories neither of them wanted to end.
-
-The more time they spent together,
-the clearer it became
-that something rare had found its way into their lives.
+Shared days.<br>
+Late conversations.
 
 </div>
 
@@ -951,424 +392,184 @@ that something rare had found its way into their lives.
 <img src="c3-2.png">
 </div>
 
-<div class="storyText">
-
-Through every step forward,
-every challenge,
-and every quiet moment in between,
-their lives continued to grow closer together.
-
-Somewhere along the way,
-they realized they had already built
-the most perfect little family.
-
-A home filled with love,
-laughter,
-and the life they had always hoped to share.
-
-At that point,
-there was really only one thing left to do —
-
-make their last names the same.
-
-</div>
-
 <button onclick="goTo(4)">CONTINUE ARCHIVE</button>
 
 </div>
 
-<!-- CHAPTER 4 -->
+<!-- CH4 -->
+
 <div class="screen" id="c4">
 <h2>WEDDING DETAILS</h2>
+
 <div class="storyText">
 October 24, 2026<br>
 5:00 PM – 9:00 PM<br>
 The Conservatory — Acworth, GA
 </div>
+
 <button onclick="goTo(5)">CONTINUE</button>
+
 </div>
 
-<!-- CHAPTER 5 -->
+<!-- CH5 -->
+
 <div class="screen" id="c5">
 <h2>WEDDING PARTY</h2>
-<div class="partyContainer">
-<div class="partyCard">
-<h3>BRIDE'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-<div class="partyCard">
-<h3>GROOM'S PARTY</h3>
-<div>Name — Role</div>
-<div>Name — Role</div>
-</div>
-</div>
+
+<div class="storyText">Details coming soon</div>
+
 <button onclick="goTo(6)">CONTINUE</button>
+
 </div>
 
-<!-- CHAPTER 6 -->
+<!-- CH6 -->
+
 <div class="screen" id="c6">
 <h2>CONTRIBUTION PORTAL</h2>
-<div class="vaultInner">
-<p>If you wish to contribute to our future, you may do so below.</p>
-<div class="donationButtons">
-<a href="#">APPLE CASH</a>
-<a href="#">ZELLE</a>
-</div>
-</div>
+
+<div class="storyText">Optional contributions</div>
+
 <button onclick="goTo(7)">CONTINUE</button>
+
 </div>
 
-<!-- CHAPTER 7 -->
+<!-- CH7 -->
+
 <div class="screen" id="c7">
+
 <h2>ENTER THE ARCHIVE</h2>
+
 <div class="storyText">Please confirm your presence.</div>
-<div class="rsvpForm">
-<input type="text" placeholder="Your Name">
-<input type="email" placeholder="Email">
-<select>
-<option>Attending</option>
-<option>Not Attending</option>
-</select>
-<textarea placeholder="Message"></textarea>
-<button>SUBMIT RSVP</button>
-</div>
+
 <button onclick="endTransmission()">FINALIZE TRANSMISSION</button>
+
 </div>
 
 <div class="ending" id="ending">TRANSMISSION LOST</div>
 
 </div>
 
+<script>
 
- <script>
-window.addEventListener("DOMContentLoaded", function(){ 
-/* ================= SIGNAL LOST GLITCH ================= */
+/* VARIABLES */
 
-function triggerSignalLost(){
+var whisper=document.getElementById("whisper");
+var screech=document.getElementById("screech");
 
-const signal = document.getElementById("signalLost");
-
-signal.style.opacity = 1;
-
-setTimeout(()=>{
-signal.style.opacity = 0;
-},300);
-
-}
-
-/* random glitch trigger */
-
-setInterval(()=>{
-
-if(Math.random() < 0.03){
-triggerSignalLost();
-}
-
-},4000);
-  function triggerSignalRecovered(){
-
-const recovered = document.getElementById("signalRecovered");
-
-if(!recovered) return;
-
-recovered.style.opacity = 1;
-
-setTimeout(()=>{
-recovered.style.opacity = 0;
-},350);
-
-}
-/* ================= VHS TIME WITH FLICKER ================= */
+/* CLOCK */
 
 function updateVHSTime(){
 
-const now = new Date();
+const now=new Date();
 
-function pad(n){
-return n.toString().padStart(2,'0');
-}
+const hrs=String(now.getHours()).padStart(2,'0');
+const mins=String(now.getMinutes()).padStart(2,'0');
+const secs=String(now.getSeconds()).padStart(2,'0');
 
-let hrs = pad(now.getHours());
-let mins = pad(now.getMinutes());
-let secs = pad(now.getSeconds());
-
-let month = pad(now.getMonth()+1);
-let day = pad(now.getDate());
-let year = now.getFullYear();
-
-let timeString = month+"."+day+"."+year+"   "+hrs+":"+mins+":"+secs;
-
-/* occasional VHS glitch */
-
-if(Math.random() < 0.05){
-
-timeString =
-month+"."+day+"."+year+"   "+hrs+":"+mins+":"+
-(Math.random() < .5 ? "_" : "##");
-
-}
-
-document.getElementById("vhsTime").innerText = timeString;
+document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
 
 }
 
 setInterval(updateVHSTime,1000);
-updateVHSTime();
 
-window.addEventListener("load", function(){
+/* IMAGE FADE */
 
-const panel = document.querySelector("#c1 .imagePanel");
+window.addEventListener("load",function(){
 
-if(panel){
+const panel=document.querySelector(".imagePanel");
 
-setTimeout(function(){
+setTimeout(()=>{
 panel.classList.add("show");
-}, 1500);
-
-}
+},1500);
 
 });
 
-var whisper, screech, video, flash, staticLayer;
+/* BOOT */
 
-whisper = document.getElementById("whisper");
-screech = document.getElementById("screech");
-video = document.getElementById("bgVideo");
-flash = document.getElementById("flash");
-staticLayer = document.getElementById("static");
-
-});
-
-var whisperStarted=false;
-
-function startWhisper(){
-
-if(!whisperStarted && whisper){
-
-whisper.volume = .08;
-whisper.play().catch(()=>{});
-whisperStarted = true;
-
-}
-
-}
-
-function bootPlayback(nextChapter){
+function bootPlayback(next){
 
 const boot=document.getElementById("bootSequence");
-const text=document.getElementById("bootText");
 
 boot.style.display="flex";
-text.innerText="PLAYBACK INITIATED";
-
-setTimeout(()=>{
-text.innerText="TRACKING SIGNAL...";
-},1200);
-
-setTimeout(()=>{
-text.innerText="SIGNAL RECOVERED";
-},2400);
 
 setTimeout(()=>{
 boot.style.display="none";
-goTo(nextChapter);
-},3400);
+goTo(next);
+},2500);
 
 }
-  
+
+/* NAV */
+
 function goTo(n){
-
-try{
-
-const jump=document.getElementById("vhsJump");
-
-/* VHS tape jump */
-
-if(jump){
-jump.classList.add("active");
-}
-
-/* small delay before switching chapter */
-
-setTimeout(()=>{
-
-/* start ambience */
-if(typeof startWhisper==="function"){
-startWhisper();
-}
-
-if(whisper){
-whisper.volume=.25;
-setTimeout(()=>{ if(whisper) whisper.volume=.08; },400);
-}
-
-/* hide all screens */
 
 document.querySelectorAll(".screen").forEach(s=>{
 s.classList.remove("active");
 });
 
-/* activate target */
+document.getElementById("c"+n).classList.add("active");
 
-var target=document.getElementById("c"+n);
+if(n===2){
 
-if(target){
-target.classList.add("active");
+setTimeout(()=>document.querySelector(".imageTop").classList.add("show"),1000);
+setTimeout(()=>document.querySelector(".imageBottom").classList.add("show"),3000);
+
 }
 
-/* chapter triggers */
+if(n===3){
 
-if(n===2 && typeof revealChapter2Images==="function"){
-revealChapter2Images();
-}
+let i1=document.getElementById("c3img1");
+let i2=document.getElementById("c3img2");
 
-if(n===3 && typeof revealChapter3Images==="function"){
-revealChapter3Images();
-}
-
-/* panel images */
-
-if(target){
-target.querySelectorAll(".imagePanel").forEach((panel,i)=>{
-setTimeout(()=>{
-panel.classList.add("show");
-},i*600);
-});
-}
-
-window.scrollTo(0,0);
-
-},180);
-
-/* remove VHS jump */
+i1.classList.add("static");
 
 setTimeout(()=>{
-if(jump){
-jump.classList.remove("active");
-}
-},400);
-
-}
-catch(err){
-console.log("Navigation error:",err);
-}
-
-}
-  
-function revealChapter2Images(){
-
-const img1 = document.querySelector("#c2 .imageTop");
-const img2 = document.querySelector("#c2 .imageBottom");
-
-if(img1){
-setTimeout(()=>{
-img1.classList.add("show");
-},1200);
-}
-
-if(img2){
-setTimeout(()=>{
-img2.classList.add("show");
-},4200);
-}
-
-}
-
-function revealChapter3Images(){
-
-const img1 = document.getElementById("c3img1");
-const img2 = document.getElementById("c3img2");
-
-/* FIRST PHOTO */
-
-if(img1){
-
-img1.classList.add("static");
-
-/* signal glitch */
-triggerSignalLost();
-
-setTimeout(()=>{
-triggerSignalRecovered();
-img1.classList.remove("static");
-img1.classList.add("show");
+i1.classList.remove("static");
+i1.classList.add("show");
 },2000);
 
-}
-
-/* SECOND PHOTO */
-
-if(img2){
+setTimeout(()=>{
+i2.classList.add("static");
+},3000);
 
 setTimeout(()=>{
-
-img2.classList.add("static");
-
-/* signal glitch again */
-triggerSignalLost();
-
-setTimeout(()=>{
-triggerSignalRecovered();
-img2.classList.remove("static");
-img2.classList.add("show");
-},2000);
-
-},4000);
+i2.classList.remove("static");
+i2.classList.add("show");
+},5000);
 
 }
-  
+
 }
+
+/* COUNTDOWN */
+
 function updateCountdown(){
 
-const weddingDate = new Date("Oct 24, 2026 17:00:00").getTime();
-const now = new Date().getTime();
+const wedding=new Date("Oct 24 2026 17:00:00").getTime();
+const now=new Date().getTime();
 
-const diff = weddingDate - now;
+let diff=wedding-now;
 
-const days = Math.floor(diff / (1000*60*60*24));
-const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-const minutes = Math.floor((diff % (1000*60*60)) / (1000*60));
+let days=Math.floor(diff/(1000*60*60*24));
 
-const cd = document.getElementById("countdown");
-
-if(cd){
-cd.innerHTML =
-days + " DAYS " + hours + " HOURS " + minutes + " MINUTES UNTIL CEREMONY";
-}
-
+document.getElementById("countdown").innerText=
+days+" DAYS UNTIL CEREMONY";
 
 }
-  
+
 setInterval(updateCountdown,60000);
 updateCountdown();
-  
+
+/* END */
+
 function endTransmission(){
-document.body.classList.add("screenShake");
-video.style.transform="scaleX(-1)";
-video.style.filter="brightness(.3) contrast(1.6)";
 
-setTimeout(()=>{
-flash.classList.add("active");
-},500);
-
-setTimeout(()=>{
-screech.volume=.8;
-screech.play().catch(()=>{});
-if(whisper){
-whisper.pause();
-}
-staticLayer.style.display="block";
-},900);
-
-setTimeout(()=>{
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+
 document.getElementById("ending").style.display="block";
-document.body.classList.remove("screenShake");
-},2500);
+
 }
 
-});
 </script>
 
 </body>
