@@ -394,7 +394,7 @@ z-index:50;
 
 <div class="contentLayer">
 
-<audio id="whisper" src="whisper.mp3" loop></audio>
+<audio id="whisper" src="whisper.mp3" loop preload="auto"></audio>
 <audio id="screech" src="screech.mp3"></audio>
 
 <!-- CH1 -->
@@ -435,9 +435,26 @@ The Conservatory — Acworth, GA
 
 Some stories don’t begin the way you expect them to.<br><br>
 
-They first crossed paths years ago through mutual friends.<br><br>
+Tyler Hawthorne<br>
+Julie Eells<br><br>
 
-Until one quiet night years later when they ran into each other again.
+They first crossed paths years ago through mutual friends,
+both young and simply passing through the same moment in life.<br><br>
+
+At the time, neither of them thought much of it.<br><br>
+
+Life moved forward and their paths drifted apart.<br><br>
+
+Until one quiet night, years later,
+they unexpectedly ran into each other again.<br><br>
+
+This time was different.<br><br>
+
+Some meetings feel ordinary at the time.<br><br>
+
+But years later,
+you realize it was fate patiently waiting
+for the right moment.
 
 </div>
 
@@ -465,9 +482,19 @@ Until one quiet night years later when they ran into each other again.
 
 <div class="storyText">
 
-What started as an unexpected reunion slowly became shared days,
+After that night,
+things began to change.<br><br>
+
+What started as an unexpected reunion
+slowly became shared days,
 late conversations,
-and a life growing together.
+and a life growing together.<br><br>
+
+It wasn't sudden.<br>
+It wasn't planned.<br><br>
+
+But somewhere along the way,
+they realized something had changed forever.
 
 </div>
 
@@ -478,7 +505,7 @@ and a life growing together.
 <button onclick="goTo(4)">CONTINUE ARCHIVE</button>
 
 </div>
-
+  
 <!-- CH4 -->
 
 <div class="screen" id="c4">
@@ -579,6 +606,12 @@ document.querySelector(".imagePanel").classList.add("show");
 function bootPlayback(n){
 
 const boot=document.getElementById("bootSequence");
+const whisper=document.getElementById("whisper");
+
+if(whisper){
+whisper.volume=0.25;
+whisper.play().catch(()=>{});
+}
 
 boot.style.display="flex";
 
