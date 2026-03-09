@@ -237,20 +237,157 @@ button:hover{
 background:white;
 color:black;
 }
+/* CAMERA OBJECT */
 
+.cameraObject{
+width:220px;
+height:140px;
+margin:90px auto;
+cursor:pointer;
+position:relative;
+}
+
+.cameraBody{
+width:200px;
+height:110px;
+background:#111;
+border:2px solid #666;
+position:absolute;
+left:10px;
+top:15px;
+box-shadow:0 0 30px black;
+}
+
+.cameraLens{
+width:70px;
+height:70px;
+border-radius:50%;
+border:4px solid #777;
+background:black;
+position:absolute;
+left:75px;
+top:35px;
+box-shadow:0 0 20px rgba(255,255,255,.15) inset;
+}
+
+.cameraLabel{
+margin-top:150px;
+font-size:13px;
+letter-spacing:2px;
+opacity:.8;
+}
+
+/* VHS PHOTO DISTORTION */
+
+.vhsPhoto img{
+animation:vhsNoise 6s infinite;
+}
+
+@keyframes vhsNoise{
+
+0%{filter:contrast(1) brightness(.9)}
+5%{filter:contrast(1.6)}
+6%{filter:contrast(.7)}
+7%{filter:contrast(1)}
+50%{filter:contrast(1.2)}
+51%{filter:contrast(.6)}
+52%{filter:contrast(1)}
+100%{filter:contrast(1)}
+
+}
+/* VHS GLITCH BURSTS */
+
+.glitchFlash{
+animation:glitchFlash .15s;
+}
+
+@keyframes glitchFlash{
+
+0%{filter:brightness(1)}
+50%{filter:brightness(2.5) contrast(3)}
+100%{filter:brightness(1)}
+
+}
+/* VHS TRACKING DISTORTION */
+
+.trackingBar{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:60px;
+
+background:linear-gradient(
+to bottom,
+rgba(255,255,255,.25),
+rgba(255,255,255,0)
+);
+
+mix-blend-mode:overlay;
+
+opacity:.25;
+
+animation:trackingMove 9s infinite linear;
+
+pointer-events:none;
+
+z-index:4;
+
+}
+
+@keyframes trackingMove{
+
+0%{transform:translateY(-80px)}
+100%{transform:translateY(110vh)}
+
+}
+/* TAPE REWIND */
+
+.rewind{
+
+animation:rewind .35s;
+
+}
+
+@keyframes rewind{
+
+0%{transform:scale(1)}
+50%{transform:scale(1.05) skewX(2deg)}
+100%{transform:scale(1)}
+
+}
+/* CAMERA SHAKE */
+
+@keyframes cameraShake{
+
+0%{transform:translate(0,0)}
+25%{transform:translate(1px,-1px)}
+50%{transform:translate(-1px,1px)}
+75%{transform:translate(1px,1px)}
+100%{transform:translate(0,0)}
+
+}
+
+.videoLayer{
+
+animation:cameraShake 5s infinite;
+
+}
 </style>
 </head>
 
 <body>
 
-<div class="videoLayer">
-<video id="bgVideo" autoplay muted loop playsinline>
+<div class="videoLayer" id="videoLayer" style="display:none;">
+<video id="bgVideo" muted loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 </div>
 
 <div class="darkOverlay"></div>
 <div class="scanLayer"></div>
+<div class="trackingBar"></div>
 
 <div class="vhsHUD">
 
@@ -272,18 +409,18 @@ color:black;
 
 <h2>FOUND CAMERA</h2>
 
-<div class="storyText">
+<div class="cameraObject" onclick="openCamera()">
 
-Recovered camera discovered in wooded area.<br><br>
+<div class="cameraLens"></div>
 
-Footage partially corrupted.<br>
-Playback unstable.<br><br>
+<div class="cameraBody"></div>
 
-Archive reconstruction in progress.
-
+<div class="cameraLabel">
+Recovered Camcorder<br>
+Click to Open Recording
 </div>
 
-<button onclick="goTo('c1')">OPEN RECORDING</button>
+</div>
 
 </div>
 
@@ -295,25 +432,33 @@ Archive reconstruction in progress.
 
 <div class="storyText">
 
-Recovered recording.<br>
-Playback unstable.<br><br>
+Recovered recording detected.<br>
+Initializing tape playback...<br><br>
 
-Tyler Hawthorne<br>
-Julie Eells<br><br>
+Signal unstable.<br>
+Tracking distortion present.<br><br>
 
+Archive timestamp:<br>
 October 24, 2026<br>
-5:00 PM – 9:00 PM<br>
-The Conservatory — Acworth, GA
+5:00 PM – 9:00 PM<br><br>
+
+Subjects identified:<br>
+Tyler Hawthorne<br>
+Julie Eells
 
 </div>
 
-<div class="imagePanel" id="ch1img">
+<div class="imagePanel vhsPhoto" id="ch1img">
+
 <img src="early1.png">
+
 </div>
 
 <div class="storyText" id="countdown"></div>
 
-<button onclick="goTo('c2')">INITIATE PLAYBACK</button>
+<button onclick="goTo('c2')">
+PLAY NEXT SEGMENT
+</button>
 
 </div>
 
@@ -325,34 +470,47 @@ The Conservatory — Acworth, GA
 
 <div class="storyText">
 
-Some stories don’t begin the way you expect them to.<br><br>
+Playback recovered from corrupted tape segment.<br><br>
+
+Signal clarity improving...<br><br>
+
+Two names appear repeatedly in the archive.<br><br>
 
 Tyler Hawthorne<br>
 Julie Eells<br><br>
 
-They first crossed paths years ago through mutual friends,
-both young and simply passing through the same moment in life.<br><br>
+The first connection happened years earlier.<br>
+A brief crossing of paths through mutual friends.<br><br>
 
-At the time, neither of them thought much of it.<br><br>
+At the time, neither realized the moment mattered.<br><br>
 
-Life moved forward and their paths drifted apart.<br><br>
+Time passed.<br>
+Lives moved forward.<br>
+The connection faded.<br><br>
 
-Until one quiet night, years later,
-they unexpectedly ran into each other again.<br><br>
+Until one quiet night years later...<br><br>
 
-This time was different.
+The archive shows something changed.<br><br>
+
+They found each other again.
 
 </div>
 
-<div class="imageTop" id="ch2img1">
+<div class="imageTop vhsPhoto" id="ch2img1">
+
 <img src="early2.png">
+
 </div>
 
-<div class="imageBottom" id="ch2img2">
+<div class="imageBottom vhsPhoto" id="ch2img2">
+
 <img src="early3.png">
+
 </div>
 
-<button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
+<button onclick="goTo('c3')">
+CONTINUE ARCHIVE
+</button>
 
 </div>
 
@@ -362,7 +520,7 @@ This time was different.
 
 <h2>OUR STORY</h2>
 
-<div class="c3photo" id="c3img1">
+<div class="c3photo vhsPhoto" id="c3img1">
 <img src="c3-1.png">
 </div>
 
@@ -383,8 +541,8 @@ But somewhere along the way,
 they realized something had changed forever.
 
 </div>
-
-<div class="c3photo" id="c3img2">
+  
+<div class="c3photo vhsPhoto" id="c3img2">
 <img src="c3-2.png">
 </div>
 
@@ -416,6 +574,19 @@ setInterval(updateVHSTime,1000);
 
 /* NAVIGATION */
 
+function openCamera(){
+
+const layer=document.getElementById("videoLayer");
+const video=document.getElementById("bgVideo");
+
+layer.style.display="block";
+
+video.play().catch(()=>{});
+
+goTo('c1');
+
+}
+
 function goTo(id){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
@@ -424,13 +595,31 @@ const next=document.getElementById(id);
 
 if(next) next.classList.add("active");
 
-/* audio start */
+/* glitch flash */
 
+document.body.classList.add("glitchFlash")
+document.body.classList.add("rewind")
+
+setTimeout(()=>{
+document.body.classList.remove("glitchFlash")
+document.body.classList.remove("rewind")
+},180)
+  
 const whisper=document.getElementById("whisper");
 
-if(whisper && whisper.paused){
+/* stop whisper if leaving chapter 2 */
+
+if(id!=="c2" && !whisper.paused){
+whisper.pause();
+}
+
+/* start whisper only in chapter 2 */
+
+if(id==="c2" && whisper.paused){
+
 whisper.volume=.25;
 whisper.play().catch(()=>{});
+
 }
 
 /* chapter reveals */
@@ -488,6 +677,22 @@ days+" DAYS UNTIL CEREMONY";
 
 updateCountdown();
 setInterval(updateCountdown,60000);
+
+/* RANDOM VHS STATIC BURSTS */
+
+setInterval(()=>{
+
+if(Math.random()>.92){
+
+document.body.classList.add("glitchFlash")
+
+setTimeout(()=>{
+document.body.classList.remove("glitchFlash")
+},120)
+
+}
+
+},4000)
 
 </script>
 
