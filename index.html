@@ -218,21 +218,33 @@ filter:brightness(1);
 width:100%;
 }
 
-/* CH2 */
+/* CH2 FLOATING IMAGES */
 
-.imageTop,.imageBottom{
-width:240px;
-max-width:80%;
-margin:30px auto;
+.imageTop{
+position:absolute;
+top:140px;
+left:60px;
+width:210px;
 opacity:0;
 transition:opacity 4s ease;
 }
 
-.imageTop.show,.imageBottom.show{
+.imageBottom{
+position:absolute;
+bottom:120px;
+right:60px;
+width:210px;
+opacity:0;
+transition:opacity 4s ease;
+}
+
+.imageTop.show,
+.imageBottom.show{
 opacity:1;
 }
 
-.imageTop img,.imageBottom img{
+.imageTop img,
+.imageBottom img{
 width:100%;
 }
 
@@ -273,42 +285,102 @@ background:white;
 color:black;
 }
 
-/* CAMERA */
+
+
+/* REALISTIC CAMCORDER */
 
 .cameraObject{
-width:240px;
-height:150px;
+width:260px;
+height:160px;
 margin:120px auto 40px auto;
 cursor:pointer;
 position:relative;
-animation:cameraIdle 6s infinite ease-in-out;
+animation:cameraFloat 6s infinite ease-in-out;
 }
 
-@keyframes cameraIdle{
-50%{transform:translateY(-6px)}
+/* floating motion */
+
+@keyframes cameraFloat{
+0%{transform:rotate(-1deg) translateY(0px)}
+50%{transform:rotate(1deg) translateY(-6px)}
+100%{transform:rotate(-1deg) translateY(0px)}
 }
+
+/* camera body */
 
 .cameraBody{
 width:210px;
-height:120px;
-background:#0c0c0c;
+height:110px;
+background:#0b0b0b;
 border:2px solid #777;
 position:absolute;
-left:15px;
-top:20px;
-box-shadow:0 0 40px rgba(0,0,0,.9);
+left:20px;
+top:35px;
+box-shadow:0 0 50px rgba(0,0,0,.9);
 }
 
+/* top handle */
+
+.cameraHandle{
+width:130px;
+height:18px;
+background:#111;
+border:2px solid #666;
+position:absolute;
+top:10px;
+left:65px;
+border-radius:3px;
+}
+
+/* viewfinder */
+
+.cameraView{
+width:40px;
+height:30px;
+background:#111;
+border:2px solid #777;
+position:absolute;
+right:-10px;
+top:40px;
+}
+
+/* recording light */
+
+.cameraLight{
+width:8px;
+height:8px;
+background:red;
+border-radius:50%;
+position:absolute;
+left:10px;
+top:10px;
+animation:recBlink 1.3s infinite;
+}
+
+@keyframes recBlink{
+50%{opacity:.2}
+}
+
+/* lens */
+
 .cameraLens{
-width:75px;
-height:75px;
+width:70px;
+height:70px;
 border-radius:50%;
 border:4px solid #999;
 background:black;
 position:absolute;
-left:80px;
-top:40px;
+left:85px;
+top:50px;
+animation:lensRotate 8s infinite linear;
 }
+
+@keyframes lensRotate{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
+
+/* lens reflection */
 
 .cameraLens::after{
 content:"";
@@ -320,11 +392,11 @@ border-radius:50%;
 top:15px;
 left:15px;
 }
-
 /* VHS PHOTO DISTORTION */
 
 .vhsPhoto img{
 animation:vhsNoise 6s infinite, slowZoom 30s infinite alternate;
+mix-blend-mode:screen;
 }
 
 @keyframes slowZoom{
@@ -359,14 +431,269 @@ animation:glitchFlash .15s;
 50%{transform:translate(-1px,1px)}
 75%{transform:translate(1px,1px)}
 }
+/* VHS STATIC TRANSITION */
 
+.staticBurst{
+
+position:fixed;
+inset:0;
+
+background:
+repeating-linear-gradient(
+0deg,
+rgba(255,255,255,.15),
+rgba(255,255,255,.15) 2px,
+transparent 2px,
+transparent 4px
+);
+
+opacity:0;
+z-index:999;
+
+pointer-events:none;
+
+}
+
+.staticBurst.active{
+animation:vhsStatic .45s;
+}
+
+@keyframes vhsStatic{
+
+0%{opacity:0}
+40%{opacity:.7}
+100%{opacity:0}
+
+}
+/* VHS TAPE LOADING SCREEN */
+
+.tapeBoot{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:998;
+color:white;
+font-size:14px;
+letter-spacing:3px;
+opacity:0;
+pointer-events:none;
+}
+
+.tapeBoot.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.bootText{
+margin-top:20px;
+opacity:.8;
+}
+
+.bootBar{
+width:260px;
+height:6px;
+border:1px solid white;
+margin-top:20px;
+position:relative;
+}
+
+.bootFill{
+position:absolute;
+left:0;
+top:0;
+height:100%;
+width:0%;
+background:white;
+animation:bootLoad 3s forwards;
+}
+
+@keyframes bootLoad{
+0%{width:0%}
+100%{width:100%}
+}
+
+/* VHS TRACKING CALIBRATION */
+
+.trackingCalibrate{
+position:fixed;
+inset:0;
+background:black;
+z-index:997;
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+}
+
+.trackingCalibrate.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.calibrateText{
+font-size:13px;
+letter-spacing:3px;
+opacity:.8;
+animation:calibrateBlink 1s infinite;
+}
+
+@keyframes calibrateBlink{
+50%{opacity:.3}
+}
+
+/* REWIND EFFECT */
+
+.rewindFlash{
+animation:rewindFlash .35s;
+}
+
+@keyframes rewindFlash{
+0%{transform:scale(1)}
+40%{transform:scale(1.04)}
+100%{transform:scale(1)}
+}
+/* VHS SIGNAL LOSS */
+
+.signalLoss{
+animation:signalLoss .4s;
+}
+
+@keyframes signalLoss{
+0%{opacity:1}
+30%{opacity:.1}
+60%{opacity:.8}
+100%{opacity:1}
+}
+
+
+/* VHS TAPE WARP */
+
+.tapeWarp{
+animation:tapeWarp .35s;
+}
+
+@keyframes tapeWarp{
+
+0%{transform:skewX(0deg)}
+
+30%{transform:skewX(6deg)}
+
+60%{transform:skewX(-5deg)}
+
+100%{transform:skewX(0deg)}
+
+}
+/* VHS CORRUPTION WARNING */
+
+.tapeError{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(0,0,0,.85);
+color:#ff3b3b;
+font-size:18px;
+letter-spacing:4px;
+z-index:1000;
+opacity:0;
+pointer-events:none;
+text-shadow:0 0 12px rgba(255,0,0,.8);
+}
+
+.tapeError.show{
+animation:tapeErrorAnim 2.8s;
+}
+
+@keyframes tapeErrorAnim{
+
+0%{opacity:0}
+
+15%{opacity:1}
+
+70%{opacity:1}
+
+100%{opacity:0}
+
+}
+
+/* MOVING FOREST SHADOW */
+
+.shadowFigure{
+
+position:fixed;
+bottom:12%;
+left:-120px;
+
+width:80px;
+height:180px;
+
+background:linear-gradient(
+to bottom,
+rgba(0,0,0,0),
+rgba(0,0,0,.95) 30%,
+rgba(0,0,0,.95) 100%
+);
+
+border-radius:40px 40px 10px 10px;
+
+filter:blur(2px);
+
+opacity:0;
+
+pointer-events:none;
+
+z-index:3;
+
+}
+
+/* walking animation */
+
+.shadowFigure.walk{
+
+animation:shadowWalk 1.4s linear forwards;
+
+}
+
+@keyframes shadowWalk{
+
+0%{
+left:-120px;
+opacity:0;
+transform:scale(.9);
+}
+
+10%{
+opacity:.6;
+}
+
+40%{
+opacity:.8;
+}
+
+80%{
+opacity:.5;
+}
+
+100%{
+left:110vw;
+opacity:0;
+transform:scale(1.1);
+}
+
+}
 </style>
 </head>
 
 <body>
 
 <div class="videoLayer" id="videoLayer" style="display:none;">
-<video id="bgVideo" muted loop playsinline>
+<video id="bgVideo" muted autoplay loop playsinline>
 <source src="forrest vid.mp4" type="video/mp4">
 </video>
 </div>
@@ -374,6 +701,20 @@ animation:glitchFlash .15s;
 <div class="darkOverlay"></div>
 <div class="scanLayer"></div>
 <div class="trackingBar"></div>
+<div class="staticBurst" id="static"></div>
+<div class="trackingCalibrate" id="trackingCalibrate">
+<div class="calibrateText">TRACKING CALIBRATION...</div>
+</div>
+
+<div class="tapeBoot" id="tapeBoot">
+<div>TAPE LOADING</div>
+<div class="bootBar">
+<div class="bootFill"></div>
+</div>
+<div class="bootText">INITIALIZING ARCHIVE</div>
+</div>
+
+
 
 <div class="vhsHUD">
 
@@ -381,7 +722,7 @@ animation:glitchFlash .15s;
 <span class="recDot"></span> REC
 </div>
 
-<div class="battery">BAT 87%</div>
+<div class="battery">BAT 87% ▮▮▮▮</div>
 
 <div class="vhsTimestamp" id="vhsTime">00:00:00</div>
 
@@ -391,7 +732,7 @@ animation:glitchFlash .15s;
 
 <div class="contentLayer">
 
-<audio id="whisper" src="whisper.mp3" loop preload="auto"></audio>
+<audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
 
 <!-- INTRO -->
 
@@ -400,8 +741,19 @@ animation:glitchFlash .15s;
 <h2>FOUND CAMERA</h2>
 
 <div class="cameraObject" onclick="openCamera()">
+
+<div class="cameraHandle"></div>
+
+<div class="cameraBody">
+
+<div class="cameraLight"></div>
+
+</div>
+
+<div class="cameraView"></div>
+
 <div class="cameraLens"></div>
-<div class="cameraBody"></div>
+
 </div>
 
 <div class="storyText">
@@ -507,7 +859,9 @@ became shared days and a life growing together.
 
 <script>
 
-/* CLOCK */
+/* =========================
+CLOCK (real time)
+========================= */
 
 function updateVHSTime(){
 
@@ -517,105 +871,391 @@ const hrs=String(now.getHours()).padStart(2,'0');
 const mins=String(now.getMinutes()).padStart(2,'0');
 const secs=String(now.getSeconds()).padStart(2,'0');
 
-document.getElementById("vhsTime").innerText=hrs+":"+mins+":"+secs;
+document.getElementById("vhsTime").innerText=
+hrs+":"+mins+":"+secs;
 
 }
 
 setInterval(updateVHSTime,1000);
 
-/* TAPE COUNTER */
+
+/* =========================
+TAPE COUNTER
+========================= */
 
 let tape=0;
 
 setInterval(()=>{
+
 tape++
+
 let m=Math.floor(tape/60)
 let s=String(tape%60).padStart(2,'0')
-document.getElementById("counter").innerText="TAPE "+m+":"+s
+
+document.getElementById("counter").innerText=
+"TAPE "+m+":"+s
+
 },1000)
 
-/* OPEN CAMERA */
 
-function openCamera(){
+/* =========================
+REC TIMER (camcorder style)
+========================= */
 
-const layer=document.getElementById("videoLayer");
-const video=document.getElementById("bgVideo");
+let recSeconds=0
+let recActive=false
 
-layer.style.display="block";
+setInterval(()=>{
 
-video.play().catch(()=>{});
+if(!recActive)return
 
-goTo('c1');
+recSeconds++
+
+let h=Math.floor(recSeconds/3600)
+let m=Math.floor((recSeconds%3600)/60)
+let s=recSeconds%60
+
+h=String(h).padStart(2,'0')
+m=String(m).padStart(2,'0')
+s=String(s).padStart(2,'0')
+
+document.getElementById("vhsTime").innerText=h+":"+m+":"+s
+
+},1000)
+
+
+/* =========================
+BATTERY DRAIN
+========================= */
+
+let battery=87
+
+setInterval(()=>{
+
+if(!recActive)return
+
+if(battery>18){
+
+battery--
+
+document.querySelector(".battery").innerText=
+"BAT "+battery+"%"
 
 }
 
-/* NAV */
+},14000)
+
+
+
+/* =========================
+OPEN CAMERA
+========================= */
+
+function openCamera(){
+
+const boot=document.getElementById("tapeBoot")
+const calibrate=document.getElementById("trackingCalibrate")
+const layer=document.getElementById("videoLayer")
+const video=document.getElementById("bgVideo")
+
+boot.classList.add("active")
+
+setTimeout(()=>{
+
+boot.classList.remove("active")
+calibrate.classList.add("active")
+
+},3000)
+
+
+setTimeout(()=>{
+
+calibrate.classList.remove("active")
+
+layer.style.display="block"
+
+/* force browser repaint */
+video.currentTime=0
+
+video.play().catch(()=>{})
+
+recActive=true
+
+goTo('c1')
+
+},4800)
+
+}
+
+
+
+/* =========================
+NAVIGATION
+========================= */
 
 function goTo(id){
 
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+const staticLayer=document.getElementById("static")
 
-const next=document.getElementById(id);
+staticLayer.classList.add("active")
 
-if(next) next.classList.add("active");
+document.body.classList.add("rewindFlash")
 
-/* glitch */
+setTimeout(()=>{
+
+document.body.classList.remove("rewindFlash")
+
+document.querySelectorAll(".screen")
+.forEach(s=>s.classList.remove("active"))
+
+const next=document.getElementById(id)
+
+if(next) next.classList.add("active")
+
+},200)
+
+setTimeout(()=>{
+staticLayer.classList.remove("active")
+},450)
+
+
+
+/* =========================
+WHISPER AUDIO
+========================= */
+
+const whisper=document.getElementById("whisper")
+
+if(id==="c2"){
+
+whisper.volume=0
+whisper.play().catch(()=>{})
+
+let fadeInterval=setInterval(()=>{
+
+if(whisper.volume<.25){
+whisper.volume+=.02
+}else{
+clearInterval(fadeInterval)
+}
+
+},120)
+
+}else{
+
+whisper.pause()
+
+}
+
+
+
+/* =========================
+IMAGE REVEALS
+========================= */
+
+if(id==="c1"){
+
+setTimeout(()=>{
+document.getElementById("ch1img").classList.add("show")
+},1500)
+
+}
+
+if(id==="c2"){
+
+setTimeout(()=>{
+document.getElementById("ch2img1").classList.add("show")
+},1200)
+
+setTimeout(()=>{
+document.getElementById("ch2img2").classList.add("show")
+},4200)
+
+}
+
+if(id==="c3"){
+
+setTimeout(()=>{
+document.getElementById("c3img1").classList.add("show")
+},1200)
+
+setTimeout(()=>{
+document.getElementById("c3img2").classList.add("show")
+},4200)
+
+}
+
+}
+
+
+
+/* =========================
+COUNTDOWN
+========================= */
+
+function updateCountdown(){
+
+const wedding=new Date("Oct 24 2026 17:00:00").getTime()
+const now=new Date().getTime()
+
+let diff=wedding-now
+
+let days=Math.max(0,
+Math.floor(diff/(1000*60*60*24))
+)
+
+document.getElementById("countdown").innerText=
+days+" DAYS UNTIL CEREMONY"
+
+}
+
+updateCountdown()
+setInterval(updateCountdown,60000)
+
+
+
+/* =========================
+RANDOM VHS GLITCH
+========================= */
+
+setInterval(()=>{
+
+if(Math.random()<.18){
 
 document.body.classList.add("glitchFlash")
 
 setTimeout(()=>{
 document.body.classList.remove("glitchFlash")
-},160)
-
-/* whisper */
-
-const whisper=document.getElementById("whisper");
-
-if(id==="c2"){
-whisper.volume=.25;
-whisper.play().catch(()=>{});
-}else{
-whisper.pause();
-}
-
-/* reveals */
-
-if(id==="c1"){
-setTimeout(()=>{document.getElementById("ch1img").classList.add("show")},1500);
-}
-
-if(id==="c2"){
-setTimeout(()=>{document.getElementById("ch2img1").classList.add("show")},1200);
-setTimeout(()=>{document.getElementById("ch2img2").classList.add("show")},4200);
-}
-
-if(id==="c3"){
-setTimeout(()=>{document.getElementById("c3img1").classList.add("show")},1200);
-setTimeout(()=>{document.getElementById("c3img2").classList.add("show")},4200);
-}
+},120)
 
 }
 
-/* COUNTDOWN */
+},9000)
+/* =========================
+VHS TAPE DAMAGE ENGINE
+========================= */
 
-function updateCountdown(){
+setInterval(()=>{
 
-const wedding=new Date("Oct 24 2026 17:00:00").getTime();
-const now=new Date().getTime();
+if(!recActive)return
 
-let diff=wedding-now;
+let chance=Math.random()
 
-let days=Math.max(0, Math.floor(diff/(1000*60*60*24)));
+/* signal loss */
 
-document.getElementById("countdown").innerText=
-days+" DAYS UNTIL CEREMONY";
+if(chance<.12){
+
+document.body.classList.add("signalLoss")
+
+setTimeout(()=>{
+document.body.classList.remove("signalLoss")
+},350)
 
 }
 
-updateCountdown();
-setInterval(updateCountdown,60000);
+/* tape warp */
 
+if(chance>.6 && chance<.7){
+
+document.body.classList.add("tapeWarp")
+
+setTimeout(()=>{
+document.body.classList.remove("tapeWarp")
+},300)
+
+}
+
+/* mini rewind glitch */
+
+if(chance>.85){
+
+const video=document.getElementById("bgVideo")
+
+if(video.currentTime>3){
+
+video.currentTime-=.8
+
+}
+
+}
+
+},8000)
+/* =========================
+RARE TAPE CORRUPTION EVENT
+========================= */
+
+setInterval(()=>{
+
+if(!recActive)return
+
+if(Math.random()<.06){
+
+const warn=document.getElementById("tapeError")
+const video=document.getElementById("bgVideo")
+const staticLayer=document.getElementById("static")
+
+/* show corruption warning */
+
+warn.classList.add("show")
+
+/* heavy signal loss */
+
+document.body.classList.add("signalLoss")
+
+staticLayer.classList.add("active")
+
+/* simulate tape drag */
+
+if(video.currentTime>5){
+video.currentTime-=2
+}
+
+setTimeout(()=>{
+
+warn.classList.remove("show")
+staticLayer.classList.remove("active")
+document.body.classList.remove("signalLoss")
+
+},2500)
+
+}
+
+},22000)
+/* =========================
+RARE FOREST SHADOW EVENT
+========================= */
+
+/* =========================
+MOVING FOREST SHADOW
+========================= */
+
+setInterval(()=>{
+
+if(!recActive) return
+
+/* rare event */
+
+if(Math.random()<.04){
+
+const shadow=document.getElementById("shadowFigure")
+
+if(shadow){
+shadow.classList.add("walk")
+}
+
+setTimeout(()=>{
+if(shadow){
+shadow.classList.remove("walk")
+}
+},1400)
+
+}
+
+},26000)
 </script>
-
+<div class="tapeError" id="tapeError">
+TAPE CORRUPTION DETECTED
+</div>
+<div class="shadowFigure" id="shadowFigure"></div>
 </body>
 </html>
