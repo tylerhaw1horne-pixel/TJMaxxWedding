@@ -20,7 +20,7 @@ background:#050505;
 color:white;
 font-family:'Courier New', monospace;
 overflow-x:hidden;
-overflow-y:auto;
+overflow-y:hidden;
 }
 
 /* VIDEO BACKGROUND */
@@ -161,24 +161,28 @@ font-size:14px;
 
 /* CONTENT */
 
-.contentLayer{
-position:relative;
-z-index:10;
-}
-
 .screen{
 display:none;
 position:relative;
 width:100%;
-min-height:100vh;
-padding:90px 25px 160px 25px;
+height:100vh;
+padding:120px 25px 120px 25px;
+
 text-align:center;
 max-width:900px;
 margin:auto;
+
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:22px;
+
+overflow:hidden;
 }
 
 .screen.active{
-display:block;
+display:flex;
 }
 
 /* TEXT */
@@ -191,11 +195,11 @@ font-size:22px;
 
 .storyText{
 max-width:520px;
-margin:20px auto;
+margin:10px auto;
 line-height:1.7;
 font-size:14px;
+opacity:.92;
 }
-
 /* IMAGE PANEL */
 
 .imagePanel{
@@ -220,40 +224,36 @@ width:100%;
 
 /* CH2 FLOATING IMAGES */
 
-.imageTop{
-position:absolute;
-top:140px;
-left:60px;
-width:210px;
+.c2Grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:60px;
+align-items:center;
+margin-top:20px;
+}
+
+.c2Photo{
+width:240px;
 opacity:0;
 transition:opacity 4s ease;
 }
 
-.imageBottom{
-position:absolute;
-bottom:120px;
-right:60px;
-width:210px;
-opacity:0;
-transition:opacity 4s ease;
-}
-
-.imageTop.show,
-.imageBottom.show{
+.c2Photo.show{
 opacity:1;
 }
 
-.imageTop img,
-.imageBottom img{
+.c2Photo img{
 width:100%;
+border:2px solid rgba(255,255,255,.4);
+box-shadow:0 0 80px rgba(0,0,0,.9);
 }
 
 /* CH3 */
 
 .c3photo{
-width:340px;
-max-width:90%;
-margin:35px auto;
+width:260px;
+max-width:70vw;
+margin:15px auto;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
@@ -290,9 +290,9 @@ color:black;
 /* REALISTIC CAMCORDER */
 
 .cameraObject{
-width:260px;
-height:160px;
-margin:120px auto 40px auto;
+width:220px;
+height:140px;
+margin:40px auto 20px auto;
 cursor:pointer;
 position:relative;
 animation:cameraFloat 6s infinite ease-in-out;
@@ -395,10 +395,10 @@ left:15px;
 /* VHS PHOTO DISTORTION */
 
 .vhsPhoto img{
-animation:vhsNoise 6s infinite, slowZoom 30s infinite alternate;
+animation:vhsNoise 6s infinite, slowZoom 45s infinite alternate;
 mix-blend-mode:screen;
 }
-
+  
 @keyframes slowZoom{
 0%{transform:scale(1)}
 100%{transform:scale(1.05)}
@@ -813,12 +813,16 @@ They found each other again.
 
 </div>
 
-<div class="imageTop vhsPhoto" id="ch2img1">
+<div class="c2Grid">
+
+<div class="c2Photo vhsPhoto" id="ch2img1">
 <img src="early2.png">
 </div>
 
-<div class="imageBottom vhsPhoto" id="ch2img2">
+<div class="c2Photo vhsPhoto" id="ch2img2">
 <img src="early3.png">
+</div>
+
 </div>
 
 <button onclick="goTo('c3')">
@@ -1026,17 +1030,17 @@ WHISPER AUDIO
 
 const whisper=document.getElementById("whisper")
 
-if(id==="c2"){
+if(id==="c2" || id==="c3"){
 
 whisper.volume=0
 whisper.play().catch(()=>{})
 
-let fadeInterval=setInterval(()=>{
+let fade=setInterval(()=>{
 
 if(whisper.volume<.25){
 whisper.volume+=.02
 }else{
-clearInterval(fadeInterval)
+clearInterval(fade)
 }
 
 },120)
