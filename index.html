@@ -1394,13 +1394,19 @@ shadow.classList.remove("walk")
 OPENING FOOTAGE END
 ========================= */
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const openingVideo = document.getElementById("openingVideo");
+
+if(!openingVideo) return;
 
 function showArchive(){
 
-if(document.getElementById("opening").style.display==="none") return;
+const opening=document.getElementById("opening");
 
-document.getElementById("opening").style.display="none";
+if(!opening || opening.style.display==="none") return;
+
+opening.style.display="none";
 
 document.body.classList.add("glitchFlash");
 
@@ -1426,11 +1432,13 @@ archive.classList.remove("archiveReveal");
 
 }
 
-/* normal video end */
+/* when video finishes */
 openingVideo.addEventListener("ended", showArchive);
 
-/* guaranteed fallback */
-setTimeout(showArchive, 7000);
+/* safety fallback in case browser blocks event */
+setTimeout(showArchive,6500);
+
+});
 </script>
 <div class="tapeError" id="tapeError">
 TAPE CORRUPTION DETECTED
