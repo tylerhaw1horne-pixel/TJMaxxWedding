@@ -197,7 +197,8 @@ max-width:520px;
 margin:10px auto;
 line-height:1.7;
 font-size:14px;
-opacity:.92;
+opacity:.98;
+text-align:center;
 }
 /* IMAGE PANEL */
 
@@ -208,7 +209,7 @@ margin:25px auto;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
-filter:brightness(.35);
+filter:brightness(.55);
 transition:opacity 4s ease, filter 4s ease;
 }
 
@@ -266,7 +267,14 @@ opacity:1;
 .c3photo img{
 width:100%;
 }
-
+  
+.c3Grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+align-items:center;
+gap:40px;
+margin-top:20px;
+}
 /* BUTTON */
 
 button{
@@ -339,6 +347,29 @@ animation:glitchFlash .15s;
 25%{transform:translate(1px,-1px)}
 50%{transform:translate(-1px,1px)}
 75%{transform:translate(1px,1px)}
+}
+/* CAMERA POWER ON FLASH */
+
+.cameraBoot{
+animation:cameraBoot .6s ease;
+}
+
+@keyframes cameraBoot{
+
+0%{
+filter:brightness(0) contrast(3);
+transform:scale(1.02);
+}
+
+40%{
+filter:brightness(2.5) contrast(2);
+}
+
+100%{
+filter:brightness(1);
+transform:scale(1);
+}
+
 }
 /* VHS STATIC TRANSITION */
 
@@ -745,6 +776,8 @@ CONTINUE ARCHIVE
 
 <h2>OUR STORY</h2>
 
+<div class="c3Grid">
+
 <div class="c3photo vhsPhoto" id="c3img1">
 <img src="c3-1.png">
 </div>
@@ -761,6 +794,8 @@ became shared days and a life growing together.
 
 <div class="c3photo vhsPhoto" id="c3img2">
 <img src="c3-2.png">
+</div>
+
 </div>
 
 <!--
@@ -785,8 +820,10 @@ const hrs=String(now.getHours()).padStart(2,'0');
 const mins=String(now.getMinutes()).padStart(2,'0');
 const secs=String(now.getSeconds()).padStart(2,'0');
 
+if(!recActive){
 document.getElementById("vhsTime").innerText=
 hrs+":"+mins+":"+secs;
+}
 
 }
 
@@ -1184,6 +1221,12 @@ document.body.classList.add("glitchFlash");
 setTimeout(()=>{
 
 goTo("startScreen");
+
+document.body.classList.add("cameraBoot");
+
+setTimeout(()=>{
+document.body.classList.remove("cameraBoot");
+},700);
 
 },600);
 
