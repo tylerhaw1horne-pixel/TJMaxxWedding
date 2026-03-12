@@ -183,7 +183,19 @@ overflow:hidden;
 .screen.active{
 display:flex;
 }
+.archiveScreen{
+animation:cameraIdle 12s infinite;
+}
+@keyframes cameraIdle{
 
+0%{filter:contrast(1)}
+2%{filter:contrast(1.4)}
+3%{filter:contrast(.8)}
+4%{filter:contrast(1)}
+
+100%{filter:contrast(1)}
+
+}
 /* TEXT */
 
 h2{
@@ -191,9 +203,11 @@ letter-spacing:6px;
 margin-bottom:30px;
 font-size:24px;
 color:#ffffff;
+
 text-shadow:
 0 0 10px rgba(255,255,255,.9),
-0 0 22px rgba(255,255,255,.6);
+0 0 22px rgba(255,255,255,.6),
+0 0 40px rgba(255,255,255,.25);
 }
 
 .storyText{
@@ -217,7 +231,7 @@ margin:25px auto;
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 opacity:0;
-filter:brightness(.95) contrast(1.1);
+filter:brightness(1.1) contrast(1.2);
 transition:opacity 4s ease, filter 4s ease;
 }
 
@@ -228,7 +242,7 @@ filter:brightness(1);
 
 .imagePanel img{
 width:100%;
-filter:brightness(1.45) contrast(1.25);
+filter:brightness(1.6) contrast(1.3);
 transform:rotate(-0.3deg);
 }
 
@@ -255,7 +269,7 @@ opacity:1;
 
 .c2Photo img{
 width:100%;
-filter:brightness(1.45) contrast(1.25);
+filter:brightness(1.6) contrast(1.3);
 border:2px solid rgba(255,255,255,.4);
 box-shadow:0 0 80px rgba(0,0,0,.9);
 }
@@ -278,7 +292,7 @@ opacity:1;
 
 .c3photo img{
 width:100%;
-filter:brightness(1.45) contrast(1.25);
+filter:brightness(1.6) contrast(1.3);
 }
   
 .c3Grid{
@@ -303,8 +317,14 @@ box-shadow:0 0 12px rgba(255,255,255,.4);
 }
 
 button:hover{
+
 background:white;
 color:black;
+
+box-shadow:
+0 0 10px white,
+0 0 25px rgba(255,255,255,.7);
+
 }
 
 #opening{
@@ -319,8 +339,8 @@ overflow:hidden;
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 object-fit:cover;
 z-index:1;
 }
@@ -350,8 +370,8 @@ cameraBreath 12s infinite;
 }
   
 @keyframes slowZoom{
-0%{transform:scale(1)}
-100%{transform:scale(1.05)}
+0%{transform:scale(1) rotate(-0.3deg)}
+100%{transform:scale(1.05) rotate(-0.3deg)}
 }
 
 @keyframes vhsNoise{
@@ -464,8 +484,17 @@ pointer-events:auto;
 .bootText{
 margin-top:20px;
 opacity:.8;
+animation:bootFlicker 2s infinite;
 }
+@keyframes bootFlicker{
 
+0%{opacity:.8}
+45%{opacity:.6}
+50%{opacity:.2}
+55%{opacity:.7}
+100%{opacity:.8}
+
+}
 .bootBar{
 width:260px;
 height:6px;
@@ -480,13 +509,20 @@ left:0;
 top:0;
 height:100%;
 width:0%;
+
 background:linear-gradient(
 90deg,
-rgba(255,255,255,.1),
-white,
-rgba(255,255,255,.1)
+rgba(255,255,255,.05),
+rgba(255,255,255,.9),
+rgba(255,255,255,.05)
 );
-animation:bootLoad 3s forwards, tapePulse 1.4s infinite;
+
+animation:
+bootLoad 3s forwards,
+tapePulse 1.4s infinite,
+tapeScan 1.8s infinite;
+
+box-shadow:0 0 12px rgba(255,255,255,.8);
 }
 
 @keyframes bootLoad{
@@ -499,7 +535,22 @@ animation:bootLoad 3s forwards, tapePulse 1.4s infinite;
 50%{opacity:1}
 100%{opacity:.7}
 }
+  
+@keyframes tapeScan{
 
+0%{
+transform:translateX(-30px);
+}
+
+50%{
+transform:translateX(30px);
+}
+
+100%{
+transform:translateX(-30px);
+}
+
+}
 /* VHS TRACKING CALIBRATION */
 
 .trackingCalibrate{
@@ -632,7 +683,7 @@ opacity:0;
 
 pointer-events:none;
 
-z-index:3;
+z-index:6;
 
 }
 
@@ -672,7 +723,7 @@ transform:scale(1.1);
 
 }
 .archiveReveal{
-animation:archiveReveal .7s ease;
+animation:archiveReveal .8s ease;
 }
 
 @keyframes archiveReveal{
@@ -680,11 +731,19 @@ animation:archiveReveal .7s ease;
 0%{
 opacity:0;
 transform:scale(.96);
-filter:brightness(2);
+filter:brightness(2.4) contrast(2);
+}
+
+20%{
+filter:brightness(.2);
+}
+
+40%{
+filter:brightness(1.8);
 }
 
 60%{
-filter:brightness(1.4);
+filter:brightness(.7);
 }
 
 100%{
@@ -755,7 +814,7 @@ filter:brightness(1);
 
 <!-- START VIDEO SCREEN -->
 
-<div class="screen" id="startScreen">
+<div class="screen archiveScreen" id="startScreen">
 
 <h2>RECOVERED CAMERA ARCHIVE</h2>
 
@@ -815,7 +874,7 @@ Playback recovered from corrupted tape segment.<br><br>
 Tyler Hawthorne<br>
 Julie Eells<br><br>
 
-They found each other again.
+Years of resistment turned into undying love.
 
 </div>
 
@@ -851,11 +910,11 @@ CONTINUE ARCHIVE
 
 <div class="storyText">
 
-After that night,  
-things began to change.
+After one fateful encounter,  
+things changed for the better.
 
 What started as an unexpected reunion  
-became shared days and a life growing together.
+became lifelong adventures.
 
 </div>
 
@@ -1288,7 +1347,8 @@ if(openingVideo){
 openingVideo.onended = () => {
 
 openingVideo.pause();
-
+document.getElementById("opening").style.display="none";
+  
 document.body.classList.add("glitchFlash");
 
 setTimeout(()=>{
@@ -1297,6 +1357,11 @@ goTo("startScreen");
 
 const archive=document.getElementById("startScreen");
 archive.classList.add("archiveReveal");
+document.body.classList.add("signalLoss")
+
+setTimeout(()=>{
+document.body.classList.remove("signalLoss")
+},300)
 
 setTimeout(()=>{
 archive.classList.remove("archiveReveal");
