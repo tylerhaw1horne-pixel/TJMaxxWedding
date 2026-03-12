@@ -1404,9 +1404,9 @@ function showArchive(){
 
 const opening=document.getElementById("opening");
 
-if(!opening || opening.style.display==="none") return;
+if(!opening || !opening.classList.contains("active")) return;
 
-opening.style.display="none";
+opening.classList.remove("active");
 
 document.body.classList.add("glitchFlash");
 
