@@ -1190,14 +1190,16 @@ WHISPER AUDIO
 
 const whisper=document.getElementById("whisper")
 
-if(id==="c2" || id==="c3"){
+if(id==="c2" || id==="c3" || id==="c4"){
 
 whisper.volume=0
 whisper.play().catch(()=>{})
 
 let fade=setInterval(()=>{
 
-if(whisper.volume<.25){
+let maxVol = (id==="c4") ? .35 : .25
+
+if(whisper.volume < maxVol){
 whisper.volume+=.02
 }else{
 clearInterval(fade)
