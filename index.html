@@ -157,7 +157,12 @@ bottom:25px;
 right:20px;
 font-size:14px;
 }
-
+  
+.contentLayer{
+position:relative;
+z-index:7;
+}
+  
 /* CONTENT */
 
 .screen{
@@ -1146,6 +1151,8 @@ if(next) next.classList.add("active")
 setTimeout(()=>{
 staticLayer.classList.remove("active")
 },450)
+
+}
 
 
 
