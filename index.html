@@ -1146,13 +1146,41 @@ const next=document.getElementById(id)
 
 if(next) next.classList.add("active")
 
-},200)
+/* IMAGE REVEALS */
+
+if(id==="c1"){
+setTimeout(()=>{
+document.getElementById("ch1img").classList.add("show")
+},1500)
+}
+
+if(id==="c2"){
+setTimeout(()=>{
+document.getElementById("ch2img1").classList.add("show")
+},1200)
 
 setTimeout(()=>{
-staticLayer.classList.remove("active")
-},450)
-
+document.getElementById("ch2img2").classList.add("show")
+},4200)
 }
+
+if(id==="c3"){
+setTimeout(()=>{
+document.getElementById("c3img1").classList.add("show")
+},1200)
+
+setTimeout(()=>{
+document.getElementById("c3img2").classList.add("show")
+},4200)
+}
+
+if(id==="c4"){
+setTimeout(()=>{
+document.getElementById("c4img").classList.add("show")
+},1800)
+}
+
+},200)
 
 
 
@@ -1167,7 +1195,7 @@ if(id==="c2" || id==="c3"){
 whisper.volume=0
 whisper.play().catch(()=>{})
 
-let fade = setInterval(()=>{
+let fade=setInterval(()=>{
 
 if(whisper.volume<.25){
 whisper.volume+=.02
@@ -1183,54 +1211,7 @@ whisper.pause()
 
 }
 
-
-
-/* =========================
-IMAGE REVEALS
-========================= */
-
-if(id==="c1"){
-
-setTimeout(()=>{
-document.getElementById("ch1img").classList.add("show")
-},1500)
-
 }
-
-if(id==="c2"){
-
-setTimeout(()=>{
-document.getElementById("ch2img1").classList.add("show")
-},1200)
-
-setTimeout(()=>{
-document.getElementById("ch2img2").classList.add("show")
-},4200)
-
-}
-
-if(id==="c3"){
-
-setTimeout(()=>{
-document.getElementById("c3img1").classList.add("show")
-},1200)
-
-setTimeout(()=>{
-document.getElementById("c3img2").classList.add("show")
-},4200)
-
-}
-
-if(id==="c4"){
-
-setTimeout(()=>{
-document.getElementById("c4img").classList.add("show")
-},1800)
-
-}
-
-
-
 /* =========================
 COUNTDOWN
 ========================= */
