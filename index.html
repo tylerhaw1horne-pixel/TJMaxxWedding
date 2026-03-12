@@ -19,8 +19,7 @@ width:100%;
 background:#050505;
 color:white;
 font-family:'Courier New', monospace;
-overflow-x:hidden;
-overflow-y:hidden;
+overflow:hidden;
 }
 
 /* VIDEO BACKGROUND */
@@ -285,113 +284,23 @@ background:white;
 color:black;
 }
 
-
-
-/* REALISTIC CAMCORDER */
-
-.cameraObject{
-width:220px;
-height:140px;
-margin:40px auto 20px auto;
-cursor:pointer;
-position:relative;
-animation:cameraFloat 6s infinite ease-in-out;
-}
-
-/* floating motion */
-
-@keyframes cameraFloat{
-0%{transform:rotate(-1deg) translateY(0px)}
-50%{transform:rotate(1deg) translateY(-6px)}
-100%{transform:rotate(-1deg) translateY(0px)}
-}
-
-/* camera body */
-
-.cameraBody{
-width:210px;
-height:110px;
-background:#0b0b0b;
-border:2px solid #777;
-position:absolute;
-left:20px;
-top:35px;
-box-shadow:0 0 50px rgba(0,0,0,.9);
-}
-
-/* top handle */
-
-.cameraHandle{
-width:130px;
-height:18px;
-background:#111;
-border:2px solid #666;
-position:absolute;
-top:10px;
-left:65px;
-border-radius:3px;
-}
-
-/* viewfinder */
-
-.cameraView{
-width:40px;
-height:30px;
-background:#111;
-border:2px solid #777;
-position:absolute;
-right:-10px;
-top:40px;
-}
-
-/* recording light */
-
-.cameraLight{
-width:8px;
-height:8px;
-background:red;
-border-radius:50%;
-position:absolute;
-left:10px;
-top:10px;
-animation:recBlink 1.3s infinite;
-}
-
-@keyframes recBlink{
-50%{opacity:.2}
-}
-
-/* lens */
-
-.cameraLens{
-width:70px;
-height:70px;
-border-radius:50%;
-border:4px solid #999;
+#opening{
+position:fixed;
+inset:0;
+z-index:10;
 background:black;
+overflow:hidden;
+}
+
+#opening video{
 position:absolute;
-left:85px;
-top:50px;
-animation:lensRotate 8s infinite linear;
+top:0;
+left:0;
+width:100%;
+height:100%;
+object-fit:cover;
 }
 
-@keyframes lensRotate{
-0%{transform:rotate(0deg)}
-100%{transform:rotate(360deg)}
-}
-
-/* lens reflection */
-
-.cameraLens::after{
-content:"";
-position:absolute;
-width:18px;
-height:18px;
-background:rgba(255,255,255,.25);
-border-radius:50%;
-top:15px;
-left:15px;
-}
 /* VHS PHOTO DISTORTION */
 
 .vhsPhoto img{
@@ -734,35 +643,34 @@ transform:scale(1.1);
 
 <audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
 
-<!-- INTRO -->
+<!-- OPENING FOUND FOOTAGE -->
 
-<div class="screen active" id="intro">
+<div class="screen active" id="opening">
 
-<h2>FOUND CAMERA</h2>
+<video id="openingVideo" autoplay muted playsinline>
 
-<div class="cameraObject" onclick="openCamera()">
+<source src="found-footage.mp4" type="video/mp4">
 
-<div class="cameraHandle"></div>
-
-<div class="cameraBody">
-
-<div class="cameraLight"></div>
+</video>
 
 </div>
 
-<div class="cameraView"></div>
+<!-- START VIDEO SCREEN -->
 
-<div class="cameraLens"></div>
+<div class="screen" id="startScreen">
 
-</div>
+<h2>RECOVERED CAMERA ARCHIVE</h2>
+
+<button onclick="openCamera()">
+START VIDEO
+</button>
 
 <div class="storyText">
-Recovered Camcorder<br>
-Click to Open Recording
+Recovered tape recording detected
 </div>
 
 </div>
-
+  
 <!-- CH1 -->
 
 <div class="screen" id="c1">
@@ -855,7 +763,9 @@ became shared days and a life growing together.
 <img src="c3-2.png">
 </div>
 
+<!--
 <button onclick="goTo('c4')">CONTINUE ARCHIVE</button>
+-->
 
 </div>
 
@@ -1256,6 +1166,30 @@ shadow.classList.remove("walk")
 }
 
 },26000)
+
+/* =========================
+OPENING FOOTAGE END
+========================= */
+
+const openingVideo = document.getElementById("openingVideo");
+
+if(openingVideo){
+
+openingVideo.onended = () => {
+
+openingVideo.pause();
+
+document.body.classList.add("glitchFlash");
+
+setTimeout(()=>{
+
+goTo("startScreen");
+
+},600);
+
+};
+
+}
 </script>
 <div class="tapeError" id="tapeError">
 TAPE CORRUPTION DETECTED
