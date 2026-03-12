@@ -661,7 +661,33 @@ animation:tapeErrorAnim 2.8s;
 100%{opacity:0}
 
 }
+/* PROPOSAL MEMORY GLITCH */
 
+.proposalFreeze{
+animation:proposalFreeze 1.2s ease;
+}
+
+@keyframes proposalFreeze{
+
+0%{
+filter:brightness(2.2) contrast(3);
+transform:scale(1.03);
+}
+
+30%{
+filter:brightness(.4);
+}
+
+55%{
+filter:brightness(1.6);
+}
+
+100%{
+filter:brightness(1);
+transform:scale(1);
+}
+
+}
 /* MOVING FOREST SHADOW */
 
 .shadowFigure{
@@ -1033,7 +1059,7 @@ REC TIMER (camcorder style)
 
 let recSeconds=0
 let recActive=false
-
+let whisperFade
 setInterval(()=>{
 
 if(!recActive)return
@@ -1175,14 +1201,38 @@ document.getElementById("c3img2").classList.add("show")
 }
 
 if(id==="c4"){
+
+/* simulate tape glitch */
+document.body.classList.add("tapeWarp")
+
 setTimeout(()=>{
-document.getElementById("c4img").classList.add("show")
+document.body.classList.remove("tapeWarp")
+},300)
+
+/* small rewind */
+const video=document.getElementById("bgVideo")
+
+if(video && video.currentTime>0.7){
+video.currentTime = Math.max(0, video.currentTime - 0.6)
+}
+
+/* proposal frame reveal */
+setTimeout(()=>{
+
+const img=document.getElementById("c4img")
+
+img.classList.add("show")
+img.classList.add("proposalFreeze")
+
+setTimeout(()=>{
+img.classList.remove("proposalFreeze")
+},1200)
+
 },1800)
+
 }
 
 },200)
-
-
 
 /* =========================
 WHISPER AUDIO
@@ -1195,14 +1245,16 @@ if(id==="c2" || id==="c3" || id==="c4"){
 whisper.volume=0
 whisper.play().catch(()=>{})
 
-let fade=setInterval(()=>{
+clearInterval(whisperFade)
+
+whisperFade=setInterval(()=>{
 
 let maxVol = (id==="c4") ? .35 : .25
 
 if(whisper.volume < maxVol){
 whisper.volume+=.02
 }else{
-clearInterval(fade)
+clearInterval(whisperFade)
 }
 
 },120)
@@ -1212,33 +1264,7 @@ clearInterval(fade)
 whisper.pause()
 
 }
-
 }
-/* =========================
-COUNTDOWN
-========================= */
-
-function updateCountdown(){
-
-const wedding=new Date("Oct 24 2026 17:00:00").getTime()
-const now=new Date().getTime()
-
-let diff=wedding-now
-
-let days=Math.max(0,
-Math.floor(diff/(1000*60*60*24))
-)
-
-const cd = document.getElementById("countdown");
-if(cd){
-cd.innerText = days + " DAYS UNTIL CEREMONY";
-}
-
-}
-
-updateCountdown()
-setInterval(updateCountdown,60000)
-
 
 /* =========================
 RANDOM VHS GLITCH
