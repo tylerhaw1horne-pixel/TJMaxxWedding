@@ -914,7 +914,7 @@ After one fateful encounter,
 things changed for the better.
 
 What started as an unexpected reunion  
-became lifelong adventures.
+became life-long adventures.
 
 </div>
 
@@ -924,11 +924,58 @@ became lifelong adventures.
 
 </div>
 
-<!--
-<button onclick="goTo('c4')">CONTINUE ARCHIVE</button>
--->
+<button onclick="goTo('c4')">
+CONTINUE ARCHIVE
+</button>
 
 </div>
+
+
+<!-- CH4 -->
+
+<div class="screen" id="c4">
+
+<h2>PROPOSAL EVENT</h2>
+
+<div class="storyText">
+
+ARCHIVE FRAME RECOVERED<br><br>
+
+Playback continued after corrupted segment.
+
+</div>
+
+<div class="imagePanel vhsPhoto" id="c4img">
+<img src="proposal.png">
+</div>
+
+<div class="storyText">
+
+STATUS UPDATE:<br>
+SUBJECTS CONFIRMED ENGAGED
+
+</div>
+
+<button onclick="goTo('c5')">
+CONTINUE ARCHIVE
+</button>
+
+</div>
+
+<!-- CH5 -->
+
+<div class="screen" id="c5">
+
+<h2>ARCHIVE CONTINUED</h2>
+
+<div class="storyText">
+Additional archive segments recovered.<br><br>
+Playback continuing...
+</div>
+
+<button onclick="goTo('c6')">
+CONTINUE ARCHIVE
+</button>
 
 </div>
 
@@ -1166,6 +1213,12 @@ document.getElementById("c3img2").classList.add("show")
 },4200)
 
 }
+
+if(id==="c4"){
+
+setTimeout(()=>{
+document.getElementById("c4img").classList.add("show")
+},1800)
 
 }
 
