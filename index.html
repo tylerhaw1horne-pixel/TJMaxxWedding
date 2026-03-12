@@ -1395,13 +1395,13 @@ OPENING FOOTAGE END
 
 const openingVideo = document.getElementById("openingVideo");
 
-if(openingVideo){
+const openingVideo = document.getElementById("openingVideo");
 
-openingVideo.onended = () => {
+function showArchive(){
 
 openingVideo.pause();
 document.getElementById("opening").style.display="none";
-  
+
 document.body.classList.add("glitchFlash");
 
 setTimeout(()=>{
@@ -1410,6 +1410,7 @@ goTo("startScreen");
 
 const archive=document.getElementById("startScreen");
 archive.classList.add("archiveReveal");
+
 document.body.classList.add("signalLoss")
 
 setTimeout(()=>{
@@ -1417,14 +1418,18 @@ document.body.classList.remove("signalLoss")
 },300)
 
 setTimeout(()=>{
-archive.classList.remove("archiveReveal");
-},800);
+archive.classList.remove("archiveReveal")
+},800)
 
-},600);
-
-};
+},600)
 
 }
+
+/* normal end */
+openingVideo.addEventListener("ended", showArchive)
+
+/* fallback safety (prevents stuck video) */
+setTimeout(showArchive, 7000)
 </script>
 <div class="tapeError" id="tapeError">
 TAPE CORRUPTION DETECTED
