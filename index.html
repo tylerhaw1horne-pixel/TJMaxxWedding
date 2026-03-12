@@ -1389,17 +1389,17 @@ shadow.classList.remove("walk")
 
 },26000)
 
+
 /* =========================
 OPENING FOOTAGE END
 ========================= */
 
 const openingVideo = document.getElementById("openingVideo");
 
-const openingVideo = document.getElementById("openingVideo");
-
 function showArchive(){
 
-openingVideo.pause();
+if(document.getElementById("opening").style.display==="none") return;
+
 document.getElementById("opening").style.display="none";
 
 document.body.classList.add("glitchFlash");
@@ -1409,27 +1409,28 @@ setTimeout(()=>{
 goTo("startScreen");
 
 const archive=document.getElementById("startScreen");
+
 archive.classList.add("archiveReveal");
 
-document.body.classList.add("signalLoss")
+document.body.classList.add("signalLoss");
 
 setTimeout(()=>{
-document.body.classList.remove("signalLoss")
-},300)
+document.body.classList.remove("signalLoss");
+},300);
 
 setTimeout(()=>{
-archive.classList.remove("archiveReveal")
-},800)
+archive.classList.remove("archiveReveal");
+},800);
 
-},600)
+},600);
 
 }
 
-/* normal end */
-openingVideo.addEventListener("ended", showArchive)
+/* normal video end */
+openingVideo.addEventListener("ended", showArchive);
 
-/* fallback safety (prevents stuck video) */
-setTimeout(showArchive, 7000)
+/* guaranteed fallback */
+setTimeout(showArchive, 7000);
 </script>
 <div class="tapeError" id="tapeError">
 TAPE CORRUPTION DETECTED
