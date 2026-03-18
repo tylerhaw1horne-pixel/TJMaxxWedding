@@ -997,11 +997,47 @@ CONTINUE ARCHIVE
 
 <div class="screen" id="c5">
 
-<h2>ARCHIVE CONTINUED</h2>
+<h2>LOCATION FILE</h2>
 
 <div class="storyText">
-Additional archive segments recovered.<br><br>
-Playback continuing...
+
+ARCHIVE LOCATION CONFIRMED<br><br>
+
+THE CONSERVATORY<br>
+ACWORTH, GEORGIA<br><br>
+
+CEREMONY TIME:<br>
+5:00 PM – 9:00 PM
+
+</div>
+
+<div class="imagePanel vhsPhoto show">
+<img src="venue.png">
+</div>
+
+<button onclick="toggleMap()">
+VIEW LOCATION
+</button>
+
+<div id="mapContainer" style="display:none; margin-top:25px; width:100%; max-width:600px;">
+
+<iframe
+width="100%"
+height="300"
+style="border:2px solid rgba(255,255,255,.4); box-shadow:0 0 40px rgba(0,0,0,.8);"
+loading="lazy"
+allowfullscreen
+referrerpolicy="no-referrer-when-downgrade"
+src="https://www.google.com/maps?q=The+Conservatory+Acworth+GA&output=embed">
+</iframe>
+
+</div>
+
+<div class="storyText">
+
+PARKING AVAILABLE ON SITE<br>
+ARRIVE EARLY TO AVOID SIGNAL LOSS
+
 </div>
 
 <button onclick="goTo('c6')">
@@ -1009,12 +1045,147 @@ CONTINUE ARCHIVE
 </button>
 
 </div>
+<!-- CH6 -->
 
+<div class="screen" id="c6">
+
+<h2>IDENTIFIED INDIVIDUALS</h2>
+
+<div class="storyText">
+Subjects connected to primary entities.<br>
+Access restricted until selected.
+</div>
+
+<div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
+
+<button onclick="toggleParty('groom')">GROOM SIDE</button>
+<button onclick="toggleParty('bride')">BRIDE SIDE</button>
+
+</div>
+
+<div id="groomParty" style="display:none; margin-top:25px;">
+<div class="storyText">
+Groomsmen:<br>
+(Name 1)<br>
+(Name 2)<br>
+(Name 3)
+</div>
+</div>
+
+<div id="brideParty" style="display:none; margin-top:25px;">
+<div class="storyText">
+Bridesmaids:<br>
+(Name 1)<br>
+(Name 2)<br>
+(Name 3)
+</div>
+</div>
+
+<button onclick="goTo('c7')">
+CONTINUE ARCHIVE
+</button>
+
+</div>
+
+<!-- CH7 -->
+
+<div class="screen" id="c7">
+
+<h2>ATTENDANCE LOG</h2>
+
+<div class="storyText">
+Confirm presence at event.<br>
+Failure to respond may result in permanent absence.
+</div>
+
+<form style="display:flex; flex-direction:column; gap:12px; max-width:300px; margin:auto;">
+
+<input placeholder="Name" required>
+<input placeholder="Guests" required>
+<select>
+<option>Attending</option>
+<option>Not Attending</option>
+</select>
+
+<button type="submit">SUBMIT</button>
+
+</form>
+
+<button onclick="goTo('c8')">
+CONTINUE ARCHIVE
+</button>
+
+</div>
+
+<!-- CH8 -->
+
+<div class="screen" id="c8">
+
+<h2>RESOURCE TRANSFER</h2>
+
+<div class="storyText">
+Support the union.<br>
+Contributions accepted through secure channels.
+</div>
+
+<div style="display:flex; flex-direction:column; gap:15px; align-items:center;">
+
+<a href="https://cash.app" target="_blank">
+<button>APPLE CASH</button>
+</a>
+
+<a href="https://www.zellepay.com" target="_blank">
+<button>ZELLE</button>
+</a>
+
+</div>
+
+<div class="storyText">
+Registry available upon request.
+</div>
+
+<button onclick="goTo('final')">
+FINAL ARCHIVE
+</button>
+
+</div>
+
+<!-- FINAL -->
+
+<div class="screen" id="final">
+
+<h2>SIGNAL LOST</h2>
+
+<div class="storyText">
+
+Playback unstable...<br>
+Archive corruption detected...<br><br>
+
+END OF TRANSMISSION
+
+</div>
+
+</div>
 <script>
+const whisper = document.getElementById("whisper")
+let whisperFade
 
-/* =========================
-CLOCK (real time)
-========================= */
+function toggleParty(side){
+
+const groom=document.getElementById("groomParty")
+const bride=document.getElementById("brideParty")
+
+if(side==="groom"){
+groom.style.display = groom.style.display==="none" ? "block" : "none"
+}
+
+if(side==="bride"){
+bride.style.display = bride.style.display==="none" ? "block" : "none"
+}
+
+}
+
+/* CLOCK */
 
 function updateVHSTime(){
 
@@ -1031,14 +1202,11 @@ hrs+":"+mins+":"+secs;
 
 }
 
-setInterval(updateVHSTime,1000);
+setInterval(updateVHSTime,1000)
 
+/* TAPE */
 
-/* =========================
-TAPE COUNTER
-========================= */
-
-let tape=0;
+let tape=0
 
 setInterval(()=>{
 
@@ -1052,14 +1220,11 @@ document.getElementById("counter").innerText=
 
 },1000)
 
-
-/* =========================
-REC TIMER (camcorder style)
-========================= */
+/* REC TIMER */
 
 let recSeconds=0
 let recActive=false
-let whisperFade
+
 setInterval(()=>{
 
 if(!recActive)return
@@ -1078,10 +1243,7 @@ document.getElementById("vhsTime").innerText=h+":"+m+":"+s
 
 },1000)
 
-
-/* =========================
-BATTERY DRAIN
-========================= */
+/* BATTERY */
 
 let battery=87
 
@@ -1100,11 +1262,7 @@ document.querySelector(".battery").innerText=
 
 },14000)
 
-
-
-/* =========================
-OPEN CAMERA
-========================= */
+/* OPEN CAMERA */
 
 function openCamera(){
 
@@ -1116,12 +1274,9 @@ const video=document.getElementById("bgVideo")
 boot.classList.add("active")
 
 setTimeout(()=>{
-
 boot.classList.remove("active")
 calibrate.classList.add("active")
-
 },3000)
-
 
 setTimeout(()=>{
 
@@ -1134,12 +1289,19 @@ setTimeout(()=>{
 layer.classList.remove("cameraBoot")
 },600)
 
-/* force browser repaint */
 video.currentTime=0
-
 video.play().catch(()=>{})
 
 recActive=true
+
+/* SAFE AUDIO START */
+if(whisper.paused){
+whisper.volume = 0
+const playPromise = whisper.play()
+if(playPromise !== undefined){
+playPromise.catch(()=>{})
+}
+}
 
 goTo('c1')
 
@@ -1147,17 +1309,18 @@ goTo('c1')
 
 }
 
-
-
-/* =========================
-NAVIGATION
-========================= */
+/* NAV */
 
 function goTo(id){
 
 const staticLayer=document.getElementById("static")
 
 staticLayer.classList.add("active")
+
+/* FIX: remove static */
+setTimeout(()=>{
+staticLayer.classList.remove("active")
+},500)
 
 document.body.classList.add("rewindFlash")
 
@@ -1169,8 +1332,13 @@ document.querySelectorAll(".screen")
 .forEach(s=>s.classList.remove("active"))
 
 const next=document.getElementById(id)
-
 if(next) next.classList.add("active")
+
+if(id==="final"){
+setTimeout(()=>{
+whisper.volume = 0.05
+},2000)
+}
 
 /* IMAGE REVEALS */
 
@@ -1184,7 +1352,6 @@ if(id==="c2"){
 setTimeout(()=>{
 document.getElementById("ch2img1").classList.add("show")
 },1200)
-
 setTimeout(()=>{
 document.getElementById("ch2img2").classList.add("show")
 },4200)
@@ -1194,7 +1361,6 @@ if(id==="c3"){
 setTimeout(()=>{
 document.getElementById("c3img1").classList.add("show")
 },1200)
-
 setTimeout(()=>{
 document.getElementById("c3img2").classList.add("show")
 },4200)
@@ -1202,21 +1368,18 @@ document.getElementById("c3img2").classList.add("show")
 
 if(id==="c4"){
 
-/* simulate tape glitch */
 document.body.classList.add("tapeWarp")
 
 setTimeout(()=>{
 document.body.classList.remove("tapeWarp")
 },300)
 
-/* small rewind */
 const video=document.getElementById("bgVideo")
 
 if(video && video.currentTime>0.7){
 video.currentTime = Math.max(0, video.currentTime - 0.6)
 }
 
-/* proposal frame reveal */
 setTimeout(()=>{
 
 const img=document.getElementById("c4img")
@@ -1234,227 +1397,82 @@ img.classList.remove("proposalFreeze")
 
 },200)
 
-/* =========================
-WHISPER AUDIO
-========================= */
-
-const whisper=document.getElementById("whisper")
-
-if(id==="c2" || id==="c3" || id==="c4"){
-
-whisper.volume=0
-whisper.play().catch(()=>{})
+/* WHISPER ENGINE */
 
 clearInterval(whisperFade)
 
-whisperFade=setInterval(()=>{
+let target = 0.28
 
-let maxVol = (id==="c4") ? .35 : .25
+if(id==="c4") target = 0.38
+if(id==="final") target = 0.18
 
-if(whisper.volume < maxVol){
-whisper.volume+=.02
-}else{
+whisperFade = setInterval(()=>{
+
+if(Math.abs(whisper.volume - target) < 0.01){
 clearInterval(whisperFade)
+return
 }
 
-},120)
+whisper.volume += (whisper.volume < target ? 0.01 : -0.01)
 
-}else{
-
-whisper.pause()
+},100)
 
 }
-}
 
-/* =========================
-RANDOM VHS GLITCH
-========================= */
+/* OPENING */
 
-setInterval(()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-if(Math.random()<.18){
+const openingVideo = document.getElementById("openingVideo")
+if(!openingVideo) return
+
+function showArchive(){
+
+const opening=document.getElementById("opening")
+if(!opening || !opening.classList.contains("active")) return
+
+opening.classList.remove("active")
 
 document.body.classList.add("glitchFlash")
 
 setTimeout(()=>{
-document.body.classList.remove("glitchFlash")
-},120)
 
-}
+goTo("startScreen")
 
-},9000)
-/* =========================
-VHS TAPE DAMAGE ENGINE
-========================= */
+const archive=document.getElementById("startScreen")
 
-setInterval(()=>{
-
-if(!recActive)return
-
-let chance=Math.random()
-
-/* signal loss */
-
-if(chance<.12){
+archive.classList.add("archiveReveal")
 
 document.body.classList.add("signalLoss")
 
 setTimeout(()=>{
 document.body.classList.remove("signalLoss")
-},350)
-
-}
-
-/* tape warp */
-
-if(chance>.6 && chance<.7){
-
-document.body.classList.add("tapeWarp")
-
-setTimeout(()=>{
-document.body.classList.remove("tapeWarp")
 },300)
 
-}
-
-/* mini rewind glitch */
-
-if(chance>.85){
-
-const video=document.getElementById("bgVideo")
-
-if(video.currentTime>3){
-
-video.currentTime-=.8
-
-}
-
-}
-
-},8000)
-/* =========================
-RARE TAPE CORRUPTION EVENT
-========================= */
-
-setInterval(()=>{
-
-if(!recActive)return
-
-if(Math.random()<.06){
-
-const warn=document.getElementById("tapeError")
-const video=document.getElementById("bgVideo")
-const staticLayer=document.getElementById("static")
-
-/* show corruption warning */
-
-warn.classList.add("show")
-
-/* heavy signal loss */
-
-document.body.classList.add("signalLoss")
-
-staticLayer.classList.add("active")
-
-/* simulate tape drag */
-
-if(video.currentTime>5){
-video.currentTime-=2
-}
-
 setTimeout(()=>{
+archive.classList.remove("archiveReveal")
+},800)
 
-warn.classList.remove("show")
-staticLayer.classList.remove("active")
-document.body.classList.remove("signalLoss")
-
-},2500)
+},600)
 
 }
 
-},22000)
-/* =========================
-RARE FOREST SHADOW EVENT
-========================= */
+openingVideo.addEventListener("ended", showArchive)
+setTimeout(showArchive,6500)
 
-/* =========================
-MOVING FOREST SHADOW
-========================= */
+})
 
-setInterval(()=>{
+function toggleMap(){
 
-if(!recActive) return
+const map=document.getElementById("mapContainer")
 
-/* rare event */
-
-if(Math.random()<.04){
-
-const shadow=document.getElementById("shadowFigure")
-
-if(shadow){
-shadow.classList.add("walk")
+if(map.style.display==="none"){
+map.style.display="block"
+}else{
+map.style.display="none"
 }
 
-setTimeout(()=>{
-if(shadow){
-shadow.classList.remove("walk")
 }
-},1400)
-
-}
-
-},26000)
-
-
-/* =========================
-OPENING FOOTAGE END
-========================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-const openingVideo = document.getElementById("openingVideo");
-
-if(!openingVideo) return;
-
-function showArchive(){
-
-const opening=document.getElementById("opening");
-
-if(!opening || !opening.classList.contains("active")) return;
-
-opening.classList.remove("active");
-
-document.body.classList.add("glitchFlash");
-
-setTimeout(()=>{
-
-goTo("startScreen");
-
-const archive=document.getElementById("startScreen");
-
-archive.classList.add("archiveReveal");
-
-document.body.classList.add("signalLoss");
-
-setTimeout(()=>{
-document.body.classList.remove("signalLoss");
-},300);
-
-setTimeout(()=>{
-archive.classList.remove("archiveReveal");
-},800);
-
-},600);
-
-}
-
-/* when video finishes */
-openingVideo.addEventListener("ended", showArchive);
-
-/* safety fallback in case browser blocks event */
-setTimeout(showArchive,6500);
-
-});
 </script>
 <div class="tapeError" id="tapeError">
 TAPE CORRUPTION DETECTED
