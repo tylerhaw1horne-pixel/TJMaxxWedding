@@ -3,589 +3,520 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recovered Archive — 10.24.2026</title>
+<title>DO NOT WATCH — 10.24.2026</title>
 <style>
 
-/* RESET */
+/* ── RESET ── */
 *{margin:0;padding:0;box-sizing:border-box;}
-
 html,body{
-  height:100%;
-  width:100%;
-  background:#050505;
-  color:white;
-  font-family:'Courier New', monospace;
+  height:100%;width:100%;
+  background:#000;color:#e8e8e0;
+  font-family:'Courier New',monospace;
   overflow:hidden;
+  cursor:crosshair;
 }
 
-/* VIDEO BACKGROUND */
+/* ── VIDEO BG ── */
 .videoLayer{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  overflow:hidden;
+  position:fixed;top:0;left:0;
+  width:100%;height:100%;z-index:0;overflow:hidden;
 }
-
 #bgVideo{
-  width:100%; height:100%;
-  object-fit:cover;
-  filter:brightness(.85) contrast(1.3) saturate(.9);
-  animation:cameraDrift 22s infinite ease-in-out;
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.7) contrast(1.4) saturate(.6) sepia(.15);
+  animation:cameraDrift 26s infinite ease-in-out;
 }
-
 @keyframes cameraDrift{
-  0%{transform:scale(1.02)}
-  50%{transform:scale(1.05)}
-  100%{transform:scale(1.02)}
+  0%{transform:scale(1.02) rotate(-.1deg)}
+  33%{transform:scale(1.04) rotate(.15deg)}
+  66%{transform:scale(1.03) rotate(-.05deg)}
+  100%{transform:scale(1.02) rotate(-.1deg)}
 }
 
-/* OVERLAYS */
-.darkOverlay{
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.32);
-  z-index:1; pointer-events:none;
+/* ── GRAIN ── */
+.grainLayer{
+  position:fixed;inset:0;z-index:3;pointer-events:none;
+  opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:128px 128px;
+  animation:grainShift .09s infinite steps(1);
+  mix-blend-mode:overlay;
+}
+@keyframes grainShift{
+  0%{background-position:0 0}20%{background-position:-28px 12px}
+  40%{background-position:18px -14px}60%{background-position:-10px 22px}
+  80%{background-position:14px -6px}100%{background-position:0 0}
 }
 
+/* ── OVERLAYS ── */
+.darkOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1;pointer-events:none;}
 .scanLayer{
-  position:fixed; inset:0;
-  background:repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,.035),
-    rgba(255,255,255,.035) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  z-index:2; pointer-events:none;
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.18),rgba(0,0,0,.18) 1px,transparent 1px,transparent 3px);
+}
+.vignetteLayer{
+  position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.6) 72%,rgba(0,0,0,.94) 100%);
 }
 
-/* VHS TRACKING BAR */
+/* ── TRACKING BAR ── */
 .trackingBar{
-  position:fixed; top:0; left:0;
-  width:100%; height:60px;
-  background:linear-gradient(to bottom,rgba(255,255,255,.22),rgba(255,255,255,0));
-  mix-blend-mode:overlay; opacity:.22;
-  animation:trackingMove 9s infinite linear;
-  pointer-events:none; z-index:4;
+  position:fixed;top:0;left:0;width:100%;height:80px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.18) 0%,rgba(180,180,140,.08) 60%,transparent 100%);
+  mix-blend-mode:overlay;opacity:.28;
+  animation:trackingMove 11s infinite linear;
+  pointer-events:none;z-index:4;
 }
 @keyframes trackingMove{
-  0%{transform:translateY(-80px)}
-  100%{transform:translateY(110vh)}
+  0%{transform:translateY(-100px) skewX(0deg)}
+  48%{transform:translateY(55vh) skewX(0deg)}
+  50%{transform:translateY(55vh) skewX(2deg)}
+  52%{transform:translateY(57vh) skewX(0deg)}
+  100%{transform:translateY(115vh) skewX(0deg)}
 }
 
-/* HUD */
-.vhsHUD{
-  position:fixed; inset:0;
-  pointer-events:none; z-index:5;
-  text-shadow:0 0 8px rgba(255,255,255,.5);
+/* ── GLITCH LINES ── */
+.glitchLine{
+  position:fixed;left:0;width:100%;height:2px;
+  background:rgba(255,255,255,.65);
+  pointer-events:none;z-index:8;opacity:0;
+  animation:glitchLinePop 8s infinite;
+}
+.glitchLine:nth-child(2){animation-delay:2.7s;height:1px;background:rgba(200,200,170,.5);}
+.glitchLine:nth-child(3){animation-delay:5.4s;}
+@keyframes glitchLinePop{
+  0%,93%{opacity:0;transform:translateX(0)}
+  94%{opacity:1;transform:translateX(-10px)}
+  95%{opacity:.35;transform:translateX(14px)}
+  96%{opacity:.85;transform:translateX(-5px)}
+  97%{opacity:0}100%{opacity:0}
 }
 
+/* ── HUD ── */
+.vhsHUD{position:fixed;inset:0;pointer-events:none;z-index:5;}
 .recIndicator{
-  position:absolute; top:15px; left:18px;
-  display:flex; gap:6px; font-size:13px;
-  align-items:center;
+  position:absolute;top:16px;left:18px;
+  display:flex;gap:7px;font-size:12px;align-items:center;
+  letter-spacing:2px;color:#ff6060;
+  text-shadow:0 0 8px rgba(255,60,60,.9);
 }
 .recDot{
-  width:10px; height:10px;
-  background:red; border-radius:50%;
-  animation:blink 1.3s infinite;
+  width:9px;height:9px;background:#ff1a1a;border-radius:50%;
+  animation:blink 1.4s infinite;
+  box-shadow:0 0 7px rgba(255,0,0,.9);
 }
-@keyframes blink{ 50%{opacity:.3} }
-
+@keyframes blink{50%{opacity:.1}}
 .battery{
-  position:absolute; top:14px; right:18px;
-  font-size:12px;
+  position:absolute;top:15px;right:18px;
+  font-size:11px;letter-spacing:2px;
+  color:rgba(255,255,210,.7);
+  text-shadow:0 0 6px rgba(255,255,180,.3);
 }
-
 .vhsTimestamp{
-  position:absolute; bottom:25px; left:20px;
-  font-size:13px;
+  position:absolute;bottom:28px;left:20px;
+  font-size:12px;letter-spacing:2px;
+  color:rgba(255,255,210,.75);
+  text-shadow:0 0 8px rgba(255,255,180,.4);
 }
-
 .tapeCounter{
-  position:absolute; bottom:25px; right:20px;
-  font-size:13px;
+  position:absolute;bottom:28px;right:20px;
+  font-size:12px;letter-spacing:2px;
+  color:rgba(255,255,210,.75);
+  text-shadow:0 0 8px rgba(255,255,180,.4);
+}
+.chLabel{
+  position:absolute;top:16px;left:50%;transform:translateX(-50%);
+  font-size:11px;letter-spacing:5px;
+  color:rgba(255,255,200,.5);
 }
 
-.contentLayer{
-  position:relative; z-index:7;
-}
+/* ── CONTENT LAYER ── */
+.contentLayer{position:relative;z-index:7;}
 
-/* SCREENS */
+/* ── SCREENS ── */
 .screen{
-  display:none;
-  position:relative;
-  width:100%; height:100vh;
-  padding:100px 20px 110px 20px;
-  text-align:center;
-  max-width:860px;
-  margin:auto;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:18px;
-  overflow-y:auto;
-  overflow-x:hidden;
+  display:none;position:relative;
+  width:100%;height:100vh;
+  padding:96px 22px 108px;
+  text-align:center;max-width:880px;margin:auto;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
 }
-.screen.active{ display:flex; }
-
-.archiveScreen{ animation:cameraIdle 12s infinite; }
+.screen.active{display:flex;}
+.archiveScreen{animation:cameraIdle 14s infinite;}
 @keyframes cameraIdle{
-  0%{filter:contrast(1)}
-  2%{filter:contrast(1.4)}
-  3%{filter:contrast(.8)}
-  4%{filter:contrast(1)}
+  0%{filter:contrast(1) brightness(1)}
+  1.5%{filter:contrast(1.5) brightness(1.1)}
+  2.5%{filter:contrast(.75) brightness(.9)}
+  3%{filter:contrast(1) brightness(1)}
+  60%{filter:contrast(1)}
+  61%{filter:contrast(1.35) brightness(.8) saturate(0)}
+  61.5%{filter:contrast(1)}
   100%{filter:contrast(1)}
 }
 
-/* TYPOGRAPHY */
+/* ── TYPE ── */
 h2{
-  letter-spacing:6px;
-  font-size:clamp(16px,4vw,24px);
-  color:#ffffff;
-  text-shadow:
-    0 0 10px rgba(255,255,255,.9),
-    0 0 22px rgba(255,255,255,.6),
-    0 0 40px rgba(255,255,255,.25);
+  letter-spacing:8px;font-size:clamp(14px,3.8vw,22px);
+  color:#f0efe6;
+  text-shadow:0 0 8px rgba(255,255,190,.8),0 0 22px rgba(255,255,160,.4),0 0 50px rgba(255,255,100,.15);
+  animation:titleFlicker 10s infinite;
 }
-
+@keyframes titleFlicker{
+  0%{opacity:1}46%{opacity:1}47%{opacity:.65}48%{opacity:1}
+  71%{opacity:1}71.5%{opacity:.25}72%{opacity:1}100%{opacity:1}
+}
 .storyText{
-  max-width:520px;
-  margin:6px auto;
-  line-height:1.75;
-  font-size:clamp(13px,3.5vw,16px);
-  color:#ffffff;
-  text-shadow:
-    0 0 6px rgba(255,255,255,.8),
-    0 0 18px rgba(255,255,255,.5);
-  text-align:center;
+  max-width:500px;margin:4px auto;line-height:1.88;
+  font-size:clamp(12px,3.2vw,15px);color:#d4d4c8;text-align:center;
+  text-shadow:0 0 5px rgba(255,255,190,.55),0 0 14px rgba(255,255,160,.25);
+}
+.vhsSep{
+  width:160px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,190,.35),transparent);
+  margin:2px auto;
 }
 
-/* IMAGE PANEL */
+/* ── IMAGE PANELS ── */
 .imagePanel{
-  width:320px; max-width:85%;
-  margin:18px auto;
-  border:2px solid rgba(255,255,255,.4);
-  box-shadow:0 0 80px rgba(0,0,0,.9);
-  opacity:0;
-  filter:brightness(1.1) contrast(1.2);
-  transition:opacity 4s ease, filter 4s ease;
+  width:300px;max-width:82%;margin:14px auto;
+  border:1px solid rgba(255,255,190,.28);
+  box-shadow:0 0 70px rgba(0,0,0,.96),inset 0 0 20px rgba(0,0,0,.3);
+  opacity:0;transition:opacity 4.5s ease;position:relative;
 }
-.imagePanel.show{ opacity:1; filter:brightness(1); }
-.imagePanel img{
-  width:100%;
-  filter:brightness(1.5) contrast(1.25);
-  transform:rotate(-0.3deg);
+.imagePanel::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%,rgba(0,0,0,.2) 100%);
+  pointer-events:none;z-index:1;
 }
+.imagePanel.show{opacity:1;}
+.imagePanel img{width:100%;display:block;filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);transform:rotate(-.4deg);}
 
-/* CH2 GRID */
 .c2Grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(20px,5vw,60px);
-  align-items:center;
-  justify-items:center;
-  margin-top:20px;
-  width:100%;
-  max-width:540px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(16px,4vw,50px);align-items:center;justify-items:center;
+  margin-top:14px;width:100%;max-width:520px;
 }
 .c2Photo{
-  width:clamp(130px,40vw,240px);
-  opacity:0; transition:opacity 4s ease;
+  width:clamp(120px,38vw,220px);opacity:0;transition:opacity 4.5s ease;
+  border:1px solid rgba(255,255,190,.28);
+  box-shadow:0 0 60px rgba(0,0,0,.95);
 }
-.c2Photo.show{ opacity:1; }
-.c2Photo img{
-  width:100%;
-  filter:brightness(1.5) contrast(1.25);
-  border:2px solid rgba(255,255,255,.4);
-  box-shadow:0 0 80px rgba(0,0,0,.9);
-}
+.c2Photo.show{opacity:1;}
+.c2Photo img{width:100%;display:block;filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);}
 
-/* CH3 */
-.c3photo{
-  width:clamp(120px,28vw,240px);
-  margin:10px auto;
-  border:2px solid rgba(255,255,255,.4);
-  box-shadow:0 0 80px rgba(0,0,0,.9);
-  opacity:0; transition:opacity 3s ease;
-}
-.c3photo.show{ opacity:1; }
-.c3photo img{
-  width:100%;
-  filter:brightness(1.5) contrast(1.25);
-}
 .c3Grid{
-  display:grid;
-  grid-template-columns:1fr minmax(200px,400px) 1fr;
-  align-items:center;
-  gap:clamp(15px,3vw,40px);
-  margin-top:15px;
-  width:100%;
+  display:grid;grid-template-columns:1fr minmax(175px,370px) 1fr;
+  align-items:center;gap:clamp(12px,3vw,36px);margin-top:12px;width:100%;
 }
+.c3photo{
+  width:clamp(110px,25vw,215px);margin:8px auto;
+  border:1px solid rgba(255,255,190,.28);
+  box-shadow:0 0 60px rgba(0,0,0,.95);
+  opacity:0;transition:opacity 3.5s ease;
+}
+.c3photo.show{opacity:1;}
+.c3photo img{width:100%;display:block;filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);}
 
-/* COUNTDOWN */
-.countdownBox{
-  display:flex;
-  gap:clamp(12px,4vw,28px);
-  justify-content:center;
-  align-items:center;
-  margin:8px 0;
-  flex-wrap:wrap;
-}
-.countUnit{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-}
-.countNum{
-  font-size:clamp(22px,8vw,48px);
-  font-weight:bold;
-  line-height:1;
-  text-shadow:
-    0 0 10px rgba(255,255,255,.9),
-    0 0 25px rgba(255,255,255,.5);
-  letter-spacing:3px;
-}
-.countLabel{
-  font-size:clamp(9px,2.5vw,11px);
-  letter-spacing:4px;
-  opacity:.7;
-}
-.countDivider{
-  font-size:clamp(20px,6vw,36px);
-  opacity:.5;
-  margin-bottom:10px;
-}
-
-/* PARTY GRID */
-.partyGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:20px 40px;
-  max-width:500px;
-  margin:0 auto;
-  text-align:left;
-}
-.partyCol h3{
-  font-size:11px;
-  letter-spacing:4px;
-  opacity:.6;
-  margin-bottom:10px;
-  text-transform:uppercase;
-  text-shadow:0 0 8px rgba(255,255,255,.5);
-}
-.partyCol p{
-  font-size:clamp(11px,3vw,13px);
-  line-height:2;
-  text-shadow:0 0 6px rgba(255,255,255,.7);
-}
-.partyRole{
-  font-size:9px;
-  letter-spacing:2px;
-  opacity:.55;
-  display:block;
-  margin-top:-4px;
-  margin-bottom:4px;
-}
-
-/* RSVP FORM */
-.rsvpForm{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  max-width:320px;
-  width:100%;
-  margin:0 auto;
-}
-.rsvpForm input,
-.rsvpForm select,
-.rsvpForm textarea{
-  padding:10px 14px;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.35);
-  color:white;
-  font-family:'Courier New', monospace;
-  font-size:13px;
-  letter-spacing:2px;
-  outline:none;
-  width:100%;
-  transition:border-color .3s, box-shadow .3s;
-}
-.rsvpForm input::placeholder,
-.rsvpForm textarea::placeholder{
-  color:rgba(255,255,255,.4);
-  letter-spacing:2px;
-}
-.rsvpForm input:focus,
-.rsvpForm select:focus,
-.rsvpForm textarea:focus{
-  border-color:rgba(255,255,255,.8);
-  box-shadow:0 0 12px rgba(255,255,255,.2);
-}
-.rsvpForm select option{
-  background:#111;
-  color:white;
-}
-.rsvpForm textarea{
-  resize:none;
-  height:70px;
-}
-
-/* SUBMIT STATUS */
-.submitStatus{
-  font-size:12px;
-  letter-spacing:3px;
-  opacity:0;
-  transition:opacity .5s;
-  min-height:20px;
-}
-.submitStatus.show{ opacity:1; }
-
-/* BUTTON */
-button{
-  padding:11px 32px;
-  border:2px solid #ffffff;
-  background:rgba(0,0,0,.45);
-  color:#ffffff;
-  letter-spacing:4px;
-  cursor:pointer;
-  font-weight:bold;
-  font-family:'Courier New', monospace;
-  font-size:clamp(10px,2.5vw,13px);
-  box-shadow:0 0 12px rgba(255,255,255,.3);
-  transition:background .2s, color .2s, box-shadow .2s;
-}
-button:hover{
-  background:white; color:black;
-  box-shadow:0 0 10px white, 0 0 25px rgba(255,255,255,.6);
-}
-
-/* MAP */
-#mapContainer{
-  width:100%; max-width:560px;
-  margin-top:15px;
-}
-#mapContainer iframe{
-  width:100%; height:260px;
-  border:2px solid rgba(255,255,255,.4);
-  box-shadow:0 0 40px rgba(0,0,0,.8);
-}
-
-/* PAYMENT BUTTONS */
-.payRow{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-
-/* OPENING */
-#openingScreen{
-  position:fixed; inset:0; z-index:10;
-  background:black; overflow:hidden;
-}
-#openingVideo{
-  position:fixed; top:0; left:0;
-  width:100%; height:100%;
-  object-fit:cover; z-index:1;
-}
-
-/* VHS PHOTO DISTORTION */
-.vhsPhoto img{
-  animation:
-    vhsNoise 6s infinite,
-    cameraBreath 12s infinite;
-}
-@keyframes cameraBreath{
-  0%{transform:scale(1) rotate(-0.3deg)}
-  50%{transform:scale(1.025) rotate(-0.3deg)}
-  100%{transform:scale(1) rotate(-0.3deg)}
+/* VHS PHOTO ANIMATION */
+.vhsPhoto img{animation:vhsNoise 7s infinite,photoBreath 14s infinite;}
+@keyframes photoBreath{
+  0%{transform:scale(1) rotate(-.4deg)}50%{transform:scale(1.018) rotate(-.4deg)}100%{transform:scale(1) rotate(-.4deg)}
 }
 @keyframes vhsNoise{
-  0%{filter:brightness(1.5) contrast(1.25)}
-  5%{filter:brightness(1.8) contrast(1.6)}
-  6%{filter:brightness(1.1) contrast(.9)}
-  7%{filter:brightness(1.5) contrast(1.25)}
-  50%{filter:brightness(1.6) contrast(1.3)}
-  51%{filter:brightness(1.0) contrast(.8)}
-  52%{filter:brightness(1.5) contrast(1.25)}
+  0%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
+  4%{filter:brightness(1.8) contrast(1.8) sepia(.4) saturate(.3)}
+  5%{filter:brightness(.85) contrast(1) sepia(.1)}
+  6%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
+  51%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
+  51.8%{filter:brightness(.4) contrast(2.2) sepia(.6) saturate(0)}
+  52.5%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
 }
 
-/* TRANSITIONS */
-.glitchFlash{ animation:glitchFlash .15s; }
-@keyframes glitchFlash{ 50%{filter:brightness(2.5) contrast(3)} }
+/* ── COUNTDOWN ── */
+.countdownBox{
+  display:flex;gap:clamp(10px,3.5vw,26px);
+  justify-content:center;align-items:center;margin:6px 0;flex-wrap:wrap;
+}
+.countUnit{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.countNum{
+  font-size:clamp(20px,7vw,46px);font-weight:bold;line-height:1;letter-spacing:4px;
+  color:#f2f0e4;
+  text-shadow:0 0 8px rgba(255,255,190,.95),0 0 22px rgba(255,255,150,.5),0 0 45px rgba(255,255,100,.2);
+  animation:countFlicker 7s infinite;
+}
+@keyframes countFlicker{
+  0%,94%{opacity:1}95%{opacity:.45}96%{opacity:1}97%{opacity:.7}98%{opacity:1}
+}
+.countLabel{font-size:clamp(8px,2vw,10px);letter-spacing:5px;opacity:.5;color:#bbb;}
+.countDivider{font-size:clamp(18px,5vw,34px);opacity:.3;margin-bottom:12px;color:#999;}
 
-.cameraBoot{ animation:cameraBoot .6s ease; }
-@keyframes cameraBoot{
-  0%{filter:brightness(0) contrast(3); transform:scale(1.02);}
-  40%{filter:brightness(2.5) contrast(2);}
-  100%{filter:brightness(1); transform:scale(1);}
+/* ── PARTY PAGE ── */
+.partyWrapper{width:100%;max-width:660px;margin:0 auto;}
+.partyToggleRow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;}
+.partySection{display:none;width:100%;animation:partyReveal .65s ease;}
+.partySection.open{display:block;}
+@keyframes partyReveal{
+  from{opacity:0;filter:brightness(4) contrast(4);}
+  18%{opacity:.25;filter:brightness(.4);}
+  to{opacity:1;filter:brightness(1);}
+}
+.partyTitle{
+  font-size:9px;letter-spacing:6px;color:rgba(255,255,170,.4);
+  margin-bottom:14px;padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,190,.12);
+}
+.partyCards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+  gap:8px;width:100%;
+}
+.partyCard{
+  border:1px solid rgba(255,255,190,.16);
+  padding:12px 10px 10px;position:relative;
+  background:rgba(0,0,0,.5);text-align:left;
+  transition:border-color .3s,box-shadow .3s;
+  animation:cardFlicker 13s infinite;
+}
+.partyCard:hover{
+  border-color:rgba(255,255,190,.45);
+  box-shadow:0 0 16px rgba(255,255,100,.1);
+}
+@keyframes cardFlicker{
+  0%,89%{opacity:1}90%{opacity:.75}91%{opacity:1}95%{opacity:1}95.5%{opacity:.5}96%{opacity:1}
+}
+.partyCard::before{
+  content:'▮';position:absolute;top:7px;right:7px;
+  font-size:7px;color:rgba(255,255,170,.25);
+}
+.cardRole{
+  font-size:8px;letter-spacing:3px;color:rgba(255,255,130,.45);
+  display:block;margin-bottom:4px;text-transform:uppercase;
+}
+.cardName{
+  font-size:clamp(11px,2.8vw,13px);color:#e4e4d8;letter-spacing:1px;
+  text-shadow:0 0 8px rgba(255,255,190,.35);line-height:1.5;
+}
+.partyExtras{
+  margin-top:8px;border:1px solid rgba(255,255,190,.1);
+  padding:10px 14px;background:rgba(0,0,0,.35);text-align:center;
 }
 
-.staticBurst{
-  position:fixed; inset:0;
-  background:repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,.15),
-    rgba(255,255,255,.15) 2px,
-    transparent 2px,
-    transparent 4px
-  );
-  opacity:0; z-index:999; pointer-events:none;
+/* ── RSVP ── */
+.rsvpWrapper{width:100%;max-width:380px;margin:0 auto;}
+.rsvpHeader{
+  font-size:9px;letter-spacing:5px;color:rgba(255,255,170,.4);
+  margin-bottom:14px;padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,190,.1);
 }
-.staticBurst.active{ animation:vhsStatic .5s; }
-@keyframes vhsStatic{
-  0%{opacity:0}
-  35%{opacity:.65}
-  100%{opacity:0}
+.rsvpField{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;text-align:left;}
+.rsvpLabel{font-size:9px;letter-spacing:3px;color:rgba(255,255,170,.45);text-transform:uppercase;}
+.rsvpField input,.rsvpField select,.rsvpField textarea{
+  padding:10px 12px;
+  background:rgba(4,4,2,.75);
+  border:1px solid rgba(255,255,190,.18);
+  color:#ddddd0;font-family:'Courier New',monospace;
+  font-size:13px;letter-spacing:1px;outline:none;width:100%;
+  transition:border-color .3s,box-shadow .3s;
+  -webkit-appearance:none;
+}
+.rsvpField input::placeholder,.rsvpField textarea::placeholder{
+  color:rgba(255,255,190,.18);letter-spacing:1px;
+}
+.rsvpField input:focus,.rsvpField select:focus,.rsvpField textarea:focus{
+  border-color:rgba(255,255,190,.55);
+  box-shadow:0 0 14px rgba(255,255,100,.09);
+}
+.rsvpField select option{background:#080806;color:#ddddd0;}
+.rsvpField textarea{resize:none;height:62px;}
+.submitStatus{
+  font-size:11px;letter-spacing:3px;opacity:0;transition:opacity .5s;
+  min-height:18px;text-align:center;margin-top:4px;
+}
+.submitStatus.show{opacity:1;}
+
+/* ── BUTTON ── */
+button{
+  padding:11px 30px;
+  border:1px solid rgba(255,255,190,.45);
+  background:rgba(0,0,0,.6);
+  color:rgba(255,255,210,.88);
+  letter-spacing:4px;cursor:pointer;font-weight:bold;
+  font-family:'Courier New',monospace;
+  font-size:clamp(9px,2.2vw,12px);
+  box-shadow:0 0 10px rgba(255,255,90,.08),inset 0 0 10px rgba(0,0,0,.4);
+  transition:all .25s;position:relative;overflow:hidden;
+  text-transform:uppercase;
+}
+button::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.04),transparent);
+  pointer-events:none;
+}
+button:hover{
+  background:rgba(255,255,195,.92);color:#080806;
+  box-shadow:0 0 22px rgba(255,255,140,.5),0 0 45px rgba(255,255,100,.2);
+  border-color:rgba(255,255,200,.9);letter-spacing:5px;
 }
 
+/* ── PAYMENT BUTTONS ── */
+.payRow{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.payBtn{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;}
+.payBtn span{font-size:9px;letter-spacing:3px;color:rgba(255,255,170,.38);}
+
+/* ── MAP ── */
+#mapContainer{width:100%;max-width:540px;margin-top:12px;}
+#mapContainer iframe{
+  width:100%;height:245px;
+  border:1px solid rgba(255,255,190,.28);
+  box-shadow:0 0 40px rgba(0,0,0,.92),0 0 80px rgba(0,0,0,.6);
+  filter:sepia(.25) contrast(1.1) saturate(.8);
+}
+
+/* ── BOOT SCREENS ── */
 .tapeBoot{
-  position:fixed; inset:0; background:black;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  z-index:998; color:white;
-  font-size:14px; letter-spacing:3px;
-  opacity:0; pointer-events:none;
+  position:fixed;inset:0;background:#000;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:998;color:#ccccc0;font-size:13px;
+  letter-spacing:3px;opacity:0;pointer-events:none;
 }
-.tapeBoot.active{ opacity:1; pointer-events:auto; }
-.bootText{
-  margin-top:20px; opacity:.8;
-  animation:bootFlicker 2s infinite;
-}
-@keyframes bootFlicker{
-  0%{opacity:.8} 45%{opacity:.6}
-  50%{opacity:.2} 55%{opacity:.7} 100%{opacity:.8}
-}
-.bootBar{
-  width:240px; height:5px;
-  border:1px solid white; margin-top:20px;
-  position:relative; overflow:hidden;
-}
+.tapeBoot.active{opacity:1;pointer-events:auto;}
+.bootText{margin-top:18px;opacity:.65;font-size:11px;letter-spacing:4px;animation:bootFlicker 2s infinite;}
+@keyframes bootFlicker{0%{opacity:.65}45%{opacity:.45}50%{opacity:.1}55%{opacity:.55}100%{opacity:.65}}
+.bootBar{width:220px;height:4px;border:1px solid rgba(255,255,190,.28);margin-top:18px;position:relative;overflow:hidden;}
 .bootFill{
-  position:absolute; left:0; top:0;
-  height:100%; width:0%;
-  background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.9),rgba(255,255,255,.05));
-  animation:bootLoad 3s forwards, tapePulse 1.4s infinite;
-  box-shadow:0 0 12px rgba(255,255,255,.8);
+  position:absolute;left:0;top:0;height:100%;width:0%;
+  background:linear-gradient(90deg,rgba(255,255,190,.05),rgba(255,255,190,.85),rgba(255,255,190,.05));
+  animation:bootLoad 3s forwards,tapePulse 1.4s infinite;
+  box-shadow:0 0 10px rgba(255,255,150,.65);
 }
-@keyframes bootLoad{ 0%{width:0%} 100%{width:100%} }
-@keyframes tapePulse{ 0%{opacity:.7} 50%{opacity:1} 100%{opacity:.7} }
+@keyframes bootLoad{0%{width:0%}100%{width:100%}}
+@keyframes tapePulse{0%{opacity:.7}50%{opacity:1}100%{opacity:.7}}
 
 .trackingCalibrate{
-  position:fixed; inset:0; background:black;
-  z-index:997; display:flex;
-  align-items:center; justify-content:center;
-  opacity:0; pointer-events:none;
+  position:fixed;inset:0;background:#000;
+  z-index:997;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:22px;opacity:0;pointer-events:none;
 }
-.trackingCalibrate.active{ opacity:1; pointer-events:auto; }
-.calibrateText{
-  font-size:13px; letter-spacing:3px; opacity:.8;
-  animation:calibrateBlink 1s infinite;
+.trackingCalibrate.active{opacity:1;pointer-events:auto;}
+.calibrateText{font-size:12px;letter-spacing:4px;color:rgba(255,255,170,.65);animation:calibrateBlink 1s infinite;}
+.calibrateLines{width:280px;}
+.calLine{
+  height:3px;margin:5px 0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,190,.45),transparent);
+  animation:calLineScan 1.9s infinite;
 }
-@keyframes calibrateBlink{ 50%{opacity:.3} }
+.calLine:nth-child(2){animation-delay:.35s;height:1px;opacity:.45;}
+.calLine:nth-child(3){animation-delay:.7s;}
+@keyframes calLineScan{
+  0%{transform:scaleX(0);opacity:0}50%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}
+}
+@keyframes calibrateBlink{50%{opacity:.15}}
 
-.rewindFlash{ animation:rewindFlash .3s; }
-@keyframes rewindFlash{
-  0%{transform:scale(1)} 40%{transform:scale(1.02)} 100%{transform:scale(1)}
+/* ── TRANSITION FX ── */
+.staticBurst{
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.17),rgba(255,255,255,.17) 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px);
+  opacity:0;z-index:999;pointer-events:none;
+}
+.staticBurst.active{animation:vhsStatic .55s;}
+@keyframes vhsStatic{
+  0%{opacity:0;transform:skewX(0deg)}
+  20%{opacity:.85;transform:skewX(1.5deg)}
+  50%{opacity:.5;transform:skewX(-.5deg)}
+  80%{opacity:.28}
+  100%{opacity:0;transform:skewX(0deg)}
 }
 
-.signalLoss{ animation:signalLoss .4s; }
-@keyframes signalLoss{
-  0%{opacity:1} 30%{opacity:.1} 60%{opacity:.8} 100%{opacity:1}
+.glitchFlash{animation:glitchFlash .2s;}
+@keyframes glitchFlash{30%{filter:brightness(3.5) contrast(5) saturate(0)}65%{filter:brightness(.25)}}
+
+.cameraBoot{animation:cameraBoot .7s ease;}
+@keyframes cameraBoot{
+  0%{filter:brightness(0) contrast(5);transform:scale(1.04);}
+  35%{filter:brightness(3.5) contrast(2.5);}
+  70%{filter:brightness(.55);}
+  100%{filter:brightness(1);transform:scale(1);}
 }
 
-.tapeWarp{ animation:tapeWarp .35s; }
+.rewindFlash{animation:rewindFlash .3s;}
+@keyframes rewindFlash{0%{transform:scale(1)}40%{transform:scale(1.015) skewX(.35deg)}100%{transform:scale(1)}}
+
+.signalLoss{animation:signalLoss .45s;}
+@keyframes signalLoss{0%{opacity:1}25%{opacity:.04}65%{opacity:.88}100%{opacity:1}}
+
+.tapeWarp{animation:tapeWarp .42s;}
 @keyframes tapeWarp{
-  0%{transform:skewX(0deg)}
-  30%{transform:skewX(5deg)}
-  60%{transform:skewX(-4deg)}
-  100%{transform:skewX(0deg)}
+  0%{transform:skewX(0deg) scaleY(1)}
+  25%{transform:skewX(7deg) scaleY(.99)}
+  65%{transform:skewX(-6deg) scaleY(1.01)}
+  100%{transform:skewX(0deg) scaleY(1)}
 }
 
-.proposalFreeze{ animation:proposalFreeze 1.2s ease; }
+.proposalFreeze{animation:proposalFreeze 1.5s ease;}
 @keyframes proposalFreeze{
-  0%{filter:brightness(2.2) contrast(3); transform:scale(1.03);}
-  30%{filter:brightness(.4);}
-  55%{filter:brightness(1.6);}
-  100%{filter:brightness(1); transform:scale(1);}
+  0%{filter:brightness(3.5) contrast(5);transform:scale(1.04);}
+  22%{filter:brightness(.25);}
+  50%{filter:brightness(2) saturate(0);}
+  100%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);transform:scale(1);}
 }
 
-.archiveReveal{ animation:archiveReveal .8s ease; }
+.archiveReveal{animation:archiveReveal .9s ease;}
 @keyframes archiveReveal{
-  0%{opacity:0; transform:scale(.96); filter:brightness(2.4) contrast(2);}
-  20%{filter:brightness(.2);}
-  40%{filter:brightness(1.8);}
-  60%{filter:brightness(.7);}
-  100%{opacity:1; transform:scale(1); filter:brightness(1);}
+  0%{opacity:0;transform:scale(.95);filter:brightness(3.5) contrast(3.5);}
+  15%{filter:brightness(.18);}
+  40%{filter:brightness(2.2) saturate(0);}
+  65%{filter:brightness(.75);}
+  100%{opacity:1;transform:scale(1);filter:brightness(1);}
 }
 
+/* ── TAPE ERROR ── */
 .tapeError{
-  position:fixed; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,.85);
-  color:#ff3b3b; font-size:clamp(14px,4vw,18px);
-  letter-spacing:4px; z-index:1000;
-  opacity:0; pointer-events:none;
-  text-shadow:0 0 16px rgba(255,0,0,.7);
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.9);color:#bb1a1a;
+  font-size:clamp(12px,3.5vw,16px);letter-spacing:5px;z-index:1000;
+  opacity:0;pointer-events:none;
+  text-shadow:0 0 24px rgba(180,0,0,.9);
 }
-.tapeError.show{ animation:tapeErrorAnim 2.8s; }
-@keyframes tapeErrorAnim{
-  0%{opacity:0} 15%{opacity:1} 70%{opacity:1} 100%{opacity:0}
-}
+.tapeError.show{animation:tapeErrorAnim 3s;}
+@keyframes tapeErrorAnim{0%{opacity:0}12%{opacity:1}75%{opacity:1}100%{opacity:0}}
 
-/* SHADOW FIGURE */
+/* ── SHADOW ── */
 .shadowFigure{
-  position:fixed; bottom:12%; left:-120px;
-  width:70px; height:160px;
-  background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.95) 30%,rgba(0,0,0,.95) 100%);
-  border-radius:40px 40px 10px 10px;
-  filter:blur(2px); opacity:0;
-  pointer-events:none; z-index:6;
+  position:fixed;bottom:10%;left:-140px;
+  width:65px;height:170px;
+  background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.98) 25%,rgba(0,0,0,.98) 100%);
+  border-radius:35px 35px 8px 8px;filter:blur(3px);
+  opacity:0;pointer-events:none;z-index:6;
 }
-.shadowFigure.walk{ animation:shadowWalk 1.4s linear forwards; }
+.shadowFigure.walk{animation:shadowWalk 1.6s linear forwards;}
 @keyframes shadowWalk{
-  0%{left:-120px; opacity:0; transform:scale(.9);}
-  10%{opacity:.6;}
-  80%{opacity:.5;}
-  100%{left:110vw; opacity:0; transform:scale(1.1);}
+  0%{left:-140px;opacity:0;transform:scale(.88);}
+  8%{opacity:.55;}85%{opacity:.4;}
+  100%{left:110vw;opacity:0;transform:scale(1.08);}
 }
 
-/* MOBILE */
+/* ── MOBILE ── */
 @media(max-width:600px){
-  .c3Grid{
-    grid-template-columns:1fr;
-    grid-template-rows:auto auto auto;
-  }
-  .c3Grid .storyText{ order:-1; }
-  .partyGrid{
-    grid-template-columns:1fr;
-    gap:20px;
-  }
-  .screen{
-    padding:90px 16px 100px 16px;
-    justify-content:flex-start;
-    padding-top:80px;
-  }
-  .countdownBox{ gap:10px; }
-  .countDivider{ display:none; }
+  .c3Grid{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
+  .screen{padding:76px 14px 94px;justify-content:flex-start;padding-top:74px;}
+  .countDivider{display:none;}
+  .partyCards{grid-template-columns:1fr 1fr;}
+  h2{letter-spacing:4px;}
 }
-
-@media(max-width:400px){
-  h2{ letter-spacing:3px; }
-  .rsvpForm input,
-  .rsvpForm select,
-  .rsvpForm textarea{
-    font-size:12px;
-    letter-spacing:1px;
-  }
+@media(max-width:380px){
+  .partyCards{grid-template-columns:1fr;}
+  button{letter-spacing:2px;padding:10px 18px;}
 }
-
 </style>
 </head>
 <body>
+
+<div class="glitchLine" style="top:22%"></div>
+<div class="glitchLine" style="top:58%"></div>
+<div class="glitchLine" style="top:79%"></div>
 
 <div class="videoLayer" id="videoLayer" style="display:none;">
   <video id="bgVideo" muted autoplay loop playsinline>
@@ -595,376 +526,437 @@ button:hover{
 
 <div class="darkOverlay"></div>
 <div class="scanLayer"></div>
+<div class="grainLayer"></div>
+<div class="vignetteLayer"></div>
 <div class="trackingBar"></div>
 <div class="staticBurst" id="static"></div>
 
 <div class="trackingCalibrate" id="trackingCalibrate">
-  <div class="calibrateText">TRACKING CALIBRATION...</div>
+  <div class="calibrateText">TRACKING... PLEASE STAND BY</div>
+  <div class="calibrateLines">
+    <div class="calLine"></div><div class="calLine"></div><div class="calLine"></div>
+  </div>
 </div>
 
 <div class="tapeBoot" id="tapeBoot">
-  <div>TAPE LOADING</div>
+  <div style="letter-spacing:5px;">TAPE LOADING</div>
   <div class="bootBar"><div class="bootFill"></div></div>
-  <div class="bootText">INITIALIZING ARCHIVE</div>
+  <div class="bootText">DO NOT REMOVE CASSETTE</div>
 </div>
 
 <div class="vhsHUD">
-  <div class="recIndicator"><span class="recDot"></span> REC</div>
+  <div class="recIndicator"><span class="recDot"></span>REC</div>
   <div class="battery" id="batteryDisplay">BAT 87% ▮▮▮▮</div>
+  <div class="chLabel" id="chLabel"></div>
   <div class="vhsTimestamp" id="vhsTime">00:00:00</div>
   <div class="tapeCounter" id="counter">TAPE 00:00</div>
 </div>
 
 <div class="contentLayer">
-
 <audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
 
-<!-- OPENING FOUND FOOTAGE -->
+<!-- ════════════════════ OPENING ════════════════════ -->
 <div class="screen active" id="openingScreen">
-  <video id="openingVideo" autoplay muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
+  <video id="openingVideo" autoplay muted playsinline
+    style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
     <source src="found-footage.mp4" type="video/mp4">
   </video>
 </div>
 
-<!-- START SCREEN WITH COUNTDOWN -->
+<!-- ════════════════════ START SCREEN ════════════════════ -->
 <div class="screen archiveScreen" id="startScreen">
 
-  <h2>RECOVERED CAMERA ARCHIVE</h2>
+  <h2>DO NOT WATCH THIS TAPE</h2>
+  <div class="vhsSep"></div>
 
-  <div class="storyText">
-    Recovered tape recording detected<br>
-    Archive Date: October 24, 2026
+  <div class="storyText" style="font-size:10px;letter-spacing:4px;opacity:.45;">
+    WARNING — RECOVERED FOOTAGE — ORIGIN UNKNOWN
   </div>
 
-  <div class="storyText" style="font-size:11px;letter-spacing:4px;opacity:.6;">
-    TIME UNTIL TRANSMISSION
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.35;margin-top:0;">
+    TIME REMAINING UNTIL TRANSMISSION
   </div>
 
   <div class="countdownBox" id="countdown">
-    <div class="countUnit">
-      <div class="countNum" id="cdDays">000</div>
-      <div class="countLabel">DAYS</div>
-    </div>
+    <div class="countUnit"><div class="countNum" id="cdDays">000</div><div class="countLabel">DAYS</div></div>
     <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdHours">00</div>
-      <div class="countLabel">HRS</div>
-    </div>
+    <div class="countUnit"><div class="countNum" id="cdHours">00</div><div class="countLabel">HRS</div></div>
     <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdMins">00</div>
-      <div class="countLabel">MIN</div>
-    </div>
+    <div class="countUnit"><div class="countNum" id="cdMins">00</div><div class="countLabel">MIN</div></div>
     <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdSecs">00</div>
-      <div class="countLabel">SEC</div>
-    </div>
+    <div class="countUnit"><div class="countNum" id="cdSecs">00</div><div class="countLabel">SEC</div></div>
   </div>
 
-  <button onclick="openCamera()">START VIDEO</button>
+  <button onclick="openCamera()">PLAY TAPE</button>
+
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.28;margin-top:2px;">
+    we found this in the woods
+  </div>
 
 </div>
 
-<!-- CH1 LOST FOOTAGE -->
+<!-- ════════════════════ CH1 ════════════════════ -->
 <div class="screen" id="c1">
 
   <h2>LOST FOOTAGE</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    Recovered recording detected.<br>
-    Initializing tape playback...<br><br>
+    Something is still out there in the woods.<br>
+    We kept recording anyway.<br><br>
     Archive timestamp:<br>
-    October 24, 2026<br>
+    <strong>October 24, 2026</strong><br>
     5:00 PM – 9:00 PM<br><br>
-    Subjects identified:<br>
-    Tyler Hawthorne<br>
-    Julie Eells
+    Subjects identified on tape:<br>
+    Tyler Hawthorne &amp; Julie Eells
   </div>
 
   <div class="imagePanel vhsPhoto" id="ch1img">
-    <img src="early1.png" alt="Tyler and Julie early photo">
+    <img src="early1.png" alt="">
+  </div>
+
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.35;">
+    ...they didn't know we were filming
   </div>
 
   <button onclick="goTo('c2')">PLAY NEXT SEGMENT</button>
-
 </div>
 
-<!-- CH2 RECONNECTION LOG -->
+<!-- ════════════════════ CH2 ════════════════════ -->
 <div class="screen" id="c2">
 
   <h2>RECONNECTION LOG</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    Playback recovered from corrupted tape segment.<br><br>
-    Tyler Hawthorne<br>
-    Julie Eells<br><br>
-    Years of resistance turned into undying love.
+    Recovered from a corrupted segment.<br>
+    Most of this tape was damaged.<br><br>
+    Tyler Hawthorne. Julie Eells.<br><br>
+    What started as resistance<br>
+    rotted into something undeniable.<br>
+    They couldn't stay away from each other.<br>
+    Nobody ever could explain it.
   </div>
 
   <div class="c2Grid">
-    <div class="c2Photo vhsPhoto" id="ch2img1">
-      <img src="early2.png" alt="">
-    </div>
-    <div class="c2Photo vhsPhoto" id="ch2img2">
-      <img src="early3.png" alt="">
-    </div>
+    <div class="c2Photo vhsPhoto" id="ch2img1"><img src="early2.png" alt=""></div>
+    <div class="c2Photo vhsPhoto" id="ch2img2"><img src="early3.png" alt=""></div>
   </div>
 
   <button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH3 OUR STORY -->
+<!-- ════════════════════ CH3 ════════════════════ -->
 <div class="screen" id="c3">
 
-  <h2>OUR STORY</h2>
+  <h2>SUBJECT FILE</h2>
+  <div class="vhsSep"></div>
 
   <div class="c3Grid">
-    <div class="c3photo vhsPhoto" id="c3img1">
-      <img src="c3-1.png" alt="">
-    </div>
+    <div class="c3photo vhsPhoto" id="c3img1"><img src="c3-1.png" alt=""></div>
     <div class="storyText">
-      After one fateful encounter,<br>
-      things changed for the better.<br><br>
-      What started as an unexpected reunion<br>
-      became life-long adventures.
+      One encounter changed everything.<br><br>
+      An unexpected reunion<br>
+      pulled them back into the dark together.<br><br>
+      They thought it was coincidence.<br>
+      It was not a coincidence.<br><br>
+      The woods remember everything.
     </div>
-    <div class="c3photo vhsPhoto" id="c3img2">
-      <img src="c3-2.png" alt="">
-    </div>
+    <div class="c3photo vhsPhoto" id="c3img2"><img src="c3-2.png" alt=""></div>
   </div>
 
   <button onclick="goTo('c4')">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH4 PROPOSAL EVENT -->
+<!-- ════════════════════ CH4 ════════════════════ -->
 <div class="screen" id="c4">
 
   <h2>PROPOSAL EVENT</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    ARCHIVE FRAME RECOVERED<br><br>
-    Playback continued after corrupted segment.
+    The camera stopped working here.<br>
+    Then it came back on.<br><br>
+    We don't know what happened<br>
+    in between.
   </div>
 
   <div class="imagePanel vhsPhoto" id="c4img">
-    <img src="proposal.png" alt="Proposal">
+    <img src="proposal.png" alt="">
   </div>
 
   <div class="storyText">
     STATUS UPDATE:<br>
-    SUBJECTS CONFIRMED ENGAGED
+    <strong>SUBJECTS CONFIRMED ENGAGED</strong><br><br>
+    <span style="font-size:10px;letter-spacing:2px;opacity:.38;">
+      she said yes before he finished asking
+    </span>
   </div>
 
   <button onclick="goTo('c5')">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH5 LOCATION FILE -->
+<!-- ════════════════════ CH5 ════════════════════ -->
 <div class="screen" id="c5">
 
   <h2>LOCATION FILE</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    ARCHIVE LOCATION CONFIRMED<br><br>
-    THE CONSERVATORY<br>
+    COORDINATES RECOVERED<br><br>
+    <strong>THE CONSERVATORY</strong><br>
     ACWORTH, GEORGIA<br><br>
-    CEREMONY TIME:<br>
-    5:00 PM – 9:00 PM
+    YOUR PRESENCE IS EXPECTED:<br>
+    <strong>October 24, 2026<br>
+    5:00 PM – 9:00 PM</strong>
   </div>
 
   <div class="imagePanel vhsPhoto show" id="c5img">
-    <img src="venue.png" alt="Venue">
+    <img src="venue.png" alt="">
   </div>
 
-  <button onclick="toggleMap()">VIEW LOCATION</button>
+  <button onclick="toggleMap()">REVEAL LOCATION</button>
 
   <div id="mapContainer" style="display:none;">
-    <iframe
-      loading="lazy"
-      allowfullscreen
-      referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.google.com/maps?q=The+Conservatory+Acworth+GA&output=embed">
-    </iframe>
+    <iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps?q=The+Conservatory+Acworth+GA&output=embed"></iframe>
   </div>
 
-  <div class="storyText">
-    PARKING AVAILABLE ON SITE<br>
-    ARRIVE EARLY TO AVOID SIGNAL LOSS
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.48;">
+    PARKING ON SITE<br>
+    DO NOT WANDER FROM THE PATH<br>
+    ARRIVE BEFORE DARK IF POSSIBLE
   </div>
 
   <button onclick="goTo('c6')">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH6 IDENTIFIED INDIVIDUALS -->
+<!-- ════════════════════ CH6 — PARTY ════════════════════ -->
 <div class="screen" id="c6">
 
   <h2>IDENTIFIED INDIVIDUALS</h2>
+  <div class="vhsSep"></div>
 
-  <div class="storyText" style="margin-bottom:12px;">
-    Subjects connected to primary entities.<br>
-    Access restricted until selected.
+  <div class="storyText" style="margin-bottom:6px;">
+    Their faces were recovered from the tape.<br>
+    Identities confirmed. Files now unlocked.
   </div>
 
-  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
-    <button onclick="toggleParty('groom')">GROOM SIDE</button>
-    <button onclick="toggleParty('bride')">BRIDE SIDE</button>
-  </div>
+  <div class="partyWrapper">
+    <div class="partyToggleRow">
+      <button onclick="toggleParty('groom')">⬡ GROOM'S UNIT</button>
+      <button onclick="toggleParty('bride')">⬡ BRIDE'S UNIT</button>
+    </div>
 
-  <!-- GROOM PARTY -->
-  <div id="groomParty" style="display:none;width:100%;max-width:480px;">
-    <div class="partyGrid" style="grid-template-columns:1fr;">
-      <div class="partyCol">
-        <p>
-          <span class="partyRole">BEST MAN</span>
-          Sam Newman<br>
-          <span class="partyRole">BEST LITTLE MAN</span>
-          Jasper Hawthorne<br>
-          <span class="partyRole">GROOMSMEN</span>
-          Josey Green<br>
-          Zachary Hawthorne<br>
-          Alyssa Hargrove
-        </p>
+    <div class="partySection" id="groomParty">
+      <div class="partyTitle">— GROOM SIDE — TYLER HAWTHORNE —</div>
+      <div class="partyCards">
+        <div class="partyCard">
+          <span class="cardRole">BEST MAN</span>
+          <span class="cardName">Sam Newman</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">BEST LITTLE MAN</span>
+          <span class="cardName">Jasper Hawthorne</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">GROOMSMAN</span>
+          <span class="cardName">Josey Green</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">GROOMSMAN</span>
+          <span class="cardName">Zachary Hawthorne</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">GROOMSMAN</span>
+          <span class="cardName">Alyssa Hargrove</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- BRIDE PARTY -->
-  <div id="brideParty" style="display:none;width:100%;max-width:480px;">
-    <div class="partyGrid" style="grid-template-columns:1fr;">
-      <div class="partyCol">
-        <p>
-          <span class="partyRole">MATRON OF HONOR</span>
-          Kristian Thomason<br>
-          <span class="partyRole">BRIDESMAIDS</span>
-          Mikaela VonGerichten<br>
-          Allie Rollins<br>
-          Kayden Rollins<br>
-          <span class="partyRole">SPIRIT OF HONOR</span>
-          Victoria Dow<br>
-          <span class="partyRole">FLOWER GIRLS</span>
-          Lillian Thomason &amp; Salem Ramirez<br>
-          <span class="partyRole">RING BEARERS</span>
-          Bennet Dean &amp; James Dean
-        </p>
+    <div class="partySection" id="brideParty">
+      <div class="partyTitle">— BRIDE SIDE — JULIE EELLS —</div>
+      <div class="partyCards">
+        <div class="partyCard">
+          <span class="cardRole">MATRON OF HONOR</span>
+          <span class="cardName">Kristian Thomason</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">BRIDESMAID</span>
+          <span class="cardName">Mikaela VonGerichten</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">BRIDESMAID</span>
+          <span class="cardName">Allie Rollins</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">BRIDESMAID</span>
+          <span class="cardName">Kayden Rollins</span>
+        </div>
+        <div class="partyCard">
+          <span class="cardRole">SPIRIT OF HONOR</span>
+          <span class="cardName">Victoria Dow</span>
+        </div>
+      </div>
+      <div class="partyExtras" style="margin-top:8px;">
+        <span class="cardRole" style="text-align:center;display:block;margin-bottom:4px;">FLOWER GIRLS</span>
+        <span class="cardName">Lillian Thomason &amp; Salem Ramirez</span>
+      </div>
+      <div class="partyExtras" style="margin-top:8px;">
+        <span class="cardRole" style="text-align:center;display:block;margin-bottom:4px;">RING BEARERS</span>
+        <span class="cardName">Bennet Dean &amp; James Dean</span>
       </div>
     </div>
   </div>
 
   <button onclick="goTo('c7')">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH7 ATTENDANCE LOG / RSVP -->
+<!-- ════════════════════ CH7 — RSVP ════════════════════ -->
 <div class="screen" id="c7">
 
   <h2>ATTENDANCE LOG</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    Confirm presence at event.<br>
-    Failure to respond may result in permanent absence.
+    Your presence has been anticipated.<br>
+    Confirm whether you intend to show.<br><br>
+    <span style="font-size:10px;letter-spacing:2px;opacity:.38;">
+      those who do not respond will be assumed lost
+    </span>
   </div>
 
-  <div class="rsvpForm" id="rsvpForm">
+  <div class="rsvpWrapper">
+    <div class="rsvpHeader">TRANSMISSION FORM — SECURE CHANNEL</div>
 
-    <input type="text" id="rsvpName" placeholder="FULL NAME" maxlength="80">
-    <input type="number" id="rsvpGuests" placeholder="NUMBER OF GUESTS" min="1" max="10">
+    <div class="rsvpField">
+      <label class="rsvpLabel">Full Name</label>
+      <input type="text" id="rsvpName" placeholder="enter full name" maxlength="80">
+    </div>
 
-    <select id="rsvpAttending">
-      <option value="">-- ATTENDANCE STATUS --</option>
-      <option value="Attending">ATTENDING</option>
-      <option value="Not Attending">NOT ATTENDING</option>
-    </select>
+    <div class="rsvpField">
+      <label class="rsvpLabel">Number of Guests (including yourself)</label>
+      <input type="number" id="rsvpGuests" placeholder="1" min="1" max="10">
+    </div>
 
-    <select id="rsvpMeal">
-      <option value="">-- MEAL PREFERENCE --</option>
-      <option value="Chicken">CHICKEN</option>
-      <option value="Beef">BEEF</option>
-      <option value="Vegetarian">VEGETARIAN</option>
-      <option value="No Preference">NO PREFERENCE</option>
-    </select>
+    <div class="rsvpField">
+      <label class="rsvpLabel">Attendance Status</label>
+      <select id="rsvpAttending">
+        <option value="">— select —</option>
+        <option value="Attending">ATTENDING — I WILL BE THERE</option>
+        <option value="Not Attending">NOT ATTENDING — I CANNOT MAKE IT</option>
+      </select>
+    </div>
 
-    <textarea id="rsvpDietary" placeholder="DIETARY RESTRICTIONS (OPTIONAL)"></textarea>
+    <div class="rsvpField">
+      <label class="rsvpLabel">Meal Preference</label>
+      <select id="rsvpMeal">
+        <option value="">— select —</option>
+        <option value="Chicken">CHICKEN</option>
+        <option value="Beef">BEEF</option>
+        <option value="Vegetarian">VEGETARIAN</option>
+        <option value="No Preference">NO PREFERENCE</option>
+      </select>
+    </div>
 
-    <button onclick="submitRSVP()">SUBMIT LOG</button>
+    <div class="rsvpField">
+      <label class="rsvpLabel">Dietary Restrictions (optional)</label>
+      <textarea id="rsvpDietary" placeholder="none"></textarea>
+    </div>
 
+    <button onclick="submitRSVP()" style="width:100%;margin-top:4px;">TRANSMIT RESPONSE</button>
     <div class="submitStatus" id="submitStatus"></div>
-
   </div>
 
   <button onclick="goTo('c8')" style="margin-top:10px;">CONTINUE ARCHIVE</button>
-
 </div>
 
-<!-- CH8 RESOURCE TRANSFER -->
+<!-- ════════════════════ CH8 — GIFTS ════════════════════ -->
 <div class="screen" id="c8">
 
   <h2>RESOURCE TRANSFER</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    Support the union.<br>
-    Contributions accepted through secure channels.
+    If you wish to support the union,<br>
+    transmit contributions through<br>
+    the channels below.<br><br>
+    <span style="font-size:10px;letter-spacing:2px;opacity:.38;">
+      your generosity has been noted
+    </span>
   </div>
 
   <div class="payRow">
-    <a href="https://cash.app/$TylerHawthorne" target="_blank" rel="noopener">
+
+    <a class="payBtn"
+      href="https://cash.app/$7706088227"
+      target="_blank" rel="noopener">
       <button>APPLE CASH</button>
+      <span>770-608-8227</span>
     </a>
-    <a href="https://enroll.zellepay.com/qr-codes?data=ewogICJuYW1lIiA6ICJUeWxlciIsCiAgInRva2VuIiA6ICI3NzA2MDg4MjI3IiwKICAiYWN0aW9uIiA6ICJwYXltZW50Igp9" target="_blank" rel="noopener">
+
+    <!-- Zelle deep link: opens app if installed, fallback via JS -->
+    <a class="payBtn"
+      href="zelle://send?token=7706088227"
+      id="zelleLink"
+      rel="noopener">
       <button>ZELLE</button>
+      <span>770-608-8227</span>
     </a>
+
   </div>
 
-  <div class="storyText" style="margin-top:16px;font-size:12px;opacity:.7;letter-spacing:2px;">
-    APPLE CASH / ZELLE: 770-608-8227<br>
-    ZELLE EMAIL: tylerhaw1horne@gmail.com
-  </div>
-
-  <div class="storyText" style="margin-top:8px;">
+  <div class="storyText" style="margin-top:14px;font-size:10px;letter-spacing:2px;opacity:.42;">
+    ZELLE EMAIL: tylerhaw1horne@gmail.com<br>
     Registry available upon request.
   </div>
 
   <button onclick="goTo('final')">FINAL ARCHIVE</button>
-
 </div>
 
-<!-- FINAL -->
+<!-- ════════════════════ FINAL ════════════════════ -->
 <div class="screen" id="final">
 
   <h2>SIGNAL LOST</h2>
+  <div class="vhsSep"></div>
 
   <div class="storyText">
-    Playback unstable...<br>
-    Archive corruption detected...<br><br>
-    END OF TRANSMISSION<br><br>
-    Tyler &amp; Julie<br>
-    October 24, 2026
+    Playback destabilizing...<br>
+    Archive corruption spreading...<br><br>
+    We don't know what happened<br>
+    after this point on the tape.<br><br>
+    <span style="opacity:.45;">What we do know is this:</span><br><br>
+    <strong>Tyler &amp; Julie</strong><br>
+    October 24, 2026<br>
+    The Conservatory — Acworth, Georgia<br><br>
+    <span style="font-size:10px;letter-spacing:4px;opacity:.3;">— END OF TRANSMISSION —</span>
   </div>
 
 </div>
 
-</div><!-- end contentLayer -->
+</div><!-- /contentLayer -->
 
 <div class="tapeError" id="tapeError">TAPE CORRUPTION DETECTED</div>
 <div class="shadowFigure" id="shadowFigure"></div>
 
 <script>
 
-/* ── GOOGLE SHEETS RSVP ──
-   INSTRUCTIONS:
-   1. Go to docs.google.com/forms → create a new form
-   2. Add fields: Name, Guests, Attending, Meal, Dietary
-   3. Get the prefill link from the form and replace
-      the GOOGLE_FORM_ACTION_URL below with your form's
-      action URL (found via: send → link → copy).
-   4. Map each entry.XXXXXXXXX to your field IDs.
-   ───────────────────────────────────────────────── */
-const GOOGLE_FORM_ACTION_URL = "YOUR_GOOGLE_FORM_ACTION_URL_HERE";
-// Replace entry IDs below with your actual form field IDs
-const FORM_ENTRY = {
+/* ══════════════════════════════════════════════════════
+   GOOGLE FORM RSVP — SETUP INSTRUCTIONS
+   ══════════════════════════════════════════════════════
+   1. Go to forms.google.com → New Form
+   2. Add these 5 fields (short answer / dropdown):
+        Full Name | Number of Guests | Attending | Meal Preference | Dietary Restrictions
+   3. Click ⋮ menu → "Get pre-filled link"
+   4. Fill in dummy data for each field → click "Get Link"
+   5. The URL will look like:
+      https://docs.google.com/forms/d/e/XXXX/formResponse?entry.111=test&entry.222=test...
+   6. Replace GOOGLE_FORM_URL with the URL up to "formResponse"
+      (include "formResponse" but NOT the "?entry..." part)
+   7. Replace each entry.00000000X below with your real entry IDs
+   ══════════════════════════════════════════════════════ */
+const GOOGLE_FORM_URL = "YOUR_GOOGLE_FORM_ACTION_URL_HERE";
+const ENTRY = {
   name:     "entry.000000001",
   guests:   "entry.000000002",
   attending:"entry.000000003",
@@ -973,7 +965,6 @@ const FORM_ENTRY = {
 };
 
 async function submitRSVP(){
-
   const name     = document.getElementById("rsvpName").value.trim();
   const guests   = document.getElementById("rsvpGuests").value.trim();
   const attending= document.getElementById("rsvpAttending").value;
@@ -981,242 +972,219 @@ async function submitRSVP(){
   const dietary  = document.getElementById("rsvpDietary").value.trim();
   const status   = document.getElementById("submitStatus");
 
-  if(!name || !attending){
-    status.textContent = "⚠ NAME AND STATUS REQUIRED";
-    status.style.color = "#ff4444";
+  if(!name||!attending){
+    status.textContent="⚠  NAME AND STATUS REQUIRED";
+    status.style.color="#cc2222";
     status.classList.add("show");
-    setTimeout(()=>status.classList.remove("show"), 3000);
+    setTimeout(()=>status.classList.remove("show"),3500);
     return;
   }
-
-  status.textContent = "TRANSMITTING...";
-  status.style.color = "white";
+  status.textContent="TRANSMITTING...";
+  status.style.color="#ccccc0";
   status.classList.add("show");
 
   try{
-    const params = new URLSearchParams();
-    params.append(FORM_ENTRY.name,      name);
-    params.append(FORM_ENTRY.guests,    guests || "1");
-    params.append(FORM_ENTRY.attending, attending);
-    params.append(FORM_ENTRY.meal,      meal || "No Preference");
-    params.append(FORM_ENTRY.dietary,   dietary || "None");
-
-    await fetch(GOOGLE_FORM_ACTION_URL + "?" + params.toString(), {
-      method:"GET",
-      mode:"no-cors"
-    });
-
-    status.textContent = "✓ LOG ENTRY CONFIRMED";
-    status.style.color = "#aaffaa";
-
-    document.getElementById("rsvpName").value = "";
-    document.getElementById("rsvpGuests").value = "";
-    document.getElementById("rsvpAttending").value = "";
-    document.getElementById("rsvpMeal").value = "";
-    document.getElementById("rsvpDietary").value = "";
-
+    const p=new URLSearchParams();
+    p.append(ENTRY.name,     name);
+    p.append(ENTRY.guests,   guests||"1");
+    p.append(ENTRY.attending,attending);
+    p.append(ENTRY.meal,     meal||"No Preference");
+    p.append(ENTRY.dietary,  dietary||"None");
+    await fetch(GOOGLE_FORM_URL+"?"+p.toString(),{method:"GET",mode:"no-cors"});
+    status.textContent="✓  TRANSMISSION RECEIVED";
+    status.style.color="#88cc88";
+    ["rsvpName","rsvpGuests","rsvpDietary"].forEach(id=>document.getElementById(id).value="");
+    document.getElementById("rsvpAttending").value="";
+    document.getElementById("rsvpMeal").value="";
   }catch(e){
-    status.textContent = "TRANSMISSION ERROR — TRY AGAIN";
-    status.style.color = "#ff4444";
+    status.textContent="SIGNAL LOST — TRY AGAIN";
+    status.style.color="#cc2222";
   }
-
 }
+
+/* ── ZELLE — try native app, fallback to website after 1.5s ── */
+document.getElementById("zelleLink").addEventListener("click",function(e){
+  e.preventDefault();
+  const appUrl="zelle://send?token=7706088227";
+  const fallbackUrl="https://enroll.zellepay.com/qr-codes?data=ewogICJuYW1lIiA6ICJUeWxlciIsCiAgInRva2VuIiA6ICI3NzA2MDg4MjI3IiwKICAiYWN0aW9uIiA6ICJwYXltZW50Igp9";
+  const start=Date.now();
+  window.location.href=appUrl;
+  setTimeout(()=>{
+    if(Date.now()-start<2000) window.open(fallbackUrl,"_blank");
+  },1500);
+});
 
 /* ── COUNTDOWN ── */
 function updateCountdown(){
-  const target = new Date("2026-10-24T17:00:00");
-  const now    = new Date();
-  const diff   = target - now;
-
-  if(diff <= 0){
-    document.getElementById("countdown").innerHTML =
-      '<div class="storyText" style="color:#aaffaa;letter-spacing:3px;">THE DAY HAS ARRIVED</div>';
+  const diff=new Date("2026-10-24T17:00:00")-new Date();
+  if(diff<=0){
+    document.getElementById("countdown").innerHTML=
+      '<div class="storyText" style="color:#88cc88;letter-spacing:4px;">THE DAY HAS ARRIVED</div>';
     return;
   }
-
-  const days  = Math.floor(diff / 86400000);
-  const hours = Math.floor((diff % 86400000) / 3600000);
-  const mins  = Math.floor((diff % 3600000)  / 60000);
-  const secs  = Math.floor((diff % 60000)    / 1000);
-
-  document.getElementById("cdDays").textContent  = String(days).padStart(3,"0");
-  document.getElementById("cdHours").textContent = String(hours).padStart(2,"0");
-  document.getElementById("cdMins").textContent  = String(mins).padStart(2,"0");
-  document.getElementById("cdSecs").textContent  = String(secs).padStart(2,"0");
+  document.getElementById("cdDays").textContent =String(Math.floor(diff/86400000)).padStart(3,"0");
+  document.getElementById("cdHours").textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,"0");
+  document.getElementById("cdMins").textContent =String(Math.floor((diff%3600000)/60000)).padStart(2,"0");
+  document.getElementById("cdSecs").textContent =String(Math.floor((diff%60000)/1000)).padStart(2,"0");
 }
-updateCountdown();
-setInterval(updateCountdown, 1000);
+updateCountdown();setInterval(updateCountdown,1000);
 
-/* ── VHS CLOCK ── */
-let recActive  = false;
-let recSeconds = 0;
-let tape       = 0;
-let battery    = 87;
-
+/* ── HUD ── */
+let recActive=false,recSeconds=0,tape=0,battery=87;
 function updateVHSTime(){
-  if(recActive) return;
-  const n = new Date();
-  document.getElementById("vhsTime").innerText =
-    String(n.getHours()).padStart(2,"0") + ":" +
-    String(n.getMinutes()).padStart(2,"0") + ":" +
+  if(recActive)return;
+  const n=new Date();
+  document.getElementById("vhsTime").innerText=
+    String(n.getHours()).padStart(2,"0")+":"+
+    String(n.getMinutes()).padStart(2,"0")+":"+
     String(n.getSeconds()).padStart(2,"0");
 }
-setInterval(updateVHSTime, 1000);
-
+setInterval(updateVHSTime,1000);
 setInterval(()=>{
   tape++;
-  const m = Math.floor(tape/60);
-  const s = String(tape%60).padStart(2,"0");
-  document.getElementById("counter").innerText = "TAPE " + m + ":" + s;
-}, 1000);
-
+  document.getElementById("counter").innerText=
+    "TAPE "+Math.floor(tape/60)+":"+String(tape%60).padStart(2,"0");
+},1000);
 setInterval(()=>{
-  if(!recActive) return;
-  recSeconds++;
-  const h = String(Math.floor(recSeconds/3600)).padStart(2,"0");
-  const m = String(Math.floor((recSeconds%3600)/60)).padStart(2,"0");
-  const s = String(recSeconds%60).padStart(2,"0");
-  document.getElementById("vhsTime").innerText = h+":"+m+":"+s;
-}, 1000);
-
+  if(!recActive)return;recSeconds++;
+  document.getElementById("vhsTime").innerText=
+    String(Math.floor(recSeconds/3600)).padStart(2,"0")+":"+
+    String(Math.floor((recSeconds%3600)/60)).padStart(2,"0")+":"+
+    String(recSeconds%60).padStart(2,"0");
+},1000);
 setInterval(()=>{
-  if(!recActive || battery <= 18) return;
-  battery--;
-  const bars = battery > 60 ? "▮▮▮▮" : battery > 40 ? "▮▮▮░" : battery > 20 ? "▮▮░░" : "▮░░░";
-  document.getElementById("batteryDisplay").innerText = "BAT "+battery+"% "+bars;
-}, 14000);
+  if(!recActive||battery<=18)return;battery--;
+  const b=battery>60?"▮▮▮▮":battery>40?"▮▮▮░":battery>20?"▮▮░░":"▮░░░";
+  document.getElementById("batteryDisplay").innerText="BAT "+battery+"% "+b;
+},14000);
 
 /* ── WHISPER ── */
-const whisper = document.getElementById("whisper");
+const whisper=document.getElementById("whisper");
 let whisperFade;
 
 /* ── OPEN CAMERA ── */
 function openCamera(){
-  const boot      = document.getElementById("tapeBoot");
-  const calibrate = document.getElementById("trackingCalibrate");
-  const layer     = document.getElementById("videoLayer");
-  const video     = document.getElementById("bgVideo");
-
+  const boot=document.getElementById("tapeBoot");
+  const cal =document.getElementById("trackingCalibrate");
+  const layer=document.getElementById("videoLayer");
+  const vid  =document.getElementById("bgVideo");
   boot.classList.add("active");
-
+  setTimeout(()=>{boot.classList.remove("active");cal.classList.add("active");},3000);
   setTimeout(()=>{
-    boot.classList.remove("active");
-    calibrate.classList.add("active");
-  }, 3000);
-
-  setTimeout(()=>{
-    calibrate.classList.remove("active");
-    layer.style.display = "block";
+    cal.classList.remove("active");
+    layer.style.display="block";
     layer.classList.add("cameraBoot");
-    setTimeout(()=>layer.classList.remove("cameraBoot"), 600);
-    video.currentTime = 0;
-    video.play().catch(()=>{});
-    recActive = true;
-
-    if(whisper.paused){
-      whisper.volume = 0;
-      whisper.play().catch(()=>{});
-    }
-
+    setTimeout(()=>layer.classList.remove("cameraBoot"),700);
+    vid.currentTime=0;vid.play().catch(()=>{});
+    recActive=true;
+    if(whisper.paused){whisper.volume=0;whisper.play().catch(()=>{});}
     goTo("c1");
-  }, 4800);
+  },4800);
 }
 
 /* ── NAVIGATION ── */
+const chLabels={c1:"CH.1",c2:"CH.2",c3:"CH.3",c4:"CH.4",c5:"CH.5",c6:"CH.6",c7:"CH.7",c8:"CH.8",final:"END",startScreen:""};
+
 function goTo(id){
-  const staticLayer = document.getElementById("static");
-  staticLayer.classList.add("active");
-  setTimeout(()=>staticLayer.classList.remove("active"), 500);
-
+  const sl=document.getElementById("static");
+  sl.classList.add("active");
+  setTimeout(()=>sl.classList.remove("active"),560);
   document.body.classList.add("rewindFlash");
-
   setTimeout(()=>{
     document.body.classList.remove("rewindFlash");
-
     document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-    const next = document.getElementById(id);
-    if(next){
-      next.classList.add("active");
-      next.scrollTop = 0;
-    }
+    const next=document.getElementById(id);
+    if(next){next.classList.add("active");next.scrollTop=0;}
+    document.getElementById("chLabel").textContent=chLabels[id]||"";
 
-    /* whisper engine */
+    /* whisper */
     clearInterval(whisperFade);
-    let target = 0.28;
-    if(id === "c4")    target = 0.38;
-    if(id === "final") target = 0.18;
-    whisperFade = setInterval(()=>{
-      if(Math.abs(whisper.volume - target) < 0.01){
-        clearInterval(whisperFade); return;
-      }
-      whisper.volume += whisper.volume < target ? 0.01 : -0.01;
-    }, 100);
+    let vol=0.28;
+    if(id==="c4")vol=0.44;
+    if(id==="final")vol=0.14;
+    if(id==="c6"||id==="c7")vol=0.2;
+    whisperFade=setInterval(()=>{
+      if(Math.abs(whisper.volume-vol)<0.01){clearInterval(whisperFade);return;}
+      whisper.volume+=whisper.volume<vol?0.01:-0.01;
+    },100);
 
     /* image reveals */
-    if(id === "c1"){
-      setTimeout(()=>document.getElementById("ch1img").classList.add("show"), 1200);
+    if(id==="c1") setTimeout(()=>document.getElementById("ch1img").classList.add("show"),1400);
+    if(id==="c2"){
+      setTimeout(()=>document.getElementById("ch2img1").classList.add("show"),1200);
+      setTimeout(()=>document.getElementById("ch2img2").classList.add("show"),4000);
     }
-    if(id === "c2"){
-      setTimeout(()=>document.getElementById("ch2img1").classList.add("show"), 1200);
-      setTimeout(()=>document.getElementById("ch2img2").classList.add("show"), 3800);
+    if(id==="c3"){
+      setTimeout(()=>document.getElementById("c3img1").classList.add("show"),1200);
+      setTimeout(()=>document.getElementById("c3img2").classList.add("show"),4000);
     }
-    if(id === "c3"){
-      setTimeout(()=>document.getElementById("c3img1").classList.add("show"), 1200);
-      setTimeout(()=>document.getElementById("c3img2").classList.add("show"), 3800);
-    }
-    if(id === "c4"){
+    if(id==="c4"){
       document.body.classList.add("tapeWarp");
-      setTimeout(()=>document.body.classList.remove("tapeWarp"), 300);
-      const v = document.getElementById("bgVideo");
-      if(v && v.currentTime > 0.7) v.currentTime = Math.max(0, v.currentTime - 0.6);
+      setTimeout(()=>document.body.classList.remove("tapeWarp"),420);
+      const v=document.getElementById("bgVideo");
+      if(v&&v.currentTime>0.7)v.currentTime=Math.max(0,v.currentTime-0.6);
       setTimeout(()=>{
-        const img = document.getElementById("c4img");
+        const img=document.getElementById("c4img");
         img.classList.add("show","proposalFreeze");
-        setTimeout(()=>img.classList.remove("proposalFreeze"), 1200);
-      }, 1800);
+        setTimeout(()=>img.classList.remove("proposalFreeze"),1500);
+      },1800);
     }
-
-  }, 200);
+    if(Math.random()<0.35)triggerShadow();
+  },210);
 }
 
 /* ── PARTY TOGGLE ── */
 function toggleParty(side){
-  const g = document.getElementById("groomParty");
-  const b = document.getElementById("brideParty");
-  if(side === "groom") g.style.display = g.style.display === "none" ? "block" : "none";
-  if(side === "bride") b.style.display = b.style.display === "none" ? "block" : "none";
+  const g=document.getElementById("groomParty");
+  const b=document.getElementById("brideParty");
+  if(side==="groom"){g.classList.toggle("open");b.classList.remove("open");}
+  if(side==="bride"){b.classList.toggle("open");g.classList.remove("open");}
 }
 
-/* ── MAP TOGGLE ── */
+/* ── MAP ── */
 function toggleMap(){
-  const m = document.getElementById("mapContainer");
-  m.style.display = m.style.display === "none" ? "block" : "none";
+  const m=document.getElementById("mapContainer");
+  m.style.display=m.style.display==="none"?"block":"none";
 }
+
+/* ── SHADOW FIGURE ── */
+function triggerShadow(){
+  const sf=document.getElementById("shadowFigure");
+  sf.classList.remove("walk");void sf.offsetWidth;
+  sf.classList.add("walk");
+  setTimeout(()=>sf.classList.remove("walk"),1700);
+}
+
+/* ── RANDOM GLITCH LINE Y POSITIONS ── */
+setInterval(()=>{
+  document.querySelectorAll(".glitchLine").forEach(l=>{
+    l.style.top=Math.floor(Math.random()*88)+"%";
+  });
+},7000);
 
 /* ── OPENING VIDEO ── */
-document.addEventListener("DOMContentLoaded", ()=>{
-  const openingVideo = document.getElementById("openingVideo");
-  if(!openingVideo) return;
-
+document.addEventListener("DOMContentLoaded",()=>{
+  const ov=document.getElementById("openingVideo");
+  if(!ov)return;
+  let fired=false;
   function showArchive(){
-    const opening = document.getElementById("openingScreen");
-    if(!opening || !opening.classList.contains("active")) return;
-    opening.classList.remove("active");
+    if(fired)return;fired=true;
+    const op=document.getElementById("openingScreen");
+    if(!op||!op.classList.contains("active"))return;
+    op.classList.remove("active");
     document.body.classList.add("glitchFlash");
     setTimeout(()=>{
       goTo("startScreen");
-      const archive = document.getElementById("startScreen");
-      archive.classList.add("archiveReveal");
+      const arc=document.getElementById("startScreen");
+      arc.classList.add("archiveReveal");
       document.body.classList.add("signalLoss");
-      setTimeout(()=>document.body.classList.remove("signalLoss"), 300);
-      setTimeout(()=>archive.classList.remove("archiveReveal"), 800);
-    }, 600);
+      setTimeout(()=>document.body.classList.remove("signalLoss"),300);
+      setTimeout(()=>arc.classList.remove("archiveReveal"),900);
+    },600);
   }
-
-  openingVideo.addEventListener("ended", showArchive);
-  setTimeout(showArchive, 6500);
+  ov.addEventListener("ended",showArchive);
+  setTimeout(showArchive,6500);
 });
-
 </script>
 </body>
 </html>
