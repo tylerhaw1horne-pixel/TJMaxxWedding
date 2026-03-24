@@ -3,1637 +3,614 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DO NOT WATCH — 10.24.2026</title>
+<title>DO NOT WATCH - 10.24.2026</title>
 <style>
-
-/* ═══════════════════════════════════════
-   RESET
-═══════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box;}
-html,body{
-  height:100%;width:100%;
-  background:#000;color:#e8e8e0;
-  font-family:'Courier New',monospace;
-  overflow:hidden;
-  cursor:crosshair;
-  -webkit-text-size-adjust:100%;
-}
-
-/* ═══════════════════════════════════════
-   VIDEO BACKGROUND
-═══════════════════════════════════════ */
-.videoLayer{
-  position:fixed;top:0;left:0;
-  width:100%;height:100%;z-index:0;overflow:hidden;
-}
-#bgVideo{
-  width:100%;height:100%;object-fit:cover;
-  filter:brightness(.7) contrast(1.4) saturate(.6) sepia(.15);
-  animation:cameraDrift 26s infinite ease-in-out;
-}
-@keyframes cameraDrift{
-  0%{transform:scale(1.02) rotate(-.1deg)}
-  33%{transform:scale(1.04) rotate(.15deg)}
-  66%{transform:scale(1.03) rotate(-.05deg)}
-  100%{transform:scale(1.02) rotate(-.1deg)}
-}
-
-/* ═══════════════════════════════════════
-   OVERLAYS
-═══════════════════════════════════════ */
-.darkOverlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1;pointer-events:none;}
-
-.scanLayer{
-  position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,rgba(0,0,0,.16),rgba(0,0,0,.16) 1px,
-    transparent 1px,transparent 3px
-  );
-}
-
-.vignetteLayer{
-  position:fixed;inset:0;z-index:2;pointer-events:none;
-  background:radial-gradient(ellipse at center,
-    transparent 35%,rgba(0,0,0,.55) 70%,rgba(0,0,0,.94) 100%
-  );
-}
-
-/* film grain */
-.grainLayer{
-  position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.38;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:128px 128px;
-  animation:grainShift .09s infinite steps(1);
-  mix-blend-mode:overlay;
-}
-@keyframes grainShift{
-  0%{background-position:0 0}     20%{background-position:-28px 12px}
-  40%{background-position:18px -14px} 60%{background-position:-10px 22px}
-  80%{background-position:14px -6px}  100%{background-position:0 0}
-}
-
-/* ═══════════════════════════════════════
-   VHS TRACKING BAR
-═══════════════════════════════════════ */
-.trackingBar{
-  position:fixed;top:0;left:0;width:100%;height:80px;
-  background:linear-gradient(to bottom,
-    rgba(255,255,255,.18) 0%,rgba(180,180,140,.08) 60%,transparent 100%
-  );
-  mix-blend-mode:overlay;opacity:.28;
-  animation:trackingMove 11s infinite linear;
-  pointer-events:none;z-index:4;
-}
-@keyframes trackingMove{
-  0%  {transform:translateY(-100px) skewX(0deg)}
-  48% {transform:translateY(55vh)   skewX(0deg)}
-  50% {transform:translateY(55vh)   skewX(2deg)}
-  52% {transform:translateY(57vh)   skewX(0deg)}
-  100%{transform:translateY(115vh)  skewX(0deg)}
-}
-
-/* ═══════════════════════════════════════
-   GLITCH LINES
-═══════════════════════════════════════ */
-.glitchLine{
-  position:fixed;left:0;width:100%;height:2px;
-  background:rgba(255,255,255,.6);
-  pointer-events:none;z-index:8;opacity:0;
-  animation:glitchLinePop 8s infinite;
-}
-.glitchLine:nth-child(2){animation-delay:2.8s;height:1px;background:rgba(200,200,170,.45);}
+html,body{height:100%;width:100%;background:#000;color:#e4e2d8;font-family:'Courier New',monospace;overflow:hidden;cursor:crosshair;-webkit-text-size-adjust:100%;}
+.videoLayer{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;}
+#bgVideo{width:100%;height:100%;object-fit:cover;filter:brightness(.68) contrast(1.42) saturate(.55) sepia(.18);animation:cameraDrift 28s infinite ease-in-out;}
+@keyframes cameraDrift{0%{transform:scale(1.02) rotate(-.08deg)}33%{transform:scale(1.045) rotate(.12deg)}66%{transform:scale(1.03) rotate(-.04deg)}100%{transform:scale(1.02) rotate(-.08deg)}}
+.darkOverlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:1;pointer-events:none;}
+.scanLayer{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16),rgba(0,0,0,.16) 1px,transparent 1px,transparent 3px);}
+.vignetteLayer{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 34%,rgba(0,0,0,.58) 70%,rgba(0,0,0,.96) 100%);}
+.grainLayer{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.42;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px 128px;animation:grainShift .08s infinite steps(1);mix-blend-mode:overlay;}
+@keyframes grainShift{0%{background-position:0 0}20%{background-position:-28px 12px}40%{background-position:18px -14px}60%{background-position:-10px 22px}80%{background-position:14px -6px}100%{background-position:0 0}}
+.trackingBar{position:fixed;top:0;left:0;width:100%;height:80px;background:linear-gradient(to bottom,rgba(255,255,255,.17) 0%,rgba(180,180,140,.07) 60%,transparent 100%);mix-blend-mode:overlay;opacity:.26;animation:trackingMove 11s infinite linear;pointer-events:none;z-index:4;}
+@keyframes trackingMove{0%{transform:translateY(-100px) skewX(0deg)}48%{transform:translateY(55vh) skewX(0deg)}50%{transform:translateY(55vh) skewX(2deg)}52%{transform:translateY(57vh) skewX(0deg)}100%{transform:translateY(115vh) skewX(0deg)}}
+.glitchLine{position:fixed;left:0;width:100%;height:2px;background:rgba(255,255,255,.58);pointer-events:none;z-index:8;opacity:0;animation:glitchLinePop 8s infinite;}
+.glitchLine:nth-child(2){animation-delay:2.8s;height:1px;background:rgba(200,200,170,.44);}
 .glitchLine:nth-child(3){animation-delay:5.5s;}
-@keyframes glitchLinePop{
-  0%,93%{opacity:0;transform:translateX(0)}
-  94%{opacity:1;transform:translateX(-10px)}
-  95%{opacity:.3;transform:translateX(14px)}
-  96%{opacity:.8;transform:translateX(-5px)}
-  97%,100%{opacity:0}
-}
-
-/* ═══════════════════════════════════════
-   VHS HUD
-═══════════════════════════════════════ */
+@keyframes glitchLinePop{0%,93%{opacity:0;transform:translateX(0)}94%{opacity:1;transform:translateX(-10px)}95%{opacity:.3;transform:translateX(14px)}96%{opacity:.8;transform:translateX(-5px)}97%,100%{opacity:0}}
 .vhsHUD{position:fixed;inset:0;pointer-events:none;z-index:5;}
-
-.recIndicator{
-  position:absolute;top:14px;left:14px;
-  display:flex;gap:6px;font-size:11px;align-items:center;
-  letter-spacing:2px;color:#ff6060;
-  text-shadow:0 0 8px rgba(255,50,50,.9);
-}
-.recDot{
-  width:9px;height:9px;background:#ff1a1a;border-radius:50%;
-  animation:blink 1.4s infinite;
-  box-shadow:0 0 7px rgba(255,0,0,.9);
-  flex-shrink:0;
-}
+.recIndicator{position:absolute;top:14px;left:14px;display:flex;gap:6px;font-size:11px;align-items:center;letter-spacing:2px;color:#ff5555;text-shadow:0 0 8px rgba(255,40,40,.9);}
+.recDot{width:9px;height:9px;background:#ff1a1a;border-radius:50%;animation:blink 1.4s infinite;box-shadow:0 0 7px rgba(255,0,0,.9);flex-shrink:0;}
 @keyframes blink{50%{opacity:.08}}
-
-.battery{
-  position:absolute;top:13px;right:14px;
-  font-size:10px;letter-spacing:2px;
-  color:rgba(255,255,210,.7);
-}
-
-.vhsTimestamp{
-  position:absolute;bottom:22px;left:14px;
-  font-size:11px;letter-spacing:2px;
-  color:rgba(255,255,210,.75);
-}
-
-.tapeCounter{
-  position:absolute;bottom:22px;right:14px;
-  font-size:11px;letter-spacing:2px;
-  color:rgba(255,255,210,.75);
-}
-
-.chLabel{
-  position:absolute;top:14px;left:50%;transform:translateX(-50%);
-  font-size:10px;letter-spacing:5px;
-  color:rgba(255,255,200,.45);
-  white-space:nowrap;
-}
-
-/* ═══════════════════════════════════════
-   SCREENS
-═══════════════════════════════════════ */
+.battery{position:absolute;top:13px;right:14px;font-size:10px;letter-spacing:2px;color:rgba(255,255,205,.68);}
+.vhsTimestamp{position:absolute;bottom:26px;left:14px;font-size:11px;letter-spacing:2px;color:rgba(255,255,205,.72);}
+.tapeCounter{position:absolute;bottom:26px;right:14px;font-size:11px;letter-spacing:2px;color:rgba(255,255,205,.72);}
+.chLabel{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:5px;color:rgba(255,255,195,.42);white-space:nowrap;}
 .contentLayer{position:relative;z-index:7;}
-
-.screen{
-  display:none;
-  position:fixed;           /* fixed so it fills the viewport exactly */
-  inset:0;
-  padding:72px 20px 80px;   /* room for HUD top/bottom */
-  max-width:860px;
-  margin:0 auto;
-  left:0;right:0;           /* centre on wide screens */
-  text-align:center;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  /* hide scrollbar but allow scroll */
-  scrollbar-width:none;
-}
+.screen{display:none;position:fixed;inset:0;padding:68px 20px 76px;max-width:860px;margin:0 auto;left:0;right:0;text-align:center;flex-direction:column;align-items:center;justify-content:center;gap:14px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .screen::-webkit-scrollbar{display:none;}
 .screen.active{display:flex;}
-
-/* tall-content screens: start from top so user can scroll */
-.screen.scrollable{
-  justify-content:flex-start;
-  padding-top:80px;
-}
-
+.screen.scrollable{justify-content:flex-start;padding-top:72px;}
 .archiveScreen{animation:cameraIdle 14s infinite;}
-@keyframes cameraIdle{
-  0%  {filter:contrast(1)   brightness(1)}
-  1.5%{filter:contrast(1.5) brightness(1.1)}
-  2.5%{filter:contrast(.75) brightness(.9)}
-  3%  {filter:contrast(1)   brightness(1)}
-  60% {filter:contrast(1)}
-  61% {filter:contrast(1.35) brightness(.8) saturate(0)}
-  61.5%{filter:contrast(1)}
-  100%{filter:contrast(1)   brightness(1)}
-}
-
-/* ═══════════════════════════════════════
-   TYPOGRAPHY
-═══════════════════════════════════════ */
-h2{
-  letter-spacing:6px;
-  font-size:clamp(13px,4vw,21px);
-  color:#f0efe6;
-  text-shadow:
-    0 0 8px rgba(255,255,190,.8),
-    0 0 22px rgba(255,255,160,.4),
-    0 0 50px rgba(255,255,100,.15);
-  animation:titleFlicker 10s infinite;
-}
-@keyframes titleFlicker{
-  0%{opacity:1} 46%{opacity:1} 47%{opacity:.6} 48%{opacity:1}
-  71%{opacity:1} 71.5%{opacity:.22} 72%{opacity:1} 100%{opacity:1}
-}
-
-.storyText{
-  max-width:480px;margin:2px auto;
-  line-height:1.85;
-  font-size:clamp(11px,3.5vw,14px);
-  color:#d0d0c4;text-align:center;
-  text-shadow:0 0 5px rgba(255,255,190,.5),0 0 14px rgba(255,255,160,.22);
-}
-
-.vhsSep{
-  width:140px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,190,.32),transparent);
-  margin:1px auto;flex-shrink:0;
-}
-
-/* ═══════════════════════════════════════
-   IMAGE PANELS
-═══════════════════════════════════════ */
-.imagePanel{
-  width:min(280px, 80vw);
-  margin:10px auto;flex-shrink:0;
-  border:1px solid rgba(255,255,190,.26);
-  box-shadow:0 0 60px rgba(0,0,0,.96),inset 0 0 18px rgba(0,0,0,.3);
-  opacity:0;transition:opacity 4.5s ease;position:relative;
-}
-.imagePanel::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 50%,rgba(0,0,0,.2) 100%);
-  pointer-events:none;z-index:1;
-}
+@keyframes cameraIdle{0%{filter:contrast(1) brightness(1)}1.5%{filter:contrast(1.52) brightness(1.08)}2.5%{filter:contrast(.74) brightness(.92)}3%{filter:contrast(1) brightness(1)}60%{filter:contrast(1)}61%{filter:contrast(1.38) brightness(.78) saturate(0)}61.5%{filter:contrast(1)}100%{filter:contrast(1)}}
+h2{letter-spacing:8px;font-size:clamp(13px,3.8vw,22px);color:#eeede4;text-shadow:0 0 8px rgba(255,255,185,.82),0 0 22px rgba(255,255,155,.38),0 0 52px rgba(255,255,95,.14);animation:titleFlicker 10s infinite;}
+@keyframes titleFlicker{0%{opacity:1}46%{opacity:1}47%{opacity:.6}48%{opacity:1}71%{opacity:1}71.5%{opacity:.2}72%{opacity:1}100%{opacity:1}}
+.storyText{max-width:490px;margin:3px auto;line-height:1.88;font-size:clamp(11px,3.2vw,14px);color:#ccccc0;text-align:center;text-shadow:0 0 5px rgba(255,255,185,.52),0 0 14px rgba(255,255,155,.22);}
+.vhsSep{width:140px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,185,.3),transparent);margin:1px auto;flex-shrink:0;}
+.imagePanel{width:min(280px,82vw);margin:12px auto;flex-shrink:0;border:1px solid rgba(255,255,185,.24);box-shadow:0 0 65px rgba(0,0,0,.97),inset 0 0 18px rgba(0,0,0,.3);opacity:0;transition:opacity 4.5s ease;}
 .imagePanel.show{opacity:1;}
-.imagePanel img{
-  width:100%;display:block;
-  filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);
-  transform:rotate(-.4deg);
-}
-
-/* ch2 grid */
-.c2Grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:clamp(12px,3.5vw,40px);
-  align-items:center;justify-items:center;
-  width:100%;max-width:480px;flex-shrink:0;
-}
-.c2Photo{
-  width:min(170px,40vw);
-  opacity:0;transition:opacity 4.5s ease;
-  border:1px solid rgba(255,255,190,.26);
-  box-shadow:0 0 50px rgba(0,0,0,.95);
-}
+.imagePanel img{width:100%;display:block;filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78);transform:rotate(-.4deg);}
+.c2Grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,4vw,46px);align-items:center;justify-items:center;width:100%;max-width:500px;flex-shrink:0;}
+.c2Photo{width:min(165px,38vw);opacity:0;transition:opacity 4.5s ease;border:1px solid rgba(255,255,185,.24);box-shadow:0 0 55px rgba(0,0,0,.96);}
 .c2Photo.show{opacity:1;}
-.c2Photo img{width:100%;display:block;filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);}
-
-/* ch3 grid */
-.c3Grid{
-  display:grid;
-  grid-template-columns:1fr minmax(140px,340px) 1fr;
-  align-items:center;gap:clamp(10px,2.5vw,30px);
-  width:100%;flex-shrink:0;
-}
-.c3photo{
-  width:min(180px, 24vw);
-  opacity:0;transition:opacity 3.5s ease;
-  border:1px solid rgba(255,255,190,.26);
-  box-shadow:0 0 50px rgba(0,0,0,.95);
-}
+.c2Photo img{width:100%;display:block;filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78);}
+.c3Grid{display:grid;grid-template-columns:1fr minmax(160px,350px) 1fr;align-items:center;gap:clamp(10px,2.8vw,34px);width:100%;flex-shrink:0;}
+.c3photo{width:min(175px,24vw);opacity:0;transition:opacity 3.5s ease;border:1px solid rgba(255,255,185,.24);box-shadow:0 0 55px rgba(0,0,0,.96);}
 .c3photo.show{opacity:1;}
-.c3photo img{width:100%;display:block;filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);}
-
-/* vhs photo noise */
+.c3photo img{width:100%;display:block;filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78);}
 .vhsPhoto img{animation:vhsNoise 7s infinite,photoBreath 14s infinite;}
-@keyframes photoBreath{
-  0%{transform:scale(1) rotate(-.4deg)}
-  50%{transform:scale(1.016) rotate(-.4deg)}
-  100%{transform:scale(1) rotate(-.4deg)}
-}
-@keyframes vhsNoise{
-  0%  {filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
-  4%  {filter:brightness(1.8) contrast(1.8) sepia(.4) saturate(.3)}
-  5%  {filter:brightness(.85) contrast(1.0) sepia(.1)}
-  6%  {filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
-  51% {filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
-  51.8%{filter:brightness(.4) contrast(2.2) sepia(.6) saturate(0)}
-  52.5%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8)}
-}
-
-/* ═══════════════════════════════════════
-   COUNTDOWN
-═══════════════════════════════════════ */
-.countdownBox{
-  display:flex;gap:clamp(8px,3vw,22px);
-  justify-content:center;align-items:center;
-  flex-wrap:nowrap;flex-shrink:0;
-}
-.countUnit{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.countNum{
-  font-size:clamp(22px,8vw,46px);
-  font-weight:bold;line-height:1;letter-spacing:3px;
-  color:#f2f0e4;
-  text-shadow:
-    0 0 8px rgba(255,255,190,.95),
-    0 0 22px rgba(255,255,150,.5),
-    0 0 45px rgba(255,255,100,.2);
-  animation:countFlicker 7s infinite;
-}
-@keyframes countFlicker{
-  0%,94%{opacity:1}95%{opacity:.42}96%{opacity:1}97%{opacity:.68}98%{opacity:1}
-}
-.countLabel{font-size:clamp(7px,1.8vw,10px);letter-spacing:4px;opacity:.5;color:#bbb;}
-.countDivider{font-size:clamp(18px,6vw,36px);opacity:.28;margin-bottom:10px;color:#999;}
-
-/* ═══════════════════════════════════════
-   BRIDAL PARTY PAGE
-═══════════════════════════════════════ */
-.partyWrapper{width:100%;max-width:640px;flex-shrink:0;}
+@keyframes photoBreath{0%{transform:scale(1) rotate(-.4deg)}50%{transform:scale(1.016) rotate(-.4deg)}100%{transform:scale(1) rotate(-.4deg)}}
+@keyframes vhsNoise{0%{filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78)}4%{filter:brightness(1.8) contrast(1.8) sepia(.42) saturate(.3)}5%{filter:brightness(.84) contrast(1.0) sepia(.1)}6%{filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78)}51.5%{filter:brightness(.38) contrast(2.2) sepia(.62) saturate(0)}52.2%{filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78)}}
+.countdownBox{display:flex;gap:clamp(9px,3.5vw,24px);justify-content:center;align-items:center;flex-wrap:nowrap;flex-shrink:0;}
+.countUnit{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.countNum{font-size:clamp(20px,7vw,46px);font-weight:bold;line-height:1;letter-spacing:3px;color:#f0ede2;text-shadow:0 0 8px rgba(255,255,185,.96),0 0 22px rgba(255,255,148,.48),0 0 48px rgba(255,255,95,.18);animation:countFlicker 7s infinite;}
+@keyframes countFlicker{0%,93%{opacity:1}94%{opacity:.4}95%{opacity:1}96%{opacity:.66}97%{opacity:1}}
+.countLabel{font-size:clamp(7px,1.8vw,10px);letter-spacing:5px;opacity:.48;color:#b8b8b0;}
+.countDivider{font-size:clamp(17px,5vw,34px);opacity:.28;margin-bottom:10px;color:#888;}
+.partyWrapper{width:100%;max-width:660px;}
 .partyToggleRow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;}
-
 .partySection{display:none;width:100%;animation:partyReveal .65s ease;}
 .partySection.open{display:block;}
-@keyframes partyReveal{
-  from{opacity:0;filter:brightness(4) contrast(4);}
-  18%{opacity:.2;filter:brightness(.35);}
-  to{opacity:1;filter:brightness(1);}
-}
-
-.partyTitle{
-  font-size:9px;letter-spacing:5px;color:rgba(255,255,170,.38);
-  margin-bottom:12px;padding-bottom:7px;
-  border-bottom:1px solid rgba(255,255,190,.1);
-}
-
-.partyCards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:7px;width:100%;
-}
-
-.partyCard{
-  border:1px solid rgba(255,255,190,.15);
-  padding:11px 9px 9px;position:relative;
-  background:rgba(0,0,0,.5);text-align:left;
-  transition:border-color .3s,box-shadow .3s;
-  animation:cardFlicker 13s infinite;
-}
-.partyCard:hover{
-  border-color:rgba(255,255,190,.42);
-  box-shadow:0 0 14px rgba(255,255,100,.09);
-}
-@keyframes cardFlicker{
-  0%,88%{opacity:1}89%{opacity:.72}90%{opacity:1}95%{opacity:1}95.4%{opacity:.48}95.8%{opacity:1}
-}
-.partyCard::before{
-  content:'▮';position:absolute;top:6px;right:6px;
-  font-size:6px;color:rgba(255,255,170,.22);
-}
-.cardRole{
-  font-size:8px;letter-spacing:3px;
-  color:rgba(255,255,130,.42);
-  display:block;margin-bottom:4px;
-}
-.cardName{
-  font-size:clamp(10px,2.8vw,13px);
-  color:#e2e2d6;letter-spacing:1px;
-  text-shadow:0 0 8px rgba(255,255,190,.3);
-  line-height:1.5;
-}
-
-.partyExtras{
-  margin-top:7px;
-  border:1px solid rgba(255,255,190,.1);
-  padding:9px 12px;background:rgba(0,0,0,.32);text-align:center;
-}
-.partyExtras .cardRole{text-align:center;display:block;margin-bottom:4px;}
-
-/* ═══════════════════════════════════════
-   RSVP FORM
-═══════════════════════════════════════ */
-.rsvpWrapper{width:100%;max-width:360px;flex-shrink:0;}
-.rsvpHeader{
-  font-size:9px;letter-spacing:5px;color:rgba(255,255,170,.38);
-  margin-bottom:12px;padding-bottom:7px;
-  border-bottom:1px solid rgba(255,255,190,.1);
-}
+@keyframes partyReveal{from{opacity:0;filter:brightness(4) contrast(4);}18%{opacity:.2;filter:brightness(.35);}to{opacity:1;filter:brightness(1);}}
+.partyTitle{font-size:9px;letter-spacing:6px;color:rgba(255,255,165,.36);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,185,.1);}
+.partyCards{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:7px;width:100%;}
+.partyCard{border:1px solid rgba(255,255,185,.14);padding:11px 9px 9px;background:rgba(0,0,0,.52);text-align:left;transition:border-color .3s,box-shadow .3s;animation:cardFlicker 14s infinite;}
+.partyCard:hover{border-color:rgba(255,255,185,.4);box-shadow:0 0 14px rgba(255,255,95,.09);}
+@keyframes cardFlicker{0%,88%{opacity:1}89%{opacity:.7}90%{opacity:1}95%{opacity:1}95.4%{opacity:.45}95.8%{opacity:1}}
+.cardRole{font-size:8px;letter-spacing:3px;color:rgba(255,255,125,.4);display:block;margin-bottom:4px;}
+.cardName{font-size:clamp(10px,2.8vw,13px);color:#e0e0d4;letter-spacing:1px;text-shadow:0 0 8px rgba(255,255,185,.3);line-height:1.5;}
+.partyExtras{margin-top:7px;border:1px solid rgba(255,255,185,.1);padding:9px 12px;background:rgba(0,0,0,.34);text-align:center;}
+.rsvpWrapper{width:100%;max-width:360px;}
+.rsvpHeader{font-size:9px;letter-spacing:5px;color:rgba(255,255,165,.36);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(255,255,185,.1);}
 .rsvpField{display:flex;flex-direction:column;gap:4px;margin-bottom:9px;text-align:left;}
-.rsvpLabel{font-size:9px;letter-spacing:3px;color:rgba(255,255,170,.42);}
-.rsvpField input,
-.rsvpField select{
-  padding:10px 12px;
-  background:rgba(4,4,2,.8);
-  border:1px solid rgba(255,255,190,.18);
-  color:#d8d8cc;
-  font-family:'Courier New',monospace;
-  font-size:14px;   /* 14px prevents iOS auto-zoom */
-  letter-spacing:1px;
-  outline:none;width:100%;
-  transition:border-color .3s,box-shadow .3s;
-  -webkit-appearance:none;
-  border-radius:0;
-}
-.rsvpField input::placeholder{
-  color:rgba(255,255,190,.16);letter-spacing:1px;
-}
-.rsvpField input:focus,
-.rsvpField select:focus{
-  border-color:rgba(255,255,190,.52);
-  box-shadow:0 0 12px rgba(255,255,100,.08);
-}
-.rsvpField select option{background:#080806;color:#d8d8cc;}
-.submitStatus{
-  font-size:11px;letter-spacing:3px;
-  opacity:0;transition:opacity .5s;
-  min-height:18px;text-align:center;margin-top:4px;
-}
+.rsvpLabel{font-size:9px;letter-spacing:3px;color:rgba(255,255,165,.42);}
+.rsvpField input,.rsvpField select,.rsvpField textarea{padding:10px 12px;background:rgba(3,3,2,.82);border:1px solid rgba(255,255,185,.16);color:#d4d4c8;font-family:'Courier New',monospace;font-size:14px;letter-spacing:1px;outline:none;width:100%;transition:border-color .3s,box-shadow .3s;-webkit-appearance:none;border-radius:0;}
+.rsvpField input::placeholder,.rsvpField textarea::placeholder{color:rgba(255,255,185,.15);letter-spacing:1px;}
+.rsvpField input:focus,.rsvpField select:focus,.rsvpField textarea:focus{border-color:rgba(255,255,185,.5);box-shadow:0 0 12px rgba(255,255,95,.08);}
+.rsvpField select option{background:#070706;color:#d4d4c8;}
+.rsvpField textarea{resize:none;height:60px;}
+.submitStatus{font-size:11px;letter-spacing:3px;opacity:0;transition:opacity .5s;min-height:18px;text-align:center;margin-top:4px;}
 .submitStatus.show{opacity:1;}
-
-/* ═══════════════════════════════════════
-   BUTTON
-═══════════════════════════════════════ */
-button{
-  padding:12px 28px;
-  border:1px solid rgba(255,255,190,.44);
-  background:rgba(0,0,0,.62);
-  color:rgba(255,255,210,.88);
-  letter-spacing:4px;cursor:pointer;
-  font-weight:bold;font-family:'Courier New',monospace;
-  font-size:clamp(9px,2.5vw,12px);
-  box-shadow:0 0 10px rgba(255,255,90,.07),inset 0 0 10px rgba(0,0,0,.4);
-  transition:all .25s;
-  -webkit-tap-highlight-color:transparent;
-  touch-action:manipulation;
-  white-space:nowrap;
-  flex-shrink:0;
-}
-button:hover,button:active{
-  background:rgba(255,255,195,.92);color:#060604;
-  box-shadow:0 0 22px rgba(255,255,140,.48),0 0 45px rgba(255,255,100,.18);
-  border-color:rgba(255,255,200,.9);letter-spacing:5px;
-}
-
-/* ═══════════════════════════════════════
-   PAYMENT BUTTONS
-═══════════════════════════════════════ */
+button{padding:11px 28px;border:1px solid rgba(255,255,185,.42);background:rgba(0,0,0,.64);color:rgba(255,255,205,.86);letter-spacing:4px;cursor:pointer;font-weight:bold;font-family:'Courier New',monospace;font-size:clamp(9px,2.2vw,12px);transition:all .25s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;white-space:nowrap;flex-shrink:0;}
+button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-shadow:0 0 22px rgba(255,255,135,.44),0 0 44px rgba(255,255,95,.18);border-color:rgba(255,255,200,.9);letter-spacing:5px;}
 .payRow{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;flex-shrink:0;}
 .payBtn{display:flex;flex-direction:column;align-items:center;gap:5px;text-decoration:none;}
-.payBtn span{font-size:9px;letter-spacing:3px;color:rgba(255,255,170,.35);}
-
-/* ═══════════════════════════════════════
-   MAP
-═══════════════════════════════════════ */
-#mapContainer{width:100%;max-width:520px;flex-shrink:0;}
-#mapContainer iframe{
-  width:100%;height:220px;
-  border:1px solid rgba(255,255,190,.26);
-  box-shadow:0 0 40px rgba(0,0,0,.92);
-  filter:sepia(.25) contrast(1.1) saturate(.8);
-  display:block;
-}
-
-/* ═══════════════════════════════════════
-   TAPE BOOT / CALIBRATE SCREENS
-═══════════════════════════════════════ */
-.tapeBoot{
-  position:fixed;inset:0;background:#000;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  z-index:998;color:#c8c8bc;
-  font-size:13px;letter-spacing:3px;
-  opacity:0;pointer-events:none;
-}
+.payBtn span{font-size:9px;letter-spacing:3px;color:rgba(255,255,165,.34);}
+#mapContainer{width:100%;max-width:520px;}
+#mapContainer iframe{width:100%;height:235px;border:1px solid rgba(255,255,185,.24);box-shadow:0 0 40px rgba(0,0,0,.94);filter:sepia(.28) contrast(1.1) saturate(.76);display:block;}
+.tapeBoot{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:998;color:#c4c4b8;font-size:13px;letter-spacing:3px;opacity:0;pointer-events:none;}
 .tapeBoot.active{opacity:1;pointer-events:auto;}
-.bootText{
-  margin-top:18px;opacity:.62;font-size:11px;letter-spacing:4px;
-  animation:bootFlicker 2s infinite;
-}
-@keyframes bootFlicker{0%{opacity:.62}45%{opacity:.42}50%{opacity:.08}55%{opacity:.52}100%{opacity:.62}}
-
-.bootBar{
-  width:min(220px,70vw);height:4px;
-  border:1px solid rgba(255,255,190,.26);
-  margin-top:18px;position:relative;overflow:hidden;
-}
-.bootFill{
-  position:absolute;left:0;top:0;height:100%;width:0%;
-  background:linear-gradient(90deg,
-    rgba(255,255,190,.04),rgba(255,255,190,.85),rgba(255,255,190,.04)
-  );
-  animation:bootLoad 3s forwards,tapePulse 1.4s infinite;
-  box-shadow:0 0 10px rgba(255,255,150,.65);
-}
+.bootText{margin-top:18px;opacity:.6;font-size:11px;letter-spacing:4px;animation:bootFlicker 2s infinite;}
+@keyframes bootFlicker{0%{opacity:.6}45%{opacity:.42}50%{opacity:.08}55%{opacity:.52}100%{opacity:.6}}
+.bootBar{width:min(220px,70vw);height:4px;border:1px solid rgba(255,255,185,.24);margin-top:18px;position:relative;overflow:hidden;}
+.bootFill{position:absolute;left:0;top:0;height:100%;width:0%;background:linear-gradient(90deg,rgba(255,255,185,.04),rgba(255,255,185,.84),rgba(255,255,185,.04));animation:bootLoad 3s forwards,tapePulse 1.4s infinite;box-shadow:0 0 10px rgba(255,255,145,.62);}
 @keyframes bootLoad{0%{width:0%}100%{width:100%}}
 @keyframes tapePulse{0%{opacity:.7}50%{opacity:1}100%{opacity:.7}}
-
-.trackingCalibrate{
-  position:fixed;inset:0;background:#000;
-  z-index:997;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:22px;opacity:0;pointer-events:none;
-}
+.trackingCalibrate{position:fixed;inset:0;background:#000;z-index:997;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;opacity:0;pointer-events:none;}
 .trackingCalibrate.active{opacity:1;pointer-events:auto;}
-.calibrateText{
-  font-size:12px;letter-spacing:4px;
-  color:rgba(255,255,170,.62);
-  animation:calibrateBlink 1s infinite;
-}
+.calibrateText{font-size:12px;letter-spacing:4px;color:rgba(255,255,165,.6);animation:calibrateBlink 1s infinite;}
 .calibrateLines{width:min(280px,80vw);}
-.calLine{
-  height:3px;margin:5px 0;
-  background:linear-gradient(90deg,transparent,rgba(255,255,190,.42),transparent);
-  animation:calLineScan 1.9s infinite;
-}
+.calLine{height:3px;margin:5px 0;background:linear-gradient(90deg,transparent,rgba(255,255,185,.4),transparent);animation:calLineScan 1.9s infinite;}
 .calLine:nth-child(2){animation-delay:.35s;height:1px;opacity:.4;}
 .calLine:nth-child(3){animation-delay:.7s;}
-@keyframes calLineScan{
-  0%{transform:scaleX(0);opacity:0}50%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}
-}
+@keyframes calLineScan{0%{transform:scaleX(0);opacity:0}50%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}}
 @keyframes calibrateBlink{50%{opacity:.14}}
-
-/* ═══════════════════════════════════════
-   TRANSITION EFFECTS
-═══════════════════════════════════════ */
-.staticBurst{
-  position:fixed;inset:0;
-  background:repeating-linear-gradient(
-    0deg,rgba(255,255,255,.16),rgba(255,255,255,.16) 2px,
-    rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 4px
-  );
-  opacity:0;z-index:999;pointer-events:none;
-}
-.staticBurst.active{animation:vhsStatic .55s;}
-@keyframes vhsStatic{
-  0%{opacity:0;transform:skewX(0deg)}
-  20%{opacity:.88;transform:skewX(1.5deg)}
-  50%{opacity:.5;transform:skewX(-.5deg)}
-  80%{opacity:.26}
-  100%{opacity:0;transform:skewX(0deg)}
-}
-
+.staticBurst{position:fixed;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.16),rgba(255,255,255,.16) 2px,rgba(0,0,0,.1) 2px,rgba(0,0,0,.1) 4px);opacity:0;z-index:999;pointer-events:none;}
+.staticBurst.active{animation:vhsStatic .56s;}
+@keyframes vhsStatic{0%{opacity:0;transform:skewX(0deg)}20%{opacity:.88;transform:skewX(1.5deg)}50%{opacity:.5;transform:skewX(-.5deg)}80%{opacity:.25}100%{opacity:0;transform:skewX(0deg)}}
 .glitchFlash{animation:glitchFlash .2s;}
-@keyframes glitchFlash{
-  30%{filter:brightness(3.5) contrast(5) saturate(0)}
-  65%{filter:brightness(.22)}
-}
-
+@keyframes glitchFlash{30%{filter:brightness(3.5) contrast(5) saturate(0)}65%{filter:brightness(.22)}}
 .cameraBoot{animation:cameraBoot .7s ease;}
-@keyframes cameraBoot{
-  0%{filter:brightness(0) contrast(5);transform:scale(1.04);}
-  35%{filter:brightness(3.5) contrast(2.5);}
-  70%{filter:brightness(.55);}
-  100%{filter:brightness(1);transform:scale(1);}
-}
-
+@keyframes cameraBoot{0%{filter:brightness(0) contrast(5);transform:scale(1.04);}35%{filter:brightness(3.5) contrast(2.5);}70%{filter:brightness(.55);}100%{filter:brightness(1);transform:scale(1);}}
 .rewindFlash{animation:rewindFlash .3s;}
-@keyframes rewindFlash{
-  0%{transform:scale(1)}40%{transform:scale(1.014) skewX(.35deg)}100%{transform:scale(1)}
-}
-
+@keyframes rewindFlash{0%{transform:scale(1)}40%{transform:scale(1.014) skewX(.35deg)}100%{transform:scale(1)}}
 .signalLoss{animation:signalLoss .45s;}
-@keyframes signalLoss{
-  0%{opacity:1}25%{opacity:.04}65%{opacity:.88}100%{opacity:1}
-}
-
+@keyframes signalLoss{0%{opacity:1}25%{opacity:.04}65%{opacity:.88}100%{opacity:1}}
 .tapeWarp{animation:tapeWarp .42s;}
-@keyframes tapeWarp{
-  0%{transform:skewX(0deg) scaleY(1)}
-  25%{transform:skewX(7deg) scaleY(.99)}
-  65%{transform:skewX(-6deg) scaleY(1.01)}
-  100%{transform:skewX(0deg) scaleY(1)}
-}
-
+@keyframes tapeWarp{0%{transform:skewX(0deg) scaleY(1)}25%{transform:skewX(7deg) scaleY(.99)}65%{transform:skewX(-6deg) scaleY(1.01)}100%{transform:skewX(0deg) scaleY(1)}}
 .proposalFreeze{animation:proposalFreeze 1.5s ease;}
-@keyframes proposalFreeze{
-  0%{filter:brightness(3.5) contrast(5);transform:scale(1.04);}
-  22%{filter:brightness(.25);}
-  50%{filter:brightness(2) saturate(0);}
-  100%{filter:brightness(1.3) contrast(1.3) sepia(.2) saturate(.8);transform:scale(1);}
-}
-
+@keyframes proposalFreeze{0%{filter:brightness(3.5) contrast(5);transform:scale(1.04);}22%{filter:brightness(.25);}50%{filter:brightness(2) saturate(0);}100%{filter:brightness(1.28) contrast(1.32) sepia(.22) saturate(.78);transform:scale(1);}}
 .archiveReveal{animation:archiveReveal .9s ease;}
-@keyframes archiveReveal{
-  0%{opacity:0;transform:scale(.95);filter:brightness(3.5) contrast(3.5);}
-  15%{filter:brightness(.18);}
-  40%{filter:brightness(2.2) saturate(0);}
-  65%{filter:brightness(.75);}
-  100%{opacity:1;transform:scale(1);filter:brightness(1);}
-}
-
-/* ═══════════════════════════════════════
-   TAPE ERROR BANNER
-═══════════════════════════════════════ */
-.tapeError{
-  position:fixed;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(0,0,0,.9);color:#bb1818;
-  font-size:clamp(12px,3.5vw,16px);letter-spacing:5px;
-  z-index:1000;opacity:0;pointer-events:none;
-  text-shadow:0 0 24px rgba(180,0,0,.9);
-}
+@keyframes archiveReveal{0%{opacity:0;transform:scale(.95);filter:brightness(3.5) contrast(3.5);}15%{filter:brightness(.18);}40%{filter:brightness(2.2) saturate(0);}65%{filter:brightness(.75);}100%{opacity:1;transform:scale(1);filter:brightness(1);}}
+.tapeError{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.92);color:#b81616;font-size:clamp(12px,3.5vw,16px);letter-spacing:5px;z-index:1000;opacity:0;pointer-events:none;text-shadow:0 0 24px rgba(178,0,0,.92);}
 .tapeError.show{animation:tapeErrorAnim 3s;}
 @keyframes tapeErrorAnim{0%{opacity:0}12%{opacity:1}75%{opacity:1}100%{opacity:0}}
-
-/* ═══════════════════════════════════════
-   FINAL — TAPE DESTRUCTION SEQUENCE
-═══════════════════════════════════════ */
-#finalDestroy{
-  position:fixed;inset:0;z-index:1001;
-  pointer-events:none;opacity:0;
-}
-#finalDestroy.run{
-  pointer-events:auto;
-  animation:none; /* driven by JS */
-}
-
-/* individual destroy layers */
-.dLayer{
-  position:absolute;inset:0;opacity:0;
-}
-/* heavy static */
-#dStatic{
-  background:repeating-linear-gradient(
-    0deg,rgba(255,255,255,.22),rgba(255,255,255,.22) 2px,
-    rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 4px
-  );
-}
-/* horizontal band tears */
-#dTears{
-  background:
-    repeating-linear-gradient(
-      180deg,
-      transparent,transparent 28px,
-      rgba(255,255,255,.28) 28px,rgba(255,255,255,.28) 30px
-    );
-}
-/* all black */
+#finalDestroy{position:fixed;inset:0;z-index:1001;pointer-events:none;opacity:0;display:none;}
+#finalDestroy.run{pointer-events:auto;}
+.dLayer{position:absolute;inset:0;opacity:0;}
+#dStatic{background:repeating-linear-gradient(0deg,rgba(255,255,255,.22),rgba(255,255,255,.22) 2px,rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 4px);}
+#dTears{background:repeating-linear-gradient(180deg,transparent,transparent 28px,rgba(255,255,255,.26) 28px,rgba(255,255,255,.26) 30px);}
 #dBlack{background:#000;}
-/* final message */
-#dMessage{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:16px;
-  background:#000;
-  color:rgba(255,255,190,.7);
-  font-size:clamp(10px,2.8vw,14px);
-  letter-spacing:5px;line-height:2;
-  text-align:center;
-  padding:40px 20px;
-  text-shadow:0 0 12px rgba(255,255,150,.5);
-}
-#dMessage .dmTitle{
-  font-size:clamp(12px,3.5vw,18px);
-  letter-spacing:7px;color:rgba(255,255,200,.85);
-  text-shadow:0 0 16px rgba(255,255,150,.6),0 0 35px rgba(255,255,100,.25);
-  animation:dmFlicker 3s infinite;
-}
-@keyframes dmFlicker{
-  0%{opacity:1}30%{opacity:1}32%{opacity:.4}34%{opacity:.9}
-  60%{opacity:1}61%{opacity:.2}63%{opacity:.8}100%{opacity:1}
-}
-#dMessage .dmSub{
-  font-size:clamp(9px,2.5vw,11px);letter-spacing:4px;
-  opacity:.45;animation:dmSubFade 2s infinite alternate;
-}
-@keyframes dmSubFade{0%{opacity:.3}100%{opacity:.6}}
-
-/* shadow figure */
-.shadowFigure{
-  position:fixed;bottom:10%;left:-140px;
-  width:65px;height:170px;
-  background:linear-gradient(to bottom,
-    rgba(0,0,0,0),rgba(0,0,0,.98) 25%,rgba(0,0,0,.98) 100%
-  );
-  border-radius:35px 35px 8px 8px;
-  filter:blur(3px);opacity:0;
-  pointer-events:none;z-index:6;
-}
+#dMessage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#000;color:rgba(255,255,185,.65);font-size:clamp(10px,2.8vw,14px);letter-spacing:5px;line-height:2;text-align:center;padding:40px 20px;}
+.dmTitle{font-size:clamp(12px,3.5vw,18px);letter-spacing:7px;color:rgba(255,255,200,.82);text-shadow:0 0 16px rgba(255,255,145,.58),0 0 36px rgba(255,255,95,.22);animation:dmFlicker 3s infinite;}
+@keyframes dmFlicker{0%{opacity:1}30%{opacity:1}32%{opacity:.38}34%{opacity:.88}60%{opacity:1}61%{opacity:.18}63%{opacity:.78}100%{opacity:1}}
+.dmSub{font-size:clamp(9px,2.4vw,11px);letter-spacing:4px;opacity:.42;animation:dmSubFade 2s infinite alternate;}
+@keyframes dmSubFade{0%{opacity:.28}100%{opacity:.56}}
+.shadowFigure{position:fixed;bottom:10%;left:-140px;width:65px;height:170px;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,.98) 25%,rgba(0,0,0,.98) 100%);border-radius:35px 35px 8px 8px;filter:blur(3px);opacity:0;pointer-events:none;z-index:6;}
 .shadowFigure.walk{animation:shadowWalk 1.6s linear forwards;}
-@keyframes shadowWalk{
-  0%{left:-140px;opacity:0;transform:scale(.88);}
-  8%{opacity:.55;}85%{opacity:.4;}
-  100%{left:110vw;opacity:0;transform:scale(1.08);}
-}
-
-/* ═══════════════════════════════════════
-   MOBILE — phones ≤600px
-═══════════════════════════════════════ */
-@media(max-width:600px){
-  /* ch3: stack vertically, text first */
-  .c3Grid{
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-  }
-  .c3Grid .storyText{order:0;}
-  .c3photo{width:min(200px,70vw);order:1;}
-  .c3photo:last-child{display:none;} /* hide 2nd photo on tiny screens */
-
-  /* party cards: 2 cols */
-  .partyCards{grid-template-columns:1fr 1fr;}
-
-  /* countdown: tighter */
-  .countdownBox{gap:6px;}
-
-  /* screens top-align on short phones */
-  .screen{justify-content:flex-start;padding-top:68px;}
-}
-
-/* very small phones */
-@media(max-width:360px){
-  .partyCards{grid-template-columns:1fr;}
-  h2{letter-spacing:3px;}
-  button{letter-spacing:2px;padding:11px 16px;}
-  .countNum{font-size:20px;}
-}
-
-/* landscape phones: reduce vertical gaps */
-@media(max-height:500px){
-  .screen{gap:8px;padding-top:58px;padding-bottom:60px;}
-  .vhsSep{display:none;}
-  h2{font-size:14px;}
-  .storyText{font-size:11px;line-height:1.6;}
-}
-
+@keyframes shadowWalk{0%{left:-140px;opacity:0;transform:scale(.88);}8%{opacity:.55;}85%{opacity:.4;}100%{left:110vw;opacity:0;transform:scale(1.08);}}
+@media(max-width:600px){.c3Grid{display:flex;flex-direction:column;align-items:center;gap:10px;}.screen{padding:72px 14px 90px;justify-content:flex-start;padding-top:72px;}.countDivider{display:none;}.partyCards{grid-template-columns:1fr 1fr;}h2{letter-spacing:4px;}}
+@media(max-width:380px){.partyCards{grid-template-columns:1fr;}button{letter-spacing:2px;padding:10px 16px;}}
+@media(max-height:500px){.screen{gap:8px;padding-top:54px;padding-bottom:56px;}.vhsSep{display:none;}h2{font-size:14px;}.storyText{font-size:11px;line-height:1.6;}}
 </style>
 </head>
 <body>
-
-<!-- ── GLITCH LINES ── -->
 <div class="glitchLine" style="top:22%"></div>
 <div class="glitchLine" style="top:57%"></div>
 <div class="glitchLine" style="top:80%"></div>
-
-<!-- ── VIDEO BG ── -->
-<div class="videoLayer" id="videoLayer" style="display:none;">
-  <video id="bgVideo" muted autoplay loop playsinline>
-    <source src="forrest vid.mp4" type="video/mp4">
-  </video>
-</div>
-
-<!-- ── LAYER STACK ── -->
-<div class="darkOverlay"></div>
-<div class="scanLayer"></div>
-<div class="grainLayer"></div>
-<div class="vignetteLayer"></div>
-<div class="trackingBar"></div>
-<div class="staticBurst" id="static"></div>
-
-<!-- ── BOOT SCREENS ── -->
-<div class="trackingCalibrate" id="trackingCalibrate">
-  <div class="calibrateText">TRACKING... PLEASE STAND BY</div>
-  <div class="calibrateLines">
-    <div class="calLine"></div>
-    <div class="calLine"></div>
-    <div class="calLine"></div>
-  </div>
-</div>
-
-<div class="tapeBoot" id="tapeBoot">
-  <div style="letter-spacing:5px;">TAPE LOADING</div>
-  <div class="bootBar"><div class="bootFill"></div></div>
-  <div class="bootText">DO NOT REMOVE CASSETTE</div>
-</div>
-
-<!-- ── VHS HUD ── -->
+<div class="videoLayer" id="videoLayer" style="display:none;"><video id="bgVideo" muted autoplay loop playsinline><source src="forrest vid.mp4" type="video/mp4"></video></div>
+<div class="darkOverlay"></div><div class="scanLayer"></div><div class="grainLayer"></div><div class="vignetteLayer"></div><div class="trackingBar"></div><div class="staticBurst" id="static"></div>
+<div class="trackingCalibrate" id="trackingCalibrate"><div class="calibrateText">TRACKING... PLEASE STAND BY</div><div class="calibrateLines"><div class="calLine"></div><div class="calLine"></div><div class="calLine"></div></div></div>
+<div class="tapeBoot" id="tapeBoot"><div style="letter-spacing:5px;">TAPE LOADING</div><div class="bootBar"><div class="bootFill"></div></div><div class="bootText">DO NOT REMOVE CASSETTE</div></div>
 <div class="vhsHUD">
   <div class="recIndicator"><span class="recDot"></span>REC</div>
-  <div class="battery" id="batteryDisplay">BAT 87% ▮▮▮▮</div>
+  <div class="battery" id="batteryDisplay">BAT 87% &#9646;&#9646;&#9646;&#9646;</div>
   <div class="chLabel" id="chLabel"></div>
   <div class="vhsTimestamp" id="vhsTime">00:00:00</div>
   <div class="tapeCounter" id="counter">TAPE 00:00</div>
 </div>
+<div class="shadowFigure" id="shadowFigure"></div>
+<div class="contentLayer">
+<audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
 
-<!-- ── TAPE DESTRUCTION OVERLAY ── -->
+<!-- OPENING VIDEO -->
+<div class="screen active" id="openingScreen">
+  <video id="openingVideo" autoplay muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;"><source src="found-footage.mp4" type="video/mp4"></video>
+</div>
+
+<!-- CH: START — Countdown -->
+<div class="screen archiveScreen" id="startScreen">
+  <h2>DO NOT WATCH THIS TAPE</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:4px;opacity:.4;">WARNING &mdash; RECOVERED FOOTAGE &mdash; ORIGIN UNKNOWN</div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.3;margin-top:0;">TIME REMAINING UNTIL TRANSMISSION</div>
+  <div class="countdownBox" id="countdown">
+    <div class="countUnit"><div class="countNum" id="cdDays">000</div><div class="countLabel">DAYS</div></div>
+    <div class="countDivider">:</div>
+    <div class="countUnit"><div class="countNum" id="cdHours">00</div><div class="countLabel">HRS</div></div>
+    <div class="countDivider">:</div>
+    <div class="countUnit"><div class="countNum" id="cdMins">00</div><div class="countLabel">MIN</div></div>
+    <div class="countDivider">:</div>
+    <div class="countUnit"><div class="countNum" id="cdSecs">00</div><div class="countLabel">SEC</div></div>
+  </div>
+  <button onclick="openCamera()">PLAY TAPE</button>
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.22;margin-top:2px;">we found this in the woods</div>
+</div>
+
+<!-- CH1 — Lost Footage -->
+<div class="screen" id="c1">
+  <h2>LOST FOOTAGE</h2><div class="vhsSep"></div>
+  <div class="storyText">Something is still out there in the woods.<br>We kept recording anyway.<br><br>Archive timestamp:<br><strong>October 24, 2026</strong><br>5:00 PM &ndash; 9:00 PM<br><br>Subjects identified on tape:<br>Tyler Hawthorne &amp; Julie Eells</div>
+  <div class="imagePanel vhsPhoto" id="ch1img"><img src="early1.png" alt=""></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.3;">...they didn't know we were filming</div>
+  <button onclick="goTo('c2')">PLAY NEXT SEGMENT</button>
+</div>
+
+<!-- CH2 — Reconnection -->
+<div class="screen" id="c2">
+  <h2>RECONNECTION LOG</h2><div class="vhsSep"></div>
+  <div class="storyText">Recovered from a corrupted segment.<br>Most of this tape was damaged.<br><br>Tyler Hawthorne. Julie Eells.<br><br>What started as resistance<br>rotted into something undeniable.<br>They couldn't stay away from each other.<br>Nobody ever could explain it.</div>
+  <div class="c2Grid">
+    <div class="c2Photo vhsPhoto" id="ch2img1"><img src="early2.png" alt=""></div>
+    <div class="c2Photo vhsPhoto" id="ch2img2"><img src="early3.png" alt=""></div>
+  </div>
+  <button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
+</div>
+
+<!-- CH3 — Evidence -->
+<div class="screen" id="c3">
+  <h2>EVIDENCE REEL</h2><div class="vhsSep"></div>
+  <div class="c3Grid">
+    <div class="c3photo vhsPhoto" id="ch3img1"><img src="c3-1.png" alt=""></div>
+    <div class="storyText">They were always together after that.<br>The tape doesn't lie.<br><br>Something changed between them.<br>Whatever it was —<br>we couldn't look away either.</div>
+    <div class="c3photo vhsPhoto" id="ch3img2"><img src="c3-2.png" alt=""></div>
+  </div>
+  <button onclick="goTo('c4')">NEXT FRAGMENT</button>
+</div>
+
+<!-- CH4 — Proposal -->
+<div class="screen" id="c4">
+  <h2>CLASSIFIED SEGMENT</h2><div class="vhsSep"></div>
+  <div class="storyText">This part of the tape was nearly destroyed.<br>What remains is fragmented.<br><br>He asked.<br>She said yes.<br><br>We weren't supposed to see this.</div>
+  <div class="imagePanel vhsPhoto" id="ch4img"><img src="proposal.png" alt=""></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.3;">tape damage at 01:14:38 — origin unknown</div>
+  <button onclick="goTo('c5')">ADVANCE TAPE</button>
+</div>
+
+<!-- CH5 — Venue -->
+<div class="screen" id="c5">
+  <h2>TRANSMISSION SITE</h2><div class="vhsSep"></div>
+  <div class="storyText">The location has been identified.<br><br><strong>THE CONSERVATORY</strong><br>Acworth, Georgia<br><br>October 24, 2026<br>5:00 PM</div>
+  <div class="imagePanel vhsPhoto" id="ch5img"><img src="venue.png" alt=""></div>
+  <div id="mapContainer">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.9!2d-84.6766!3d34.0659!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f510a5b4e0e0e9%3A0x1234567890abcdef!2sAcworth%2C%20GA!5e0!3m2!1sen!2sus!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <button onclick="goTo('c6')">IDENTIFY SUBJECTS</button>
+</div>
+
+<!-- CH6 — Bridal Party -->
+<div class="screen scrollable" id="c6">
+  <h2>SUBJECTS ON TAPE</h2><div class="vhsSep"></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.36;">CLASSIFIED — DO NOT DISTRIBUTE</div>
+  <div class="partyWrapper">
+    <div class="partyToggleRow">
+      <button onclick="toggleParty('groom')" style="font-size:10px;padding:8px 18px;">GROOM SIDE</button>
+      <button onclick="toggleParty('bride')" style="font-size:10px;padding:8px 18px;">BRIDE SIDE</button>
+    </div>
+    <div class="partySection" id="partyGroom">
+      <div class="partyTitle">GROOM'S PARTY &mdash; CLEARANCE LEVEL 1</div>
+      <div class="partyCards">
+        <div class="partyCard"><span class="cardRole">BEST MAN</span><span class="cardName">Sam Newman</span></div>
+        <div class="partyCard"><span class="cardRole">BEST LITTLE MAN</span><span class="cardName">Jasper Hawthorne</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSMAN</span><span class="cardName">Josey Green</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSMAN</span><span class="cardName">Zachary Hawthorne</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSWOMAN</span><span class="cardName">Alyssa Hargrove</span></div>
+      </div>
+    </div>
+    <div class="partySection" id="partyBride">
+      <div class="partyTitle">BRIDE'S PARTY &mdash; CLEARANCE LEVEL 1</div>
+      <div class="partyCards">
+        <div class="partyCard"><span class="cardRole">MATRON OF HONOR</span><span class="cardName">Kristian Thomason</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Mikaela VonGerichten</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Allie Rollins</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Kayden Rollins</span></div>
+        <div class="partyCard"><span class="cardRole">SPIRIT OF HONOR</span><span class="cardName">Victoria Dow</span></div>
+      </div>
+      <div class="partyExtras">
+        <div class="partyTitle" style="border:0;margin-bottom:8px;">LITTLE ONES</div>
+        <div class="partyCards" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));">
+          <div class="partyCard"><span class="cardRole">FLOWER GIRL</span><span class="cardName">Lillian Thomason</span></div>
+          <div class="partyCard"><span class="cardRole">FLOWER GIRL</span><span class="cardName">Salem Ramirez</span></div>
+          <div class="partyCard"><span class="cardRole">RING BEARER</span><span class="cardName">Bennet Dean</span></div>
+          <div class="partyCard"><span class="cardRole">RING BEARER</span><span class="cardName">James Dean</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button onclick="goTo('c7')" style="margin-top:10px;">TRANSMISSION CONTINUES</button>
+</div>
+
+<!-- CH7 — RSVP -->
+<div class="screen scrollable" id="c7">
+  <h2>CONFIRM YOUR PRESENCE</h2><div class="vhsSep"></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.36;margin-bottom:4px;">YOUR RESPONSE IS REQUIRED &mdash; OCTOBER 24, 2026</div>
+  <div class="rsvpWrapper">
+    <div class="rsvpHeader">TRANSMISSION FORM &mdash; FILL COMPLETELY</div>
+    <div class="rsvpField">
+      <label class="rsvpLabel">FULL NAME</label>
+      <input type="text" id="rName" placeholder="your name" autocomplete="name">
+    </div>
+    <div class="rsvpField">
+      <label class="rsvpLabel">NUMBER OF GUESTS</label>
+      <input type="number" id="rGuests" placeholder="1" min="1" max="10">
+    </div>
+    <div class="rsvpField">
+      <label class="rsvpLabel">ATTENDING</label>
+      <select id="rAttend">
+        <option value="">— SELECT —</option>
+        <option value="YES">YES — I WILL BE THERE</option>
+        <option value="NO">NO — I CANNOT ATTEND</option>
+      </select>
+    </div>
+    <div class="rsvpField">
+      <label class="rsvpLabel">DIETARY RESTRICTIONS</label>
+      <textarea id="rDiet" placeholder="none / describe..."></textarea>
+    </div>
+    <button onclick="submitRSVP()" style="width:100%;margin-top:4px;">TRANSMIT RESPONSE</button>
+    <div class="submitStatus" id="submitStatus"></div>
+  </div>
+  <button onclick="goTo('c8')" style="font-size:10px;padding:8px 18px;opacity:.5;margin-top:4px;">SKIP &rsaquo; GIFTS</button>
+</div>
+
+<!-- CH8 — Gifts -->
+<div class="screen" id="c8">
+  <h2>ARCHIVE OFFERINGS</h2><div class="vhsSep"></div>
+  <div class="storyText">Your presence is the only gift required.<br><br>But if you insist on leaving something behind —<br>a contribution toward our next chapter<br>would mean everything.<br><br>Cash gifts are preferred.<br>The registry is the woods.</div>
+  <div class="vhsSep"></div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.44;">SEND THROUGH THE FOLLOWING CHANNELS</div>
+  <div class="payRow">
+    <a class="payBtn" href="https://cash.app/$7706088227" target="_blank" rel="noopener">
+      <button>APPLE CASH</button>
+      <span>770-608-8227</span>
+    </a>
+    <div class="payBtn" onclick="openZelle()" style="cursor:pointer;">
+      <button>ZELLE</button>
+      <span>tylerhaw1horne@gmail.com</span>
+    </div>
+  </div>
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.24;margin-top:8px;">we don't know what happens after this point on the tape</div>
+  <button onclick="goTo('final')" style="margin-top:6px;">REACH THE END</button>
+</div>
+
+<!-- FINAL SCREEN -->
+<div class="screen archiveScreen" id="final">
+  <h2>END OF TAPE</h2><div class="vhsSep"></div>
+  <div class="storyText">You made it to the end.<br><br>We will see you<br>October 24, 2026<br><br>Whatever happens after this —<br>we face it together.</div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.3;margin-top:6px;">— Tyler &amp; Julie</div>
+  <div class="vhsSep" style="margin-top:8px;"></div>
+  <div class="storyText" style="font-size:9px;letter-spacing:4px;opacity:.22;">tape will self-destruct in <span id="destroyCount">7</span> seconds</div>
+</div>
+
+</div><!-- /contentLayer -->
+
+<!-- TAPE DESTRUCTION -->
 <div id="finalDestroy">
   <div class="dLayer" id="dStatic"></div>
   <div class="dLayer" id="dTears"></div>
   <div class="dLayer" id="dBlack"></div>
   <div class="dLayer" id="dMessage">
     <div class="dmTitle">TAPE DESTROYED</div>
-
-    <!-- ════════════════════════════════════════════
-         ✏️  COUPLE'S CLOSING MESSAGE
-         Replace the lines below with your own words.
-         Keep it short — 2 to 4 lines works best.
-    ════════════════════════════════════════════ -->
-    <div>
-      We can't wait to see you out there.<br>
-      — Tyler &amp; Julie
-    </div>
-    <!-- ════════════════════════════════════════════ -->
-
-    <div class="dmSub">
-      OCTOBER 24, 2026 &nbsp;·&nbsp; THE CONSERVATORY &nbsp;·&nbsp; ACWORTH GA
-    </div>
-    <div class="dmSub" style="font-size:8px;letter-spacing:6px;margin-top:6px;">
-      — END OF TRANSMISSION —
-    </div>
+    <div class="dmSub">OCTOBER 24, 2026</div>
+    <div class="dmSub">TYLER &amp; JULIE</div>
+    <div class="dmSub" style="margin-top:12px;font-size:9px;letter-spacing:3px;opacity:.28;">this recording no longer exists</div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     CONTENT
-═══════════════════════════════════════════════ -->
-<div class="contentLayer">
-<audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
+<div class="tapeError" id="tapeError">SIGNAL LOST</div>
 
-<!-- ══ OPENING FOUND-FOOTAGE ══ -->
-<div class="screen active" id="openingScreen">
-  <video id="openingVideo" autoplay muted playsinline
-    style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
-    <source src="found-footage.mp4" type="video/mp4">
-  </video>
-</div>
-
-<!-- ══ START SCREEN ══ -->
-<div class="screen archiveScreen" id="startScreen">
-
-  <h2>DO NOT WATCH THIS TAPE</h2>
-  <div class="vhsSep"></div>
-
-  <div class="storyText" style="font-size:10px;letter-spacing:4px;opacity:.42;">
-    WARNING — RECOVERED FOOTAGE — ORIGIN UNKNOWN
-  </div>
-
-  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.32;margin-top:0;">
-    TIME REMAINING UNTIL TRANSMISSION
-  </div>
-
-  <div class="countdownBox" id="countdown">
-    <div class="countUnit">
-      <div class="countNum" id="cdDays">000</div>
-      <div class="countLabel">DAYS</div>
-    </div>
-    <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdHours">00</div>
-      <div class="countLabel">HRS</div>
-    </div>
-    <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdMins">00</div>
-      <div class="countLabel">MIN</div>
-    </div>
-    <div class="countDivider">:</div>
-    <div class="countUnit">
-      <div class="countNum" id="cdSecs">00</div>
-      <div class="countLabel">SEC</div>
-    </div>
-  </div>
-
-  <button onclick="openCamera()">PLAY TAPE</button>
-
-  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.25;margin-top:2px;">
-    we found this in the woods
-  </div>
-
-</div>
-
-<!-- ══ CH1 — LOST FOOTAGE ══ -->
-<div class="screen" id="c1">
-
-  <h2>LOST FOOTAGE</h2>
-  <div class="vhsSep"></div>
-
-  <!-- ════════════════════════════════════════════
-       ✏️  CH1 — YOUR OPENING STORY
-       Describe how you two met or first got together.
-  ════════════════════════════════════════════ -->
-  <div class="storyText">
-    Something is still out there in the woods.<br>
-    We kept recording anyway.<br><br>
-    Archive timestamp:<br>
-    <strong>October 24, 2026</strong><br>
-    5:00 PM – 9:00 PM<br><br>
-    Subjects identified on tape:<br>
-    Tyler Hawthorne &amp; Julie Eells
-  </div>
-  <!-- ════════════════════════════════════════════ -->
-
-  <div class="imagePanel vhsPhoto" id="ch1img">
-    <img src="early1.png" alt="">
-  </div>
-
-  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.32;">
-    ...they didn't know we were filming
-  </div>
-
-  <button onclick="goTo('c2')">PLAY NEXT SEGMENT</button>
-</div>
-
-<!-- ══ CH2 — RECONNECTION LOG ══ -->
-<div class="screen" id="c2">
-
-  <h2>RECONNECTION LOG</h2>
-  <div class="vhsSep"></div>
-
-  <!-- ════════════════════════════════════════════
-       ✏️  CH2 — YOUR RECONNECTION STORY
-       Tell the story of getting back together.
-  ════════════════════════════════════════════ -->
-  <div class="storyText">
-    Recovered from a corrupted segment.<br>
-    Most of this tape was damaged.<br><br>
-    Tyler Hawthorne. Julie Eells.<br><br>
-    What started as resistance<br>
-    rotted into something undeniable.<br>
-    They couldn't stay away from each other.<br>
-    Nobody ever could explain it.
-  </div>
-  <!-- ════════════════════════════════════════════ -->
-
-  <div class="c2Grid">
-    <div class="c2Photo vhsPhoto" id="ch2img1"><img src="early2.png" alt=""></div>
-    <div class="c2Photo vhsPhoto" id="ch2img2"><img src="early3.png" alt=""></div>
-  </div>
-
-  <button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH3 — SUBJECT FILE ══ -->
-<div class="screen" id="c3">
-
-  <h2>SUBJECT FILE</h2>
-  <div class="vhsSep"></div>
-
-  <div class="c3Grid">
-    <div class="c3photo vhsPhoto" id="c3img1"><img src="c3-1.png" alt=""></div>
-
-    <!-- ════════════════════════════════════════════
-         ✏️  CH3 — YOUR RELATIONSHIP STORY
-         A few lines about your journey together.
-    ════════════════════════════════════════════ -->
-    <div class="storyText">
-      One encounter changed everything.<br><br>
-      An unexpected reunion<br>
-      pulled them back into the dark together.<br><br>
-      They thought it was coincidence.<br>
-      It was not a coincidence.<br><br>
-      The woods remember everything.
-    </div>
-    <!-- ════════════════════════════════════════════ -->
-
-    <div class="c3photo vhsPhoto" id="c3img2"><img src="c3-2.png" alt=""></div>
-  </div>
-
-  <button onclick="goTo('c4')">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH4 — PROPOSAL EVENT ══ -->
-<div class="screen" id="c4">
-
-  <h2>PROPOSAL EVENT</h2>
-  <div class="vhsSep"></div>
-
-  <!-- ════════════════════════════════════════════
-       ✏️  CH4 — PROPOSAL STORY
-       A few words about the proposal.
-  ════════════════════════════════════════════ -->
-  <div class="storyText">
-    The camera stopped working here.<br>
-    Then it came back on.<br><br>
-    We don't know what happened<br>
-    in between.
-  </div>
-  <!-- ════════════════════════════════════════════ -->
-
-  <div class="imagePanel vhsPhoto" id="c4img">
-    <img src="proposal.png" alt="">
-  </div>
-
-  <div class="storyText">
-    STATUS UPDATE:<br>
-    <strong>SUBJECTS CONFIRMED ENGAGED</strong><br><br>
-    <span style="font-size:10px;letter-spacing:2px;opacity:.35;">
-      she said yes before he finished asking
-    </span>
-  </div>
-
-  <button onclick="goTo('c5')">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH5 — LOCATION FILE ══ -->
-<div class="screen" id="c5">
-
-  <h2>LOCATION FILE</h2>
-  <div class="vhsSep"></div>
-
-  <div class="storyText">
-    COORDINATES RECOVERED<br><br>
-    <strong>THE CONSERVATORY</strong><br>
-    ACWORTH, GEORGIA<br><br>
-    YOUR PRESENCE IS EXPECTED:<br>
-    <strong>October 24, 2026<br>5:00 PM – 9:00 PM</strong>
-  </div>
-
-  <div class="imagePanel vhsPhoto show" id="c5img">
-    <img src="venue.png" alt="">
-  </div>
-
-  <button onclick="toggleMap()">REVEAL LOCATION</button>
-
-  <div id="mapContainer" style="display:none;">
-    <iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
-      src="https://docs.google.com/spreadsheets/d/1zRoZWIo3ZpwzH8BV6bPYVz9u78CiOK5_cDpC6c4h8v8/edit?gid=0#gid=0"></iframe>
-  </div>
-
-  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.44;">
-    PARKING ON SITE<br>
-    DO NOT WANDER FROM THE PATH<br>
-    ARRIVE BEFORE DARK IF POSSIBLE
-  </div>
-
-  <button onclick="goTo('c6')">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH6 — IDENTIFIED INDIVIDUALS ══ -->
-<div class="screen scrollable" id="c6">
-
-  <h2>IDENTIFIED INDIVIDUALS</h2>
-  <div class="vhsSep"></div>
-
-  <div class="storyText" style="margin-bottom:4px;">
-    Their faces were recovered from the tape.<br>
-    Identities confirmed. Files now unlocked.
-  </div>
-
-  <div class="partyWrapper">
-    <div class="partyToggleRow">
-      <button onclick="toggleParty('groom')">⬡ GROOM'S UNIT</button>
-      <button onclick="toggleParty('bride')">⬡ BRIDE'S UNIT</button>
-    </div>
-
-    <div class="partySection" id="groomParty">
-      <div class="partyTitle">— GROOM SIDE — TYLER HAWTHORNE —</div>
-      <div class="partyCards">
-        <div class="partyCard">
-          <span class="cardRole">BEST MAN</span>
-          <span class="cardName">Sam Newman</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">BEST LITTLE MAN</span>
-          <span class="cardName">Jasper Hawthorne</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">GROOMSMAN</span>
-          <span class="cardName">Josey Green</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">GROOMSMAN</span>
-          <span class="cardName">Zachary Hawthorne</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">GROOMSMAN</span>
-          <span class="cardName">Alyssa Hargrove</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="partySection" id="brideParty">
-      <div class="partyTitle">— BRIDE SIDE — JULIE EELLS —</div>
-      <div class="partyCards">
-        <div class="partyCard">
-          <span class="cardRole">MATRON OF HONOR</span>
-          <span class="cardName">Kristian Thomason</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">BRIDESMAID</span>
-          <span class="cardName">Mikaela VonGerichten</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">BRIDESMAID</span>
-          <span class="cardName">Allie Rollins</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">BRIDESMAID</span>
-          <span class="cardName">Kayden Rollins</span>
-        </div>
-        <div class="partyCard">
-          <span class="cardRole">SPIRIT OF HONOR</span>
-          <span class="cardName">Victoria Dow</span>
-        </div>
-      </div>
-      <div class="partyExtras" style="margin-top:7px;">
-        <span class="cardRole">FLOWER GIRLS</span>
-        <span class="cardName">Lillian Thomason &amp; Salem Ramirez</span>
-      </div>
-      <div class="partyExtras" style="margin-top:6px;">
-        <span class="cardRole">RING BEARERS</span>
-        <span class="cardName">Bennet Dean &amp; James Dean</span>
-      </div>
-    </div>
-  </div>
-
-  <button onclick="goTo('c7')">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH7 — ATTENDANCE LOG (RSVP) ══ -->
-<div class="screen" id="c7">
-
-  <h2>ATTENDANCE LOG</h2>
-  <div class="vhsSep"></div>
-
-  <div class="storyText">
-    Your presence has been anticipated.<br>
-    Confirm whether you intend to show.<br><br>
-    <span style="font-size:10px;letter-spacing:2px;opacity:.35;">
-      those who do not respond will be assumed lost
-    </span>
-  </div>
-
-  <div class="rsvpWrapper">
-    <div class="rsvpHeader">TRANSMISSION FORM — SECURE CHANNEL</div>
-
-    <div class="rsvpField">
-      <label class="rsvpLabel">Full Name</label>
-      <input type="text" id="rsvpName" placeholder="enter full name" maxlength="80"
-        autocomplete="name" autocorrect="off" autocapitalize="words">
-    </div>
-
-    <div class="rsvpField">
-      <label class="rsvpLabel">Number of Guests (including yourself)</label>
-      <input type="number" id="rsvpGuests" placeholder="1" min="1" max="10"
-        inputmode="numeric">
-    </div>
-
-    <div class="rsvpField">
-      <label class="rsvpLabel">Attendance Status</label>
-      <select id="rsvpAttending">
-        <option value="">— select —</option>
-        <option value="Attending">ATTENDING — I WILL BE THERE</option>
-        <option value="Not Attending">NOT ATTENDING — I CANNOT MAKE IT</option>
-      </select>
-    </div>
-
-    <button onclick="submitRSVP()" style="width:100%;margin-top:6px;">
-      TRANSMIT RESPONSE
-    </button>
-    <div class="submitStatus" id="submitStatus"></div>
-  </div>
-
-  <button onclick="goTo('c8')" style="margin-top:10px;">CONTINUE ARCHIVE</button>
-</div>
-
-<!-- ══ CH8 — RESOURCE TRANSFER (GIFTS) ══ -->
-<div class="screen" id="c8">
-
-  <h2>RESOURCE TRANSFER</h2>
-  <div class="vhsSep"></div>
-
-  <!-- ════════════════════════════════════════════
-       ✏️  CH8 — GIFT PAGE WORDING
-       Customize this message to your taste.
-  ════════════════════════════════════════════ -->
-  <div class="storyText">
-    If you wish to support the union,<br>
-    transmit contributions through<br>
-    the channels below.<br><br>
-    <span style="font-size:10px;letter-spacing:2px;opacity:.35;">
-      your generosity has been noted
-    </span>
-  </div>
-  <!-- ════════════════════════════════════════════ -->
-
-  <div class="payRow">
-
-    <!-- ════════════════════════════════════════════
-         ✏️  APPLE CASH LINK
-         Replace the href below with your Apple Cash
-         link. Format: https://cash.app/$YOURCASHTAG
-         or https://cash.app/$PHONENUMBER
-    ════════════════════════════════════════════ -->
-    <a class="payBtn"
-      href="https://cash.app/$7706088227"
-      target="_blank" rel="noopener">
-      <button>APPLE CASH</button>
-      <span>770-608-8227</span>
-    </a>
-    <!-- ════════════════════════════════════════════ -->
-
-    <!-- Zelle: tries to open native app, falls back to web after 1.5s -->
-    <a class="payBtn" href="#" id="zelleLink" rel="noopener">
-      <button>ZELLE</button>
-      <span>770-608-8227</span>
-    </a>
-
-  </div>
-
-  <div class="storyText" style="margin-top:12px;font-size:10px;letter-spacing:2px;opacity:.38;">
-    ZELLE EMAIL: tylerhaw1horne@gmail.com<br>
-    Registry available upon request.
-  </div>
-
-  <button onclick="goTo('final')">FINAL ARCHIVE</button>
-</div>
-
-<!-- ══ FINAL — SIGNAL LOST ══ -->
-<div class="screen" id="final">
-
-  <h2>SIGNAL LOST</h2>
-  <div class="vhsSep"></div>
-
-  <!-- ════════════════════════════════════════════
-       ✏️  FINAL PAGE — YOUR CLOSING WORDS
-       These appear for ~7 seconds before the tape
-       destruction sequence begins.
-  ════════════════════════════════════════════ -->
-  <div class="storyText">
-    Playback destabilizing...<br>
-    Archive corruption spreading...<br><br>
-    We don't know what happened<br>
-    after this point on the tape.<br><br>
-    <span style="opacity:.42;">What we do know is this:</span><br><br>
-    <strong>Tyler &amp; Julie</strong><br>
-    October 24, 2026<br>
-    The Conservatory — Acworth, Georgia
-  </div>
-  <!-- ════════════════════════════════════════════ -->
-
-</div>
-
-</div><!-- /contentLayer -->
-
-<div class="tapeError" id="tapeError">TAPE CORRUPTION DETECTED</div>
-<div class="shadowFigure" id="shadowFigure"></div>
-
-
-<!-- ═══════════════════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════════════════ -->
 <script>
-
-/* ═══════════════════════════════════════════════════════════
-   GOOGLE FORM RSVP — HOW TO SET UP (3 easy steps)
-   ═══════════════════════════════════════════════════════════
-   STEP 1 — Create the form
-     · Go to forms.google.com → click "+ Blank"
-     · Add these 3 fields:
-         1. "Full Name"         → Short answer
-         2. "Number of Guests"  → Short answer
-         3. "Attending"         → Dropdown
-              options: "Attending" / "Not Attending"
-
-   STEP 2 — Get the form action URL + field entry IDs
-     · Click the ⋮ menu (top right) → "Get pre-filled link"
-     · Type dummy text in each field → click "Get Link"
-     · The URL will look like:
-         https://docs.google.com/forms/d/e/XXXX/formResponse
-           ?entry.1111111111=test
-           &entry.2222222222=1
-           &entry.3333333333=Attending
-     · The base URL is everything up to "formResponse" (include it)
-     · The numbers after "entry." are your field IDs
-
-   STEP 3 — Paste below
-     · Replace GOOGLE_FORM_URL with the base URL
-     · Replace the three entry.00000000X values with your real IDs
-   ═══════════════════════════════════════════════════════════ */
-const GOOGLE_FORM_URL = "YOUR_GOOGLE_FORM_ACTION_URL_HERE";
+// ── ENTRY IDs (from Google Form) ────────────────────────────
 const ENTRY = {
-  name:     "entry.000000001",  /* ← replace with your Name field ID     */
-  guests:   "entry.000000002",  /* ← replace with your Guests field ID   */
-  attending:"entry.000000003"   /* ← replace with your Attending field ID */
+  name:    'entry.1916176653',
+  guests:  'entry.1285907759',
+  attend:  'entry.213007090',
+  diet:    'entry.1240682052'
 };
+const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSf32F3zo1uifJ5a0qHG_hs9ge7XSNKXVHMH-cgp-ZBbXg_hSQ/formResponse';
 
-async function submitRSVP(){
-  const name     = document.getElementById("rsvpName").value.trim();
-  const guests   = document.getElementById("rsvpGuests").value.trim();
-  const attending= document.getElementById("rsvpAttending").value;
-  const status   = document.getElementById("submitStatus");
+// ── STATE ────────────────────────────────────────────────────
+let currentScreen = 'openingScreen';
+let tapeSeconds = 0;
+let tapeMinutes = 0;
+let clockInterval, tapeInterval, battInterval, destroyTimer;
+const SCREENS = ['openingScreen','startScreen','c1','c2','c3','c4','c5','c6','c7','c8','final'];
 
-  if(!name || !attending){
-    status.textContent = "⚠  NAME AND STATUS REQUIRED";
-    status.style.color = "#cc2020";
-    status.classList.add("show");
-    setTimeout(()=>status.classList.remove("show"), 3500);
-    return;
-  }
+// ── OPENING VIDEO ────────────────────────────────────────────
+const ov = document.getElementById('openingVideo');
+ov.addEventListener('ended', () => goTo('startScreen'));
+ov.addEventListener('error', () => goTo('startScreen'));
+setTimeout(() => { if(currentScreen === 'openingScreen') goTo('startScreen'); }, 14000);
 
-  status.textContent = "TRANSMITTING...";
-  status.style.color = "#c8c8bc";
-  status.classList.add("show");
-
-  try{
-    const p = new URLSearchParams();
-    p.append(ENTRY.name,     name);
-    p.append(ENTRY.guests,   guests || "1");
-    p.append(ENTRY.attending,attending);
-
-    await fetch(GOOGLE_FORM_URL + "?" + p.toString(),
-      {method:"GET", mode:"no-cors"});
-
-    status.textContent = "✓  TRANSMISSION RECEIVED";
-    status.style.color = "#88cc88";
-    document.getElementById("rsvpName").value     = "";
-    document.getElementById("rsvpGuests").value   = "";
-    document.getElementById("rsvpAttending").value= "";
-
-  }catch(e){
-    status.textContent = "SIGNAL LOST — TRY AGAIN";
-    status.style.color = "#cc2020";
-  }
-}
-
-/* ═══════════════════════════════════════
-   ZELLE — open app or fall back to web
-═══════════════════════════════════════ */
-document.getElementById("zelleLink").addEventListener("click", function(e){
-  e.preventDefault();
-  const fallback = "https://enroll.zellepay.com/qr-codes?data=ewogICJuYW1lIiA6ICJUeWxlciIsCiAgInRva2VuIiA6ICI3NzA2MDg4MjI3IiwKICAiYWN0aW9uIiA6ICJwYXltZW50Igp9";
-  window.location.href = "zelle://send?token=7706088227";
-  setTimeout(()=>{ window.open(fallback,"_blank"); }, 1500);
-});
-
-/* ═══════════════════════════════════════
-   COUNTDOWN TO OCT 24 2026 5PM
-═══════════════════════════════════════ */
+// ── COUNTDOWN ───────────────────────────────────────────────
 function updateCountdown(){
-  const diff = new Date("2026-10-24T17:00:00") - new Date();
-  if(diff <= 0){
-    document.getElementById("countdown").innerHTML =
-      '<div class="storyText" style="color:#88cc88;letter-spacing:4px;">THE DAY HAS ARRIVED</div>';
-    return;
-  }
-  document.getElementById("cdDays").textContent  = String(Math.floor(diff/86400000)).padStart(3,"0");
-  document.getElementById("cdHours").textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,"0");
-  document.getElementById("cdMins").textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,"0");
-  document.getElementById("cdSecs").textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,"0");
+  const target = new Date('2026-10-24T17:00:00');
+  const now = new Date();
+  const diff = target - now;
+  if(diff <= 0){ document.getElementById('cdDays').textContent='000'; return; }
+  const d = Math.floor(diff/86400000);
+  const h = Math.floor((diff%86400000)/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
+  document.getElementById('cdDays').textContent = String(d).padStart(3,'0');
+  document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
+  document.getElementById('cdMins').textContent = String(m).padStart(2,'0');
+  document.getElementById('cdSecs').textContent = String(s).padStart(2,'0');
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* ═══════════════════════════════════════
-   VHS HUD — clock / tape / battery
-═══════════════════════════════════════ */
-let recActive=false, recSeconds=0, tape=0, battery=87;
-
-function updateVHSTime(){
-  if(recActive) return;
-  const n = new Date();
-  document.getElementById("vhsTime").innerText =
-    String(n.getHours()).padStart(2,"0")+":"+
-    String(n.getMinutes()).padStart(2,"0")+":"+
-    String(n.getSeconds()).padStart(2,"0");
-}
-setInterval(updateVHSTime, 1000);
-
-setInterval(()=>{
-  tape++;
-  document.getElementById("counter").innerText =
-    "TAPE "+Math.floor(tape/60)+":"+String(tape%60).padStart(2,"0");
-}, 1000);
-
-setInterval(()=>{
-  if(!recActive) return;
-  recSeconds++;
-  document.getElementById("vhsTime").innerText =
-    String(Math.floor(recSeconds/3600)).padStart(2,"0")+":"+
-    String(Math.floor((recSeconds%3600)/60)).padStart(2,"0")+":"+
-    String(recSeconds%60).padStart(2,"0");
-}, 1000);
-
-setInterval(()=>{
-  if(!recActive || battery<=18) return;
-  battery--;
-  const b = battery>60?"▮▮▮▮":battery>40?"▮▮▮░":battery>20?"▮▮░░":"▮░░░";
-  document.getElementById("batteryDisplay").innerText = "BAT "+battery+"% "+b;
-}, 14000);
-
-/* ═══════════════════════════════════════
-   WHISPER AUDIO
-═══════════════════════════════════════ */
-const whisper = document.getElementById("whisper");
-let whisperFade;
-
-/* ═══════════════════════════════════════
-   OPEN CAMERA (boot sequence)
-═══════════════════════════════════════ */
-function openCamera(){
-  const boot  = document.getElementById("tapeBoot");
-  const cal   = document.getElementById("trackingCalibrate");
-  const layer = document.getElementById("videoLayer");
-  const vid   = document.getElementById("bgVideo");
-
-  boot.classList.add("active");
-  setTimeout(()=>{ boot.classList.remove("active"); cal.classList.add("active"); }, 3000);
-  setTimeout(()=>{
-    cal.classList.remove("active");
-    layer.style.display = "block";
-    layer.classList.add("cameraBoot");
-    setTimeout(()=>layer.classList.remove("cameraBoot"), 700);
-    vid.currentTime = 0;
-    vid.play().catch(()=>{});
-    recActive = true;
-    if(whisper.paused){ whisper.volume=0; whisper.play().catch(()=>{}); }
-    goTo("c1");
-  }, 4800);
+// ── VHS CLOCK ────────────────────────────────────────────────
+function startClock(){
+  clockInterval = setInterval(()=>{
+    const n = new Date();
+    document.getElementById('vhsTime').textContent =
+      String(n.getHours()).padStart(2,'0')+':'+
+      String(n.getMinutes()).padStart(2,'0')+':'+
+      String(n.getSeconds()).padStart(2,'0');
+  },1000);
+  tapeInterval = setInterval(()=>{
+    tapeSeconds++;
+    if(tapeSeconds>=60){tapeSeconds=0;tapeMinutes++;}
+    document.getElementById('counter').textContent =
+      'TAPE '+String(tapeMinutes).padStart(2,'0')+':'+String(tapeSeconds).padStart(2,'0');
+  },1000);
+  battInterval = setInterval(()=>{
+    const lvl = Math.max(0, 87 - Math.floor(tapeMinutes*0.3));
+    const bars = lvl>60?'&#9646;&#9646;&#9646;&#9646;':lvl>40?'&#9646;&#9646;&#9646;&#9647;':lvl>20?'&#9646;&#9646;&#9647;&#9647;':'&#9646;&#9647;&#9647;&#9647;';
+    document.getElementById('batteryDisplay').innerHTML = 'BAT '+lvl+'% '+bars;
+  },15000);
 }
 
-/* ═══════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════ */
-const chLabels = {
-  c1:"CH.1",c2:"CH.2",c3:"CH.3",c4:"CH.4",
-  c5:"CH.5",c6:"CH.6",c7:"CH.7",c8:"CH.8",
-  final:"END", startScreen:""
+// ── SCREEN NAV ───────────────────────────────────────────────
+const CH_LABELS = {
+  startScreen:'CH.1 — DO NOT WATCH',c1:'CH.2 — LOST FOOTAGE',c2:'CH.3 — RECONNECTION',
+  c3:'CH.4 — EVIDENCE',c4:'CH.5 — CLASSIFIED',c5:'CH.6 — TRANSMISSION SITE',
+  c6:'CH.7 — SUBJECTS',c7:'CH.8 — CONFIRM',c8:'CH.9 — OFFERINGS',final:'CH.10 — END'
 };
 
 function goTo(id){
-  const sl = document.getElementById("static");
-  sl.classList.add("active");
-  setTimeout(()=>sl.classList.remove("active"), 560);
-  document.body.classList.add("rewindFlash");
+  const transitions = {
+    c1:'glitchFlash', c2:'signalLoss', c3:'tapeWarp', c4:'proposalFreeze',
+    c5:'cameraBoot',  c6:'archiveReveal', c7:'rewindFlash', c8:'tapeWarp',
+    final:'glitchFlash'
+  };
+  staticFlash();
+  setTimeout(()=>{
+    document.querySelectorAll('.screen').forEach(s=>{ s.classList.remove('active'); });
+    const next = document.getElementById(id);
+    if(!next) return;
+    next.classList.add('active');
+    if(transitions[id]) next.classList.add(transitions[id]);
+    setTimeout(()=>next.classList.remove(...Object.values(transitions)),1600);
+    currentScreen = id;
+    document.getElementById('chLabel').textContent = CH_LABELS[id] || '';
+    triggerPhotos(id);
+    if(id==='final') startDestroySequence();
+    if(id==='c6') openParty('groom');
+    maybeWalkShadow(id);
+  }, 120);
+}
+
+function staticFlash(){
+  const s = document.getElementById('static');
+  s.classList.remove('active');
+  void s.offsetWidth;
+  s.classList.add('active');
+  setTimeout(()=>s.classList.remove('active'),600);
+}
+
+function triggerPhotos(id){
+  const map = {
+    c1:['ch1img'], c2:['ch2img1','ch2img2'],
+    c3:['ch3img1','ch3img2'], c4:['ch4img'], c5:['ch5img']
+  };
+  if(!map[id]) return;
+  setTimeout(()=>map[id].forEach(pid=>{
+    const el=document.getElementById(pid); if(el) el.classList.add('show');
+  }),400);
+}
+
+function maybeWalkShadow(id){
+  if(['c3','c5','final'].includes(id)){
+    const sf = document.getElementById('shadowFigure');
+    sf.classList.remove('walk');
+    setTimeout(()=>{ sf.classList.add('walk'); setTimeout(()=>sf.classList.remove('walk'),2200); },3000);
+  }
+}
+
+// ── TAPE BOOT SEQUENCE ───────────────────────────────────────
+function openCamera(){
+  const boot = document.getElementById('tapeBoot');
+  const cal  = document.getElementById('trackingCalibrate');
+  boot.classList.add('active');
+  setTimeout(()=>{ boot.classList.remove('active'); cal.classList.add('active'); },3200);
+  setTimeout(()=>{
+    cal.classList.remove('active');
+    document.getElementById('videoLayer').style.display='block';
+    startClock();
+    goTo('c1');
+  },5800);
+}
+
+// ── PARTY TOGGLE ─────────────────────────────────────────────
+function toggleParty(side){
+  document.querySelectorAll('.partySection').forEach(s=>s.classList.remove('open'));
+  openParty(side);
+}
+function openParty(side){
+  const el = document.getElementById('party'+side.charAt(0).toUpperCase()+side.slice(1));
+  if(el) el.classList.add('open');
+}
+
+// ── RSVP SUBMIT ──────────────────────────────────────────────
+function submitRSVP(){
+  const name    = document.getElementById('rName').value.trim();
+  const guests  = document.getElementById('rGuests').value.trim();
+  const attend  = document.getElementById('rAttend').value;
+  const diet    = document.getElementById('rDiet').value.trim();
+  const status  = document.getElementById('submitStatus');
+
+  if(!name || !guests || !attend){
+    status.style.color='rgba(255,80,80,.9)';
+    status.textContent='ALL FIELDS REQUIRED';
+    status.classList.add('show');
+    setTimeout(()=>status.classList.remove('show'),3000);
+    return;
+  }
+
+  const params = new URLSearchParams();
+  params.append(ENTRY.name,   name);
+  params.append(ENTRY.guests, guests);
+  params.append(ENTRY.attend, attend);
+  params.append(ENTRY.diet,   diet || 'None');
+
+  const img = new Image();
+  img.src = FORM_ACTION + '?' + params.toString();
+
+  status.style.color='rgba(255,255,185,.8)';
+  status.textContent='TRANSMITTING...';
+  status.classList.add('show');
 
   setTimeout(()=>{
-    document.body.classList.remove("rewindFlash");
-    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-    const next = document.getElementById(id);
-    if(next){ next.classList.add("active"); next.scrollTop=0; }
-    document.getElementById("chLabel").textContent = chLabels[id] || "";
-
-    /* whisper engine */
-    clearInterval(whisperFade);
-    let vol = 0.28;
-    if(id==="c4")   vol = 0.44;
-    if(id==="final")vol = 0.14;
-    if(id==="c6"||id==="c7") vol = 0.20;
-    whisperFade = setInterval(()=>{
-      if(Math.abs(whisper.volume-vol)<0.01){ clearInterval(whisperFade); return; }
-      whisper.volume += whisper.volume<vol ? 0.01 : -0.01;
-    }, 100);
-
-    /* image reveals */
-    if(id==="c1")
-      setTimeout(()=>document.getElementById("ch1img").classList.add("show"), 1400);
-    if(id==="c2"){
-      setTimeout(()=>document.getElementById("ch2img1").classList.add("show"), 1200);
-      setTimeout(()=>document.getElementById("ch2img2").classList.add("show"), 4000);
-    }
-    if(id==="c3"){
-      setTimeout(()=>document.getElementById("c3img1").classList.add("show"), 1200);
-      setTimeout(()=>document.getElementById("c3img2").classList.add("show"), 4000);
-    }
-    if(id==="c4"){
-      document.body.classList.add("tapeWarp");
-      setTimeout(()=>document.body.classList.remove("tapeWarp"), 420);
-      const v = document.getElementById("bgVideo");
-      if(v && v.currentTime>0.7) v.currentTime = Math.max(0, v.currentTime-0.6);
-      setTimeout(()=>{
-        const img = document.getElementById("c4img");
-        img.classList.add("show","proposalFreeze");
-        setTimeout(()=>img.classList.remove("proposalFreeze"), 1500);
-      }, 1800);
-    }
-
-    /* final — trigger tape destruction after 7 seconds */
-    if(id==="final"){
-      setTimeout(()=>tapeDestructionSequence(), 7000);
-    }
-
-    /* random shadow figure */
-    if(Math.random() < 0.35) triggerShadow();
-
-  }, 210);
-}
-
-/* ═══════════════════════════════════════
-   TAPE DESTRUCTION SEQUENCE
-   Plays when the FINAL screen has been
-   shown for 7 seconds.
-═══════════════════════════════════════ */
-function tapeDestructionSequence(){
-  const overlay  = document.getElementById("finalDestroy");
-  const dStatic  = document.getElementById("dStatic");
-  const dTears   = document.getElementById("dTears");
-  const dBlack   = document.getElementById("dBlack");
-  const dMessage = document.getElementById("dMessage");
-
-  function fadeIn(el, dur, cb){
-    el.style.transition = `opacity ${dur}ms ease`;
-    el.style.opacity    = "1";
-    if(cb) setTimeout(cb, dur);
-  }
-  function fadeOut(el, dur, cb){
-    el.style.transition = `opacity ${dur}ms ease`;
-    el.style.opacity    = "0";
-    if(cb) setTimeout(cb, dur);
-  }
-
-  overlay.style.opacity    = "1";
-  overlay.style.display    = "block";
-  overlay.classList.add("run");
-
-  /* fade whisper to near-nothing */
-  clearInterval(whisperFade);
-  whisperFade = setInterval(()=>{
-    if(whisper.volume <= 0.01){ whisper.volume=0; clearInterval(whisperFade); return; }
-    whisper.volume = Math.max(0, whisper.volume - 0.005);
-  }, 80);
-
-  /* — Step 1 (0s): heavy static burst — */
-  dStatic.style.opacity = "0";
-  fadeIn(dStatic, 200, ()=>{
-
-    /* rapid flicker */
-    let f=0, flicker = setInterval(()=>{
-      dStatic.style.opacity = f%2===0?"0.9":"0.2";
-      dStatic.style.transform = `skewY(${(Math.random()*4-2).toFixed(1)}deg) translateX(${(Math.random()*10-5).toFixed(0)}px)`;
-      f++;
-      if(f>14){ clearInterval(flicker); dStatic.style.transform="none"; }
-    }, 90);
-
-    /* — Step 2 (1.5s): add horizontal tears — */
+    status.textContent = attend==='YES'
+      ? 'TRANSMISSION CONFIRMED — WE WILL SEE YOU THERE'
+      : 'RESPONSE RECEIVED — YOU WILL BE MISSED';
     setTimeout(()=>{
-      fadeIn(dTears, 400, ()=>{
-        let t=0, tearFlicker = setInterval(()=>{
-          dTears.style.transform = `translateY(${(Math.random()*8-4).toFixed(0)}px)`;
-          t++;
-          if(t>10) clearInterval(tearFlicker);
-        }, 120);
-      });
-    }, 1500);
-
-    /* — Step 3 (3s): warp + corrupt body — */
-    setTimeout(()=>{
-      document.body.style.transition = "filter 0.3s, transform 0.3s";
-      let warp=0, warpInterval = setInterval(()=>{
-        const sk = (Math.random()*10-5).toFixed(1);
-        const br = (0.3+Math.random()*2).toFixed(2);
-        document.body.style.filter    = `brightness(${br}) contrast(3) saturate(0)`;
-        document.body.style.transform = `skewX(${sk}deg)`;
-        warp++;
-        if(warp>8){
-          clearInterval(warpInterval);
-          document.body.style.filter    = "";
-          document.body.style.transform = "";
-        }
-      }, 150);
-    }, 3000);
-
-    /* — Step 4 (4.5s): fade to black — */
-    setTimeout(()=>{
-      fadeOut(dStatic, 300);
-      fadeOut(dTears,  300);
-      fadeIn(dBlack, 800, ()=>{
-
-        /* — Step 5 (6s): show final message — */
-        setTimeout(()=>{
-          fadeOut(dBlack, 400);
-          fadeIn(dMessage, 1200);
-        }, 600);
-
-      });
-    }, 4500);
-
-  });
+      status.classList.remove('show');
+      if(attend==='YES') goTo('c8');
+    },3500);
+  },1800);
 }
 
-/* ═══════════════════════════════════════
-   PARTY TOGGLE
-═══════════════════════════════════════ */
-function toggleParty(side){
-  const g = document.getElementById("groomParty");
-  const b = document.getElementById("brideParty");
-  if(side==="groom"){ g.classList.toggle("open"); b.classList.remove("open"); }
-  if(side==="bride"){ b.classList.toggle("open"); g.classList.remove("open"); }
+// ── ZELLE ────────────────────────────────────────────────────
+function openZelle(){
+  const deep = 'zelle://send?token=7706088227';
+  const fb = 'https://www.zellepay.com';
+  const w = window.open(deep,'_blank');
+  setTimeout(()=>{ try{ if(!w||w.closed) window.open(fb,'_blank'); }catch(e){ window.open(fb,'_blank'); }},1500);
 }
 
-/* ═══════════════════════════════════════
-   MAP TOGGLE
-═══════════════════════════════════════ */
-function toggleMap(){
-  const m = document.getElementById("mapContainer");
-  m.style.display = m.style.display==="none" ? "block" : "none";
+// ── TAPE DESTRUCTION ─────────────────────────────────────────
+function startDestroySequence(){
+  let count = 7;
+  const countEl = document.getElementById('destroyCount');
+  destroyTimer = setInterval(()=>{
+    count--;
+    if(countEl) countEl.textContent = count;
+    if(count <= 0){
+      clearInterval(destroyTimer);
+      runDestroy();
+    }
+  },1000);
 }
 
-/* ═══════════════════════════════════════
-   SHADOW FIGURE
-═══════════════════════════════════════ */
-function triggerShadow(){
-  const sf = document.getElementById("shadowFigure");
-  sf.classList.remove("walk");
-  void sf.offsetWidth;
-  sf.classList.add("walk");
-  setTimeout(()=>sf.classList.remove("walk"), 1700);
+function runDestroy(){
+  const fd = document.getElementById('finalDestroy');
+  fd.style.display='block';
+  fd.classList.add('run');
+
+  const dStatic = document.getElementById('dStatic');
+  const dTears  = document.getElementById('dTears');
+  const dBlack  = document.getElementById('dBlack');
+  const dMsg    = document.getElementById('dMessage');
+
+  // Sequence: static → tears → warp → black → message
+  dStatic.style.transition='opacity .18s';
+  dStatic.style.opacity='1';
+
+  setTimeout(()=>{
+    dStatic.style.opacity='.4';
+    dTears.style.transition='opacity .24s';
+    dTears.style.opacity='1';
+    document.body.style.transform='skewX(6deg) scaleY(.98)';
+    document.body.style.transition='transform .24s';
+  },400);
+
+  setTimeout(()=>{
+    document.body.style.transform='skewX(-8deg) scaleY(1.02)';
+  },700);
+
+  setTimeout(()=>{
+    dStatic.style.opacity='1';
+    document.body.style.transform='scaleY(0.1)';
+  },1000);
+
+  setTimeout(()=>{
+    dBlack.style.transition='opacity .3s';
+    dBlack.style.opacity='1';
+    document.body.style.transform='';
+  },1300);
+
+  setTimeout(()=>{
+    dMsg.style.transition='opacity 1.2s';
+    dMsg.style.opacity='1';
+    dStatic.style.opacity='0';
+    dTears.style.opacity='0';
+  },2200);
 }
-
-/* ═══════════════════════════════════════
-   RANDOM GLITCH LINE POSITIONS
-═══════════════════════════════════════ */
-setInterval(()=>{
-  document.querySelectorAll(".glitchLine").forEach(l=>{
-    l.style.top = Math.floor(Math.random()*88)+"%";
-  });
-}, 7000);
-
-/* ═══════════════════════════════════════
-   OPENING VIDEO → START SCREEN
-═══════════════════════════════════════ */
-document.addEventListener("DOMContentLoaded", ()=>{
-  const ov = document.getElementById("openingVideo");
-  if(!ov) return;
-  let fired = false;
-  function showArchive(){
-    if(fired) return; fired = true;
-    const op = document.getElementById("openingScreen");
-    if(!op || !op.classList.contains("active")) return;
-    op.classList.remove("active");
-    document.body.classList.add("glitchFlash");
-    setTimeout(()=>{
-      goTo("startScreen");
-      const arc = document.getElementById("startScreen");
-      arc.classList.add("archiveReveal");
-      document.body.classList.add("signalLoss");
-      setTimeout(()=>document.body.classList.remove("signalLoss"), 300);
-      setTimeout(()=>arc.classList.remove("archiveReveal"), 900);
-    }, 600);
-  }
-  ov.addEventListener("ended", showArchive);
-  setTimeout(showArchive, 6500);
-});
-
 </script>
 </body>
 </html>
