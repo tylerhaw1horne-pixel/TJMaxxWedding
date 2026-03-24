@@ -165,13 +165,26 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
 <div class="shadowFigure" id="shadowFigure"></div>
 <div class="contentLayer">
 <audio id="whisper" src="whisper.mp3" loop preload="auto" playsinline></audio>
+<script>
+(function(){
+  var kicked=false;
+  function kickAudio(){
+    if(kicked)return;
+    kicked=true;
+    var a=document.getElementById('whisper');
+    if(a){a.volume=0.38;a.play().catch(function(){});}
+    document.removeEventListener('click',kickAudio);
+    document.removeEventListener('touchstart',kickAudio);
+  }
+  document.addEventListener('click',kickAudio);
+  document.addEventListener('touchstart',kickAudio);
+})();
+</script>
 
-<!-- OPENING VIDEO -->
 <div class="screen active" id="openingScreen">
   <video id="openingVideo" autoplay muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;"><source src="found-footage.mp4" type="video/mp4"></video>
 </div>
 
-<!-- CH: START — Countdown -->
 <div class="screen archiveScreen" id="startScreen">
   <h2>DO NOT WATCH THIS TAPE</h2>
   <div class="vhsSep"></div>
@@ -190,7 +203,6 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.22;margin-top:2px;">we found this in the woods</div>
 </div>
 
-<!-- CH1 — Lost Footage -->
 <div class="screen" id="c1">
   <h2>LOST FOOTAGE</h2><div class="vhsSep"></div>
   <div class="storyText">Something is still out there in the woods.<br>We kept recording anyway.<br><br>Archive timestamp:<br><strong>October 24, 2026</strong><br>5:00 PM &ndash; 9:00 PM<br><br>Subjects identified on tape:<br>Tyler Hawthorne &amp; Julie Eells</div>
@@ -199,7 +211,6 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <button onclick="goTo('c2')">PLAY NEXT SEGMENT</button>
 </div>
 
-<!-- CH2 — Reconnection -->
 <div class="screen" id="c2">
   <h2>RECONNECTION LOG</h2><div class="vhsSep"></div>
   <div class="storyText">Recovered from a corrupted segment.<br>Most of this tape was damaged.<br><br>Tyler Hawthorne. Julie Eells.<br><br>What started as resistance<br>rotted into something undeniable.<br>They couldn't stay away from each other.<br>Nobody ever could explain it.</div>
@@ -210,27 +221,24 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
 </div>
 
-<!-- CH3 — Evidence -->
 <div class="screen" id="c3">
   <h2>EVIDENCE REEL</h2><div class="vhsSep"></div>
   <div class="c3Grid">
     <div class="c3photo vhsPhoto" id="ch3img1"><img src="c3-1.png" alt=""></div>
-    <div class="storyText">They were always together after that.<br>The tape doesn't lie.<br><br>Something changed between them.<br>Whatever it was —<br>we couldn't look away either.</div>
+    <div class="storyText">They were always together after that.<br>The tape doesn't lie.<br><br>Something changed between them.<br>Whatever it was &mdash;<br>we couldn't look away either.</div>
     <div class="c3photo vhsPhoto" id="ch3img2"><img src="c3-2.png" alt=""></div>
   </div>
   <button onclick="goTo('c4')">NEXT FRAGMENT</button>
 </div>
 
-<!-- CH4 — Proposal -->
 <div class="screen" id="c4">
   <h2>CLASSIFIED SEGMENT</h2><div class="vhsSep"></div>
   <div class="storyText">This part of the tape was nearly destroyed.<br>What remains is fragmented.<br><br>He asked.<br>She said yes.<br><br>We weren't supposed to see this.</div>
   <div class="imagePanel vhsPhoto" id="ch4img"><img src="proposal.png" alt=""></div>
-  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.3;">tape damage at 01:14:38 — origin unknown</div>
+  <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.3;">tape damage at 01:14:38 &mdash; origin unknown</div>
   <button onclick="goTo('c5')">ADVANCE TAPE</button>
 </div>
 
-<!-- CH5 — Venue -->
 <div class="screen" id="c5">
   <h2>TRANSMISSION SITE</h2><div class="vhsSep"></div>
   <div class="storyText">The location has been identified.<br><br><strong>THE CONSERVATORY</strong><br>Acworth, Georgia<br><br>October 24, 2026<br>5:00 PM</div>
@@ -241,10 +249,9 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <button onclick="goTo('c6')">IDENTIFY SUBJECTS</button>
 </div>
 
-<!-- CH6 — Bridal Party -->
 <div class="screen scrollable" id="c6">
   <h2>SUBJECTS ON TAPE</h2><div class="vhsSep"></div>
-  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.36;">CLASSIFIED — DO NOT DISTRIBUTE</div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.36;">CLASSIFIED &mdash; DO NOT DISTRIBUTE</div>
   <div class="partyWrapper">
     <div class="partyToggleRow">
       <button onclick="toggleParty('groom')" style="font-size:10px;padding:8px 18px;">GROOM SIDE</button>
@@ -283,7 +290,6 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <button onclick="goTo('c7')" style="margin-top:10px;">TRANSMISSION CONTINUES</button>
 </div>
 
-<!-- CH7 — RSVP -->
 <div class="screen scrollable" id="c7">
   <h2>CONFIRM YOUR PRESENCE</h2><div class="vhsSep"></div>
   <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.36;margin-bottom:4px;">YOUR RESPONSE IS REQUIRED &mdash; OCTOBER 24, 2026</div>
@@ -300,9 +306,9 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
     <div class="rsvpField">
       <label class="rsvpLabel">ATTENDING</label>
       <select id="rAttend">
-        <option value="">— SELECT —</option>
-        <option value="YES">YES — I WILL BE THERE</option>
-        <option value="NO">NO — I CANNOT ATTEND</option>
+        <option value="">&mdash; SELECT &mdash;</option>
+        <option value="YES">YES &mdash; I WILL BE THERE</option>
+        <option value="NO">NO &mdash; I CANNOT ATTEND</option>
       </select>
     </div>
     <div class="rsvpField">
@@ -315,38 +321,31 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
   <button onclick="goTo('c8')" style="font-size:10px;padding:8px 18px;opacity:.5;margin-top:4px;">SKIP &rsaquo; GIFTS</button>
 </div>
 
-<!-- CH8 — Gifts -->
 <div class="screen" id="c8">
   <h2>ARCHIVE OFFERINGS</h2><div class="vhsSep"></div>
-  <div class="storyText">Your presence is the only gift required.<br><br>But if you insist on leaving something behind —<br>a contribution toward our next chapter<br>would mean everything.<br><br>Cash gifts are preferred.<br>The registry is the woods.</div>
+  <div class="storyText">Your presence is the only gift required.<br><br>But if you insist on leaving something behind &mdash;<br>a contribution toward our next chapter<br>would mean everything.<br><br>Cash gifts are preferred.<br>The registry is the woods.</div>
   <div class="vhsSep"></div>
   <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.44;">SEND THROUGH THE FOLLOWING CHANNELS</div>
   <div class="payRow">
     <a class="payBtn" href="https://cash.app/$7706088227" target="_blank" rel="noopener">
-      <button>APPLE CASH</button>
-      <span>770-608-8227</span>
+      <button>SEND CASH APP</button>
+      <span>$7706088227</span>
     </a>
-    <div class="payBtn" onclick="openZelle()" style="cursor:pointer;">
-      <button>ZELLE</button>
-      <span>tylerhaw1horne@gmail.com</span>
-    </div>
   </div>
   <div class="storyText" style="font-size:10px;letter-spacing:2px;opacity:.24;margin-top:8px;">we don't know what happens after this point on the tape</div>
   <button onclick="goTo('final')" style="margin-top:6px;">REACH THE END</button>
 </div>
 
-<!-- FINAL SCREEN -->
 <div class="screen archiveScreen" id="final">
   <h2>END OF TAPE</h2><div class="vhsSep"></div>
-  <div class="storyText">You made it to the end.<br><br>We will see you<br>October 24, 2026<br><br>Whatever happens after this —<br>we face it together.</div>
-  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.3;margin-top:6px;">— Tyler &amp; Julie</div>
+  <div class="storyText">You made it to the end.<br><br>We will see you<br>October 24, 2026<br><br>Whatever happens after this &mdash;<br>we face it together.</div>
+  <div class="storyText" style="font-size:10px;letter-spacing:3px;opacity:.3;margin-top:6px;">&mdash; Tyler &amp; Julie</div>
   <div class="vhsSep" style="margin-top:8px;"></div>
   <div class="storyText" style="font-size:9px;letter-spacing:4px;opacity:.22;">tape will self-destruct in <span id="destroyCount">7</span> seconds</div>
 </div>
 
-</div><!-- /contentLayer -->
+</div>
 
-<!-- TAPE DESTRUCTION -->
 <div id="finalDestroy">
   <div class="dLayer" id="dStatic"></div>
   <div class="dLayer" id="dTears"></div>
@@ -362,254 +361,88 @@ button:hover,button:active{background:rgba(255,255,190,.9);color:#050503;box-sha
 <div class="tapeError" id="tapeError">SIGNAL LOST</div>
 
 <script>
-// ── ENTRY IDs (from Google Form) ────────────────────────────
-const ENTRY = {
-  name:    'entry.1916176653',
-  guests:  'entry.1285907759',
-  attend:  'entry.213007090',
-  diet:    'entry.1240682052'
-};
-const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSf32F3zo1uifJ5a0qHG_hs9ge7XSNKXVHMH-cgp-ZBbXg_hSQ/formResponse';
-
-// ── STATE ────────────────────────────────────────────────────
-let currentScreen = 'openingScreen';
-let tapeSeconds = 0;
-let tapeMinutes = 0;
-let clockInterval, tapeInterval, battInterval, destroyTimer;
-const SCREENS = ['openingScreen','startScreen','c1','c2','c3','c4','c5','c6','c7','c8','final'];
-
-// ── OPENING VIDEO ────────────────────────────────────────────
-const ov = document.getElementById('openingVideo');
-ov.addEventListener('ended', () => goTo('startScreen'));
-ov.addEventListener('error', () => goTo('startScreen'));
-setTimeout(() => { if(currentScreen === 'openingScreen') goTo('startScreen'); }, 14000);
-
-// ── COUNTDOWN ───────────────────────────────────────────────
+const ENTRY={name:'entry.1916176653',guests:'entry.1285907759',attend:'entry.213007090',diet:'entry.1240682052'};
+const FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSf32F3zo1uifJ5a0qHG_hs9ge7XSNKXVHMH-cgp-ZBbXg_hSQ/formResponse';
+let currentScreen='openingScreen',tapeSeconds=0,tapeMinutes=0,clockInterval,tapeInterval,battInterval,destroyTimer;
+const ov=document.getElementById('openingVideo');
+ov.addEventListener('ended',()=>goTo('startScreen'));
+ov.addEventListener('error',()=>goTo('startScreen'));
+setTimeout(()=>{if(currentScreen==='openingScreen')goTo('startScreen');},14000);
 function updateCountdown(){
-  const target = new Date('2026-10-24T17:00:00');
-  const now = new Date();
-  const diff = target - now;
-  if(diff <= 0){ document.getElementById('cdDays').textContent='000'; return; }
-  const d = Math.floor(diff/86400000);
-  const h = Math.floor((diff%86400000)/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  document.getElementById('cdDays').textContent = String(d).padStart(3,'0');
-  document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
-  document.getElementById('cdMins').textContent = String(m).padStart(2,'0');
-  document.getElementById('cdSecs').textContent = String(s).padStart(2,'0');
+  const target=new Date('2026-10-24T17:00:00'),now=new Date(),diff=target-now;
+  if(diff<=0){document.getElementById('cdDays').textContent='000';return;}
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  document.getElementById('cdDays').textContent=String(d).padStart(3,'0');
+  document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
+  document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
+  document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
 }
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ── VHS CLOCK ────────────────────────────────────────────────
+updateCountdown();setInterval(updateCountdown,1000);
 function startClock(){
-  clockInterval = setInterval(()=>{
-    const n = new Date();
-    document.getElementById('vhsTime').textContent =
-      String(n.getHours()).padStart(2,'0')+':'+
-      String(n.getMinutes()).padStart(2,'0')+':'+
-      String(n.getSeconds()).padStart(2,'0');
-  },1000);
-  tapeInterval = setInterval(()=>{
-    tapeSeconds++;
-    if(tapeSeconds>=60){tapeSeconds=0;tapeMinutes++;}
-    document.getElementById('counter').textContent =
-      'TAPE '+String(tapeMinutes).padStart(2,'0')+':'+String(tapeSeconds).padStart(2,'0');
-  },1000);
-  battInterval = setInterval(()=>{
-    const lvl = Math.max(0, 87 - Math.floor(tapeMinutes*0.3));
-    const bars = lvl>60?'&#9646;&#9646;&#9646;&#9646;':lvl>40?'&#9646;&#9646;&#9646;&#9647;':lvl>20?'&#9646;&#9646;&#9647;&#9647;':'&#9646;&#9647;&#9647;&#9647;';
-    document.getElementById('batteryDisplay').innerHTML = 'BAT '+lvl+'% '+bars;
-  },15000);
+  clockInterval=setInterval(()=>{const n=new Date();document.getElementById('vhsTime').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');},1000);
+  tapeInterval=setInterval(()=>{tapeSeconds++;if(tapeSeconds>=60){tapeSeconds=0;tapeMinutes++;}document.getElementById('counter').textContent='TAPE '+String(tapeMinutes).padStart(2,'0')+':'+String(tapeSeconds).padStart(2,'0');},1000);
+  battInterval=setInterval(()=>{const lvl=Math.max(0,87-Math.floor(tapeMinutes*0.3));const bars=lvl>60?'&#9646;&#9646;&#9646;&#9646;':lvl>40?'&#9646;&#9646;&#9646;&#9647;':lvl>20?'&#9646;&#9646;&#9647;&#9647;':'&#9646;&#9647;&#9647;&#9647;';document.getElementById('batteryDisplay').innerHTML='BAT '+lvl+'% '+bars;},15000);
 }
-
-// ── SCREEN NAV ───────────────────────────────────────────────
-const CH_LABELS = {
-  startScreen:'CH.1 — DO NOT WATCH',c1:'CH.2 — LOST FOOTAGE',c2:'CH.3 — RECONNECTION',
-  c3:'CH.4 — EVIDENCE',c4:'CH.5 — CLASSIFIED',c5:'CH.6 — TRANSMISSION SITE',
-  c6:'CH.7 — SUBJECTS',c7:'CH.8 — CONFIRM',c8:'CH.9 — OFFERINGS',final:'CH.10 — END'
-};
-
+const CH_LABELS={startScreen:'CH.1 \u2014 DO NOT WATCH',c1:'CH.2 \u2014 LOST FOOTAGE',c2:'CH.3 \u2014 RECONNECTION',c3:'CH.4 \u2014 EVIDENCE',c4:'CH.5 \u2014 CLASSIFIED',c5:'CH.6 \u2014 TRANSMISSION SITE',c6:'CH.7 \u2014 SUBJECTS',c7:'CH.8 \u2014 CONFIRM',c8:'CH.9 \u2014 OFFERINGS',final:'CH.10 \u2014 END'};
 function goTo(id){
-  const transitions = {
-    c1:'glitchFlash', c2:'signalLoss', c3:'tapeWarp', c4:'proposalFreeze',
-    c5:'cameraBoot',  c6:'archiveReveal', c7:'rewindFlash', c8:'tapeWarp',
-    final:'glitchFlash'
-  };
+  const transitions={c1:'glitchFlash',c2:'signalLoss',c3:'tapeWarp',c4:'proposalFreeze',c5:'cameraBoot',c6:'archiveReveal',c7:'rewindFlash',c8:'tapeWarp',final:'glitchFlash'};
   staticFlash();
   setTimeout(()=>{
-    document.querySelectorAll('.screen').forEach(s=>{ s.classList.remove('active'); });
-    const next = document.getElementById(id);
-    if(!next) return;
+    document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');});
+    const next=document.getElementById(id);if(!next)return;
     next.classList.add('active');
-    if(transitions[id]) next.classList.add(transitions[id]);
+    if(transitions[id])next.classList.add(transitions[id]);
     setTimeout(()=>next.classList.remove(...Object.values(transitions)),1600);
-    currentScreen = id;
-    document.getElementById('chLabel').textContent = CH_LABELS[id] || '';
+    currentScreen=id;
+    document.getElementById('chLabel').textContent=CH_LABELS[id]||'';
     triggerPhotos(id);
-    if(id==='final') startDestroySequence();
-    if(id==='c6') openParty('groom');
+    if(id==='final')startDestroySequence();
+    if(id==='c6')openParty('groom');
     maybeWalkShadow(id);
-  }, 120);
+  },120);
 }
-
-function staticFlash(){
-  const s = document.getElementById('static');
-  s.classList.remove('active');
-  void s.offsetWidth;
-  s.classList.add('active');
-  setTimeout(()=>s.classList.remove('active'),600);
-}
-
+function staticFlash(){const s=document.getElementById('static');s.classList.remove('active');void s.offsetWidth;s.classList.add('active');setTimeout(()=>s.classList.remove('active'),600);}
 function triggerPhotos(id){
-  const map = {
-    c1:['ch1img'], c2:['ch2img1','ch2img2'],
-    c3:['ch3img1','ch3img2'], c4:['ch4img'], c5:['ch5img']
-  };
-  if(!map[id]) return;
-  setTimeout(()=>map[id].forEach(pid=>{
-    const el=document.getElementById(pid); if(el) el.classList.add('show');
-  }),400);
+  const map={c1:['ch1img'],c2:['ch2img1','ch2img2'],c3:['ch3img1','ch3img2'],c4:['ch4img'],c5:['ch5img']};
+  if(!map[id])return;
+  setTimeout(()=>map[id].forEach(pid=>{const el=document.getElementById(pid);if(el)el.classList.add('show');}),400);
 }
-
 function maybeWalkShadow(id){
-  if(['c3','c5','final'].includes(id)){
-    const sf = document.getElementById('shadowFigure');
-    sf.classList.remove('walk');
-    setTimeout(()=>{ sf.classList.add('walk'); setTimeout(()=>sf.classList.remove('walk'),2200); },3000);
-  }
+  if(['c3','c5','final'].includes(id)){const sf=document.getElementById('shadowFigure');sf.classList.remove('walk');setTimeout(()=>{sf.classList.add('walk');setTimeout(()=>sf.classList.remove('walk'),2200);},3000);}
 }
-
-// ── TAPE BOOT SEQUENCE ───────────────────────────────────────
 function openCamera(){
-  const boot = document.getElementById('tapeBoot');
-  const cal  = document.getElementById('trackingCalibrate');
+  const boot=document.getElementById('tapeBoot'),cal=document.getElementById('trackingCalibrate');
   boot.classList.add('active');
-  setTimeout(()=>{ boot.classList.remove('active'); cal.classList.add('active'); },3200);
-  setTimeout(()=>{
-    cal.classList.remove('active');
-    document.getElementById('videoLayer').style.display='block';
-    startClock();
-    goTo('c1');
-  },5800);
+  setTimeout(()=>{boot.classList.remove('active');cal.classList.add('active');},3200);
+  setTimeout(()=>{cal.classList.remove('active');document.getElementById('videoLayer').style.display='block';startClock();goTo('c1');},5800);
 }
-
-// ── PARTY TOGGLE ─────────────────────────────────────────────
-function toggleParty(side){
-  document.querySelectorAll('.partySection').forEach(s=>s.classList.remove('open'));
-  openParty(side);
-}
-function openParty(side){
-  const el = document.getElementById('party'+side.charAt(0).toUpperCase()+side.slice(1));
-  if(el) el.classList.add('open');
-}
-
-// ── RSVP SUBMIT ──────────────────────────────────────────────
+function toggleParty(side){document.querySelectorAll('.partySection').forEach(s=>s.classList.remove('open'));openParty(side);}
+function openParty(side){const el=document.getElementById('party'+side.charAt(0).toUpperCase()+side.slice(1));if(el)el.classList.add('open');}
 function submitRSVP(){
-  const name    = document.getElementById('rName').value.trim();
-  const guests  = document.getElementById('rGuests').value.trim();
-  const attend  = document.getElementById('rAttend').value;
-  const diet    = document.getElementById('rDiet').value.trim();
-  const status  = document.getElementById('submitStatus');
-
-  if(!name || !guests || !attend){
-    status.style.color='rgba(255,80,80,.9)';
-    status.textContent='ALL FIELDS REQUIRED';
-    status.classList.add('show');
-    setTimeout(()=>status.classList.remove('show'),3000);
-    return;
-  }
-
-  const params = new URLSearchParams();
-  params.append(ENTRY.name,   name);
-  params.append(ENTRY.guests, guests);
-  params.append(ENTRY.attend, attend);
-  params.append(ENTRY.diet,   diet || 'None');
-
-  const img = new Image();
-  img.src = FORM_ACTION + '?' + params.toString();
-
-  status.style.color='rgba(255,255,185,.8)';
-  status.textContent='TRANSMITTING...';
-  status.classList.add('show');
-
+  const name=document.getElementById('rName').value.trim(),guests=document.getElementById('rGuests').value.trim(),attend=document.getElementById('rAttend').value,diet=document.getElementById('rDiet').value.trim(),status=document.getElementById('submitStatus');
+  if(!name||!guests||!attend){status.style.color='rgba(255,80,80,.9)';status.textContent='ALL FIELDS REQUIRED';status.classList.add('show');setTimeout(()=>status.classList.remove('show'),3000);return;}
+  const params=new URLSearchParams();
+  params.append(ENTRY.name,name);params.append(ENTRY.guests,guests);params.append(ENTRY.attend,attend);params.append(ENTRY.diet,diet||'None');
+  const img=new Image();img.src=FORM_ACTION+'?'+params.toString();
+  status.style.color='rgba(255,255,185,.8)';status.textContent='TRANSMITTING...';status.classList.add('show');
   setTimeout(()=>{
-    status.textContent = attend==='YES'
-      ? 'TRANSMISSION CONFIRMED — WE WILL SEE YOU THERE'
-      : 'RESPONSE RECEIVED — YOU WILL BE MISSED';
-    setTimeout(()=>{
-      status.classList.remove('show');
-      if(attend==='YES') goTo('c8');
-    },3500);
+    status.textContent=attend==='YES'?'TRANSMISSION CONFIRMED \u2014 WE WILL SEE YOU THERE':'RESPONSE RECEIVED \u2014 YOU WILL BE MISSED';
+    setTimeout(()=>{status.classList.remove('show');if(attend==='YES')goTo('c8');},3500);
   },1800);
 }
-
-// ── ZELLE ────────────────────────────────────────────────────
-function openZelle(){
-  const deep = 'zelle://send?token=7706088227';
-  const fb = 'https://www.zellepay.com';
-  const w = window.open(deep,'_blank');
-  setTimeout(()=>{ try{ if(!w||w.closed) window.open(fb,'_blank'); }catch(e){ window.open(fb,'_blank'); }},1500);
-}
-
-// ── TAPE DESTRUCTION ─────────────────────────────────────────
 function startDestroySequence(){
-  let count = 7;
-  const countEl = document.getElementById('destroyCount');
-  destroyTimer = setInterval(()=>{
-    count--;
-    if(countEl) countEl.textContent = count;
-    if(count <= 0){
-      clearInterval(destroyTimer);
-      runDestroy();
-    }
-  },1000);
+  let count=7;const countEl=document.getElementById('destroyCount');
+  destroyTimer=setInterval(()=>{count--;if(countEl)countEl.textContent=count;if(count<=0){clearInterval(destroyTimer);runDestroy();}},1000);
 }
-
 function runDestroy(){
-  const fd = document.getElementById('finalDestroy');
-  fd.style.display='block';
-  fd.classList.add('run');
-
-  const dStatic = document.getElementById('dStatic');
-  const dTears  = document.getElementById('dTears');
-  const dBlack  = document.getElementById('dBlack');
-  const dMsg    = document.getElementById('dMessage');
-
-  // Sequence: static → tears → warp → black → message
-  dStatic.style.transition='opacity .18s';
-  dStatic.style.opacity='1';
-
-  setTimeout(()=>{
-    dStatic.style.opacity='.4';
-    dTears.style.transition='opacity .24s';
-    dTears.style.opacity='1';
-    document.body.style.transform='skewX(6deg) scaleY(.98)';
-    document.body.style.transition='transform .24s';
-  },400);
-
-  setTimeout(()=>{
-    document.body.style.transform='skewX(-8deg) scaleY(1.02)';
-  },700);
-
-  setTimeout(()=>{
-    dStatic.style.opacity='1';
-    document.body.style.transform='scaleY(0.1)';
-  },1000);
-
-  setTimeout(()=>{
-    dBlack.style.transition='opacity .3s';
-    dBlack.style.opacity='1';
-    document.body.style.transform='';
-  },1300);
-
-  setTimeout(()=>{
-    dMsg.style.transition='opacity 1.2s';
-    dMsg.style.opacity='1';
-    dStatic.style.opacity='0';
-    dTears.style.opacity='0';
-  },2200);
+  const fd=document.getElementById('finalDestroy');fd.style.display='block';fd.classList.add('run');
+  const dStatic=document.getElementById('dStatic'),dTears=document.getElementById('dTears'),dBlack=document.getElementById('dBlack'),dMsg=document.getElementById('dMessage');
+  dStatic.style.transition='opacity .18s';dStatic.style.opacity='1';
+  setTimeout(()=>{dStatic.style.opacity='.4';dTears.style.transition='opacity .24s';dTears.style.opacity='1';document.body.style.transform='skewX(6deg) scaleY(.98)';document.body.style.transition='transform .24s';},400);
+  setTimeout(()=>{document.body.style.transform='skewX(-8deg) scaleY(1.02)';},700);
+  setTimeout(()=>{dStatic.style.opacity='1';document.body.style.transform='scaleY(0.1)';},1000);
+  setTimeout(()=>{dBlack.style.transition='opacity .3s';dBlack.style.opacity='1';document.body.style.transform='';},1300);
+  setTimeout(()=>{dMsg.style.transition='opacity 1.2s';dMsg.style.opacity='1';dStatic.style.opacity='0';dTears.style.opacity='0';},2200);
 }
 </script>
 </body>
