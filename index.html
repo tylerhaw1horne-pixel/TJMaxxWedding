@@ -1,3 +1,5 @@
+Here’s the complete code:
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -334,4 +336,373 @@ button:hover,button:active{background:rgba(255,255,185,.92);color:#030301;box-sh
   <div class="storyText">Something is still out there in the woods.<br>We kept recording anyway.<br><br>Archive timestamp:<br><strong>October 24, 2026</strong><br>5:00 PM &ndash; 9:00 PM<br><br>Subjects identified on tape:<br>Tyler Hawthorne &amp; Julie Eells</div>
   <div class="imagePanel vhsPhoto" id="ch1img"><img src="early1.png" alt=""></div>
   <div class="storyText" style="font-size:clamp(10px,2.6vw,11px);letter-spacing:2px;color:rgba(255,255,185,.62);">...they didn't know we were filming</div>
-  <button onclick="goTo('c2')">PLAY​​​​​​​​​​​​​​​​
+  <button onclick="goTo('c2')">PLAY NEXT SEGMENT</button>
+</div>
+
+<div class="screen" id="c2">
+  <h2>RECONNECTION LOG</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText">Recovered from a corrupted segment.<br>Most of this tape was damaged.<br><br>Tyler Hawthorne. Julie Eells.<br><br>What started as resistance<br>rotted into something undeniable.<br>They couldn't stay away from each other.<br>Nobody ever could explain it.</div>
+  <div class="c2Grid">
+    <div class="c2Photo vhsPhoto" id="ch2img1"><img src="early2.png" alt=""></div>
+    <div class="c2Photo vhsPhoto" id="ch2img2"><img src="early3.png" alt=""></div>
+  </div>
+  <button onclick="goTo('c3')">CONTINUE ARCHIVE</button>
+</div>
+
+<div class="screen" id="c3">
+  <h2>EVIDENCE REEL</h2>
+  <div class="vhsSep"></div>
+  <div class="c3Grid">
+    <div class="c3photo vhsPhotoBright" id="ch3img1"><img src="c3-1.png" alt=""></div>
+    <div class="storyText" style="font-size:clamp(11px,2.9vw,13px);">They were always together after that.<br>The tape doesn't lie.<br><br>Something changed between them.<br>Whatever it was &mdash;<br>we couldn't look away either.</div>
+    <div class="c3photo vhsPhotoBright" id="ch3img2"><img src="c3-2.png" alt=""></div>
+  </div>
+  <button onclick="goTo('c4')">NEXT FRAGMENT</button>
+</div>
+
+<div class="screen" id="c4">
+  <h2>CLASSIFIED SEGMENT</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText" style="font-size:clamp(11px,3vw,13px);">This part of the tape was nearly destroyed.<br>What remains is fragmented.<br><br>He asked.<br>She said yes.<br><br>We weren't supposed to see this.</div>
+  <div class="c4Grid">
+    <div class="c4Photo vhsPhoto" id="ch4img"><img src="proposal.png" alt=""></div>
+    <div class="c4Photo vhsPhoto" id="ch4img2"><img src="proposal.png" alt=""></div>
+  </div>
+  <div class="storyText" style="font-size:clamp(9px,2.4vw,11px);letter-spacing:2px;color:rgba(255,255,185,.55);">tape damage at 01:14:38 &mdash; origin unknown</div>
+  <button onclick="goTo('c5')">ADVANCE TAPE</button>
+</div>
+
+<div class="screen" id="c5">
+  <h2>TRANSMISSION SITE</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText">The location has been identified.<br><br><strong>THE CONSERVATORY</strong><br>Acworth, Georgia<br><br>October 24, 2026 &mdash; 5:00 PM</div>
+  <div class="imagePanel vhsPhoto" id="ch5img"><img src="venue.png" alt=""></div>
+  <div id="mapContainer">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.1292318598325!2d-84.6783288!3d34.06620129999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i2768!4f13.1!3m3!1m2!1s0x88f540c5f9d3893d%3A0x44a0bc19bac7a93f!2sThe%20Conservatory%20At%20Waterstone!5e0!3m2!1sen!2sus!4v1774453002901!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <button onclick="goTo('c6')">IDENTIFY SUBJECTS</button>
+</div>
+
+<div class="screen needsScroll" id="c6">
+  <h2>SUBJECTS ON TAPE</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText dimText" style="letter-spacing:3px;font-size:9px;">CLASSIFIED &mdash; DO NOT DISTRIBUTE</div>
+  <div class="partyWrapper">
+    <div class="partyToggleRow">
+      <button class="partyToggleBtn active" id="btnGroom" onclick="toggleParty('groom')">GROOM SIDE</button>
+      <button class="partyToggleBtn" id="btnBride" onclick="toggleParty('bride')">BRIDE SIDE</button>
+    </div>
+    <div class="partySection open" id="partyGroom">
+      <div class="partyGroupLabel">GROOM'S PARTY &mdash; CLEARANCE LEVEL 1</div>
+      <div class="partyCards">
+        <div class="partyCard"><span class="cardRole">BEST MAN</span><span class="cardName">Sam Newman</span></div>
+        <div class="partyCard"><span class="cardRole">BEST LITTLE MAN</span><span class="cardName">Jasper Hawthorne</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSMAN</span><span class="cardName">Josey Green</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSMAN</span><span class="cardName">Zachary Hawthorne</span></div>
+        <div class="partyCard"><span class="cardRole">GROOMSWOMAN</span><span class="cardName">Alyssa Hargrove</span></div>
+      </div>
+    </div>
+    <div class="partySection" id="partyBride">
+      <div class="partyGroupLabel">BRIDE'S PARTY &mdash; CLEARANCE LEVEL 1</div>
+      <div class="partyCards">
+        <div class="partyCard"><span class="cardRole">MATRON OF HONOR</span><span class="cardName">Kristian Thomason</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Mikaela VonGerichten</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Allie Rollins</span></div>
+        <div class="partyCard"><span class="cardRole">BRIDESMAID</span><span class="cardName">Kayden Rollins</span></div>
+        <div class="partyCard"><span class="cardRole">SPIRIT OF HONOR</span><span class="cardName">Victoria Dow</span></div>
+      </div>
+      <div class="littleOnesSection">
+        <div class="littleCards">
+          <div class="partyCard"><span class="cardRole">FLOWER GIRL</span><span class="cardName">Lillian Thomason</span></div>
+          <div class="partyCard"><span class="cardRole">FLOWER GIRL</span><span class="cardName">Salem Ramirez</span></div>
+          <div class="partyCard"><span class="cardRole">RING BEARER</span><span class="cardName">Bennet Dean</span></div>
+          <div class="partyCard"><span class="cardRole">RING BEARER</span><span class="cardName">James Dean</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button onclick="goTo('c7')" style="margin-top:14px;width:100%;max-width:640px;">TRANSMISSION CONTINUES</button>
+</div>
+
+<div class="screen" id="c7">
+  <h2>CONFIRM YOUR PRESENCE</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText dimText" style="font-size:9px;letter-spacing:3px;margin-bottom:6px;">YOUR RESPONSE IS REQUIRED &mdash; OCTOBER 24, 2026</div>
+  <div class="rsvpContainer">
+    <div class="rsvpBorder">
+      <div class="rsvpHeader">TRANSMISSION FORM &mdash; FILL COMPLETELY</div>
+      <div class="rsvpField">
+        <label class="rsvpLabel">FULL NAME</label>
+        <input type="text" id="rName" placeholder="your name" autocomplete="name">
+      </div>
+      <div class="rsvpField">
+        <label class="rsvpLabel">NUMBER OF GUESTS</label>
+        <input type="number" id="rGuests" placeholder="1" min="1" max="10">
+      </div>
+      <div class="rsvpField">
+        <label class="rsvpLabel">ATTENDING</label>
+        <select id="rAttend">
+          <option value="">&mdash; SELECT &mdash;</option>
+          <option value="YES">YES &mdash; I WILL BE THERE</option>
+          <option value="NO">NO &mdash; I CANNOT ATTEND</option>
+        </select>
+      </div>
+      <div class="rsvpField">
+        <label class="rsvpLabel">DIETARY RESTRICTIONS</label>
+        <textarea id="rDiet" placeholder="none / describe..."></textarea>
+      </div>
+      <button class="submitBtn" onclick="submitRSVP()">TRANSMIT RESPONSE</button>
+      <div class="submitStatus" id="submitStatus"></div>
+    </div>
+  </div>
+  <button class="skipBtn" onclick="goTo('c8')">SKIP &rsaquo; GIFTS</button>
+</div>
+
+<div class="screen" id="c8">
+  <h2>ARCHIVE OFFERINGS</h2>
+  <div class="vhsSep"></div>
+  <div class="offeringsContainer">
+    <div class="offeringsBox">
+      <div class="offerCorner tl"></div>
+      <div class="offerCorner tr"></div>
+      <div class="offerCorner bl"></div>
+      <div class="offerCorner br"></div>
+      <div class="offerText">
+        Your presence is the only gift required.<br><br>
+        But if you insist on leaving something behind &mdash;<br>
+        a contribution toward our next chapter<br>
+        would mean everything.<br><br>
+        Cash gifts are preferred.<br>
+        <em style="color:rgba(255,255,185,.55);font-style:normal;font-size:11px;letter-spacing:2px;">The registry is the woods.</em>
+      </div>
+      <div class="offerDivider"></div>
+      <div class="offerChannel">SEND THROUGH THE FOLLOWING CHANNELS</div>
+      <a class="cashBtn" href="https://cash.app/$7706088227" target="_blank" rel="noopener">SEND CASH APP</a>
+      <div class="cashHandle">$7706088227</div>
+      <div class="offerNote">we don't know what happens after this point on the tape</div>
+    </div>
+  </div>
+  <button onclick="goTo('final')" style="margin-top:14px;">REACH THE END</button>
+</div>
+
+<div class="screen archiveScreen" id="final">
+  <h2>END OF TAPE</h2>
+  <div class="vhsSep"></div>
+  <div class="storyText">You made it to the end.<br><br>We will see you<br>October 24, 2026<br><br>Whatever happens after this &mdash;<br>we face it together.</div>
+  <div class="storyText" style="font-size:clamp(11px,2.8vw,13px);letter-spacing:3px;color:rgba(255,255,185,.72);margin-top:6px;">&mdash; Tyler &amp; Julie</div>
+  <div class="vhsSep" style="margin-top:8px;"></div>
+  <div class="storyText" style="font-size:clamp(10px,2.4vw,11px);letter-spacing:4px;color:rgba(255,255,185,.55);">tape will self-destruct in <span id="destroyCount">7</span> seconds</div>
+</div>
+
+</div>
+
+<div id="finalDestroy">
+  <div class="dLayer" id="dStatic"></div>
+  <div class="dLayer" id="dTears"></div>
+  <div class="dLayer" id="dBlack"></div>
+  <div class="dLayer" id="dMessage">
+    <div class="dmTitle">TAPE DESTROYED</div>
+    <div class="dmSub">OCTOBER 24, 2026</div>
+    <div class="dmSub">TYLER &amp; JULIE</div>
+    <div class="dmSub" style="margin-top:12px;font-size:9px;letter-spacing:3px;opacity:.38;">this recording no longer exists</div>
+  </div>
+</div>
+
+<div class="tapeError" id="tapeError">SIGNAL LOST</div>
+
+<script>
+const ENTRY={name:'entry.1916176653',guests:'entry.1285907759',attend:'entry.213007090',diet:'entry.1240682052'};
+const FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSf32F3zo1uifJ5a0qHG_hs9ge7XSNKXVHMH-cgp-ZBbXg_hSQ/formResponse';
+let currentScreen='openingScreen',tapeSeconds=0,tapeMinutes=0,clockInterval,tapeInterval,battInterval,destroyTimer;
+
+const ov=document.getElementById('openingVideo');
+ov.addEventListener('ended',()=>goTo('startScreen'));
+ov.addEventListener('error',()=>goTo('startScreen'));
+setTimeout(()=>{if(currentScreen==='openingScreen')goTo('startScreen');},14000);
+
+function updateCountdown(){
+  const target=new Date('2026-10-24T17:00:00'),now=new Date(),diff=target-now;
+  if(diff<=0){document.getElementById('cdDays').textContent='000';return;}
+  const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+  document.getElementById('cdDays').textContent=String(d).padStart(3,'0');
+  document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
+  document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
+  document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
+}
+updateCountdown();setInterval(updateCountdown,1000);
+
+function startClock(){
+  clockInterval=setInterval(()=>{
+    const n=new Date();
+    document.getElementById('vhsTime').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  },1000);
+  tapeInterval=setInterval(()=>{
+    tapeSeconds++;if(tapeSeconds>=60){tapeSeconds=0;tapeMinutes++;}
+    document.getElementById('counter').textContent='TAPE '+String(tapeMinutes).padStart(2,'0')+':'+String(tapeSeconds).padStart(2,'0');
+  },1000);
+  battInterval=setInterval(()=>{
+    const lvl=Math.max(0,87-Math.floor(tapeMinutes*0.3));
+    const bars=lvl>60?'&#9646;&#9646;&#9646;&#9646;':lvl>40?'&#9646;&#9646;&#9646;&#9647;':lvl>20?'&#9646;&#9646;&#9647;&#9647;':'&#9646;&#9647;&#9647;&#9647;';
+    document.getElementById('batteryDisplay').innerHTML='BAT '+lvl+'% '+bars;
+  },15000);
+}
+
+const transitions={c1:'glitchFlash',c2:'signalLoss',c3:'tapeWarp',c4:'proposalFreeze',c5:'cameraBoot',c6:'archiveReveal',c7:'rewindFlash',c8:'tapeWarp',final:'glitchFlash'};
+
+function goTo(id){
+  staticFlash();
+  setTimeout(()=>{
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    const next=document.getElementById(id);if(!next)return;
+    next.classList.add('active');
+    if(transitions[id]){next.classList.add(transitions[id]);setTimeout(()=>next.classList.remove(transitions[id]),1600);}
+    currentScreen=id;
+    triggerPhotos(id);
+    if(id==='final')startDestroySequence();
+    if(id==='c6')setPartyBtn('groom');
+    maybeWalkShadow(id);
+  },120);
+}
+
+function staticFlash(){
+  const s=document.getElementById('static');s.classList.remove('active');void s.offsetWidth;s.classList.add('active');
+  setTimeout(()=>s.classList.remove('active'),600);
+}
+
+function triggerPhotos(id){
+  const map={c1:['ch1img'],c2:['ch2img1','ch2img2'],c3:['ch3img1','ch3img2'],c4:['ch4img','ch4img2'],c5:['ch5img']};
+  if(!map[id])return;
+  setTimeout(()=>map[id].forEach(pid=>{const el=document.getElementById(pid);if(el)el.classList.add('show');}),400);
+}
+
+function maybeWalkShadow(id){
+  if(['c3','c5','final'].includes(id)){
+    const sf=document.getElementById('shadowFigure');sf.classList.remove('walk');
+    setTimeout(()=>{sf.classList.add('walk');setTimeout(()=>sf.classList.remove('walk'),2200);},3000);
+  }
+}
+
+function openCamera(){
+  const boot=document.getElementById('tapeBoot'),cal=document.getElementById('trackingCalibrate');
+  boot.classList.add('active');
+  setTimeout(()=>{boot.classList.remove('active');cal.classList.add('active');},3200);
+  setTimeout(()=>{cal.classList.remove('active');document.getElementById('videoLayer').style.display='block';startClock();goTo('c1');},5800);
+}
+
+function toggleParty(side){
+  document.querySelectorAll('.partySection').forEach(s=>s.classList.remove('open'));
+  const el=document.getElementById('party'+side.charAt(0).toUpperCase()+side.slice(1));
+  if(el)el.classList.add('open');
+  setPartyBtn(side);
+}
+function setPartyBtn(side){
+  document.querySelectorAll('.partyToggleBtn').forEach(b=>b.classList.remove('active'));
+  const btn=document.getElementById('btn'+side.charAt(0).toUpperCase()+side.slice(1));
+  if(btn)btn.classList.add('active');
+}
+
+function submitRSVP(){
+  const name=document.getElementById('rName').value.trim(),guests=document.getElementById('rGuests').value.trim(),attend=document.getElementById('rAttend').value,diet=document.getElementById('rDiet').value.trim(),status=document.getElementById('submitStatus');
+  if(!name||!guests||!attend){status.style.color='rgba(255,80,80,.9)';status.textContent='ALL FIELDS REQUIRED';status.classList.add('show');setTimeout(()=>status.classList.remove('show'),3000);return;}
+  const params=new URLSearchParams();
+  params.append(ENTRY.name,name);params.append(ENTRY.guests,guests);params.append(ENTRY.attend,attend);params.append(ENTRY.diet,diet||'None');
+  const img=new Image();img.src=FORM_ACTION+'?'+params.toString();
+  status.style.color='rgba(255,255,185,.8)';status.textContent='TRANSMITTING...';status.classList.add('show');
+  setTimeout(()=>{
+    status.textContent=attend==='YES'?'TRANSMISSION CONFIRMED — WE WILL SEE YOU THERE':'RESPONSE RECEIVED — YOU WILL BE MISSED';
+    setTimeout(()=>{status.classList.remove('show');if(attend==='YES')goTo('c8');},3500);
+  },1800);
+}
+
+let audioCtx=null,gainNode=null,audioConnected=false;
+function initAudioDistortion(){
+  try{
+    const whisper=document.getElementById('whisper');
+    if(!whisper||audioConnected)return;
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    const src=audioCtx.createMediaElementSource(whisper);
+    gainNode=audioCtx.createGain();
+    const dist=audioCtx.createWaveShaper();
+    const k=800,n=256,curve=new Float32Array(n);
+    for(let i=0;i<n;++i){const x=i*2/n-1;curve[i]=(Math.PI+k)*x/(Math.PI+k*Math.abs(x));}
+    dist.curve=curve;dist.oversample='4x';
+    src.connect(gainNode);gainNode.connect(dist);dist.connect(audioCtx.destination);
+    gainNode.gain.value=0.14;
+    audioConnected=true;
+  }catch(e){}
+}
+
+function runLostTransmission(){
+  initAudioDistortion();
+  const lt=document.getElementById('lostTransmission');
+  const ltStatic=document.getElementById('ltStatic'),ltScanblock=document.getElementById('ltScanblock');
+  const ltTear1=document.getElementById('ltTear1'),ltTear2=document.getElementById('ltTear2'),ltTear3=document.getElementById('ltTear3');
+  const ltRgb=document.getElementById('ltRgb'),ltText=document.getElementById('ltText');
+  const body=document.body;
+  lt.classList.add('active');
+  ltStatic.style.transition='opacity 0.15s';ltStatic.style.opacity='0.72';ltScanblock.style.opacity='1';
+  setTimeout(()=>{
+    body.style.transition='transform 0.22s';body.style.transform='skewX(3deg) scaleY(.99)';
+    ltTear1.style.transition='opacity 0.08s';ltTear1.style.opacity='0.7';ltTear1.style.animation='ltTear 0.4s infinite';
+    ltTear2.style.transition='opacity 0.08s';ltTear2.style.opacity='0.5';ltTear2.style.animation='ltTear 0.6s infinite';
+  },200);
+  setTimeout(()=>{
+    body.style.transform='skewX(-7deg) scaleY(1.02)';
+    ltRgb.style.transition='opacity 0.2s';ltRgb.style.opacity='0.8';
+    ltTear3.style.opacity='0.6';ltStatic.style.opacity='1';
+    if(audioConnected&&gainNode)gainNode.gain.setTargetAtTime(0.55,audioCtx.currentTime,0.1);
+  },500);
+  setTimeout(()=>{body.style.transform='scaleY(0.04)';body.style.transition='transform 0.08s';},900);
+  setTimeout(()=>{body.style.transform='';body.style.transition='';ltStatic.style.opacity='0.88';ltText.style.transition='opacity 0.2s';ltText.style.opacity='1';},1100);
+  let tearInt=setInterval(()=>{
+    [ltTear1,ltTear2,ltTear3].forEach(t=>{t.style.top=Math.floor(Math.random()*85)+'%';});
+    body.style.transform='skewX('+(Math.random()*4-2)+'deg)';
+    setTimeout(()=>{body.style.transform='';},80);
+  },300);
+  setTimeout(()=>{
+    clearInterval(tearInt);
+    ltText.style.transition='opacity 0.8s';ltText.style.opacity='0';
+    ltStatic.style.transition='opacity 1.2s';ltStatic.style.opacity='0';
+    ltRgb.style.transition='opacity 1s';ltRgb.style.opacity='0';
+    [ltTear1,ltTear2,ltTear3].forEach(t=>{t.style.transition='opacity 0.6s';t.style.opacity='0';});
+    ltScanblock.style.transition='opacity 0.8s';ltScanblock.style.opacity='0';
+    body.style.transform='';
+    if(audioConnected&&gainNode)gainNode.gain.setTargetAtTime(0.14,audioCtx.currentTime,0.5);
+  },3500);
+  setTimeout(()=>{lt.classList.remove('active');runDestroy();},4800);
+}
+
+function startDestroySequence(){
+  let count=7;const countEl=document.getElementById('destroyCount');
+  destroyTimer=setInterval(()=>{
+    count--;
+    if(countEl)countEl.textContent=count;
+    if(count<=0){clearInterval(destroyTimer);runLostTransmission();}
+  },1000);
+}
+
+function runDestroy(){
+  const fd=document.getElementById('finalDestroy');
+  fd.style.display='block';fd.style.opacity='1';fd.classList.add('run');
+  document.querySelector('.contentLayer').style.display='none';
+  document.querySelectorAll('.screen').forEach(s=>{s.style.display='none';});
+  const dStatic=document.getElementById('dStatic'),dTears=document.getElementById('dTears'),dBlack=document.getElementById('dBlack'),dMsg=document.getElementById('dMessage');
+  dStatic.style.transition='opacity .18s';dStatic.style.opacity='1';
+  setTimeout(()=>{
+    dStatic.style.opacity='.4';dTears.style.transition='opacity .24s';dTears.style.opacity='1';
+    document.body.style.transform='skewX(6deg) scaleY(.98)';document.body.style.transition='transform .24s';
+  },400);
+  setTimeout(()=>{document.body.style.transform='skewX(-8deg) scaleY(1.02)';},700);
+  setTimeout(()=>{dStatic.style.opacity='1';document.body.style.transform='scaleY(0.1)';},1000);
+  setTimeout(()=>{dBlack.style.transition='opacity .3s';dBlack.style.opacity='1';document.body.style.transform='';},1300);
+  setTimeout(()=>{
+    dMsg.style.transition='opacity 1.2s';dMsg.style.opacity='1';
+    dStatic.style.opacity='0';dTears.style.opacity='0';
+  },2200);
+  window.history.pushState(null,'',window.location.href);
+  window.addEventListener('popstate',()=>{window.history.pushState(null,'',window.location.href);});
+}
+</script>
+</body>
+</html>
